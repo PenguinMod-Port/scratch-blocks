@@ -7,9 +7,12 @@
 
   <script src="../blockly_uncompressed_vertical.js"></script>
   <script src="../msg/messages.js"></script>
+  <script src="../msg/scratch_msgs.js"></script>
   <script src="../blocks_vertical/vertical_extensions.js"></script>
 
   <script src="../blocks_common/math.js"></script>
+  <script src="../blocks_common/matrix.js"></script>
+  <script src="../blocks_common/note.js"></script>
   <script src="../blocks_common/text.js"></script>
   <script src="../blocks_common/colour.js"></script>
   <script src="../blocks_common/checkbox.js"></script>
@@ -23,6 +26,8 @@
   <script src="../blocks_vertical/sound.js"></script>
   <script src="../blocks_vertical/sensing.js"></script>
   <script src="../blocks_vertical/data.js"></script>
+  <script src="../blocks_vertical/extensions.js"></script>
+  <script src="../blocks_vertical/default_toolbox.js"></script>
   
   <style>
     body {
@@ -46,13 +51,13 @@
       onchange="taChange();" onkeyup="taChange()"></textarea>
   </p>
 
-  <table width="100%">
+  <table style="margin: auto;">
     <tr>
       <td>
-        <div id="secondaryDiv" style="height: 480px; width: 600px;"></div>
+        <div id="secondaryDiv" style="height: 600px; width: 800px;"></div>
       </td>
       <td>
-        <div id="primaryDiv" style="height: 480px; width: 600px;"></div>
+        <div id="primaryDiv" style="height: 600px; width: 800px;"></div>
       </td>
     </tr>
     <tr>
@@ -165,8 +170,11 @@
     var callback = null;
     var mutationRoot = null;
 
-    var declarationWorkspace = Blockly.inject('primaryDiv',
-        {media: '../media/'});
+    var declarationWorkspace = Blockly.inject('primaryDiv', {
+      media: '../media/',
+      noToolbox: true,
+      scrollbars: true,
+    });
 
     declarationWorkspace.addChangeListener(function() {
       if (mutationRoot) {
@@ -176,10 +184,16 @@
 
     var definitionWorkspace = Blockly.inject('secondaryDiv', {
       media: '../media/',
-      toolbox: document.getElementById('toolbox'),
+    //toolbox: document.getElementById('toolbox'),
+      scrollbars: true,
       zoom: {
-        startScale: 0.75
-      }
+        controls: true,
+        wheel: true,
+        startScale: 0.675,
+        maxScale: 4,
+        minScale: 0.25,
+        scaleSpeed: 1.1
+      },
     });
 
     Blockly.Xml.clearWorkspaceAndLoadFromXml(document.getElementById('main_ws_blocks_simplest'),
