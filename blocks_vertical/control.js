@@ -538,7 +538,7 @@ Blockly.Blocks['control_inline_stack_output'] = {
    */
   init: function () {
     this.jsonInit({
-      "message0": 'inline block',
+      "message0": Blockly.Msg.PM_CONTROL_INLINESTACKOUTPUT,
       "message1": "%1",
       "args1": [
         {

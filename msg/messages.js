@@ -56,6 +56,8 @@ Blockly.Msg.CONTROL_INCRCOUNTER = 'increment counter';
 Blockly.Msg.CONTROL_CLEARCOUNTER = 'clear counter';
 Blockly.Msg.CONTROL_ALLATONCE = 'all at once';
 
+Blockly.Msg.PM_CONTROL_INLINESTACKOUTPUT = 'inline block';
+
 // Data blocks
 Blockly.Msg.DATA_SETVARIABLETO = 'set %1 to %2';
 Blockly.Msg.DATA_CHANGEVARIABLEBY = 'change %1 by %2';
@@ -205,7 +207,6 @@ Blockly.Msg.OPERATORS_MATHOP = '%1 of %2';
 Blockly.Msg.OPERATORS_MATHOP_ABS = 'abs';
 Blockly.Msg.OPERATORS_MATHOP_FLOOR = 'floor';
 Blockly.Msg.OPERATORS_MATHOP_CEILING = 'ceiling';
-Blockly.Msg.OPERATORS_MATHOP_SIGN = 'sign';
 Blockly.Msg.OPERATORS_MATHOP_SQRT = 'sqrt';
 Blockly.Msg.OPERATORS_MATHOP_SIN = 'sin';
 Blockly.Msg.OPERATORS_MATHOP_COS = 'cos';
@@ -217,6 +218,8 @@ Blockly.Msg.OPERATORS_MATHOP_LN = 'ln';
 Blockly.Msg.OPERATORS_MATHOP_LOG = 'log';
 Blockly.Msg.OPERATORS_MATHOP_EEXP = 'e ^';
 Blockly.Msg.OPERATORS_MATHOP_10EXP = '10 ^';
+
+Blockly.Msg.PM_OPERATORS_MATHOP_SIGN = 'sign';
 
 // Procedures blocks
 Blockly.Msg.PROCEDURES_DEFINITION = 'define %1';
@@ -295,8 +298,9 @@ Blockly.Msg.CATEGORY_CONTROL = 'Control';
 Blockly.Msg.CATEGORY_SENSING = 'Sensing';
 Blockly.Msg.CATEGORY_OPERATORS = 'Operators';
 Blockly.Msg.CATEGORY_VARIABLES = 'Variables';
-Blockly.Msg.CATEGORY_LISTS = 'Lists';
 Blockly.Msg.CATEGORY_MYBLOCKS = 'My Blocks';
+
+Blockly.Msg.PM_CATEGORY_LISTS = 'Lists';
 
 // Context menus
 Blockly.Msg.DUPLICATE = 'Duplicate';
