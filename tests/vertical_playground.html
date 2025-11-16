@@ -313,6 +313,21 @@
         Blockly.Xml.clearWorkspaceAndLoadFromXml(xml, workspace);
         workspace.getFlyout().setRecyclingEnabled(true);
       }
+
+      function fakeManyDrags() {
+        var blockList = workspace.getAllBlocks();
+        for (var i = 0; i < 2 * blockList.length; i++) {
+          fakeDragStack.push(
+            {
+              id: blockList[Math.round(Math.random() * (blockList.length - 1))].id,
+              // Move some blocks up and to the left, but mostly down and to the right.
+              dx: Math.round((Math.random() - 0.25) * 200),
+              dy: Math.round((Math.random() - 0.25) * 200),
+              workspace: workspace
+            });
+        }
+        fakeDragWrapper();
+      }
     </script>
 
     <style>
@@ -476,7 +491,7 @@
     </xml>
 
     <!-- Sidebar -->
-    <h1>Vertical Blocks</h1>
+    <h1>Vertical Playground</h1>
     <p>
       <a href="javascript:void(workspace.setVisible(true))">Show</a>
       - <a href="javascript:void(workspace.setVisible(false))">Hide</a>
@@ -553,6 +568,7 @@
       Stress test: &nbsp;
       <input type="button" value="Sprinkles!" onclick="sprinkles(100)">
       <input type="button" value="Spaghetti!" onclick="spaghetti(3)">
+      <input type="button" value="Fake some drags!" onclick="fakeManyDrags()">
     </p>
 
     <p>
