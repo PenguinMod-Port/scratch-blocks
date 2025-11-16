@@ -166,6 +166,7 @@ Blockly.Msg["OPERATORS_MATHOP"] = "%1 of %2";
 Blockly.Msg["OPERATORS_MATHOP_ABS"] = "abs";
 Blockly.Msg["OPERATORS_MATHOP_FLOOR"] = "floor";
 Blockly.Msg["OPERATORS_MATHOP_CEILING"] = "ceiling";
+Blockly.Msg["OPERATORS_MATHOP_SIGN"] = "sign";
 Blockly.Msg["OPERATORS_MATHOP_SQRT"] = "sqrt";
 Blockly.Msg["OPERATORS_MATHOP_SIN"] = "sin";
 Blockly.Msg["OPERATORS_MATHOP_COS"] = "cos";

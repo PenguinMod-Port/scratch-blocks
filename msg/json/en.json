@@ -160,6 +160,7 @@
     "OPERATORS_MATHOP_ABS": "abs",
     "OPERATORS_MATHOP_FLOOR": "floor",
     "OPERATORS_MATHOP_CEILING": "ceiling",
+    "OPERATORS_MATHOP_SIGN": "sign",
     "OPERATORS_MATHOP_SQRT": "sqrt",
     "OPERATORS_MATHOP_SIN": "sin",
     "OPERATORS_MATHOP_COS": "cos",
