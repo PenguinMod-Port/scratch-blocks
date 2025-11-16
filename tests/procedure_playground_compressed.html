@@ -152,9 +152,8 @@
     var mutationRoot = null;
 
     var declarationWorkspace = Blockly.inject('primaryDiv',
-        {media: '../media/'});
+        {media: '../media/', noToolbox: true});
 
-    declarationWorkspace.toolbox_.dispose()
     declarationWorkspace.addChangeListener(function() {
       if (mutationRoot) {
         mutationRoot.onChangeFn();
