@@ -530,3 +530,25 @@ Blockly.Blocks['control_all_at_once'] = {
     });
   }
 };
+
+Blockly.Blocks['control_inline_stack_output'] = {
+  /**
+   * pm: Block to run a stack and output a return from it.
+   * @this Blockly.Block
+   */
+  init: function () {
+    this.jsonInit({
+      "message0": 'inline block',
+      "message1": "%1",
+      "args1": [
+        {
+          "type": "input_statement",
+          "name": "SUBSTACK"
+        }
+      ],
+      "category": Blockly.Categories.control,
+      //"outputShape": Blockly.OUTPUT_SHAPE_SQUARE,
+      "extensions": ["colours_control", "output_any"]
+    });
+  }
+};
