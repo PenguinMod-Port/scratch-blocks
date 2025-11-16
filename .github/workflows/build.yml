@@ -95,9 +95,9 @@ jobs:
           committer_name: GitHub Actions
           committer_email: actions@github.com
         
-#      - name: Repository Dispatch
-#        uses: peter-evans/repository-dispatch@v4.0.1
-#        with:
+      - name: Repository Dispatch
+        uses: peter-evans/repository-dispatch@v4.0.1
+        with:
 #          token: ${{ secrets.t }}
-#          event-type: update
-#          repository: scratch-gui
+          event-type: update
+          repository: scratch-gui
