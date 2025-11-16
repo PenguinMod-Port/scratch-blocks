@@ -724,7 +724,8 @@ Blockly.Procedures.getBlockReturnType = function(block) {
       let reporter = descendants[i].getInput("VALUE").connection.targetBlock()
       if (!reporter) continue
 
-      reporter.outputConnection.check_.forEach(v => returnTypes.add(v))
+      if (reporter.outputConnection.check_ == null) returnTypes.add(null)
+      else reporter.outputConnection.check_.forEach(v => returnTypes.add(v))
       returnShapes.add(reporter.getOutputShape())
     }
   }
@@ -735,5 +736,7 @@ Blockly.Procedures.getBlockReturnType = function(block) {
   } else {
     var returnShape = Array.from(returnShapes)[0];
   }
+
+  if (returnTypes.has(null)) return [null, returnShape]
   return [Array.from(returnTypes), returnShape];
 };
