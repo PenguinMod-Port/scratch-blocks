@@ -112,10 +112,9 @@ Blockly.WorkspaceSvg = function(options, opt_blockDragSurface, opt_wsDragSurface
   this.grid_ = this.options.gridPattern ?
       new Blockly.Grid(options.gridPattern, options.gridOptions) : null;
 
-  this.registerToolboxCategoryCallback(Blockly.VARIABLE_CATEGORY_NAME,
-      Blockly.DataCategory);
-  this.registerToolboxCategoryCallback(Blockly.PROCEDURE_CATEGORY_NAME,
-      Blockly.Procedures.flyoutCategory);
+  this.registerToolboxCategoryCallback(Blockly.VARIABLE_CATEGORY_NAME, Blockly.DataCategory);
+  this.registerToolboxCategoryCallback(Blockly.LIST_CATEGORY_NAME, Blockly.DataCategory.ListCategory);
+  this.registerToolboxCategoryCallback(Blockly.PROCEDURE_CATEGORY_NAME, Blockly.Procedures.flyoutCategory);
 
   this.procedureReturnsEnabled = Blockly.Procedures.DEFAULT_ENABLE_RETURNS;
   this.initialProcedureReturnTypes_ = null;

@@ -301,6 +301,12 @@ Blockly.DELETE_AREA_TOOLBOX = 2;
 Blockly.VARIABLE_CATEGORY_NAME = 'VARIABLE';
 
 /**
+ * list category
+ * @const {string}
+ */
+Blockly.LIST_CATEGORY_NAME = 'LIST';
+
+/**
  * String for use in the "custom" attribute of a category in toolbox xml.
  * This string indicates that the category should be dynamically populated with
  * procedure blocks.
