@@ -1,20 +1,97 @@
-name: Build
-
+name: Rebuild
 on:
+  workflow_dispatch:
   push:
-  pull_request:
+    branches:
+      - develop
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+  pull-requests: write
+  deployments: write
+  
+concurrency:
+  group: "pages"
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  rebuild:
+    concurrency: ci-${{ github.ref }} # Recommended if you intend to make multiple deployments in quick succession.
+    runs-on: ubuntu-22.04
     steps:
-    - uses: actions/checkout@v4
-      with:
-        persist-credentials: false
-    - name: Install Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: 22
-        cache: npm
-    - run: npm ci
-    - run: npm run test:lint
+      - name: Setup Node
+        uses: actions/setup-node@v6.0.0
+        with:
+          node-version: 24
+      - name: Setup Python
+        uses: actions/setup-python@v6.0.0
+        with:
+          python-version: 3.12
+      - name: Setup Java
+        uses: actions/setup-java@v5.0.0
+        with:
+          java-version: 17
+          
+      - name: Checkout
+        uses: actions/checkout@v6-beta
+      
+      - name: Rebuild
+        run: |
+         npm install
+         npm run translate
+       
+      - name: Upload built-dist
+        uses: actions/upload-artifact@v5.0.0
+        with:
+          name: built-dist
+          path: dist
+      - name: Upload built-media
+        uses: actions/upload-artifact@v5.0.0
+        with:
+          name: built-media
+          path: media
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v4.0.0
+        with:
+          path: './'
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4.0.0
+          
+      - name: Checkout to develop-builds
+        uses: actions/checkout@v6-beta
+        with:
+          ref: develop-builds
+      
+      - name: Clear out things
+        run: |
+          rm -rf dist/*
+          rm -rf media/*
+          
+      - name: Download built-dist
+        uses: actions/download-artifact@v6.0.0
+        with:
+          name: built-dist
+          path: dist/
+      - name: Download built-media
+        uses: actions/download-artifact@v6.0.0
+        with:
+          name: built-media
+          path: media/
+      
+      - name: Commit
+        uses: EndBug/add-and-commit@v9.1.1
+        with:
+          message: ${{ github.event.head_commit.message }}
+          committer_name: GitHub Actions
+          committer_email: actions@github.com
+        
+#      - name: Repository Dispatch
+#        uses: peter-evans/repository-dispatch@v4.0.1
+#        with:
+#          token: ${{ secrets.t }}
+#          event-type: update
+#          repository: scratch-gui
