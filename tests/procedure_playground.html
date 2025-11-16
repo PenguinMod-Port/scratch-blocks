@@ -17,7 +17,6 @@
   <script src="../blocks_vertical/looks.js"></script>
   <script src="../blocks_vertical/procedures.js"></script>
   <script src="../blocks_vertical/operators.js"></script>
-  <script src="../blocks_vertical/pen.js"></script>
   <script src="../blocks_vertical/sound.js"></script>
   <script src="../blocks_vertical/sensing.js"></script>
   <script src="../blocks_vertical/data.js"></script>
@@ -34,6 +33,15 @@
   </style>
 </head>
 <body>
+  <p>
+    <input type="button" value="Export to XML" onclick="toXml()">
+    &nbsp;
+    <input type="button" value="Import from XML" onclick="fromXml()" id="import">
+    <br>
+    <textarea id="importExport" style="width: 26%; height: 12em"
+      onchange="taChange();" onkeyup="taChange()"></textarea>
+  </p>
+
   <table width="100%">
     <tr>
       <td>
@@ -56,13 +64,6 @@
       </td>
     </tr>
   </table>
-
-  <p>
-    <input type="button" value="Export to XML" onclick="toXml()" />
-    <input type="button" value="Import from XML" onclick="fromXml()" id="import" />
-    <br />
-    <textarea id="importExport" style="width: 26%; height: 12em" onchange="taChange();" onkeyup="taChange()" />
-  </p>
 
   <xml id="mutator_blocks" style="display:none">
     <block type="procedures_declaration" x="25" y="25" deletable="false">
@@ -245,7 +246,7 @@
 
     function toXml() {
       var output = document.getElementById('importExport');
-      var xml = Blockly.Xml.workspaceToDom(workspace);
+      var xml = Blockly.Xml.workspaceToDom(definitionWorkspace);
       output.value = Blockly.Xml.domToPrettyText(xml);
       output.focus();
       output.select();
@@ -255,13 +256,10 @@
     function fromXml() {
       var input = document.getElementById('importExport');
       var xml = Blockly.Xml.textToDom(input.value);
-      Blockly.Xml.domToWorkspace(xml, workspace);
-      workspace.refreshToolboxSelection_();
+      Blockly.Xml.domToWorkspace(xml, definitionWorkspace);
       taChange();
     }
 
-    // Disable the "Import from XML" button if the XML is invalid.
-    // Preserve text between page reloads.
     function taChange() {
       var textarea = document.getElementById('importExport');
       if (sessionStorage) {
