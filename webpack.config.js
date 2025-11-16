@@ -48,7 +48,7 @@ module.exports = [{
   },
   plugins: []
 },
-{
+/*{
   mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
   entry: './shim/gh-pages.js',
   output: {
@@ -89,4 +89,4 @@ module.exports = [{
         to: 'playgrounds'
       }])
   ]
-}];
+}*/];
