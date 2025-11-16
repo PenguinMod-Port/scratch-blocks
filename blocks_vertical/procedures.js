@@ -38,7 +38,7 @@ Blockly.ScratchBlocks.ProcedureUtils.parseReturnMutation = function(xmlElement) 
       let x = JSON.parse(xmlElement.getAttribute('return'));
       if (x instanceof Array) return x
       else [null, x instanceof Number ? x : Blockly.OUTPUT_SHAPE_ROUND]
-    } catch {}
+    } catch (e) {}
   }
   return [[], Blockly.PROCEDURES_CALL_TYPE_STATEMENT];
 };
