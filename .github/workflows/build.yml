@@ -53,6 +53,10 @@ jobs:
         with:
           name: built-media
           path: media
+      
+      - name: Clear out things
+        run: |
+          rm -rf node_modules
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
