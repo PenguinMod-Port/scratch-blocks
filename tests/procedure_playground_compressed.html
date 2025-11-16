@@ -47,6 +47,7 @@
       <td id="editor-actions">
         <button id="text_number" onclick="addTextNumber()">Add text/number input</button>
         <button id="boolean" onclick="addBoolean()">Add boolean input</button>
+        <button id="command" onclick="addCommand()">Add branch</button>
         <button id="label" onclick="addLabel()">Add label</button>
         <button id="cancelButton" onclick="cancel()">cancel</button>
         <button id="okButton" onclick="applyMutation()">ok</button>
@@ -214,6 +215,10 @@
       mutationRoot.addStringNumberExternal();
     }
 
+    function addCommand() {
+      mutationRoot.addCommandExternal();
+    }
+
     function removeRandomInput() {
       var rnd = Math.floor(Math.random() * mutationRoot.inputList.length);
       mutationRoot.removeInput(mutationRoot.inputList[rnd].name);
@@ -222,18 +227,8 @@
     }
 
     function addRandomInput() {
-      var rnd = Math.floor(Math.random() * 3);
-      switch (rnd) {
-        case 0:
-          addTextNumber();
-          break;
-        case 1:
-          addLabel();
-          break;
-        case 2:
-          addBoolean();
-          break;
-      }
+      var rnd = Math.floor(Math.random() * 4);
+      [addLabel, addTextNumber, addBoolean, addCommand][rnd]()
     }
 
     function cancel() {
