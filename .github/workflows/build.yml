@@ -100,4 +100,4 @@ jobs:
         with:
 #          token: ${{ secrets.t }}
           event-type: update
-          repository: scratch-gui
+          repository: PenguinMod-Port/scratch-gui
