@@ -1707,7 +1707,7 @@ Blockly.BlockSvg.getAlignedCursor_ = function(cursorX, input, rightEdge) {
  */
 Blockly.BlockSvg.prototype.renderMoveConnections_ = function() {
   var blockTL = this.getRelativeToSurfaceXY();
-  var branchedReporterTL = blockTL.clone().translate(this.edgeShapeWidth_, 0);
+  var branchedReporterTL = blockTL.clone().translate(this.edgeShapeWidth_ * (this.RTL ? -1 : 1), 0);
   // Don't tighten previous or output connections because they are inferior.
   if (this.previousConnection) {
     this.previousConnection.moveToOffset(blockTL);
