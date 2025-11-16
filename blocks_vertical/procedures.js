@@ -34,16 +34,13 @@ goog.require('Blockly.ScratchBlocks.VerticalExtensions');
 
 Blockly.ScratchBlocks.ProcedureUtils.parseReturnMutation = function(xmlElement) {
   if (xmlElement.hasAttribute('return')) {
-    var type = +xmlElement.getAttribute('return');
-    if (
-      type === Blockly.PROCEDURES_CALL_TYPE_STATEMENT ||
-      type === Blockly.PROCEDURES_CALL_TYPE_REPORTER ||
-      type === Blockly.PROCEDURES_CALL_TYPE_BOOLEAN
-    ) {
-      return type;
-    }
+    try {
+      let x = JSON.parse(xmlElement.getAttribute('return'));
+      if (x instanceof Array) return x
+      else [null, x instanceof Number ? x : Blockly.OUTPUT_SHAPE_ROUND]
+    } catch {}
   }
-  return Blockly.PROCEDURES_CALL_TYPE_STATEMENT;
+  return [[], Blockly.PROCEDURES_CALL_TYPE_STATEMENT];
 };
 
 /**
@@ -57,8 +54,8 @@ Blockly.ScratchBlocks.ProcedureUtils.callerMutationToDom = function() {
   container.setAttribute('proccode', this.procCode_);
   container.setAttribute('argumentids', JSON.stringify(this.argumentIds_));
   container.setAttribute('warp', JSON.stringify(this.warp_));
-  if (this.return_ !== Blockly.PROCEDURES_CALL_TYPE_STATEMENT) {
-    container.setAttribute('return', this.return_);
+  if (this.return_[1] !== Blockly.PROCEDURES_CALL_TYPE_STATEMENT) {
+    container.setAttribute('return', JSON.stringify(this.return_));
   }
   return container;
 };
@@ -76,9 +73,6 @@ Blockly.ScratchBlocks.ProcedureUtils.callerDomToMutation = function(xmlElement) 
   this.argumentIds_ = JSON.parse(xmlElement.getAttribute('argumentids'));
   this.warp_ = JSON.parse(xmlElement.getAttribute('warp'));
   this.return_ = Blockly.ScratchBlocks.ProcedureUtils.parseReturnMutation(xmlElement);
-  if (this.return_ !== Blockly.PROCEDURES_CALL_TYPE_STATEMENT) {
-    this.workspace.enableProcedureReturns();
-  }
   this.updateDisplay_();
 };
 
@@ -161,17 +155,12 @@ Blockly.ScratchBlocks.ProcedureUtils.updateDisplay_ = function() {
 
   if (!wasRendered && this.getReturn) {
     this.setInputsInline(true);
-    if (this.getReturn() === Blockly.PROCEDURES_CALL_TYPE_STATEMENT) {
+    if (this.getReturn()[1] === Blockly.PROCEDURES_CALL_TYPE_STATEMENT) {
       this.setPreviousStatement(true, null);
       this.setNextStatement(true, null);
     } else {
-      if (this.getReturn() === Blockly.PROCEDURES_CALL_TYPE_BOOLEAN) {
-        this.setOutput(true, null);
-        this.setOutputShape(Blockly.OUTPUT_SHAPE_HEXAGONAL);
-      } else {
-        this.setOutput(true, Blockly.Procedures.ENFORCE_TYPES ? 'Number' : null);
-        this.setOutputShape(Blockly.OUTPUT_SHAPE_ROUND);
-      }
+      this.setOutput(true, this.getReturn()[0])
+      this.setOutputShape(this.getReturn()[1])
     }
   }
 
@@ -770,7 +759,7 @@ Blockly.ScratchBlocks.ProcedureUtils.setWarp = function(warp) {
 
 /**
  * @this {BlockSvg}
- * @returns {number} Value of the return_ property. See enum in constants.js
+ * @returns {[Array<string>, number]} types & shape
  */
 Blockly.ScratchBlocks.ProcedureUtils.getReturn = function() {
   return this.return_;
