@@ -57,6 +57,7 @@ jobs:
       - name: Clear out things
         run: |
           rm -rf node_modules
+          rm -rf gh-pages
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
