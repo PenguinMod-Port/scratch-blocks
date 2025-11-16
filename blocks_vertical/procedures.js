@@ -344,14 +344,22 @@ Blockly.ScratchBlocks.ProcedureUtils.addLabelEditor_ = function(text) {
  */
 Blockly.ScratchBlocks.ProcedureUtils.buildShadowDom_ = function(type) {
   var shadowDom = goog.dom.createDom('shadow');
-  if (type == 'n') {
-    var shadowType = 'math_number';
-    var fieldName = 'NUM';
-    var fieldValue = '1';
-  } else {
-    var shadowType = 'text';
-    var fieldName = 'TEXT';
-    var fieldValue = '';
+  switch (type) {
+    case 'n':
+      var shadowType = 'math_number';
+      var fieldName = 'NUM';
+      var fieldValue = '1';
+      break;
+    case 's':
+      var shadowType = 'text'
+      var fieldName = 'TEXT';
+      var fieldValue = '';
+      break;
+    case 'b':
+      var shadowType = 'checkbox';
+      var fieldName = 'CHECKBOX';
+      var fieldValue = false;
+      break;
   }
   shadowDom.setAttribute('type', shadowType);
   var fieldDom = goog.dom.createDom('field', null, fieldValue);
@@ -370,15 +378,21 @@ Blockly.ScratchBlocks.ProcedureUtils.buildShadowDom_ = function(type) {
  */
 Blockly.ScratchBlocks.ProcedureUtils.attachShadow_ = function(input,
     argumentType) {
-  if (argumentType == 'n' || argumentType == 's') {
-    var blockType = argumentType == 'n' ? 'math_number' : 'text';
+  var blockType = {n: 'math_number', s: 'text', b: 'checkbox'}[argumentType];
+  if (blockType) {
     Blockly.Events.disable();
     try {
       var newBlock = this.workspace.newBlock(blockType);
-      if (argumentType == 'n') {
-        newBlock.setFieldValue('1', 'NUM');
-      } else {
-        newBlock.setFieldValue('', 'TEXT');
+      switch (argumentType) {
+        case 'n':
+          newBlock.setFieldValue('1', 'NUM');
+          break;
+        case 's':
+          newBlock.setFieldValue('', 'TEXT');
+          break;
+        case 'b':
+          newBlock.setFieldValue(false, 'CHECKBOX');
+          break;
       }
       newBlock.setShadow(true);
       if (!this.isInsertionMarker()) {
