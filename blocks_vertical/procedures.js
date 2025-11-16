@@ -532,7 +532,7 @@ Blockly.ScratchBlocks.ProcedureUtils.populateArgumentOnPrototype_ = function(
   }
 
   // Attach the block.
-  input.connection.connect(argumentReporter.outputConnection ?? argumentReporter.previousConnection);
+  input.connection.connect(argumentReporter.outputConnection || argumentReporter.previousConnection);
 };
 
 /**
@@ -574,7 +574,7 @@ Blockly.ScratchBlocks.ProcedureUtils.populateArgumentOnDeclaration_ = function(
   }
 
   // Attach the block.
-  input.connection.connect(argumentEditor.outputConnection ?? argumentEditor.previousConnection);
+  input.connection.connect(argumentEditor.outputConnection || argumentEditor.previousConnection);
 };
 
 /**
