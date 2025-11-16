@@ -503,8 +503,7 @@ Blockly.BlockSvg.DEFINE_BLOCK_PADDING_RIGHT = 2 * Blockly.BlockSvg.GRID_UNIT;
  */
 Blockly.BlockSvg.prototype.updateColour = function() {
   var strokeColour = this.getColourTertiary();
-  var renderShadowed = this.isShadow() &&
-      !Blockly.scratchBlocksUtils.isShadowArgumentReporter(this);
+  var renderShadowed = this.isShadow() && !this.canDragDuplicate();
 
   if (renderShadowed && this.parentBlock_) {
     // Pull shadow block stroke colour from parent block's tertiary if possible.
@@ -956,9 +955,7 @@ Blockly.BlockSvg.prototype.computeInputWidth_ = function(input) {
  */
 Blockly.BlockSvg.prototype.computeInputHeight_ = function(input, row,
     previousRow) {
-  if (this.inputList.length === 1 && this.outputConnection &&
-      (this.isShadow() &&
-      !Blockly.scratchBlocksUtils.isShadowArgumentReporter(this))) {
+  if (this.inputList.length === 1 && this.outputConnection && (this.isShadow() && !this.canDragDuplicate())) {
     // "Lone" field blocks are smaller.
     return Blockly.BlockSvg.MIN_BLOCK_Y_SINGLE_FIELD_OUTPUT;
   } else if (this.outputConnection) {
@@ -1017,8 +1014,7 @@ Blockly.BlockSvg.prototype.computeRightEdge_ = function(curEdge, hasStatement) {
     // Blocks with notches
     edge = Math.max(edge, Blockly.BlockSvg.MIN_BLOCK_X);
   } else if (this.outputConnection) {
-    if (this.isShadow() &&
-        !Blockly.scratchBlocksUtils.isShadowArgumentReporter(this)) {
+    if (this.isShadow() && !this.canDragDuplicate()) {
       // Single-fields
       edge = Math.max(edge, Blockly.BlockSvg.MIN_BLOCK_X_SHADOW_OUTPUT);
     } else {
@@ -1048,8 +1044,7 @@ Blockly.BlockSvg.prototype.computeRightEdge_ = function(curEdge, hasStatement) {
 Blockly.BlockSvg.prototype.computeOutputPadding_ = function(inputRows) {
   // Only apply to blocks with outputs and not single fields (shadows).
   if (!this.getOutputShape() || !this.outputConnection ||
-      (this.isShadow() &&
-      !Blockly.scratchBlocksUtils.isShadowArgumentReporter(this))) {
+      (this.isShadow() && !this.canDragDuplicate())) {
     return;
   }
   // Blocks with outputs must have single row to be padded.
