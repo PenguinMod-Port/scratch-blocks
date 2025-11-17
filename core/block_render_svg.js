@@ -1462,7 +1462,7 @@ Blockly.BlockSvg.prototype.renderDrawBottom_ = function(steps, cursorY) {
 Blockly.BlockSvg.prototype.renderDrawLeft_ = function(steps) {
   if (this.outputConnection) {
     // Scratch-style reporters have output connection y at half block height.
-    this.outputConnection.setOffsetInBlock(0, this.height / 2);
+    this.outputConnection.setOffsetInBlock(this.outputLeftPadding_() * (this.RTL ? 1 : -1), this.height / 2);
   }
   if (this.edgeShape_) {
     // Draw the left-side edge shape.
@@ -1733,3 +1733,28 @@ Blockly.BlockSvg.prototype.renderMoveConnections_ = function() {
     }
   }
 };
+
+Blockly.BlockSvg.prototype.outputLeftPadding_ = function() {
+  if (!this.outputConnection) return 0;
+  const shape = this.getOutputShape();
+
+  /*
+  switch (shape) {
+    case Blockly.OUTPUT_SHAPE_PLUS: {
+      if (this.inputList.find(v => v.type == Blockly.NEXT_STATEMENT)) {
+        const paddingMultiplier = Blockly.BlockSvg.SEP_SPACE_Y / 2 / Blockly.BlockSvg.GRID_UNIT;
+        const unit = 6 * paddingMultiplier;
+        return -this.height / 2 + unit * 3;
+      }
+    }
+    default: {
+      const customShape = Blockly.BlockSvg.CUSTOM_SHAPES.get(this.edgeShape_);
+      if (customShape && customShape.outputLeftPadding) {
+        return customShape.outputLeftPadding()
+      }
+    }
+  }
+  */
+
+  return 0;
+}
