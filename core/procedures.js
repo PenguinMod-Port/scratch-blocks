@@ -566,12 +566,12 @@ Blockly.Procedures.makeChangeTypeOption = function(block) {
       if (isStatement) {
         var procCode = block.getProcCode();
         var workspace = block.workspace;
-        var actualReturnType = Blockly.Procedures.getProcedureReturnType(procCode, workspace);
+        var actualReturnType = Blockly.Procedures.getProcedureReturnType(procCode, workspace, true);
         // If the definition is boolean-shaped, then the reporter should be boolean-shaped,
         // otherwise normal reporter shaped.
         newType = actualReturnType
       } else {
-        newType = Blockly.PROCEDURES_CALL_TYPE_STATEMENT;
+        newType = [[], Blockly.PROCEDURES_CALL_TYPE_STATEMENT];
       }
 
       Blockly.Events.setGroup(true);
@@ -680,12 +680,12 @@ Blockly.Procedures.DEFAULT_ENABLE_RETURNS = true;
  * @param {Blockly.Workspace} workspace The workspace
  * @returns {[Array<string>, number]} types & shape
  */
-Blockly.Procedures.getProcedureReturnType = function(procCode, workspace) {
+Blockly.Procedures.getProcedureReturnType = function(procCode, workspace, force = false) {
   var defineBlock = Blockly.Procedures.getDefineBlock(procCode, workspace);
   if (!defineBlock) {
     return [[], Blockly.PROCEDURES_CALL_TYPE_STATEMENT];
   }
-  return Blockly.Procedures.getBlockReturnType(defineBlock);
+  return Blockly.Procedures.getBlockReturnType(defineBlock, force);
 };
 
 /**
@@ -731,7 +731,7 @@ Blockly.Procedures.getBlockReturnType = function(block, notProcedure = false) {
   if (returnShapes.size > 1) {
     var returnShape = Blockly.OUTPUT_SHAPE_ROUND;
   } else if (returnShapes.size === 0) {
-    return notProcedure ? [null, Blockly.OUTPUT_SHAPE_SQUARE] : [[], Blockly.PROCEDURES_CALL_TYPE_STATEMENT];
+    return notProcedure ? [null, Blockly.OUTPUT_SHAPE_ROUND] : [[], Blockly.PROCEDURES_CALL_TYPE_STATEMENT];
   } else {
     var returnShape = Array.from(returnShapes)[0];
   }
