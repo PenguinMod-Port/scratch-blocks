@@ -150,6 +150,17 @@ Blockly.ScratchBlocks.VerticalExtensions.OUTPUT_ANY = function() {
   this.setOutput(true);
 };
 
+Blockly.ScratchBlocks.VerticalExtensions.OUTPUT_RETURNS = function () {
+  this.setInputsInline(true);
+  this.setOutputShape(Blockly.OUTPUT_SHAPE_SQUARE);
+  this.setOutput(true);
+  this.setOnChange(function() {
+    let returnType = Blockly.Procedures.getBlockReturnType(this, true);
+    this.setOutput(true, returnType[0])
+    this.setOutputShape(returnType[1])
+  })
+}
+
 /**
  * Mixin to add a context menu for a procedure definition block.
  * It adds the "edit" option and removes the "duplicate" option.
@@ -275,6 +286,8 @@ Blockly.ScratchBlocks.VerticalExtensions.registerAll = function() {
       Blockly.ScratchBlocks.VerticalExtensions.OUTPUT_BOOLEAN);
   Blockly.Extensions.register('output_any',
       Blockly.ScratchBlocks.VerticalExtensions.OUTPUT_ANY);
+  Blockly.Extensions.register('output_returns',
+      Blockly.ScratchBlocks.VerticalExtensions.OUTPUT_RETURNS);
 
   // Custom procedures have interesting context menus.
   Blockly.Extensions.registerMixin('procedure_def_contextmenu',

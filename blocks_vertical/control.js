@@ -548,7 +548,7 @@ Blockly.Blocks['control_inline_stack_output'] = {
       ],
       "category": Blockly.Categories.control,
       //"outputShape": Blockly.OUTPUT_SHAPE_SQUARE,
-      "extensions": ["colours_control", "output_any"]
+      "extensions": ["colours_control", "output_returns"]
     });
   }
 };

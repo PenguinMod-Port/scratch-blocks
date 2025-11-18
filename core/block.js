@@ -614,6 +614,41 @@ Blockly.Block.prototype.getDescendants = function(ordered, opt_ignoreShadows) {
 };
 
 /**
+ * Find all the command blocks that are inside this block's branches
+ * @return {!Array.<!Blockly.Block>} Array of blocks.
+ */
+Blockly.Block.prototype.getCommandChildren = function() {
+  var blocks = [];
+  var inputs = this.inputList.filter(v => v.type == Blockly.NEXT_STATEMENT);
+  for (var i = 0, input; input = inputs[i]; i++) {
+    if (input.connection) {
+      var child = input.connection.targetBlock();
+      if (child) {
+        blocks.push(child);
+      }
+    }
+  }
+  var next = this.getNextBlock();
+  if (next) {
+    blocks.push(next);
+  }
+  return blocks;
+};
+
+/**
+ * Find all the command blocks that are inside any branches under this block
+ * @return {!Array.<!Blockly.Block>} Array of blocks.
+ */
+Blockly.Block.prototype.getCommandDescendants = function() {
+  var blocks = [this];
+  var childBlocks = this.getCommandChildren();
+  for (var child, i = 0; child = childBlocks[i]; i++) {
+    blocks.push.apply(blocks, child.getCommandDescendants());
+  }
+  return blocks;
+};
+
+/**
  * Get whether this block is deletable or not.
  * @return {boolean} True if deletable.
  */

@@ -683,7 +683,7 @@ Blockly.Procedures.DEFAULT_ENABLE_RETURNS = true;
 Blockly.Procedures.getProcedureReturnType = function(procCode, workspace) {
   var defineBlock = Blockly.Procedures.getDefineBlock(procCode, workspace);
   if (!defineBlock) {
-    return Blockly.PROCEDURES_CALL_TYPE_STATEMENT;
+    return [[], Blockly.PROCEDURES_CALL_TYPE_STATEMENT];
   }
   return Blockly.Procedures.getBlockReturnType(defineBlock);
 };
@@ -711,12 +711,11 @@ Blockly.Procedures.getAllProcedureReturnTypes = function(workspace) {
 
 /**
  * @param {Blockly.Block} block The block
+ * @param {boolean} notProcedure Is the block actually a procedure or not
  * @returns {[Array<string>, number]} types & shape
  */
-Blockly.Procedures.getBlockReturnType = function(block) {
-  var hasSeenBooleanReturn = false;
-  /** @type {Blockly.Block[]} */
-  var descendants = block.getDescendants();
+Blockly.Procedures.getBlockReturnType = function(block, notProcedure = false) {
+  var descendants = block.getCommandDescendants();
   let returnTypes = new Set();
   let returnShapes = new Set();
   for (var i = 0; i < descendants.length; i++) {
@@ -732,7 +731,7 @@ Blockly.Procedures.getBlockReturnType = function(block) {
   if (returnShapes.size > 1) {
     var returnShape = Blockly.OUTPUT_SHAPE_ROUND;
   } else if (returnShapes.size === 0) {
-    return [[], Blockly.PROCEDURES_CALL_TYPE_STATEMENT];
+    return notProcedure ? [null, Blockly.OUTPUT_SHAPE_SQUARE] : [[], Blockly.PROCEDURES_CALL_TYPE_STATEMENT];
   } else {
     var returnShape = Array.from(returnShapes)[0];
   }

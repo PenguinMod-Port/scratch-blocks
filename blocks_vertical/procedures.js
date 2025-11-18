@@ -899,7 +899,7 @@ Blockly.Blocks['procedures_call'] = {
     this.procCode_ = '';
     this.argumentIds_ = [];
     this.warp_ = false;
-    this.return_ = Blockly.PROCEDURES_CALL_TYPE_STATEMENT;
+    this.return_ = [[], Blockly.PROCEDURES_CALL_TYPE_STATEMENT];
   },
   // Shared.
   getProcCode: Blockly.ScratchBlocks.ProcedureUtils.getProcCode,
