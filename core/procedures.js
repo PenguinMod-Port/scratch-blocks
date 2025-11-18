@@ -557,7 +557,7 @@ Blockly.Procedures.makeEditOption = function(block) {
 };
 
 Blockly.Procedures.makeChangeTypeOption = function(block) {
-  var isStatement = block.getReturn() === Blockly.PROCEDURES_CALL_TYPE_STATEMENT;
+  var isStatement = block.getReturn()[1] === Blockly.PROCEDURES_CALL_TYPE_STATEMENT;
   var option = {
     enabled: true,
     text: isStatement ? Blockly.Msg.PROCEDURES_TO_REPORTER : Blockly.Msg.PROCEDURES_TO_STATEMENT,
