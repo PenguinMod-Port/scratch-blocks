@@ -499,6 +499,12 @@ Blockly.BlockSvg.TOP_RIGHT_CORNER_DEFINE_HAT =
 Blockly.BlockSvg.DEFINE_BLOCK_PADDING_RIGHT = 2 * Blockly.BlockSvg.GRID_UNIT;
 
 /**
+ * Roundness of the hexagonal block shape.
+ * @const
+ */
+Blockly.BlockSvg.HEXAGONAL_SHAPE_ROUNDNESS = 1 * Blockly.BlockSvg.GRID_UNIT;
+
+/**
  * Change the colour of a block.
  */
 Blockly.BlockSvg.prototype.updateColour = function() {
@@ -1471,8 +1477,17 @@ Blockly.BlockSvg.prototype.renderDrawLeft_ = function(steps) {
       steps.push('a ' + this.edgeShapeWidth_ + ' ' + this.edgeShapeWidth_ + ' 0 0 1 0 -' + this.edgeShapeWidth_ * 2);
     } else if (this.edgeShape_ === Blockly.OUTPUT_SHAPE_HEXAGONAL) {
       // Draw a half-hexagon.
-      steps.push('l ' + -this.edgeShapeWidth_ + ' ' + -this.edgeShapeWidth_ +
-        ' l ' + this.edgeShapeWidth_ + ' ' + -this.edgeShapeWidth_);
+      //steps.push('l ' + -this.edgeShapeWidth_ + ' ' + -this.edgeShapeWidth_ +
+      //  ' l ' + this.edgeShapeWidth_ + ' ' + -this.edgeShapeWidth_);
+      let hexRoundness = Blockly.BlockSvg.HEXAGONAL_SHAPE_ROUNDNESS
+      let diagonalWidth = this.edgeShapeWidth_ - hexRoundness * 1.5
+      steps.push(
+        `q ${-hexRoundness / 2} 0 ${-hexRoundness} ${-hexRoundness / 2}` +
+        `l ${-diagonalWidth} ${-diagonalWidth}` +
+        `q ${-hexRoundness} ${-hexRoundness} 0 ${-hexRoundness * 2}` +
+        `l ${diagonalWidth} ${-diagonalWidth}` +
+        `q ${hexRoundness / 2} ${-hexRoundness / 2} ${hexRoundness} ${-hexRoundness / 2}`
+      )
     }
   }
   steps.push('z');
@@ -1493,8 +1508,17 @@ Blockly.BlockSvg.prototype.drawEdgeShapeRight_ = function(steps) {
           ' 0 0 1 0 ' + this.edgeShapeWidth_ * 2);
     } else if (this.edgeShape_ === Blockly.OUTPUT_SHAPE_HEXAGONAL) {
       // Draw an half-hexagon.
-      steps.push('l ' + this.edgeShapeWidth_ + ' ' + this.edgeShapeWidth_ +
-          ' l ' + -this.edgeShapeWidth_ + ' ' + this.edgeShapeWidth_);
+      //steps.push('l ' + this.edgeShapeWidth_ + ' ' + this.edgeShapeWidth_ +
+      //    ' l ' + -this.edgeShapeWidth_ + ' ' + this.edgeShapeWidth_);
+      let hexRoundness = Blockly.BlockSvg.HEXAGONAL_SHAPE_ROUNDNESS
+      let diagonalWidth = this.edgeShapeWidth_ - hexRoundness * 1.5
+      steps.push(
+        `q ${hexRoundness / 2} 0 ${hexRoundness} ${hexRoundness / 2}` +
+        `l ${diagonalWidth} ${diagonalWidth}` +
+        `q ${hexRoundness} ${hexRoundness} 0 ${hexRoundness * 2}` +
+        `l ${-diagonalWidth} ${diagonalWidth}` +
+        `q ${-hexRoundness / 2} ${hexRoundness / 2} ${-hexRoundness} ${hexRoundness / 2}`
+      )
     }
   }
 };
