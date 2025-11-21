@@ -245,7 +245,7 @@ Blockly.Procedures.flyoutCategory = function(workspace) {
 
   var showReturn = (
     Blockly.Procedures.DEFAULT_ENABLE_RETURNS ?
-    mutations.length > 0 :
+    true /*mutations.length > 0*/ :
     workspace.procedureReturnsEnabled
   );
   if (showReturn) {
