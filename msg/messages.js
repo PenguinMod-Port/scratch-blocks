@@ -219,6 +219,10 @@ Blockly.Msg.OPERATORS_MATHOP_LOG = 'log';
 Blockly.Msg.OPERATORS_MATHOP_EEXP = 'e ^';
 Blockly.Msg.OPERATORS_MATHOP_10EXP = '10 ^';
 
+Blockly.Msg.PM_OPERATORS_XOR = '%1 xor %2';
+Blockly.Msg.PM_OPERATORS_XNOR = '%1 xnor %2';
+Blockly.Msg.PM_OPERATORS_NAND = '%1 nand %2';
+Blockly.Msg.PM_OPERATORS_NOR = '%1 nor %2';
 Blockly.Msg.PM_OPERATORS_MATHOP_SIGN = 'sign';
 
 // Procedures blocks
