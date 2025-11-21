@@ -465,6 +465,10 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
     '</block>' +
     '<block type="operator_and" id="operator_and"></block>' +
     '<block type="operator_or" id="operator_or"></block>' +
+    '<block type="operator_xor"></block>' +
+    '<block type="operator_xnor"></block>' +
+    '<block type="operator_nand"></block>' +
+    '<block type="operator_nor"></block>' +
     '<block type="operator_not" id="operator_not"></block>' +
     '<block type="operator_join" id="operator_join">' +
       '<value name="STRING1">' +
