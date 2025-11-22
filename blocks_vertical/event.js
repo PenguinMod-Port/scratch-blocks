@@ -327,3 +327,34 @@ Blockly.Blocks['event_whenkeypressed'] = {
     });
   }
 };
+
+
+Blockly.Blocks["event_always"] = {
+  init: function() {
+    this.jsonInit({
+      "inputsInline": true,
+      "message0": "always",
+      "args0": [],
+      "category": Blockly.Categories.event,
+      "extensions": ["colours_event", "shape_hat"]
+    });
+  }
+};
+
+Blockly.Blocks["event_whenanything"] = {
+  init: function() {
+    this.jsonInit({
+      "inputsInline": true,
+      "message0": "when %1",
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "ANYTHING",
+          "check": "Boolean"
+        }
+      ],
+      "category": Blockly.Categories.event,
+      "extensions": ["colours_event", "shape_hat"]
+    });
+  }
+};
