@@ -318,7 +318,7 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
       '</value>' +
     '</block>' +
     '<block type="control_delete_this_clone" id="control_delete_this_clone"></block>' +
-    '<block type="control_inline_stack_output" id="control_inline_stack_output">' + 
+    '<block type="control_inline_stack_output">' + 
       '<statement name="SUBSTACK">' +
         '<block type="procedures_return">' +
           '<value name="VALUE">' +
@@ -326,6 +326,16 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
           '</value>' +
         '</block>' +
       '</statement>' +
+    '</block>' +
+    '<block type="control_try_catch">' +
+      '<value name="SHADOW">' +
+        '<shadow type="control_error" />' +
+      '</value>' +
+    '</block>' +
+    '<block type="control_throw_error">' +
+      '<value name="ERROR">' +
+        '<shadow type="text" />' +
+      '</value>' +
     '</block>' +
   '</category>' +
   '<category name="%{BKY_CATEGORY_SENSING}" id="sensing" colour="#4CBFE6" secondaryColour="#2E8EB8">' +

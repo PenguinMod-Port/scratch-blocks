@@ -531,6 +531,7 @@ Blockly.Blocks['control_all_at_once'] = {
   }
 };
 
+
 Blockly.Blocks['control_inline_stack_output'] = {
   /**
    * pm: Block to run a stack and output a return from it.
@@ -549,6 +550,73 @@ Blockly.Blocks['control_inline_stack_output'] = {
       "category": Blockly.Categories.control,
       //"outputShape": Blockly.OUTPUT_SHAPE_SQUARE,
       "extensions": ["colours_control", "output_returns"]
+    });
+  }
+};
+
+Blockly.Blocks['control_try_catch'] = {
+  /**
+   * Block for try-catch.
+   * @this Blockly.Block
+   */
+  init: function () {
+    this.jsonInit({
+      "type": "control_try_catch",
+      "message0": Blockly.Msg.PM_CONTROL_TRYCATCH_1,
+      "message1": "%1",
+      "message2": Blockly.Msg.PM_CONTROL_TRYCATCH_2,
+      "message3": "%1",
+      "args1": [
+        {
+          "type": "input_statement",
+          "name": "SUBSTACK"
+        }
+      ],
+      "args2": [
+        {
+          "type": "input_value",
+          "name": "SHADOW"
+        }
+      ],
+      "args3": [
+        {
+          "type": "input_statement",
+          "name": "SUBSTACK2"
+        }
+      ],
+      "category": Blockly.Categories.control,
+      "extensions": ["colours_control", "shape_statement"]
+    });
+  }
+};
+
+Blockly.Blocks['control_error'] = {
+  /**
+   * pm: Block to get a try catch error.
+   * @this Blockly.Block
+   */
+  init: function () {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_CONTROL_TRYCATCH_ERROR,
+      "canDragDuplicate": true,
+      "category": Blockly.Categories.control,
+      "extensions": ["colours_control", "output_string"]
+    });
+  }
+};
+
+Blockly.Blocks['control_throw_error'] = {
+  init: function () {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_CONTROL_THROWERROR,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "ERROR"
+        }
+      ],
+      "category": Blockly.Categories.control,
+      "extensions": ["colours_control", "shape_end"]
     });
   }
 };

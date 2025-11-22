@@ -57,6 +57,10 @@ Blockly.Msg.CONTROL_CLEARCOUNTER = 'clear counter';
 Blockly.Msg.CONTROL_ALLATONCE = 'all at once';
 
 Blockly.Msg.PM_CONTROL_INLINESTACKOUTPUT = 'inline block';
+Blockly.Msg.PM_CONTROL_TRYCATCH_1 = 'try to do';
+Blockly.Msg.PM_CONTROL_TRYCATCH_2 = 'if a block errors %1';
+Blockly.Msg.PM_CONTROL_TRYCATCH_ERROR = 'error';
+Blockly.Msg.PM_CONTROL_THROWERROR = 'throw error %1';
 
 // Data blocks
 Blockly.Msg.DATA_SETVARIABLETO = 'set %1 to %2';
