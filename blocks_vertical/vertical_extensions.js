@@ -152,9 +152,9 @@ Blockly.ScratchBlocks.VerticalExtensions.OUTPUT_ANY = function() {
 
 Blockly.ScratchBlocks.VerticalExtensions.OUTPUT_RETURNS = function () {
   this.setInputsInline(true);
-  this.setOutputShape(Blockly.OUTPUT_SHAPE_SQUARE);
+  this.setOutputShape(Blockly.OUTPUT_SHAPE_ROUND);
   this.setOutput(true);
-  this.setOnChange(function() {
+  this.setOnChange(function(x) {
     let returnType = Blockly.Procedures.getBlockReturnType(this, true);
     this.setOutput(true, returnType[0])
     this.setOutputShape(returnType[1])
