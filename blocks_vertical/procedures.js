@@ -218,6 +218,7 @@ Blockly.ScratchBlocks.ProcedureUtils.removeAllInputs_ = function() {
     input.dispose();
   }
   this.inputList = [];
+  this.appendDummyInput("DUMMY")
 };
 
 /**
@@ -647,7 +648,7 @@ Blockly.ScratchBlocks.ProcedureUtils.updateDeclarationProcCode_ = function() {
     }
     var input = this.inputList[i];
     if (input.type == Blockly.DUMMY_INPUT) {
-      this.procCode_ += input.fieldRow[0].getValue();
+      if (input.fieldRow[0]) this.procCode_ += input.fieldRow[0].getValue();
     } else if (input.type == Blockly.INPUT_VALUE || input.type == Blockly.NEXT_STATEMENT) {
       // Inspect the argument editor.
       var target = input.connection.targetBlock();
