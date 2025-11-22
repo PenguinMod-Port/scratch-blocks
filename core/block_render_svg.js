@@ -1361,7 +1361,7 @@ Blockly.BlockSvg.prototype.renderDrawRight_ = function(steps,
       input.connection.setOffsetInBlock(connectionX, cursorY);
       if (input.connection.isConnected()) {
         this.width = Math.max(this.width, inputRows.statementEdge +
-          input.connection.targetBlock().getHeightWidth().width);
+          input.connection.targetBlock().getHeightWidth().width + (this.inputList.find(v => v.type == Blockly.NEXT_STATEMENT) ? this.edgeShapeWidth_ : 0));
       }
       if (this.type != Blockly.PROCEDURES_DEFINITION_BLOCK_TYPE &&
         (y == inputRows.length - 1 ||
