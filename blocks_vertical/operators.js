@@ -470,6 +470,7 @@ Blockly.Blocks['operator_mathop'] = {
   }
 };
 
+
 Blockly.Blocks["operator_stringify"] = {
   init: function() {
     this.jsonInit({
@@ -618,6 +619,30 @@ Blockly.Blocks['operator_xnor'] = {
           "check": "Boolean"
         }
       ],
+      "category": Blockly.Categories.operators,
+      "extensions": ["colours_operators", "output_boolean"]
+    });
+  }
+};
+
+Blockly.Blocks["operator_trueBoolean"] = {
+  init: function() {
+    this.jsonInit({
+      "inputsInline": true,
+      "message0": "true",
+      "args0": [],
+      "category": Blockly.Categories.operators,
+      "extensions": ["colours_operators", "output_boolean"]
+    });
+  }
+};
+
+Blockly.Blocks["operator_falseBoolean"] = {
+  init: function() {
+    this.jsonInit({
+      "inputsInline": true,
+      "message0": "false",
+      "args0": [],
       "category": Blockly.Categories.operators,
       "extensions": ["colours_operators", "output_boolean"]
     });

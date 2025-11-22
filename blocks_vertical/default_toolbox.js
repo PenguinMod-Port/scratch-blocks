@@ -560,6 +560,8 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
       '</value>' +
     '</block>' +
     '<block type="operator_checkboxBoolean" id="operator_checkboxBoolean"></block>' +
+    '<block type="operator_trueBoolean"></block>' +
+    '<block type="operator_falseBoolean"></block>' +
   '</category>' +
   '<category name="%{BKY_CATEGORY_VARIABLES}" id="data" colour="#FF8C1A" secondaryColour="#DB6E00" custom="VARIABLE">' +
   '</category>' +
