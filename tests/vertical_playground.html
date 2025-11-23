@@ -301,7 +301,8 @@
         if (Blockly.selected) {
           workspace.reportValue(
             Blockly.selected.id,
-            document.getElementById('reportValue').value
+            document.getElementById('reportValue').value,
+            document.getElementById('reportError').checked
           );
         }
       }
@@ -586,7 +587,7 @@
 
     <p>
       Enable sounds (after refresh): &nbsp;
-      <input type="checkbox" onclick="setSoundsEnabled(this.checked)" id="soundsEnabled">
+      <input type="checkbox" onclick="setSoundsEnabled(this.checked)" id="soundsEnabled" />
     </p>
 
     <p>
@@ -597,7 +598,9 @@
     <p>
       Report:
       <input id="reportValue" type="text" value="123" />
-      <input type="button" value="Report last clicked block" onclick="reportDemo()" />
+      <input type="button" value="Report last clicked block" onclick="reportDemo()" /><br />
+      Report as error:
+      <input type="checkbox" id="reportError" />
     </p>
   </body>
 </html>

@@ -363,6 +363,10 @@ Blockly.Css.CONTENT = [
     'tab-size: 4;',
   '}',
 
+  '.errorReportBox {',
+    'color: $colour_errorReportForeground;',
+  '}',
+
   '.blocklyResizeSE {',
     'cursor: se-resize;',
     'fill: #aaa;',
