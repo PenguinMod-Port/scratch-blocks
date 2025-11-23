@@ -56,6 +56,7 @@ Blockly.Msg.CONTROL_INCRCOUNTER = 'increment counter';
 Blockly.Msg.CONTROL_CLEARCOUNTER = 'clear counter';
 Blockly.Msg.CONTROL_ALLATONCE = 'all at once';
 
+Blockly.Msg.PM_CONTROL_IFELSEREPORTER = 'if %1 then %2 else %3';
 Blockly.Msg.PM_CONTROL_INLINESTACKOUTPUT = 'inline block';
 Blockly.Msg.PM_CONTROL_TRYCATCH_1 = 'try to do';
 Blockly.Msg.PM_CONTROL_TRYCATCH_2 = 'if a block errors %1';

@@ -337,6 +337,17 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
         '<shadow type="text" />' +
       '</value>' +
     '</block>' +
+    '<block type="control_if_return_else_return">' + 
+      '<value name="boolean">' +
+        '<shadow type="checkbox" />' +
+      '</value>' +
+      '<value name="TEXT1">' +
+        '<shadow type="text"></shadow>' +
+      '</value>' +
+      '<value name="TEXT2">' +
+        '<shadow type="text"></shadow>' +
+      '</value>' +
+    '</block>' +
   '</category>' +
   '<category name="%{BKY_CATEGORY_SENSING}" id="sensing" colour="#4CBFE6" secondaryColour="#2E8EB8">' +
     '<block type="sensing_touchingobject" id="sensing_touchingobject">' +

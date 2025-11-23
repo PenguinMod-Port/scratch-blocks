@@ -154,12 +154,41 @@ Blockly.ScratchBlocks.VerticalExtensions.OUTPUT_RETURNS = function () {
   this.setInputsInline(true);
   this.setOutputShape(Blockly.OUTPUT_SHAPE_ROUND);
   this.setOutput(true);
-  this.setOnChange(function(x) {
+  this.setOnChange(function() {
     let returnType = Blockly.Procedures.getBlockReturnType(this, true);
-    this.setOutput(true, returnType[0])
-    this.setOutputShape(returnType[1])
-  })
-}
+    this.setOutput(true, returnType[0]);
+    this.setOutputShape(returnType[1]);
+  });
+};
+
+Blockly.ScratchBlocks.VerticalExtensions.OUTPUT_INPUTS = function () {
+  this.setInputsInline(true);
+  this.setOutputShape(Blockly.OUTPUT_SHAPE_ROUND);
+  this.setOutput(true);
+  this.setOnChange(function() {
+    let returnTypes = new Set();
+    let returnShapes = new Set();
+    for (let input of this.inputList.filter(v =>
+      v.type == Blockly.INPUT_VALUE &&
+      v.connection.check_ === null &&
+      v.connection.targetConnection
+    )) {
+      let reporter = input.connection.targetConnection.getSourceBlock();
+      if (reporter.outputConnection.check_ == null) returnTypes.add(null);
+      else reporter.outputConnection.check_.forEach(v => returnTypes.add(v));
+      returnShapes.add(reporter.getOutputShape());
+    }
+    
+    returnTypes = Array.from(returnTypes)
+    returnTypes = returnTypes.includes(null) ? null : (returnTypes.length > 0 ? returnTypes : null)
+
+    returnShapes = Array.from(returnShapes)
+    returnShapes = returnShapes.length === 1 ? returnShapes[0] : Blockly.OUTPUT_SHAPE_ROUND
+
+    this.setOutput(true, returnTypes);
+    this.setOutputShape(returnShapes);
+  });
+};
 
 /**
  * Mixin to add a context menu for a procedure definition block.
@@ -288,6 +317,8 @@ Blockly.ScratchBlocks.VerticalExtensions.registerAll = function() {
       Blockly.ScratchBlocks.VerticalExtensions.OUTPUT_ANY);
   Blockly.Extensions.register('output_returns',
       Blockly.ScratchBlocks.VerticalExtensions.OUTPUT_RETURNS);
+  Blockly.Extensions.register('output_inputs',
+      Blockly.ScratchBlocks.VerticalExtensions.OUTPUT_INPUTS);
 
   // Custom procedures have interesting context menus.
   Blockly.Extensions.registerMixin('procedure_def_contextmenu',

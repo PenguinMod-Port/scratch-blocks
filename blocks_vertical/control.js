@@ -620,3 +620,29 @@ Blockly.Blocks['control_throw_error'] = {
     });
   }
 };
+
+Blockly.Blocks["control_if_return_else_return"] = {
+  init: function() {
+    this.jsonInit({
+      "inputsInline": true,
+      "message0": Blockly.Msg.PM_CONTROL_IFELSEREPORTER,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "boolean",
+          "check": "Boolean"
+        },
+        {
+          "type": "input_value",
+          "name": "TEXT1"
+        },
+        {
+          "type": "input_value",
+          "name": "TEXT2"
+        }
+      ],
+      "category": Blockly.Categories.control,
+      "extensions": ["colours_control", "output_inputs"],
+    });
+  }
+};
