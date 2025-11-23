@@ -1083,8 +1083,7 @@ Blockly.BlockSvg.prototype.computeOutputPadding_ = function(inputRows) {
     // Special case for hexagonal output: if the connection is larger height
     // than a standard reporter, add some start padding.
     // https://github.com/LLK/scratch-blocks/issues/376
-    if (shape == Blockly.OUTPUT_SHAPE_HEXAGONAL &&
-        otherShape != Blockly.OUTPUT_SHAPE_HEXAGONAL) {
+    if (shape == Blockly.OUTPUT_SHAPE_HEXAGONAL && otherShape != Blockly.OUTPUT_SHAPE_HEXAGONAL) {
       var deltaHeight = firstInput.renderHeight - Blockly.BlockSvg.MIN_BLOCK_Y_REPORTER;
       // One grid unit per level of nesting.
       row.paddingStart += deltaHeight / 2;
@@ -1110,7 +1109,7 @@ Blockly.BlockSvg.prototype.computeOutputPadding_ = function(inputRows) {
     // than a standard reporter, add some end padding.
     // https://github.com/LLK/scratch-blocks/issues/376
     if (shape == Blockly.OUTPUT_SHAPE_HEXAGONAL &&
-        otherShape != Blockly.OUTPUT_SHAPE_HEXAGONAL) {
+        (otherShape != Blockly.OUTPUT_SHAPE_HEXAGONAL || (inputConnection.targetConnection && inputConnection.targetConnection.getSourceBlock().inputList.filter(v => v.type == Blockly.NEXT_STATEMENT).length > 0))) {
       var deltaHeight = lastInput.renderHeight - Blockly.BlockSvg.MIN_BLOCK_Y_REPORTER;
       // One grid unit per level of nesting.
       row.paddingEnd += deltaHeight / 2;
