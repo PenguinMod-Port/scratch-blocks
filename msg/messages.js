@@ -56,6 +56,8 @@ Blockly.Msg.CONTROL_INCRCOUNTER = 'increment counter';
 Blockly.Msg.CONTROL_CLEARCOUNTER = 'clear counter';
 Blockly.Msg.CONTROL_ALLATONCE = 'all at once';
 
+Blockly.Msg.PM_CONTROL_CONTINUELOOP = 'continue loop %1';
+Blockly.Msg.PM_CONTROL_ESCAPELOOP = 'escape loop %1';
 Blockly.Msg.PM_CONTROL_IFELSEREPORTER = 'if %1 then %2 else %3';
 Blockly.Msg.PM_CONTROL_INLINESTACKOUTPUT = 'inline block';
 Blockly.Msg.PM_CONTROL_TRYCATCH_1 = 'try to do';
@@ -224,10 +226,10 @@ Blockly.Msg.OPERATORS_MATHOP_LOG = 'log';
 Blockly.Msg.OPERATORS_MATHOP_EEXP = 'e ^';
 Blockly.Msg.OPERATORS_MATHOP_10EXP = '10 ^';
 
-Blockly.Msg.PM_OPERATORS_XOR = '%1 xor %2';
-Blockly.Msg.PM_OPERATORS_XNOR = '%1 xnor %2';
 Blockly.Msg.PM_OPERATORS_NAND = '%1 nand %2';
 Blockly.Msg.PM_OPERATORS_NOR = '%1 nor %2';
+Blockly.Msg.PM_OPERATORS_XNOR = '%1 xnor %2';
+Blockly.Msg.PM_OPERATORS_XOR = '%1 xor %2';
 Blockly.Msg.PM_OPERATORS_MATHOP_SIGN = 'sign';
 
 // Procedures blocks

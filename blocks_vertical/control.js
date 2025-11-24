@@ -646,3 +646,43 @@ Blockly.Blocks["control_if_return_else_return"] = {
     });
   }
 };
+
+Blockly.Blocks['control_exitLoop'] = {
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_CONTROL_ESCAPELOOP,
+      "args0": [
+        {
+          "type": "field_image",
+          "src": Blockly.mainWorkspace.options.pathToMedia + "arrow-down.svg",
+          "width": 24,
+          "height": 24,
+          "alt": "↓",
+          "flip_rtl": true
+        }
+      ],
+      "category": Blockly.Categories.control,
+      "extensions": ["colours_control", "shape_end"]
+    });
+  }
+};
+
+Blockly.Blocks['control_continueLoop'] = {
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_CONTROL_CONTINUELOOP,
+      "args0": [
+        {
+          "type": "field_image",
+          "src": Blockly.mainWorkspace.options.pathToMedia + "repeat.svg",
+          "width": 24,
+          "height": 24,
+          "alt": "⤴",
+          "flip_rtl": true
+        }
+      ],
+      "category": Blockly.Categories.control,
+      "extensions": ["colours_control", "shape_end"]
+    });
+  }
+};
