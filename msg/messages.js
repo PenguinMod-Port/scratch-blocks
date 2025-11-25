@@ -64,6 +64,7 @@ Blockly.Msg.PM_CONTROL_TRYCATCH_1 = 'try to do';
 Blockly.Msg.PM_CONTROL_TRYCATCH_2 = 'if a block errors %1';
 Blockly.Msg.PM_CONTROL_TRYCATCH_ERROR = 'error';
 Blockly.Msg.PM_CONTROL_THROWERROR = 'throw error %1';
+Blockly.Msg.PM_CONTROL_WAITORUNTIL = 'wait %1 seconds or until %2';
 
 // Data blocks
 Blockly.Msg.DATA_SETVARIABLETO = 'set %1 to %2';

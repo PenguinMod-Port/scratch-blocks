@@ -686,3 +686,29 @@ Blockly.Blocks['control_continueLoop'] = {
     });
   }
 };
+
+Blockly.Blocks['control_waitsecondsoruntil'] = {
+  /**
+   * pm: Block to wait (pause) stack for a specified amount of seconds, or until a condition is met.
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.jsonInit({
+      "id": "control_waitsecondsoruntil",
+      "message0": Blockly.Msg.PM_CONTROL_WAITORUNTIL,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "DURATION"
+        },
+        {
+          "type": "input_value",
+          "name": "CONDITION",
+          "check": "Boolean"
+        }
+      ],
+      "category": Blockly.Categories.control,
+      "extensions": ["colours_control", "shape_statement"]
+    });
+  }
+};
