@@ -152,6 +152,8 @@ Blockly.Msg.LOOKS_NEXTBACKDROP = 'next backdrop';
 Blockly.Msg.LOOKS_PREVIOUSBACKDROP = 'previous backdrop';
 Blockly.Msg.LOOKS_RANDOMBACKDROP = 'random backdrop';
 
+Blockly.Msg.PM_LOOKS_STOPTALKING = 'stop speaking';
+
 // Motion blocks
 Blockly.Msg.MOTION_MOVESTEPS = 'move %1 steps';
 Blockly.Msg.MOTION_TURNLEFT = 'turn %1 %2 degrees';

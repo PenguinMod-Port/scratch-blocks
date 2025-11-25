@@ -589,3 +589,17 @@ Blockly.Blocks['looks_nextbackdrop'] = {
     });
   }
 };
+
+Blockly.Blocks['looks_stoptalking'] = {
+  /**
+   * pm: Block to stop talking/thinking.
+   * @this Blockly.Block
+   */
+  init: function () {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_LOOKS_STOPTALKING,
+      "category": Blockly.Categories.looks,
+      "extensions": ["colours_looks", "shape_statement"]
+    });
+  }
+};
