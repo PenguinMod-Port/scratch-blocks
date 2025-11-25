@@ -143,7 +143,8 @@ Blockly.Colours = {
   "buttonActiveBackground": "#ffffff",
   "buttonForeground": "#575E75",
   "buttonBorder": "#c6c6c6",
-  "zoomIconFilter": "none"
+  "zoomIconFilter": "none",
+  "checkboxFieldBackground": "#33D833"
 };
 
 /**
