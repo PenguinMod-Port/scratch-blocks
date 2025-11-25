@@ -357,6 +357,12 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
         '</shadow>' +
       '</value>' +
     '</block>' +
+    '<block type="control_delete_clones_of">' +
+      '<value name="CLONE_OPTION">' +
+        '<shadow type="control_create_clone_of_menu"></shadow>' +
+      '</value>' +
+    '</block>' +
+    '<block type="control_is_clone" />' +
   '</category>' +
   '<category name="%{BKY_CATEGORY_SENSING}" id="sensing" colour="#4CBFE6" secondaryColour="#2E8EB8">' +
     '<block type="sensing_touchingobject" id="sensing_touchingobject">' +

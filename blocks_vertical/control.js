@@ -712,3 +712,38 @@ Blockly.Blocks['control_waitsecondsoruntil'] = {
     });
   }
 };
+
+Blockly.Blocks['control_delete_clones_of'] = {
+  /**
+   * pm: Block for "delete clones of..."
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.jsonInit({
+      "id": "control_delete_clones_of",
+      "message0": Blockly.Msg.PM_CONTROL_DELETECLONESOF,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "CLONE_OPTION"
+        }
+      ],
+      "category": Blockly.Categories.control,
+      "extensions": ["colours_control", "shape_statement"]
+    });
+  }
+};
+
+Blockly.Blocks['control_is_clone'] = {
+  /**
+   * pm: Block to check if a sprite is a clone.
+   * @this Blockly.Block
+   */
+  init: function () {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_CONTROL_ISCLONE,
+      "category": Blockly.Categories.control,
+      "extensions": ["colours_control", "output_boolean"]
+    });
+  }
+};
