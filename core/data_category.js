@@ -57,8 +57,10 @@ Blockly.DataCategory = function(workspace) {
 
     Blockly.DataCategory.addSetVariableTo(xmlList, firstVariable);
     Blockly.DataCategory.addChangeVariableBy(xmlList, firstVariable);
-    Blockly.DataCategory.addShowVariable(xmlList, firstVariable);
-    Blockly.DataCategory.addHideVariable(xmlList, firstVariable);
+    //Blockly.DataCategory.addShowVariable(xmlList, firstVariable);
+    //Blockly.DataCategory.addHideVariable(xmlList, firstVariable);
+    Blockly.DataCategory.addBlock(xmlList, firstVariable, 'data_setvariablevisible', 'VARIABLE', ['VISIBILITY', 'checkbox', false]);
+    Blockly.DataCategory.addBlock(xmlList, firstVariable, 'data_variablevisible', 'VARIABLE');
   }
 
   return xmlList;
