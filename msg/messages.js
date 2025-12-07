@@ -77,7 +77,6 @@ Blockly.Msg.DATA_HIDEVARIABLE = 'hide variable %1';
 Blockly.Msg.PM_DATA_SETVARIABLEVISIBLE = 'set %1 visibility to %2';
 Blockly.Msg.PM_DATA_VARIABLEVISIBLE = 'is %1 visible?';
 
-
 // List blocks
 Blockly.Msg.DATA_ADDTOLIST = 'add %1 to %2';
 Blockly.Msg.DATA_DELETEOFLIST = 'delete %1 of %2';
@@ -296,6 +295,8 @@ Blockly.Msg.SENSING_CURRENT_SECOND = 'second';
 Blockly.Msg.SENSING_DAYSSINCE2000 = 'days since 2000';
 Blockly.Msg.SENSING_USERNAME = 'username';
 Blockly.Msg.SENSING_USERID = 'user id';
+
+Blockly.Msg.PM_SENSING_CURRENT_TIMESTAMP = 'timestamp';
 
 // Sound blocks
 Blockly.Msg.SOUND_PLAY = 'start sound %1';
