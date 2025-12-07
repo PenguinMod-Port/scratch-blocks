@@ -680,7 +680,7 @@ Blockly.ScratchBlocks.ProcedureUtils.focusLastEditor_ = function() {
   if (this.inputList.length > 0) {
     var newInput = this.inputList[this.inputList.length - 1];
     if (newInput.type == Blockly.DUMMY_INPUT) {
-      newInput.fieldRow[0].showEditor_();
+      if (newInput.fieldRow[0]) newInput.fieldRow[0].showEditor_();
     } else if (newInput.type == Blockly.INPUT_VALUE) {
       // Inspect the argument editor.
       var target = newInput.connection.targetBlock();
