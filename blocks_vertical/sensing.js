@@ -542,3 +542,71 @@ Blockly.Blocks['sensing_userid'] = {
     });
   }
 };
+
+Blockly.Blocks["sensing_thing_has_number"] = {
+  init: function() {
+    this.jsonInit({
+      "inputsInline": true,
+      "message0": Blockly.Msg.PM_SENSING_HAS_NUMBER,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "TEXT1"
+        }
+      ],
+      "category": Blockly.Categories.sensing,
+      "extensions": ["colours_sensing", "output_boolean"]
+    });
+  }
+};
+
+Blockly.Blocks["sensing_thing_has_text"] = {
+  init: function () {
+    this.jsonInit({
+      "inputsInline": true,
+      "message0": Blockly.Msg.PM_SENSING_HAS_TEXT,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "TEXT1"
+        }
+      ],
+      "category": Blockly.Categories.sensing,
+      "extensions": ["colours_sensing", "output_boolean"]
+    });
+  }
+};
+
+Blockly.Blocks["sensing_thing_is_number"] = {
+  init: function() {
+    this.jsonInit({
+      "inputsInline": true,
+      "message0": Blockly.Msg.PM_SENSING_IS_NUMBER,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "TEXT1"
+        }
+      ],
+      "category": Blockly.Categories.sensing,
+      "extensions": ["colours_sensing", "output_boolean"]
+    });
+  }
+};
+
+Blockly.Blocks["sensing_thing_is_text"] = {
+  init: function() {
+    this.jsonInit({
+      "inputsInline": true,
+      "message0": Blockly.Msg.PM_SENSING_IS_TEXT,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "TEXT1"
+        }
+      ],
+      "category": Blockly.Categories.sensing,
+      "extensions": ["colours_sensing", "output_boolean"]
+    });
+  }
+};

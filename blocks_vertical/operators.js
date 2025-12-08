@@ -648,3 +648,32 @@ Blockly.Blocks["operator_falseBoolean"] = {
     });
   }
 };
+
+Blockly.Blocks['operator_valid_type'] = {
+  /**
+   * Block for "advanced" math ops on a number.
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_OPERATORS_VALID_TYPE,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "TEXT"
+        },
+        {
+          "type": "field_dropdown",
+          "name": "TYPE",
+          "options": [
+            [Blockly.Msg.PM_OPERATORS_TYPE_NUMBER, 'number'],
+            [Blockly.Msg.PM_OPERATORS_TYPE_BOOLEAN, 'boolean'],
+            [Blockly.Msg.PM_OPERATORS_TYPE_STRING, 'string']
+          ]
+        }
+      ],
+      "category": Blockly.Categories.operators,
+      "extensions": ["colours_operators", "output_boolean"]
+    });
+  }
+};

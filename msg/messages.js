@@ -236,11 +236,15 @@ Blockly.Msg.OPERATORS_MATHOP_LOG = 'log';
 Blockly.Msg.OPERATORS_MATHOP_EEXP = 'e ^';
 Blockly.Msg.OPERATORS_MATHOP_10EXP = '10 ^';
 
+Blockly.Msg.PM_OPERATORS_MATHOP_SIGN = 'sign';
 Blockly.Msg.PM_OPERATORS_NAND = '%1 nand %2';
 Blockly.Msg.PM_OPERATORS_NOR = '%1 nor %2';
+Blockly.Msg.PM_OPERATORS_TYPE_BOOLEAN = 'boolean';
+Blockly.Msg.PM_OPERATORS_TYPE_NUMBER = 'number';
+Blockly.Msg.PM_OPERATORS_TYPE_STRING = 'string';
+Blockly.Msg.PM_OPERATORS_VALID_TYPE = 'is %1 valid %2?';
 Blockly.Msg.PM_OPERATORS_XNOR = '%1 xnor %2';
 Blockly.Msg.PM_OPERATORS_XOR = '%1 xor %2';
-Blockly.Msg.PM_OPERATORS_MATHOP_SIGN = 'sign';
 
 // Procedures blocks
 Blockly.Msg.PROCEDURES_DEFINITION = 'define %1';
@@ -297,6 +301,10 @@ Blockly.Msg.SENSING_USERNAME = 'username';
 Blockly.Msg.SENSING_USERID = 'user id';
 
 Blockly.Msg.PM_SENSING_CURRENT_TIMESTAMP = 'timestamp';
+Blockly.Msg.PM_SENSING_HAS_NUMBER = '%1 has number?';
+Blockly.Msg.PM_SENSING_HAS_TEXT = '%1 has text?';
+Blockly.Msg.PM_SENSING_IS_NUMBER = '%1 is number?';
+Blockly.Msg.PM_SENSING_IS_TEXT = '%1 is text?';
 
 // Sound blocks
 Blockly.Msg.SOUND_PLAY = 'start sound %1';
