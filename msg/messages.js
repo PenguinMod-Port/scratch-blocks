@@ -242,7 +242,7 @@ Blockly.Msg.PM_OPERATORS_NOR = '%1 nor %2';
 Blockly.Msg.PM_OPERATORS_TYPE_BOOLEAN = 'boolean';
 Blockly.Msg.PM_OPERATORS_TYPE_NUMBER = 'number';
 Blockly.Msg.PM_OPERATORS_TYPE_STRING = 'string';
-Blockly.Msg.PM_OPERATORS_VALID_TYPE = 'is %1 valid %2?';
+Blockly.Msg.PM_OPERATORS_VALID_TYPE = 'is %1 a valid %2?';
 Blockly.Msg.PM_OPERATORS_XNOR = '%1 xnor %2';
 Blockly.Msg.PM_OPERATORS_XOR = '%1 xor %2';
 
