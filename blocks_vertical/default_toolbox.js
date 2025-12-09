@@ -364,6 +364,7 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
       '</value>' +
     '</block>' +
     '<block type="control_is_clone" />' +
+    '<block type="control_backToGreenFlag" />' +
   '</category>' +
   '<category name="%{BKY_CATEGORY_SENSING}" id="sensing" colour="#4CBFE6" secondaryColour="#2E8EB8">' +
     '<block type="sensing_touchingobject" id="sensing_touchingobject">' +

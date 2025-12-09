@@ -747,3 +747,23 @@ Blockly.Blocks['control_is_clone'] = {
     });
   }
 };
+
+Blockly.Blocks["control_backToGreenFlag"] = {
+  init: function() {
+    this.jsonInit({
+      "inputsInline": true,
+      "message0": Blockly.Msg.PM_CONTROL_RUNFLAG,
+      "args0": [
+        {
+          "type": "field_image",
+          "src": Blockly.mainWorkspace.options.pathToMedia + "flag.svg",
+          "width": 24,
+          "height": 24,
+          "alt": "flag"
+        }
+      ],
+      "category": Blockly.Categories.control,
+      "extensions": ["colours_control", "shape_statement"]
+    });
+  }
+};
