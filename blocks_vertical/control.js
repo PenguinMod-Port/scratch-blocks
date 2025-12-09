@@ -767,3 +767,13 @@ Blockly.Blocks["control_backToGreenFlag"] = {
     });
   }
 };
+
+Blockly.Blocks["control_restartproject"] = {
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_CONTROL_RESTARTPROJECT,
+      "category": Blockly.Categories.control,
+      "extensions": ["colours_control", "shape_end"]
+    });
+  }
+};
