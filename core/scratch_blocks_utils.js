@@ -80,11 +80,11 @@ Blockly.scratchBlocksUtils.changeObscuredShadowIds = function(block) {
  * @param {!Blockly.BlockSvg} block The block that should be used to make this
  *     decision.
  * @return {boolean} True if the block should be duplicated on drag.
+ * @deprecated replaced by canDragDuplicate
  * @package
  */
 Blockly.scratchBlocksUtils.isShadowArgumentReporter = function(block) {
-  return (block.isShadow() && (block.type == 'argument_reporter_boolean' ||
-      block.type == 'argument_reporter_string_number'));
+  return block.canDragDuplicate();
 };
 
 /**

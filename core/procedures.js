@@ -231,7 +231,7 @@ Blockly.Procedures.flyoutCategory = function(workspace) {
     var procCode = mutation.getAttribute('proccode');
     var returnType = Blockly.Procedures.getProcedureReturnType(procCode, workspace);
     if (returnType !== Blockly.PROCEDURES_CALL_TYPE_STATEMENT) {
-      mutation.setAttribute('return', returnType);
+      mutation.setAttribute('return', JSON.stringify(returnType));
     }
     // <block type="procedures_call">
     //   <mutation ...></mutation>
@@ -245,13 +245,16 @@ Blockly.Procedures.flyoutCategory = function(workspace) {
 
   var showReturn = (
     Blockly.Procedures.DEFAULT_ENABLE_RETURNS ?
-    mutations.length > 0 :
+    true /*mutations.length > 0*/ :
     workspace.procedureReturnsEnabled
   );
   if (showReturn) {
+    var seperator = goog.dom.createDom('sep')
+    seperator.setAttribute('gap', 36)
+    xmlList.push(seperator)
+
     var returnBlock = goog.dom.createDom('block');
     returnBlock.setAttribute('type', Blockly.PROCEDURES_RETURN_BLOCK_TYPE);
-    returnBlock.setAttribute('gap', 12);
     var returnBlockValue = goog.dom.createDom('value');
     returnBlockValue.setAttribute('name', 'VALUE');
     var returnBlockShadow = goog.dom.createDom('shadow');
@@ -261,12 +264,12 @@ Blockly.Procedures.flyoutCategory = function(workspace) {
     returnBlockShadow.appendChild(returnBlockField);
     returnBlockValue.appendChild(returnBlockShadow);
     returnBlock.appendChild(returnBlockValue);
-    xmlList.unshift(returnBlock);
+    xmlList.push(returnBlock);
 
     var returnDocsButton = goog.dom.createDom('button');
     returnDocsButton.setAttribute('callbackkey', 'OPEN_RETURN_DOCS');
     returnDocsButton.setAttribute('text', Blockly.Msg.PROCEDURES_DOCS);
-    xmlList.unshift(returnDocsButton);
+    //xmlList.unshift(returnDocsButton);
   }
 
   return xmlList;
@@ -554,7 +557,7 @@ Blockly.Procedures.makeEditOption = function(block) {
 };
 
 Blockly.Procedures.makeChangeTypeOption = function(block) {
-  var isStatement = block.getReturn() === Blockly.PROCEDURES_CALL_TYPE_STATEMENT;
+  var isStatement = block.getReturn()[1] === Blockly.PROCEDURES_CALL_TYPE_STATEMENT;
   var option = {
     enabled: true,
     text: isStatement ? Blockly.Msg.PROCEDURES_TO_REPORTER : Blockly.Msg.PROCEDURES_TO_STATEMENT,
@@ -563,16 +566,12 @@ Blockly.Procedures.makeChangeTypeOption = function(block) {
       if (isStatement) {
         var procCode = block.getProcCode();
         var workspace = block.workspace;
-        var actualReturnType = Blockly.Procedures.getProcedureReturnType(procCode, workspace);
+        var actualReturnType = Blockly.Procedures.getProcedureReturnType(procCode, workspace, true);
         // If the definition is boolean-shaped, then the reporter should be boolean-shaped,
         // otherwise normal reporter shaped.
-        newType = (
-          actualReturnType === Blockly.PROCEDURES_CALL_TYPE_BOOLEAN ?
-          actualReturnType :
-          Blockly.PROCEDURES_CALL_TYPE_REPORTER
-        );
+        newType = actualReturnType
       } else {
-        newType = Blockly.PROCEDURES_CALL_TYPE_STATEMENT;
+        newType = [[], Blockly.PROCEDURES_CALL_TYPE_STATEMENT];
       }
 
       Blockly.Events.setGroup(true);
@@ -594,7 +593,7 @@ Blockly.Procedures.changeReturnType = function(block, returnType) {
   block.dispose();
 
   var mutation = xml.querySelector('mutation');
-  mutation.setAttribute('return', returnType);
+  mutation.setAttribute('return', JSON.stringify(returnType));
 
   var newBlock = Blockly.Xml.domToBlock(xml, workspace);
   newBlock.moveBy(xy.x, xy.y);
@@ -674,24 +673,24 @@ Blockly.Procedures.ENFORCE_TYPES = false;
  * If true, the return block will always be available. If false, either create a block that requires
  * returns or call workspace.enableProcedureReturns() to enable return blocks.
  */
-Blockly.Procedures.DEFAULT_ENABLE_RETURNS = false;
+Blockly.Procedures.DEFAULT_ENABLE_RETURNS = true;
 
 /**
  * @param {string} procCode The procedure code
  * @param {Blockly.Workspace} workspace The workspace
- * @returns {number} The type of the return block
+ * @returns {[Array<string>, number]} types & shape
  */
-Blockly.Procedures.getProcedureReturnType = function(procCode, workspace) {
+Blockly.Procedures.getProcedureReturnType = function(procCode, workspace, force = false) {
   var defineBlock = Blockly.Procedures.getDefineBlock(procCode, workspace);
   if (!defineBlock) {
-    return Blockly.PROCEDURES_CALL_TYPE_STATEMENT;
+    return [[], Blockly.PROCEDURES_CALL_TYPE_STATEMENT];
   }
-  return Blockly.Procedures.getBlockReturnType(defineBlock);
+  return Blockly.Procedures.getBlockReturnType(defineBlock, force);
 };
 
 /**
  * @param {Blockly.Workspace} workspace The workspace
- * @returns {Record<string, number>} The return type of each procedure in the workspace.
+ * @returns {Record<string, [Array<string>, number]>} The return type of each procedure in the workspace.
  */
 Blockly.Procedures.getAllProcedureReturnTypes = function(workspace) {
   var result = Object.create(null);
@@ -712,28 +711,31 @@ Blockly.Procedures.getAllProcedureReturnTypes = function(workspace) {
 
 /**
  * @param {Blockly.Block} block The block
- * @returns {number} The type of the return block
+ * @param {boolean} notProcedure Is the block actually a procedure or not
+ * @returns {[Array<string>, number]} types & shape
  */
-Blockly.Procedures.getBlockReturnType = function(block) {
-  var hasSeenBooleanReturn = false;
-  /** @type {Blockly.Block[]} */
-  var descendants = block.getDescendants();
+Blockly.Procedures.getBlockReturnType = function(block, notProcedure = false) {
+  var descendants = block.getCommandDescendants();
+  let returnTypes = new Set();
+  let returnShapes = new Set();
   for (var i = 0; i < descendants.length; i++) {
     if (descendants[i].type === Blockly.PROCEDURES_RETURN_BLOCK_TYPE) {
-      // The block at i + 1 should be the block inside of the return block.
-      // Even if the return block is missing its input, this will still be fine, because the
-      // next block should a stacked block which won't be hexagon-shaped.
-      if (i + 1 < descendants.length && descendants[i + 1].outputShape_ === Blockly.OUTPUT_SHAPE_HEXAGONAL) {
-        // keep searching, because there may be other, non-boolean returns in this function definition.
-        hasSeenBooleanReturn = true;
-      } else {
-        return Blockly.PROCEDURES_CALL_TYPE_REPORTER;
-      }
+      let reporter = descendants[i].getInput("VALUE").connection.targetBlock()
+      if (!reporter) continue
+
+      if (reporter.outputConnection.check_ == null) returnTypes.add(null)
+      else reporter.outputConnection.check_.forEach(v => returnTypes.add(v))
+      returnShapes.add(reporter.getOutputShape())
     }
   }
-  if (hasSeenBooleanReturn) {
-    return Blockly.PROCEDURES_CALL_TYPE_BOOLEAN;
+  if (returnShapes.size > 1) {
+    var returnShape = Blockly.OUTPUT_SHAPE_ROUND;
+  } else if (returnShapes.size === 0) {
+    return notProcedure ? [null, Blockly.OUTPUT_SHAPE_ROUND] : [[], Blockly.PROCEDURES_CALL_TYPE_STATEMENT];
   } else {
-    return Blockly.PROCEDURES_CALL_TYPE_STATEMENT;
+    var returnShape = Array.from(returnShapes)[0];
   }
+
+  if (returnTypes.has(null)) return [null, returnShape]
+  return [Array.from(returnTypes), returnShape];
 };

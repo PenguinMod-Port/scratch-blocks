@@ -209,6 +209,7 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
     '<block type="looks_costumenumbername" id="looks_costumenumbername"></block>' +
     '<block type="looks_backdropnumbername" id="looks_backdropnumbername"></block>' +
     '<block type="looks_size" id="looks_size"></block>' +
+    '<block type="looks_stoptalking" />' +
   '</category>' +
   '<category name="%{BKY_CATEGORY_SOUND}" id="sound" colour="#D65CD6" secondaryColour="#BD42BD">' +
     '<block type="sound_play" id="sound_play">' +
@@ -257,6 +258,12 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
     '<block type="event_whenflagclicked" id="event_whenflagclicked"></block>' +
     '<block type="event_whenkeypressed" id="event_whenkeypressed">' +
     '</block>' +
+    '<block type="event_always" />' +
+    '<block type="event_whenanything">' + 
+      '<value name="ANYTHING">' +
+        '<shadow type="checkbox" />' +
+      '</value>' +
+    '</block>' +
     '<block type="event_whenthisspriteclicked" id="event_whenthisspriteclicked"></block>' +
     '<block type="event_whenbackdropswitchesto" id="event_whenbackdropswitchesto">' +
     '</block>' +
@@ -296,7 +303,11 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
       '</value>' +
     '</block>' +
     '<block type="control_forever" id="control_forever"></block>' +
-    '<block type="control_if" id="control_if"></block>' +
+    '<block type="control_if" id="control_if">' + 
+      '<value name="CONDITION">' +
+        '<shadow type="checkbox"></shadow>' +
+      '</value>' +
+    '</block>' +
     '<block type="control_if_else" id="control_if_else"></block>' +
     '<block type="control_wait_until" id="control_wait_until"></block>' +
     '<block type="control_repeat_until" id="control_repeat_until"></block>' +
@@ -308,6 +319,53 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
       '</value>' +
     '</block>' +
     '<block type="control_delete_this_clone" id="control_delete_this_clone"></block>' +
+    '<block type="control_inline_stack_output">' + 
+      '<statement name="SUBSTACK">' +
+        '<block type="procedures_return">' +
+          '<value name="VALUE">' +
+            '<shadow type="text"></shadow>' +
+          '</value>' +
+        '</block>' +
+      '</statement>' +
+    '</block>' +
+    '<block type="control_try_catch">' +
+      '<value name="SHADOW">' +
+        '<shadow type="control_error" />' +
+      '</value>' +
+    '</block>' +
+    '<block type="control_throw_error">' +
+      '<value name="ERROR">' +
+        '<shadow type="text" />' +
+      '</value>' +
+    '</block>' +
+    '<block type="control_if_return_else_return">' + 
+      '<value name="boolean">' +
+        '<shadow type="checkbox" />' +
+      '</value>' +
+      '<value name="TEXT1">' +
+        '<shadow type="text"></shadow>' +
+      '</value>' +
+      '<value name="TEXT2">' +
+        '<shadow type="text"></shadow>' +
+      '</value>' +
+    '</block>' +
+    '<block type="control_exitLoop" />' +
+    '<block type="control_continueLoop" />' +
+    '<block type="control_waitsecondsoruntil">' +
+      '<value name="DURATION">' +
+        '<shadow type="math_positive_number">' +
+          '<field name="NUM">1</field>' +
+        '</shadow>' +
+      '</value>' +
+    '</block>' +
+    '<block type="control_delete_clones_of">' +
+      '<value name="CLONE_OPTION">' +
+        '<shadow type="control_create_clone_of_menu"></shadow>' +
+      '</value>' +
+    '</block>' +
+    '<block type="control_is_clone" />' +
+    '<block type="control_backToGreenFlag" />' +
+    '<block type="control_restartproject" />' +
   '</category>' +
   '<category name="%{BKY_CATEGORY_SENSING}" id="sensing" colour="#4CBFE6" secondaryColour="#2E8EB8">' +
     '<block type="sensing_touchingobject" id="sensing_touchingobject">' +
@@ -352,6 +410,26 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
     '</block>' +
     '<block type="sensing_current" id="sensing_current"></block>' +
     '<block type="sensing_dayssince2000" id="sensing_dayssince2000"></block>' +
+    '<block type="sensing_thing_has_number">' +
+      '<value name="TEXT1">' +
+        '<shadow type="text" />' +
+      '</value>' +
+    '</block>' +
+    '<block type="sensing_thing_has_text">' +
+      '<value name="TEXT1">' +
+        '<shadow type="text" />' +
+      '</value>' +
+    '</block>' +
+    '<block type="sensing_thing_is_number">' +
+      '<value name="TEXT1">' +
+        '<shadow type="text" />' +
+      '</value>' +
+    '</block>' +
+    '<block type="sensing_thing_is_text">' +
+      '<value name="TEXT1">' +
+        '<shadow type="text" />' +
+      '</value>' +
+    '</block>' +
   '</category>' +
   '<category name="%{BKY_CATEGORY_OPERATORS}" id="operators" colour="#40BF4A" secondaryColour="#389438">' +
     '<block type="operator_add" id="operator_add">' +
@@ -452,6 +530,10 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
     '</block>' +
     '<block type="operator_and" id="operator_and"></block>' +
     '<block type="operator_or" id="operator_or"></block>' +
+    '<block type="operator_xor"></block>' +
+    '<block type="operator_xnor"></block>' +
+    '<block type="operator_nand"></block>' +
+    '<block type="operator_nor"></block>' +
     '<block type="operator_not" id="operator_not"></block>' +
     '<block type="operator_join" id="operator_join">' +
       '<value name="STRING1">' +
@@ -522,8 +604,32 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
         '</shadow>' +
       '</value>' +
     '</block>' +
+    '<block type="operator_stringify" id="operator_stringify">' +
+      '<value name="ONE">' +
+        '<shadow type="text">' +
+          '<field name="TEXT"></field>' +
+        '</shadow>' +
+      '</value>' +
+    '</block>' +
+    '<block type="operator_boolify" id="operator_boolify">' +
+      '<value name="ONE">' +
+        '<shadow type="text">' +
+          '<field name="TEXT"></field>' +
+        '</shadow>' +
+      '</value>' +
+    '</block>' +
+    '<block type="operator_checkboxBoolean" id="operator_checkboxBoolean"></block>' +
+    '<block type="operator_trueBoolean"></block>' +
+    '<block type="operator_falseBoolean"></block>' +
+    '<block type="operator_valid_type">' +
+      '<value name="TEXT">' +
+        '<shadow type="text" />' +
+      '</value>' +
+    '</block>' +
   '</category>' +
   '<category name="%{BKY_CATEGORY_VARIABLES}" id="data" colour="#FF8C1A" secondaryColour="#DB6E00" custom="VARIABLE">' +
+  '</category>' +
+  '<category name="%{BKY_PM_CATEGORY_LISTS}" id="list" colour="#FF661A" secondaryColour="#FF5500" custom="LIST">' +
   '</category>' +
   '<category name="%{BKY_CATEGORY_MYBLOCKS}" id="more" colour="#FF6680" secondaryColour="#FF4D6A" custom="PROCEDURE">' +
   '</category>' +
@@ -550,6 +656,14 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
       '<value name="MATRIX">' +
         '<shadow type="matrix">' +
           '<field name="MATRIX">0101010101100010101000100</field>' +
+        '</shadow>' +
+      '</value>' +
+    '</block>' +
+    '<block type="extension_microbit_display" id="extension_microbit_display">' +
+      '<value name="MATRIX">' +
+        '<shadow type="matrix">' +
+          '<mutation width="10" height="10"></mutation>' +
+          '<field name="MATRIX">0110000110111100111111111111111111111111111111111111111111110111111110001111110000011110000000110000</field>' +
         '</shadow>' +
       '</value>' +
     '</block>' +

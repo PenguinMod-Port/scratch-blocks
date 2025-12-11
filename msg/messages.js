@@ -56,11 +56,30 @@ Blockly.Msg.CONTROL_INCRCOUNTER = 'increment counter';
 Blockly.Msg.CONTROL_CLEARCOUNTER = 'clear counter';
 Blockly.Msg.CONTROL_ALLATONCE = 'all at once';
 
+Blockly.Msg.PM_CONTROL_CONTINUELOOP = 'continue loop %1';
+Blockly.Msg.PM_CONTROL_DELETECLONESOF = 'delete clones of %1';
+Blockly.Msg.PM_CONTROL_ESCAPELOOP = 'escape loop %1';
+Blockly.Msg.PM_CONTROL_IFELSEREPORTER = 'if %1 then %2 else %3';
+Blockly.Msg.PM_CONTROL_INLINESTACKOUTPUT = 'inline block';
+Blockly.Msg.PM_CONTROL_ISCLONE = 'is clone?';
+Blockly.Msg.PM_CONTROL_RESTARTPROJECT = 'restart project';
+Blockly.Msg.PM_CONTROL_RUNFLAG = 'run %1';
+Blockly.Msg.PM_CONTROL_TRYCATCH_1 = 'try to do';
+Blockly.Msg.PM_CONTROL_TRYCATCH_2 = 'if a block errors %1';
+Blockly.Msg.PM_CONTROL_TRYCATCH_ERROR = 'error';
+Blockly.Msg.PM_CONTROL_THROWERROR = 'throw error %1';
+Blockly.Msg.PM_CONTROL_WAITORUNTIL = 'wait %1 seconds or until %2';
+
 // Data blocks
 Blockly.Msg.DATA_SETVARIABLETO = 'set %1 to %2';
 Blockly.Msg.DATA_CHANGEVARIABLEBY = 'change %1 by %2';
 Blockly.Msg.DATA_SHOWVARIABLE = 'show variable %1';
 Blockly.Msg.DATA_HIDEVARIABLE = 'hide variable %1';
+
+Blockly.Msg.PM_DATA_SETVARIABLEVISIBLE = 'set %1 visibility to %2';
+Blockly.Msg.PM_DATA_VARIABLEVISIBLE = 'is %1 visible?';
+
+// List blocks
 Blockly.Msg.DATA_ADDTOLIST = 'add %1 to %2';
 Blockly.Msg.DATA_DELETEOFLIST = 'delete %1 of %2';
 Blockly.Msg.DATA_DELETEALLOFLIST = 'delete all of %1';
@@ -140,6 +159,8 @@ Blockly.Msg.LOOKS_NEXTBACKDROP = 'next backdrop';
 Blockly.Msg.LOOKS_PREVIOUSBACKDROP = 'previous backdrop';
 Blockly.Msg.LOOKS_RANDOMBACKDROP = 'random backdrop';
 
+Blockly.Msg.PM_LOOKS_STOPTALKING = 'stop speaking';
+
 // Motion blocks
 Blockly.Msg.MOTION_MOVESTEPS = 'move %1 steps';
 Blockly.Msg.MOTION_TURNLEFT = 'turn %1 %2 degrees';
@@ -217,6 +238,16 @@ Blockly.Msg.OPERATORS_MATHOP_LOG = 'log';
 Blockly.Msg.OPERATORS_MATHOP_EEXP = 'e ^';
 Blockly.Msg.OPERATORS_MATHOP_10EXP = '10 ^';
 
+Blockly.Msg.PM_OPERATORS_MATHOP_SIGN = 'sign';
+Blockly.Msg.PM_OPERATORS_NAND = '%1 nand %2';
+Blockly.Msg.PM_OPERATORS_NOR = '%1 nor %2';
+Blockly.Msg.PM_OPERATORS_TYPE_BOOLEAN = 'boolean';
+Blockly.Msg.PM_OPERATORS_TYPE_NUMBER = 'number';
+Blockly.Msg.PM_OPERATORS_TYPE_STRING = 'string';
+Blockly.Msg.PM_OPERATORS_VALID_TYPE = 'is %1 a valid %2?';
+Blockly.Msg.PM_OPERATORS_XNOR = '%1 xnor %2';
+Blockly.Msg.PM_OPERATORS_XOR = '%1 xor %2';
+
 // Procedures blocks
 Blockly.Msg.PROCEDURES_DEFINITION = 'define %1';
 
@@ -271,6 +302,12 @@ Blockly.Msg.SENSING_DAYSSINCE2000 = 'days since 2000';
 Blockly.Msg.SENSING_USERNAME = 'username';
 Blockly.Msg.SENSING_USERID = 'user id';
 
+Blockly.Msg.PM_SENSING_CURRENT_TIMESTAMP = 'timestamp';
+Blockly.Msg.PM_SENSING_HAS_NUMBER = '%1 has number?';
+Blockly.Msg.PM_SENSING_HAS_TEXT = '%1 has text?';
+Blockly.Msg.PM_SENSING_IS_NUMBER = '%1 is number?';
+Blockly.Msg.PM_SENSING_IS_TEXT = '%1 is text?';
+
 // Sound blocks
 Blockly.Msg.SOUND_PLAY = 'start sound %1';
 Blockly.Msg.SOUND_PLAYUNTILDONE = 'play sound %1 until done';
@@ -295,6 +332,8 @@ Blockly.Msg.CATEGORY_SENSING = 'Sensing';
 Blockly.Msg.CATEGORY_OPERATORS = 'Operators';
 Blockly.Msg.CATEGORY_VARIABLES = 'Variables';
 Blockly.Msg.CATEGORY_MYBLOCKS = 'My Blocks';
+
+Blockly.Msg.PM_CATEGORY_LISTS = 'Lists';
 
 // Context menus
 Blockly.Msg.DUPLICATE = 'Duplicate';

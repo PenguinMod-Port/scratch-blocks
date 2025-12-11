@@ -112,10 +112,9 @@ Blockly.WorkspaceSvg = function(options, opt_blockDragSurface, opt_wsDragSurface
   this.grid_ = this.options.gridPattern ?
       new Blockly.Grid(options.gridPattern, options.gridOptions) : null;
 
-  this.registerToolboxCategoryCallback(Blockly.VARIABLE_CATEGORY_NAME,
-      Blockly.DataCategory);
-  this.registerToolboxCategoryCallback(Blockly.PROCEDURE_CATEGORY_NAME,
-      Blockly.Procedures.flyoutCategory);
+  this.registerToolboxCategoryCallback(Blockly.VARIABLE_CATEGORY_NAME, Blockly.DataCategory);
+  this.registerToolboxCategoryCallback(Blockly.LIST_CATEGORY_NAME, Blockly.DataCategory.ListCategory);
+  this.registerToolboxCategoryCallback(Blockly.PROCEDURE_CATEGORY_NAME, Blockly.Procedures.flyoutCategory);
 
   this.procedureReturnsEnabled = Blockly.Procedures.DEFAULT_ENABLE_RETURNS;
   this.initialProcedureReturnTypes_ = null;
@@ -1084,8 +1083,9 @@ Blockly.WorkspaceSvg.prototype.glowStack = function(id, isGlowingStack) {
  * In Scratch, appears as a pop-up next to the block when a reporter block is clicked.
  * @param {?string} id ID of block to report associated value.
  * @param {?string} value String value to visually report.
+ * @param {?boolean} isError
  */
-Blockly.WorkspaceSvg.prototype.reportValue = function(id, value) {
+Blockly.WorkspaceSvg.prototype.reportValue = function(id, value, isError = false) {
   var block = this.getBlockById(id);
   if (!block) {
     throw 'Tried to report value on block that does not exist.';
@@ -1104,10 +1104,11 @@ Blockly.WorkspaceSvg.prototype.reportValue = function(id, value) {
   }
   valueReportBox.textContent = valueAsString;
 
+  if (isError) valueReportBox.classList.add('errorReportBox')
   contentDiv.appendChild(valueReportBox);
   Blockly.DropDownDiv.setColour(
-      Blockly.Colours.valueReportBackground,
-      Blockly.Colours.valueReportBorder
+    Blockly.Colours[isError ? 'errorReportBackground' : 'valueReportBackground'],
+    Blockly.Colours[isError ? 'errorReportBorder' : 'valueReportBorder']
   );
   Blockly.DropDownDiv.showPositionedByBlock(this, block);
 };

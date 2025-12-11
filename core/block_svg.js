@@ -400,7 +400,8 @@ Blockly.BlockSvg.prototype.getRelativeToSurfaceXY = function() {
  * @param {number} dy Vertical offset in workspace units.
  */
 Blockly.BlockSvg.prototype.moveBy = function(dx, dy) {
-  goog.asserts.assert(!this.parentBlock_, 'Block has parent.');
+  //goog.asserts.assert(!this.parentBlock_, 'Block has parent.');
+  if (this.parentBlock_) return;
   var eventsEnabled = Blockly.Events.isEnabled();
   if (eventsEnabled) {
     var event = new Blockly.Events.BlockMove(this);
@@ -1169,13 +1170,24 @@ Blockly.BlockSvg.prototype.setNextStatement = function(newBoolean, opt_check) {
  *     (e.g. variable get).
  */
 Blockly.BlockSvg.prototype.setOutput = function(newBoolean, opt_check) {
+  const oldOutput = this.outputConnection
+
   Blockly.BlockSvg.superClass_.setOutput.call(this, newBoolean, opt_check);
 
-  if (this.rendered) {
+  if (this.rendered && !oldOutput == newBoolean) {
     this.render();
     this.bumpNeighbours_();
   }
 };
+
+Blockly.BlockSvg.prototype.setOutputShape = function(newShape) {
+  const oldShape = this.getOutputShape()
+  Blockly.BlockSvg.superClass_.setOutputShape.call(this, newShape)
+  if (this.rendered && oldShape !== newShape) {
+    this.render();
+    this.bumpNeighbours_();
+  }
+}
 
 /**
  * Set whether value inputs are arranged horizontally or vertically.

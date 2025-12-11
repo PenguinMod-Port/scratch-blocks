@@ -11,12 +11,12 @@
     <script src="../msg/scratch_msgs.js"></script>
     <script src="../blocks_compressed.js"></script>
     <script src="../blocks_compressed_vertical.js"></script>
+
     <script>
       'use strict';
 
       window.ScratchBlocks = Blockly;
 
-      var fakeDragStack = [];
       var workspace = null;
 
       function start() {
@@ -66,12 +66,11 @@
           toolbox: toolbox,
           toolboxPosition: side == 'top' || side == 'start' ? 'start' : 'end',
           horizontalLayout: side == 'top' || side == 'bottom',
-          trashcan: true,
           sounds: soundsEnabled,
           zoom: {
             controls: true,
             wheel: true,
-            startScale: 0.75,
+            startScale: 0.675,
             maxScale: 4,
             minScale: 0.25,
             scaleSpeed: 1.1
@@ -82,12 +81,14 @@
           }
         });
 
-        // Restore previously displayed text.
-        var text = sessionStorage.getItem('textarea');
-        if (text) {
-          document.getElementById('importExport').value = text;
+        if (sessionStorage) {
+          // Restore previously displayed text.
+          var text = sessionStorage.getItem('textarea');
+          if (text) {
+            document.getElementById('importExport').value = text;
+          }
+          taChange();
         }
-        taChange();
 
         if (sessionStorage) {
           // Restore event logging state.
@@ -118,12 +119,7 @@
         var input = document.getElementById('importExport');
         var xml = Blockly.Xml.textToDom(input.value);
         Blockly.Xml.domToWorkspace(xml, workspace);
-        taChange();
-      }
-
-      function toCode(lang) {
-        var output = document.getElementById('importExport');
-        output.value = Blockly[lang].workspaceToCode(workspace);
+        workspace.refreshToolboxSelection_();
         taChange();
       }
 
@@ -132,7 +128,7 @@
       function taChange() {
         var textarea = document.getElementById('importExport');
         if (sessionStorage) {
-          sessionStorage.setItem('textarea', textarea.value);
+          sessionStorage.setItem('textarea', textarea.value)
         }
         var valid = true;
         try {
@@ -159,6 +155,7 @@
       function logFlyoutEvents(state) {
         var checkbox = document.getElementById('logFlyoutCheck');
         checkbox.checked = state;
+        var soundsEnabled = null;
         if (sessionStorage) {
           sessionStorage.setItem('logFlyoutEvents', state ? 'checked' : '');
         }
@@ -282,48 +279,22 @@
         }
       }
 
-      function fakeDrag(id, dx, dy, opt_workspace) {
-        var ws = opt_workspace || Blockly.getMainWorkspace();
-        var blockToDrag = ws.getBlockById(id);
-
-        if (!blockToDrag) {
-          fakeDragWrapper();
-          return;
+      function reportDemo() {
+        if (Blockly.selected) {
+          workspace.reportValue(
+            Blockly.selected.id,
+            document.getElementById('reportValue').value,
+            document.getElementById('reportError').checked
+          );
         }
-        var blockTop = blockToDrag.svgGroup_.getBoundingClientRect().top;
-        var blockLeft = blockToDrag.svgGroup_.getBoundingClientRect().left;
+      }
 
-        // Click somewhere on the block.
-        var mouseDownEvent = new MouseEvent('mousedown',
-            {clientX: blockLeft + 5, clientY: blockTop + 5});
-        blockToDrag.onMouseDown_(mouseDownEvent);
-
-        // Throw in a move for good measure.
-        setTimeout(
-          function() {
-            var mouseMoveEvent = new MouseEvent('mousemove',
-                {clientX: blockLeft + dx,
-                clientY: blockTop + dy});
-            blockToDrag.onMouseMove_(mouseMoveEvent);
-
-            // Drop at dx, dy.
-            setTimeout(
-              function() {
-                var mouseUpEvent = new MouseEvent('mouseup',
-                    {clientX: blockLeft + dx,
-                    clientY: blockTop + dy});
-                blockToDrag.onMouseUp_(mouseUpEvent);
-
-                setTimeout(fakeDragWrapper(), 100);
-              }, 30);
-          }, 30);
-      };
-
-      function fakeDragWrapper() {
-        var dragInfo = fakeDragStack.pop();
-        if (dragInfo) {
-          fakeDrag(dragInfo.id, dragInfo.dx, dragInfo.dy, dragInfo.workspace);
-        }
+      function setLocale(locale) {
+        workspace.getFlyout().setRecyclingEnabled(false);
+        var xml = Blockly.Xml.workspaceToDom(workspace);
+        Blockly.ScratchMsgs.setLocale(locale);
+        Blockly.Xml.clearWorkspaceAndLoadFromXml(xml, workspace);
+        workspace.getFlyout().setRecyclingEnabled(true);
       }
 
       function fakeManyDrags() {
@@ -339,23 +310,6 @@
             });
         }
         fakeDragWrapper();
-      }
-
-      function reportDemo() {
-        if (Blockly.selected) {
-          workspace.reportValue(
-            Blockly.selected.id,
-            document.getElementById('reportValue').value
-          );
-        }
-      }
-
-      function setLocale(locale) {
-        workspace.getFlyout().setRecyclingEnabled(false);
-        var xml = Blockly.Xml.workspaceToDom(workspace);
-        Blockly.ScratchMsgs.setLocale(locale);
-        Blockly.Xml.clearWorkspaceAndLoadFromXml(xml, workspace);
-        workspace.getFlyout().setRecyclingEnabled(true);
       }
     </script>
 
@@ -404,100 +358,8 @@
   <body onload="start()">
     <div id="collaborators"></div>
     <div id="blocklyDiv"></div>
-    <!-- Toolbox -->
+    <!-- Simple toolbox -->
     <xml id="toolbox-simple" style="display: none">
-      <block type="event_whenflagclicked"></block>
-      <block type="event_whenbroadcastreceived">
-      </block>
-      <block type="event_broadcast">
-        <value name="BROADCAST_OPTION">
-          <shadow type="event_broadcast_menu"></shadow>
-        </value>
-      </block>
-      <block type="event_broadcastandwait">
-        <value name="BROADCAST_OPTION">
-          <shadow type="event_broadcast_menu"></shadow>
-        </value>
-      </block>
-      <block type="control_wait">
-        <value name="DURATION">
-          <shadow type="math_positive_number">
-            <field name="NUM">1</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="control_repeat">
-        <value name="TIMES">
-          <shadow type="math_whole_number">
-            <field name="NUM">10</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="control_forever"></block>
-      <block type="control_if"></block>
-      <block type="control_if_else"></block>
-      <block type="control_wait_until"></block>
-      <block type="control_repeat_until"></block>
-      <block type="control_stop">
-        <value name="STOP_OPTION">
-          <shadow type="control_stop_menu"></shadow>
-        </value>
-      </block>
-      <block type="control_start_as_clone"></block>
-      <block type="control_create_clone_of">
-        <value name="CLONE_OPTION">
-          <shadow type="control_create_clone_of_menu"></shadow>
-        </value>
-      </block>
-      <block type="control_delete_this_clone"></block>
-      <block type="operator_add">
-        <value name="NUM1">
-          <shadow type="math_number">
-            <field name="NUM"></field>
-          </shadow>
-        </value>
-        <value name="NUM2">
-          <shadow type="math_number">
-            <field name="NUM"></field>
-          </shadow>
-        </value>
-      </block>
-      <block type="operator_subtract">
-        <value name="NUM1">
-          <shadow type="math_number">
-            <field name="NUM"></field>
-          </shadow>
-        </value>
-        <value name="NUM2">
-          <shadow type="math_number">
-            <field name="NUM"></field>
-          </shadow>
-        </value>
-      </block>
-      <block type="operator_multiply">
-        <value name="NUM1">
-          <shadow type="math_number">
-            <field name="NUM"></field>
-          </shadow>
-        </value>
-        <value name="NUM2">
-          <shadow type="math_number">
-            <field name="NUM"></field>
-          </shadow>
-        </value>
-      </block>
-      <block type="operator_divide">
-        <value name="NUM1">
-          <shadow type="math_number">
-            <field name="NUM"></field>
-          </shadow>
-        </value>
-        <value name="NUM2">
-          <shadow type="math_number">
-            <field name="NUM"></field>
-          </shadow>
-        </value>
-      </block>
       <block type="operator_random">
         <value name="FROM">
           <shadow type="math_number">
@@ -612,7 +474,7 @@
     </xml>
 
     <!-- Sidebar -->
-    <h1>Vertical Blocks</h1>
+    <h1>Compressed Vertical Playground</h1>
     <p>
       <a href="javascript:void(workspace.setVisible(true))">Show</a>
       - <a href="javascript:void(workspace.setVisible(false))">Hide</a>
@@ -674,8 +536,6 @@
       &nbsp;
       <input type="button" value="Import from XML" onclick="fromXml()" id="import">
       <br>
-      <input type="button" value="To JavaScript" onclick="toCode('JavaScript')">
-      <br>
       <textarea id="importExport" style="width: 26%; height: 12em"
         onchange="taChange();" onkeyup="taChange()"></textarea>
     </p>
@@ -709,7 +569,7 @@
 
     <p>
       Enable sounds (after refresh): &nbsp;
-      <input type="checkbox" onclick="setSoundsEnabled(this.checked)" id="soundsEnabled">
+      <input type="checkbox" onclick="setSoundsEnabled(this.checked)" id="soundsEnabled" />
     </p>
 
     <p>
@@ -720,7 +580,8 @@
     <p>
       Report:
       <input id="reportValue" type="text" value="123" />
-      <input type="button" value="Report last clicked block" onclick="reportDemo()" />
+      <input type="button" value="Report last clicked block" onclick="reportDemo()" /><br />
+      Report as error:
+      <input type="checkbox" id="reportError" />
     </p>
   </body>
-</html>

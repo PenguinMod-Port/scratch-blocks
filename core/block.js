@@ -169,6 +169,9 @@ Blockly.Block = function(workspace, prototypeName, opt_id) {
   /** @type {boolean} */
   this.isInsertionMarker_ = false;
 
+  /** @type {boolean} */
+  this.canDragDuplicate_ = false;
+
   // Copy the type-specific functions and data from the prototype.
   if (prototypeName) {
     /** @type {string} */
@@ -606,6 +609,41 @@ Blockly.Block.prototype.getDescendants = function(ordered, opt_ignoreShadows) {
       blocks.push.apply(
           blocks, child.getDescendants(ordered, opt_ignoreShadows));
     }
+  }
+  return blocks;
+};
+
+/**
+ * Find all the command blocks that are inside this block's branches
+ * @return {!Array.<!Blockly.Block>} Array of blocks.
+ */
+Blockly.Block.prototype.getCommandChildren = function() {
+  var blocks = [];
+  var inputs = this.inputList.filter(v => v.type == Blockly.NEXT_STATEMENT);
+  for (var i = 0, input; input = inputs[i]; i++) {
+    if (input.connection) {
+      var child = input.connection.targetBlock();
+      if (child) {
+        blocks.push(child);
+      }
+    }
+  }
+  var next = this.getNextBlock();
+  if (next) {
+    blocks.push(next);
+  }
+  return blocks;
+};
+
+/**
+ * Find all the command blocks that are inside any branches under this block
+ * @return {!Array.<!Blockly.Block>} Array of blocks.
+ */
+Blockly.Block.prototype.getCommandDescendants = function() {
+  var blocks = [this];
+  var childBlocks = this.getCommandChildren();
+  for (var child, i = 0; child = childBlocks[i]; i++) {
+    blocks.push.apply(blocks, child.getCommandDescendants());
   }
   return blocks;
 };
@@ -1255,7 +1293,7 @@ Blockly.Block.prototype.appendValueInput = function(name) {
  * @return {!Blockly.Input} The input object created.
  */
 Blockly.Block.prototype.appendStatementInput = function(name) {
-  return this.appendInput_(Blockly.NEXT_STATEMENT, name);
+  return this.appendInput_(Blockly.NEXT_STATEMENT, name).setCheck("normal");
 };
 
 /**
@@ -1306,6 +1344,9 @@ Blockly.Block.prototype.jsonInit = function(json) {
   }
   if (json['nextStatement'] !== undefined) {
     this.setNextStatement(true, json['nextStatement']);
+  }
+  if (json['canDragDuplicate'] !== undefined) {
+    this.setDragDuplication(json['canDragDuplicate'])
   }
   if (json['tooltip'] !== undefined) {
     var rawValue = json['tooltip'];
@@ -1516,7 +1557,7 @@ Blockly.Block.prototype.interpolate_ = function(message, args, lastDummyAlign) {
       if (field) {
         fieldStack.push([field, element['name']]);
       } else if (input) {
-        if (element['check']) {
+        if (element['check'] !== undefined) {
           input.setCheck(element['check']);
         }
         if (element['align']) {
@@ -1834,4 +1875,22 @@ Blockly.Block.prototype.toDevString = function() {
     msg += ' (id="' + this.id + '")';
   }
   return msg;
+};
+
+/**
+ * pm: Set whether this block can duplicate on drag.
+ * Note that a block must be a shadow block to duplicate on drag.
+ * @param {boolean} canDragDuplicate True if this block should duplicate on drag.
+ */
+Blockly.Block.prototype.setDragDuplication = function(canDragDuplicate) {
+  this.canDragDuplicate_ = canDragDuplicate;
+};
+
+/**
+ * pm: Get whether this block can duplicate on drag.
+ * This will only return true if the block is also a shadow block.
+ * @return {boolean} True if this block can duplicate on drag.
+ */
+Blockly.Block.prototype.canDragDuplicate = function() {
+  return this.canDragDuplicate_ && this.isShadow();
 };

@@ -67,6 +67,7 @@ Blockly.Connection.REASON_DIFFERENT_WORKSPACES = 5;
 Blockly.Connection.REASON_SHADOW_PARENT = 6;
 // Fixes #1127, but may be the wrong solution.
 Blockly.Connection.REASON_CUSTOM_PROCEDURE = 7;
+Blockly.Connection.REASON_DRAG_DUPLICATE = 8;
 
 /**
  * Connection this connection connects to.  Null if not connected.
@@ -327,6 +328,11 @@ Blockly.Connection.prototype.canConnectWithReason_ = function(target) {
     // And hack to fix #1534: Fail attempts to connect anything but a
     // defnoreturn block to a prototype block.
     return Blockly.Connection.REASON_CUSTOM_PROCEDURE;
+  } else if (
+    (this.targetConnection && this.targetConnection.sourceBlock_ && this.targetConnection.sourceBlock_.canDragDuplicate()) || 
+    (target.targetConnection && target.targetConnection.sourceBlock_ && target.targetConnection.sourceBlock_.canDragDuplicate())
+  ) {
+    return Blockly.Connection.REASON_DRAG_DUPLICATE
   }
   return Blockly.Connection.CAN_CONNECT;
 };
@@ -354,7 +360,8 @@ Blockly.Connection.prototype.checkConnection_ = function(target) {
     case Blockly.Connection.REASON_CHECKS_FAILED:
       var msg = 'Connection checks failed. ';
       msg += this + ' expected '  + this.check_ + ', found ' + target.check_;
-      throw msg;
+      //throw msg;
+      console.warn(msg);
     case Blockly.Connection.REASON_SHADOW_PARENT:
       throw 'Connecting non-shadow to shadow block.';
     case Blockly.Connection.REASON_CUSTOM_PROCEDURE:

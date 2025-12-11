@@ -125,6 +125,9 @@ Blockly.Colours = {
   "valueReportBackground": "#FFFFFF",
   "valueReportBorder": "#AAAAAA",
   "valueReportForeground": "#000000",
+  "errorReportBackground": "#FFEEEE",
+  "errorReportBorder": "#FF4444",
+  "errorReportForeground": "#441111",
   "menuHover": "rgba(0, 0, 0, 0.2)",
   "contextMenuBackground": "#ffffff",
   "contextMenuBorder": "#cccccc",
@@ -140,7 +143,8 @@ Blockly.Colours = {
   "buttonActiveBackground": "#ffffff",
   "buttonForeground": "#575E75",
   "buttonBorder": "#c6c6c6",
-  "zoomIconFilter": "none"
+  "zoomIconFilter": "none",
+  "checkboxFieldBackground": "#33D833"
 };
 
 /**
