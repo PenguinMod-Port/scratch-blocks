@@ -358,3 +358,27 @@ Blockly.Blocks["event_whenanything"] = {
     });
   }
 };
+
+Blockly.Blocks['event_whenstopclicked'] = {
+  /**
+   * pm: Block for when stop button clicked.
+   * @this Blockly.Block
+   */
+  init: function () {
+    this.jsonInit({
+      "id": "event_whenstopclicked",
+      "message0": Blockly.Msg.EVENT_WHENFLAGCLICKED,
+      "args0": [
+        {
+          "type": "field_image",
+          "src": Blockly.mainWorkspace.options.pathToMedia + "stop.svg",
+          "width": 24,
+          "height": 24,
+          "alt": "stop"
+        }
+      ],
+      "category": Blockly.Categories.event,
+      "extensions": ["colours_event", "shape_hat"]
+    });
+  }
+};
