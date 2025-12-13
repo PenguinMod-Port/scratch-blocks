@@ -27,6 +27,51 @@ goog.require('Blockly.Colours');
 goog.require('Blockly.constants');
 goog.require('Blockly.ScratchBlocks.VerticalExtensions');
 
+let keys = [
+  [Blockly.Msg.EVENT_WHENKEYPRESSED_SPACE, 'space'],
+  [Blockly.Msg.EVENT_WHENKEYPRESSED_UP, 'up arrow'],
+  [Blockly.Msg.EVENT_WHENKEYPRESSED_DOWN, 'down arrow'],
+  [Blockly.Msg.EVENT_WHENKEYPRESSED_RIGHT, 'right arrow'],
+  [Blockly.Msg.EVENT_WHENKEYPRESSED_LEFT, 'left arrow'],
+  [Blockly.Msg.EVENT_WHENKEYPRESSED_ANY, 'any'],
+  ['a', 'a'],
+  ['b', 'b'],
+  ['c', 'c'],
+  ['d', 'd'],
+  ['e', 'e'],
+  ['f', 'f'],
+  ['g', 'g'],
+  ['h', 'h'],
+  ['i', 'i'],
+  ['j', 'j'],
+  ['k', 'k'],
+  ['l', 'l'],
+  ['m', 'm'],
+  ['n', 'n'],
+  ['o', 'o'],
+  ['p', 'p'],
+  ['q', 'q'],
+  ['r', 'r'],
+  ['s', 's'],
+  ['t', 't'],
+  ['u', 'u'],
+  ['v', 'v'],
+  ['w', 'w'],
+  ['x', 'x'],
+  ['y', 'y'],
+  ['z', 'z'],
+  ['0', '0'],
+  ['1', '1'],
+  ['2', '2'],
+  ['3', '3'],
+  ['4', '4'],
+  ['5', '5'],
+  ['6', '6'],
+  ['7', '7'],
+  ['8', '8'],
+  ['9', '9']
+]
+
 Blockly.Blocks['event_whentouchingobject'] = {
   /**
    * Block for when a sprite is touching an object.
@@ -276,50 +321,7 @@ Blockly.Blocks['event_whenkeypressed'] = {
         {
           "type": "field_dropdown",
           "name": "KEY_OPTION",
-          "options": [
-            [Blockly.Msg.EVENT_WHENKEYPRESSED_SPACE, 'space'],
-            [Blockly.Msg.EVENT_WHENKEYPRESSED_UP, 'up arrow'],
-            [Blockly.Msg.EVENT_WHENKEYPRESSED_DOWN, 'down arrow'],
-            [Blockly.Msg.EVENT_WHENKEYPRESSED_RIGHT, 'right arrow'],
-            [Blockly.Msg.EVENT_WHENKEYPRESSED_LEFT, 'left arrow'],
-            [Blockly.Msg.EVENT_WHENKEYPRESSED_ANY, 'any'],
-            ['a', 'a'],
-            ['b', 'b'],
-            ['c', 'c'],
-            ['d', 'd'],
-            ['e', 'e'],
-            ['f', 'f'],
-            ['g', 'g'],
-            ['h', 'h'],
-            ['i', 'i'],
-            ['j', 'j'],
-            ['k', 'k'],
-            ['l', 'l'],
-            ['m', 'm'],
-            ['n', 'n'],
-            ['o', 'o'],
-            ['p', 'p'],
-            ['q', 'q'],
-            ['r', 'r'],
-            ['s', 's'],
-            ['t', 't'],
-            ['u', 'u'],
-            ['v', 'v'],
-            ['w', 'w'],
-            ['x', 'x'],
-            ['y', 'y'],
-            ['z', 'z'],
-            ['0', '0'],
-            ['1', '1'],
-            ['2', '2'],
-            ['3', '3'],
-            ['4', '4'],
-            ['5', '5'],
-            ['6', '6'],
-            ['7', '7'],
-            ['8', '8'],
-            ['9', '9']
-          ]
+          "options": keys
         }
       ],
       "category": Blockly.Categories.event,
@@ -400,6 +402,28 @@ Blockly.Blocks['event_whenmousescrolled'] = {
             [Blockly.Msg.PM_EVENT_WHENMOUSESCROLLED_UP, 'up'],
             [Blockly.Msg.PM_EVENT_WHENMOUSESCROLLED_DOWN, 'down']
           ]
+        }
+      ],
+      "category": Blockly.Categories.event,
+      "extensions": ["colours_event", "shape_hat"]
+    });
+  }
+};
+
+Blockly.Blocks['event_whenkeyhit'] = {
+  /**
+   * Block to send a broadcast.
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.jsonInit({
+      "id": "event_whenkeyhit",
+      "message0": Blockly.Msg.PM_EVENT_WHENKEYHIT,
+      "args0": [
+        {
+          "type": "field_dropdown",
+          "name": "KEY_OPTION",
+          "options": keys
         }
       ],
       "category": Blockly.Categories.event,

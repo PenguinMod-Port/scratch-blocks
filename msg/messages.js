@@ -117,6 +117,7 @@ Blockly.Msg.EVENT_WHENKEYPRESSED_ANY = 'any';
 
 Blockly.Msg.PM_EVENT_ALWAYS = 'always';
 Blockly.Msg.PM_EVENT_WHEN = 'when %1';
+Blockly.Msg.PM_EVENT_WHENKEYHIT = 'when %1 key hit';
 Blockly.Msg.PM_EVENT_WHENMOUSESCROLLED = 'when mouse scrolled %1';
 Blockly.Msg.PM_EVENT_WHENMOUSESCROLLED_UP = 'up';
 Blockly.Msg.PM_EVENT_WHENMOUSESCROLLED_DOWN = 'down';
