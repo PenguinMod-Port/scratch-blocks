@@ -677,3 +677,52 @@ Blockly.Blocks['operator_valid_type'] = {
     });
   }
 };
+
+Blockly.Blocks['operator_power'] = {
+  /**
+   * pm: Block for getting a ^ b.
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_OPERATORS_POWER,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "NUM1"
+        },
+        {
+          "type": "input_value",
+          "name": "NUM2"
+        }
+      ],
+      "category": Blockly.Categories.operators,
+      "extensions": ["colours_operators", "output_number"]
+    });
+  }
+};
+
+Blockly.Blocks["operator_constrainnumber"] = {
+  init: function() {
+    this.jsonInit({
+      "inputsInline": true,
+      "message0": Blockly.Msg.PM_OPERATORS_CONSTRAIN,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "inp"
+        },
+        {
+          "type": "input_value",
+          "name": "min"
+        },
+        {
+          "type": "input_value",
+          "name": "max"
+        }
+      ],
+      "category": Blockly.Categories.operators,
+      "extensions": ["colours_operators", "output_string"]
+    });
+  }
+};
