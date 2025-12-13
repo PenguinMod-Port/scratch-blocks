@@ -286,6 +286,7 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
       '</value>' +
     '</block>' +
     '<block type="event_whenstopclicked" />' +
+    '<block type="event_whenmousescrolled" />' +
   '</category>' +
   '<category name="%{BKY_CATEGORY_CONTROL}" id="control" colour="#FFAB19" secondaryColour="#CF8B17">' +
     '<block type="control_wait" id="control_wait">' +

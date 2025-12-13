@@ -333,7 +333,7 @@ Blockly.Blocks["event_always"] = {
   init: function() {
     this.jsonInit({
       "inputsInline": true,
-      "message0": "always",
+      "message0": Blockly.Msg.PM_EVENT_ALWAYS,
       "args0": [],
       "category": Blockly.Categories.event,
       "extensions": ["colours_event", "shape_hat"]
@@ -345,7 +345,7 @@ Blockly.Blocks["event_whenanything"] = {
   init: function() {
     this.jsonInit({
       "inputsInline": true,
-      "message0": "when %1",
+      "message0": Blockly.Msg.PM_EVENT_WHEN,
       "args0": [
         {
           "type": "input_value",
@@ -375,6 +375,31 @@ Blockly.Blocks['event_whenstopclicked'] = {
           "width": 24,
           "height": 24,
           "alt": "stop"
+        }
+      ],
+      "category": Blockly.Categories.event,
+      "extensions": ["colours_event", "shape_hat"]
+    });
+  }
+};
+
+Blockly.Blocks['event_whenmousescrolled'] = {
+  /**
+   * pm: Block to send a broadcast when the mouse is scrolled in a direction.
+   * @this Blockly.Block
+   */
+  init: function () {
+    this.jsonInit({
+      "id": "event_whenmousescrolled",
+      "message0": Blockly.Msg.PM_EVENT_WHENMOUSESCROLLED,
+      "args0": [
+        {
+          "type": "field_dropdown",
+          "name": "KEY_OPTION",
+          "options": [
+            [Blockly.Msg.PM_EVENT_WHENMOUSESCROLLED_UP, 'up'],
+            [Blockly.Msg.PM_EVENT_WHENMOUSESCROLLED_DOWN, 'down']
+          ]
         }
       ],
       "category": Blockly.Categories.event,
