@@ -27,7 +27,7 @@ goog.require('Blockly.Colours');
 goog.require('Blockly.constants');
 goog.require('Blockly.ScratchBlocks.VerticalExtensions');
 
-let keys = [
+let keys = () => [
   [Blockly.Msg.EVENT_WHENKEYPRESSED_SPACE, 'space'],
   [Blockly.Msg.EVENT_WHENKEYPRESSED_UP, 'up arrow'],
   [Blockly.Msg.EVENT_WHENKEYPRESSED_DOWN, 'down arrow'],
@@ -321,7 +321,7 @@ Blockly.Blocks['event_whenkeypressed'] = {
         {
           "type": "field_dropdown",
           "name": "KEY_OPTION",
-          "options": keys
+          "options": keys()
         }
       ],
       "category": Blockly.Categories.event,
@@ -423,7 +423,7 @@ Blockly.Blocks['event_whenkeyhit'] = {
         {
           "type": "field_dropdown",
           "name": "KEY_OPTION",
-          "options": keys
+          "options": keys()
         }
       ],
       "category": Blockly.Categories.event,
