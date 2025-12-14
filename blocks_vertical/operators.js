@@ -779,3 +779,75 @@ Blockly.Blocks['operator_join3'] = {
     });
   }
 };
+
+Blockly.Blocks['operator_gtorequal'] = {
+  /**
+   * pm: Block for greater than or equal comparator.
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_OPERATORS_GTE,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "OPERAND1"
+        },
+        {
+          "type": "input_value",
+          "name": "OPERAND2"
+        }
+      ],
+      "category": Blockly.Categories.operators,
+      "extensions": ["colours_operators", "output_boolean"]
+    });
+  }
+};
+
+Blockly.Blocks['operator_ltorequal'] = {
+  /**
+   * pm: Block for less than or equal comparator.
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_OPERATORS_LTE,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "OPERAND1"
+        },
+        {
+          "type": "input_value",
+          "name": "OPERAND2"
+        }
+      ],
+      "category": Blockly.Categories.operators,
+      "extensions": ["colours_operators", "output_boolean"]
+    });
+  }
+};
+
+Blockly.Blocks['operator_notequal'] = {
+  /**
+   * pm: Block for not equal comparator.
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_OPERATORS_NOTEQUAL,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "OPERAND1"
+        },
+        {
+          "type": "input_value",
+          "name": "OPERAND2"
+        }
+      ],
+      "category": Blockly.Categories.operators,
+      "extensions": ["colours_operators", "output_boolean"]
+    });
+  }
+};
