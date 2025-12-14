@@ -292,3 +292,35 @@ Blockly.Blocks['extension_music_play_note'] = {
     });
   }
 };
+
+Blockly.Blocks['extension_single_label'] = {
+  /**
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.jsonInit({
+      "message0": "label",
+      "category": Blockly.Categories.pen,
+      "extensions": ["colours_more", "output_any"]
+    });
+  }
+};
+
+Blockly.Blocks['extension_single_input'] = {
+  /**
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.jsonInit({
+      "message0": "%1",
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "INPUT"
+        }
+      ],
+      "category": Blockly.Categories.pen,
+      "extensions": ["colours_more", "output_any"]
+    });
+  }
+};

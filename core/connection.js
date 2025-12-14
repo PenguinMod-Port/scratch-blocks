@@ -53,6 +53,11 @@ Blockly.Connection = function(source, type) {
         source.workspace.connectionDBList[Blockly.OPPOSITE_TYPE[type]];
     this.hidden_ = !this.db_;
   }
+  /**
+   * @type {?number}
+   * @private
+   */
+  this.outputShape_ = null;
 };
 
 /**
@@ -701,22 +706,19 @@ Blockly.Connection.prototype.setCheck = function(check) {
   return this;
 };
 
+Blockly.Connection.prototype.setOutputShape = function(outputShape) {
+  this.outputShape_ = outputShape;
+};
+
 /**
  * Returns a shape enum for this connection.
  * Used in scratch-blocks to draw unoccupied inputs.
  * @return {number} Enum representing shape.
  */
 Blockly.Connection.prototype.getOutputShape = function() {
+  if (this.outputShape_) return this.outputShape_;
   if (!this.check_) return Blockly.OUTPUT_SHAPE_ROUND;
-  if (this.check_.indexOf('Boolean') !== -1) {
-    return Blockly.OUTPUT_SHAPE_HEXAGONAL;
-  }
-  if (this.check_.indexOf('Number') !== -1) {
-    return Blockly.OUTPUT_SHAPE_ROUND;
-  }
-  if (this.check_.indexOf('String') !== -1) {
-    return Blockly.OUTPUT_SHAPE_SQUARE;
-  }
+  if (this.check_.includes("Boolean")) return Blockly.OUTPUT_SHAPE_HEXAGONAL;
   return Blockly.OUTPUT_SHAPE_ROUND;
 };
 

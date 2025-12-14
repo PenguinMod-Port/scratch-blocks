@@ -163,7 +163,7 @@ Blockly.BlockSvg.prototype.initSvg = function() {
   }
   this.updateColour();
   this.updateMovable();
-  if (!this.workspace.options.readOnly && !this.eventsInit_) {
+  if (!this.eventsInit_) {
     Blockly.bindEventWithChecks_(
         this.getSvgRoot(), 'mousedown', this, this.onMouseDown_);
   }
@@ -201,7 +201,6 @@ Blockly.BlockSvg.prototype.select = function() {
   event.workspaceId = this.workspace.id;
   Blockly.Events.fire(event);
   Blockly.selected = this;
-  this.addSelect();
 };
 
 /**

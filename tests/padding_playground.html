@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title>Padding Playground</title>
+
+    <script src="../blockly_uncompressed_vertical.js"></script>
+    <script src="../msg/messages.js"></script>
+    <script src="../msg/scratch_msgs.js"></script>
+    <script src="../blocks_vertical/vertical_extensions.js"></script>
+
+    <script src="../blocks_vertical/extensions.js"></script>
+
+    <script>
+      'use strict';
+
+      window.ScratchBlocks = Blockly;
+
+      var workspace = null;
+
+      function start() {
+        // Create main workspace.
+        workspace = Blockly.inject('blocklyDiv', {
+          media: '../media/',
+          noToolbox: true,
+          readOnly: true,
+          scrollbars: true,
+          zoom: {
+            controls: true,
+            wheel: true,
+            startScale: 0.675,
+            maxScale: 4,
+            minScale: 0.25,
+            scaleSpeed: 1.1
+          },
+        });
+
+        for (let x = 1; x <= 3; x++) {
+          for (let y = 0; y <= 3; y++) {
+            let block;
+            if (y == 0) {
+              block = workspace.newBlock('extension_single_label');
+            } else {
+              block = workspace.newBlock('extension_single_input');
+              block.getInput("INPUT").connection.setOutputShape(y);
+            }
+
+            block.setOutputShape(x);
+            block.moveBy(x * 200, (y + 1) * 200)
+            block.initSvg();
+            block.render();
+          }
+        }
+
+        workspace.addChangeListener(ev => {
+          console.log(ev)
+          if (ev.element == "selected") {
+            if (Blockly.selected) {
+              workspace.glowStack(Blockly.selected.id, true);
+            }
+            if (ev.oldValue) {
+              workspace.glowStack(ev.oldValue, false);
+            }
+          }
+        });
+      }
+    </script>
+
+    <style>
+      html, body {
+        height: 100%;
+      }
+
+      body {
+        background-color: #fff;
+        font-family: sans-serif;
+        overflow: hidden;
+      }
+
+      h1 {
+        font-weight: normal;
+        font-size: 140%;
+      }
+
+      #blocklyDiv {
+        float: right;
+        height: 95%;
+        width: 70%;
+      }
+
+      #importExport {
+        font-family: monospace;
+      }
+    </style>
+  </head>
+
+  <body onload="start()">
+    <div id="blocklyDiv"></div>
+
+    <!-- Sidebar -->
+    <h1>Padding Playground</h1>
+    
+  </body>
+</html>
