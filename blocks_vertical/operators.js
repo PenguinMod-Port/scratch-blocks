@@ -751,3 +751,31 @@ Blockly.Blocks["operator_lerpFunc"] = {
     });
   }
 };
+
+Blockly.Blocks['operator_join3'] = {
+  /**
+   * pm: Block for joining 3 strings together.
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_OPERATORS_JOIN3,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "STRING1"
+        },
+        {
+          "type": "input_value",
+          "name": "STRING2"
+        },
+        {
+          "type": "input_value",
+          "name": "STRING3"
+        }
+      ],
+      "category": Blockly.Categories.operators,
+      "extensions": ["colours_operators", "output_string"]
+    });
+  }
+};

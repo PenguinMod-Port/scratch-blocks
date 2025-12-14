@@ -658,6 +658,23 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
         '<shadow type="math_number" />' +
       '</value>' +
     '</block>' +
+    '<block type="operator_join3">' +
+      '<value name="STRING1">' +
+        '<shadow type="text">' +
+          '<field name="TEXT">apple </field>' +
+        '</shadow>' +
+      '</value>' +
+      '<value name="STRING2">' +
+        '<shadow type="text">' +
+          '<field name="TEXT">banana </field>' +
+        '</shadow>' +
+      '</value>' +
+      '<value name="STRING3">' +
+        '<shadow type="text">' +
+          '<field name="TEXT">pear</field>' +
+        '</shadow>' +
+      '</value>' +
+    '</block>' +
   '</category>' +
   '<category name="%{BKY_CATEGORY_VARIABLES}" id="data" colour="#FF8C1A" secondaryColour="#DB6E00" custom="VARIABLE">' +
   '</category>' +
