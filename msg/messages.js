@@ -251,6 +251,7 @@ Blockly.Msg.PM_OPERATORS_INTERPOLATE = 'interpolate %1 to %2 by %3';
 Blockly.Msg.PM_OPERATORS_JOIN3 = 'join %1 %2 %3';
 Blockly.Msg.PM_OPERATORS_JOIN_PEAR = 'pear';
 Blockly.Msg.PM_OPERATORS_LTE = '%1 ≤ %2';
+Blockly.Msg.PM_OPERATORS_MATHOP_LOG2 = 'log2';
 Blockly.Msg.PM_OPERATORS_MATHOP_SIGN = 'sign';
 Blockly.Msg.PM_OPERATORS_NAND = '%1 nand %2';
 Blockly.Msg.PM_OPERATORS_NOR = '%1 nor %2';
