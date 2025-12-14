@@ -448,7 +448,7 @@ Blockly.BlockSvg.FIELD_TEXTINPUT_ANIMATE_POSITIONING = false;
 Blockly.BlockSvg.SHAPE_IN_SHAPE_PADDING = {
 	1: {
 		0: 4 * Blockly.BlockSvg.GRID_UNIT,
-		1: 1 * Blockly.BlockSvg.GRID_UNIT,
+		1: 2 * Blockly.BlockSvg.GRID_UNIT,
 		2: 4 * Blockly.BlockSvg.GRID_UNIT,
 		3: 5 * Blockly.BlockSvg.GRID_UNIT,
 	},
