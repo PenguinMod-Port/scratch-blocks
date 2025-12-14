@@ -1783,3 +1783,33 @@ Blockly.BlockSvg.prototype.outputLeftPadding_ = function() {
 
   return 0;
 }
+
+Blockly.BlockSvg.CUSTOM_SHAPES = new Map([
+  [Blockly.OUTPUT_SHAPE_HEXAGONAL, {
+    emptyInputPath: "M 16 0 h 16 l 16 16 l -16 16 h -16 l -16 -16 l 16 -16 z",
+    emptyInputWidth: 12 * Blockly.BlockSvg.GRID_UNIT,
+    tags: ["hexagonal"],
+    leftPath: (block) => {
+      let hexRoundness = Blockly.BlockSvg.HEXAGONAL_SHAPE_ROUNDNESS;
+      let diagonalWidth = block.edgeShapeWidth_ - hexRoundness * 1.5;
+      return [
+        `q ${-hexRoundness / 2} 0 ${-hexRoundness} ${-hexRoundness / 2}`,
+        `l ${-diagonalWidth} ${-diagonalWidth}`,
+        `q ${-hexRoundness} ${-hexRoundness} 0 ${-hexRoundness * 2}`,
+        `l ${diagonalWidth} ${-diagonalWidth}`,
+        `q ${hexRoundness / 2} ${-hexRoundness / 2} ${hexRoundness} ${-hexRoundness / 2}`
+      ];
+    },
+    rightPath: (block) => {
+      let hexRoundness = Blockly.BlockSvg.HEXAGONAL_SHAPE_ROUNDNESS;
+      let diagonalWidth = block.edgeShapeWidth_ - hexRoundness * 1.5;
+      return [
+        `q ${hexRoundness / 2} 0 ${hexRoundness} ${hexRoundness / 2}`,
+        `l ${diagonalWidth} ${diagonalWidth}`,
+        `q ${hexRoundness} ${hexRoundness} 0 ${hexRoundness * 2}`,
+        `l ${-diagonalWidth} ${diagonalWidth}`,
+        `q ${-hexRoundness / 2} ${hexRoundness / 2} ${-hexRoundness} ${hexRoundness / 2}`
+      ];
+    },
+  }],
+]);
