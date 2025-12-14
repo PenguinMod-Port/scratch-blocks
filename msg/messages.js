@@ -246,6 +246,7 @@ Blockly.Msg.OPERATORS_MATHOP_EEXP = 'e ^';
 Blockly.Msg.OPERATORS_MATHOP_10EXP = '10 ^';
 
 Blockly.Msg.PM_OPERATORS_CONSTRAIN = 'constrain %1 min %2 max %3';
+Blockly.Msg.PM_OPERATORS_INTERPOLATE = 'interpolate %1 to %2 by %3';
 Blockly.Msg.PM_OPERATORS_MATHOP_SIGN = 'sign';
 Blockly.Msg.PM_OPERATORS_NAND = '%1 nand %2';
 Blockly.Msg.PM_OPERATORS_NOR = '%1 nor %2';

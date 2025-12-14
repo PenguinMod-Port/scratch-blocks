@@ -647,6 +647,17 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
         '<shadow type="math_number" />' +
       '</value>' +
     '</block>' +
+    '<block type="operator_lerpFunc">' +
+      '<value name="ONE">' +
+        '<shadow type="math_number" />' +
+      '</value>' +
+      '<value name="TWO">' +
+        '<shadow type="math_number" />' +
+      '</value>' +
+      '<value name="AMOUNT">' +
+        '<shadow type="math_number" />' +
+      '</value>' +
+    '</block>' +
   '</category>' +
   '<category name="%{BKY_CATEGORY_VARIABLES}" id="data" colour="#FF8C1A" secondaryColour="#DB6E00" custom="VARIABLE">' +
   '</category>' +

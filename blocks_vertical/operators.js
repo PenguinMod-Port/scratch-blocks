@@ -726,3 +726,28 @@ Blockly.Blocks["operator_constrainnumber"] = {
     });
   }
 };
+
+Blockly.Blocks["operator_lerpFunc"] = {
+  init: function() {
+    this.jsonInit({
+      "inputsInline": true,
+      "message0": Blockly.Msg.PM_OPERATORS_INTERPOLATE,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "ONE"
+        },
+        {
+          "type": "input_value",
+          "name": "TWO"
+        },
+        {
+          "type": "input_value",
+          "name": "AMOUNT"
+        }
+      ],
+      "category": Blockly.Categories.operators,
+      "extensions": ["colours_operators", "output_string"]
+    });
+  }
+};
