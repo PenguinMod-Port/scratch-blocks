@@ -18,9 +18,17 @@
       window.ScratchBlocks = Blockly;
 
       var workspace = null;
+      var outputShapes;
       var paddingEditor;
 
       function start() {
+        outputShapes = [
+          Blockly.OUTPUT_SHAPE_HEXAGONAL,
+          Blockly.OUTPUT_SHAPE_ROUND,
+          Blockly.OUTPUT_SHAPE_SQUARE,
+          Blockly.OUTPUT_SHAPE_LEAF
+        ]
+
         // Create main workspace.
         workspace = Blockly.inject('blocklyDiv', {
           media: '../media/',
@@ -37,8 +45,8 @@
           },
         });
 
-        for (let x = 1; x <= 3; x++) {
-          for (let y = 0; y <= 3; y++) {
+        for (let x of outputShapes) {
+          for (let y of [0, ...outputShapes]) {
             let block;
             if (y == 0) {
               block = workspace.newBlock('extension_single_label');
@@ -66,7 +74,7 @@
               paddingEditor.classList.remove("hidden");
               let x = Blockly.selected.getOutputShape();
               let y = Blockly.selected.type == 'extension_single_label' ? 0 : Blockly.selected.getInput("INPUT").connection.getOutputShape();
-              document.getElementById("paddingAmount").value = Blockly.BlockSvg.SHAPE_IN_SHAPE_PADDING[x][y] / Blockly.BlockSvg.GRID_UNIT
+              document.getElementById("paddingAmount").value = getPadding(x, y) / Blockly.BlockSvg.GRID_UNIT
             }
           }
         });
@@ -76,12 +84,16 @@
         updateExport();
       }
 
+      function getPadding(x, y) {
+        return (Blockly.BlockSvg.SHAPE_IN_SHAPE_PADDING[x] || [])[y] || 0
+      }
+
       function updateExport() {
         let output = "Blockly.BlockSvg.SHAPE_IN_SHAPE_PADDING = {\n";
-        for (let x = 1; x <= 3; x++) {
+        for (let x of outputShapes) {
           output += `\t${x}: {\n`;
-          for (let y = 0; y <= 3; y++) {
-            output += `\t\t${y}: ${(+Blockly.BlockSvg.SHAPE_IN_SHAPE_PADDING[x][y] || 0) / Blockly.BlockSvg.GRID_UNIT} * Blockly.BlockSvg.GRID_UNIT,\n`;
+          for (let y of [0, ...outputShapes]) {
+            output += `\t\t${y}: ${getPadding(x, y) / Blockly.BlockSvg.GRID_UNIT} * Blockly.BlockSvg.GRID_UNIT,\n`;
           }
           output += "\t},\n";
         }
@@ -93,6 +105,7 @@
       function updatePadding() {
         let x = Blockly.selected.getOutputShape();
         let y = Blockly.selected.type == 'extension_single_label' ? 0 : Blockly.selected.getInput("INPUT").connection.getOutputShape();
+        Blockly.BlockSvg.SHAPE_IN_SHAPE_PADDING[x] ??= []
         Blockly.BlockSvg.SHAPE_IN_SHAPE_PADDING[x][y] = +document.getElementById("paddingAmount").value * Blockly.BlockSvg.GRID_UNIT;
 
         Blockly.selected.render();
