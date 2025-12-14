@@ -451,18 +451,28 @@ Blockly.BlockSvg.SHAPE_IN_SHAPE_PADDING = {
 		1: 2 * Blockly.BlockSvg.GRID_UNIT,
 		2: 4 * Blockly.BlockSvg.GRID_UNIT,
 		3: 5 * Blockly.BlockSvg.GRID_UNIT,
+		4: 5 * Blockly.BlockSvg.GRID_UNIT,
 	},
 	2: {
 		0: 3 * Blockly.BlockSvg.GRID_UNIT,
 		1: 2 * Blockly.BlockSvg.GRID_UNIT,
 		2: 1 * Blockly.BlockSvg.GRID_UNIT,
 		3: 3 * Blockly.BlockSvg.GRID_UNIT,
+		4: 3 * Blockly.BlockSvg.GRID_UNIT,
 	},
 	3: {
 		0: 2 * Blockly.BlockSvg.GRID_UNIT,
 		1: 2 * Blockly.BlockSvg.GRID_UNIT,
 		2: 1 * Blockly.BlockSvg.GRID_UNIT,
 		3: 1 * Blockly.BlockSvg.GRID_UNIT,
+		4: 1 * Blockly.BlockSvg.GRID_UNIT,
+	},
+	4: {
+		0: 3 * Blockly.BlockSvg.GRID_UNIT,
+		1: 2 * Blockly.BlockSvg.GRID_UNIT,
+		2: 1 * Blockly.BlockSvg.GRID_UNIT,
+		3: 3 * Blockly.BlockSvg.GRID_UNIT,
+		4: 1 * Blockly.BlockSvg.GRID_UNIT,
 	},
 };
 
@@ -1081,7 +1091,7 @@ Blockly.BlockSvg.prototype.computeOutputPadding_ = function(inputRows) {
       row.paddingStart += deltaHeight / 2;
     }
   }
-  row.paddingStart += Blockly.BlockSvg.SHAPE_IN_SHAPE_PADDING[shape][otherShape];
+  row.paddingStart += (Blockly.BlockSvg.SHAPE_IN_SHAPE_PADDING[shape] || [])[otherShape] || 0;
   // End row padding: based on last input or last field.
   var lastInput = row[row.length - 1];
   // In checking the right/end side, any value input takes precedence over any field.
@@ -1111,7 +1121,7 @@ Blockly.BlockSvg.prototype.computeOutputPadding_ = function(inputRows) {
     // No input in this row - mark as field.
     otherShape = 0;
   }
-  row.paddingEnd += Blockly.BlockSvg.SHAPE_IN_SHAPE_PADDING[shape][otherShape];
+  row.paddingEnd += (Blockly.BlockSvg.SHAPE_IN_SHAPE_PADDING[shape] || [])[otherShape] || 0;
 };
 
 /**
@@ -1784,5 +1794,26 @@ Blockly.BlockSvg.CUSTOM_SHAPES = new Map([
     emptyInputWidth: 12 * Blockly.BlockSvg.GRID_UNIT,
     curvature: Infinity,
     noEdgeShape: true
+  }],
+  [Blockly.OUTPUT_SHAPE_LEAF, {
+    emptyInputPath: "M 24 0 l 8 0 a 16 16 0 0 1 16 16 l 0 9.6 a 6.4 6.4 0 0 1 -6.4 6.4 h -16 l -9.6 0 a 16 16 0 0 1 -16 -16 l 0 -9.6 a 6.4 6.4 0 0 1 6.4 -6.4 z",
+    emptyInputWidth: 12 * Blockly.BlockSvg.GRID_UNIT,
+    curvature: 1,
+    leftPath: (block) => {
+      let esw = block.edgeShapeWidth_;
+      return [
+        `a ${esw} ${esw} 0 0 1 ${-esw} ${-esw}`,
+        `l 0 ${-esw * 0.6}`,
+        `a ${esw * 0.4} ${esw * 0.4} 0 0 1 ${esw * 0.4} ${-esw * 0.4}`
+      ];
+    },
+    rightPath: (block) => {
+      let esw = block.edgeShapeWidth_;
+      return [
+        `a ${esw} ${esw} 0 0 1 ${esw} ${esw}`,
+        `l 0 ${esw * 0.6}`,
+        `a ${esw * 0.4} ${esw * 0.4} 0 0 1 ${-esw * 0.4} ${esw * 0.4}`
+      ];
+    }
   }]
 ]);
