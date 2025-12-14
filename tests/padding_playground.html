@@ -58,15 +58,16 @@
         workspace.addChangeListener(ev => {
           console.log(ev)
           if (ev.element == "selected") {
+            if (ev.oldValue) {
+              workspace.glowStack(ev.oldValue, false);
+              paddingEditor.classList.add("hidden");
+            }
             if (Blockly.selected) {
               workspace.glowStack(Blockly.selected.id, true);
               paddingEditor.classList.remove("hidden");
               let x = Blockly.selected.getOutputShape();
               let y = Blockly.selected.type == 'extension_single_label' ? 0 : Blockly.selected.getInput("INPUT").connection.getOutputShape();
               document.getElementById("paddingAmount").value = Blockly.BlockSvg.SHAPE_IN_SHAPE_PADDING[x][y] / Blockly.BlockSvg.GRID_UNIT
-            } else if (ev.oldValue) {
-              workspace.glowStack(ev.oldValue, false);
-              paddingEditor.classList.add("hidden");
             }
           }
         });
