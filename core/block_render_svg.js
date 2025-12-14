@@ -449,14 +449,14 @@ Blockly.BlockSvg.SHAPE_IN_SHAPE_PADDING = {
 	1: {
 		0: 4 * Blockly.BlockSvg.GRID_UNIT,
 		1: 1 * Blockly.BlockSvg.GRID_UNIT,
-		2: 3 * Blockly.BlockSvg.GRID_UNIT,
+		2: 4 * Blockly.BlockSvg.GRID_UNIT,
 		3: 5 * Blockly.BlockSvg.GRID_UNIT,
 	},
 	2: {
 		0: 3 * Blockly.BlockSvg.GRID_UNIT,
 		1: 2 * Blockly.BlockSvg.GRID_UNIT,
 		2: 1 * Blockly.BlockSvg.GRID_UNIT,
-		3: 4 * Blockly.BlockSvg.GRID_UNIT,
+		3: 3 * Blockly.BlockSvg.GRID_UNIT,
 	},
 	3: {
 		0: 2 * Blockly.BlockSvg.GRID_UNIT,
@@ -464,7 +464,7 @@ Blockly.BlockSvg.SHAPE_IN_SHAPE_PADDING = {
 		2: 1 * Blockly.BlockSvg.GRID_UNIT,
 		3: 1 * Blockly.BlockSvg.GRID_UNIT,
 	},
-}
+};
 
 /**
  * Corner radius of the hat on the define block.
