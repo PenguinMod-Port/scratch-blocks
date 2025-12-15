@@ -512,12 +512,12 @@ Blockly.BlockSvg.SHAPE_IN_SHAPE_PADDING = {
 	},
 	7: {
 		0: 4 * Blockly.BlockSvg.GRID_UNIT,
-		1: 1 * Blockly.BlockSvg.GRID_UNIT,
-		2: 1 * Blockly.BlockSvg.GRID_UNIT,
-		3: 1 * Blockly.BlockSvg.GRID_UNIT,
-		4: 1 * Blockly.BlockSvg.GRID_UNIT,
-		5: 1 * Blockly.BlockSvg.GRID_UNIT,
-		6: 1 * Blockly.BlockSvg.GRID_UNIT,
+		1: 3 * Blockly.BlockSvg.GRID_UNIT,
+		2: 3 * Blockly.BlockSvg.GRID_UNIT,
+		3: 3 * Blockly.BlockSvg.GRID_UNIT,
+		4: 3 * Blockly.BlockSvg.GRID_UNIT,
+		5: 3 * Blockly.BlockSvg.GRID_UNIT,
+		6: 3 * Blockly.BlockSvg.GRID_UNIT,
 		7: 3 * Blockly.BlockSvg.GRID_UNIT,
 	},
 };
@@ -1117,10 +1117,15 @@ Blockly.BlockSvg.prototype.computeOutputPadding_ = function(inputRows) {
   if (firstField || !firstInput.connection) {
     otherShape = 0; // Field comes first in the row.
     var shapeCurvature = getSubprop(Blockly.BlockSvg.CUSTOM_SHAPES.get(shape).curvature, "left") || 0
-    if (0 > shapeCurvature) {
+    if (0 > shapeCurvature || Blockly.BlockSvg.CUSTOM_SHAPES.get(shape).unsafeEdges) {
       var deltaHeight = firstInput.renderHeight - Blockly.BlockSvg.MIN_BLOCK_Y_REPORTER;
       // One grid unit per level of nesting.
-      row.paddingStart += deltaHeight / 2;
+      let tmp = Blockly.BlockSvg.CUSTOM_SHAPES.get(shape)
+      if (tmp.edgeShapeWidth) {
+        row.paddingStart += getSubprop(tmp.edgeShapeWidth(deltaHeight / 2), "left")
+      } else {
+        row.paddingStart += deltaHeight / 2;
+      }
     }
   } else {
     // Value input comes first in the row.
@@ -1137,7 +1142,7 @@ Blockly.BlockSvg.prototype.computeOutputPadding_ = function(inputRows) {
     // https://github.com/LLK/scratch-blocks/issues/376
     var shapeCurvature = getSubprop(Blockly.BlockSvg.CUSTOM_SHAPES.get(shape).curvature, "left") || 0
     var otherCurvature = getSubprop(Blockly.BlockSvg.CUSTOM_SHAPES.get(otherShape).curvature, "left") || 0
-    if (otherCurvature > shapeCurvature) {
+    if (otherCurvature > shapeCurvature || Blockly.BlockSvg.CUSTOM_SHAPES.get(shape).unsafeEdges) {
       var deltaHeight = firstInput.renderHeight - Blockly.BlockSvg.MIN_BLOCK_Y_REPORTER;
       // One grid unit per level of nesting.
       let tmp = Blockly.BlockSvg.CUSTOM_SHAPES.get(shape)
@@ -1169,7 +1174,7 @@ Blockly.BlockSvg.prototype.computeOutputPadding_ = function(inputRows) {
     // https://github.com/LLK/scratch-blocks/issues/376
     var shapeCurvature = getSubprop(Blockly.BlockSvg.CUSTOM_SHAPES.get(this.getOutputShapeRight()).curvature, "right") || 0
     var otherCurvature = getSubprop(Blockly.BlockSvg.CUSTOM_SHAPES.get(otherShape).curvature, "right") || 0
-    if (otherCurvature > shapeCurvature) {
+    if (otherCurvature > shapeCurvature || Blockly.BlockSvg.CUSTOM_SHAPES.get(this.getOutputShapeRight()).unsafeEdges) {
       var deltaHeight = lastInput.renderHeight - Blockly.BlockSvg.MIN_BLOCK_Y_REPORTER;
       // One grid unit per level of nesting.
       let tmp = Blockly.BlockSvg.CUSTOM_SHAPES.get(this.getOutputShapeRight())
@@ -1183,10 +1188,15 @@ Blockly.BlockSvg.prototype.computeOutputPadding_ = function(inputRows) {
     // No input in this row - mark as field.
     otherShape = 0;
     var shapeCurvature = getSubprop(Blockly.BlockSvg.CUSTOM_SHAPES.get(this.getOutputShapeRight()).curvature, "right") || 0
-    if (0 > shapeCurvature) {
+    if (0 > shapeCurvature || Blockly.BlockSvg.CUSTOM_SHAPES.get(this.getOutputShapeRight()).unsafeEdges) {
       var deltaHeight = firstInput.renderHeight - Blockly.BlockSvg.MIN_BLOCK_Y_REPORTER;
       // One grid unit per level of nesting.
-      row.paddingEnd += deltaHeight / 2;
+      let tmp = Blockly.BlockSvg.CUSTOM_SHAPES.get(this.getOutputShapeRight())
+      if (tmp.edgeShapeWidth) {
+        row.paddingEnd += getSubprop(tmp.edgeShapeWidth(deltaHeight / 2), "left")
+      } else {
+        row.paddingEnd += deltaHeight / 2;
+      }
     }
   }
   row.paddingEnd += getSubprop((Blockly.BlockSvg.SHAPE_IN_SHAPE_PADDING[shape] || [])[otherShape], "right") || 0;
@@ -1943,6 +1953,7 @@ Blockly.BlockSvg.CUSTOM_SHAPES = new Map([
     emptyInputPath: "M 8 0 h 32 a 1 1 0 0 1 0 16 a 1 1 0 0 1 0 16 h -32 a 1 1 0 0 1 0 -16 a 1 1 0 0 1 0 -16 z",
     emptyInputWidth: 12 * Blockly.BlockSvg.GRID_UNIT,
     curvature: 100,
+    unsafeEdges: true,
     leftPath: (block) => {
       const unit = block.edgeShapeWidth_ * 2;
       const remainingHeight = block.height - unit * 2;
