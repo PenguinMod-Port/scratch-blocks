@@ -261,10 +261,16 @@ Blockly.OUTPUT_SHAPE_SQUARE = 3;
 Blockly.OUTPUT_SHAPE_LEAF = 4;
 
 /**
- * ENUM for output shape: plus (objects).
+ * ENUM for output shape: plus (objects/classes or class instances).
  * @const
  */
 Blockly.OUTPUT_SHAPE_PLUS = 5;
+
+/**
+ * ENUM for output shape: octagonal (Scratch targets).
+ * @const
+ */
+Blockly.OUTPUT_SHAPE_OCTAGONAL = 6;
 
 /**
  * ENUM for categories.

@@ -457,6 +457,7 @@ Blockly.BlockSvg.SHAPE_IN_SHAPE_PADDING = {
 		3: 5 * Blockly.BlockSvg.GRID_UNIT,
 		4: 5 * Blockly.BlockSvg.GRID_UNIT,
 		5: 4 * Blockly.BlockSvg.GRID_UNIT,
+		6: 3 * Blockly.BlockSvg.GRID_UNIT,
 	},
 	2: {
 		0: 3 * Blockly.BlockSvg.GRID_UNIT,
@@ -465,6 +466,7 @@ Blockly.BlockSvg.SHAPE_IN_SHAPE_PADDING = {
 		3: 3 * Blockly.BlockSvg.GRID_UNIT,
 		4: 3 * Blockly.BlockSvg.GRID_UNIT,
 		5: 2 * Blockly.BlockSvg.GRID_UNIT,
+		6: 2 * Blockly.BlockSvg.GRID_UNIT,
 	},
 	3: {
 		0: 2 * Blockly.BlockSvg.GRID_UNIT,
@@ -473,6 +475,7 @@ Blockly.BlockSvg.SHAPE_IN_SHAPE_PADDING = {
 		3: 1 * Blockly.BlockSvg.GRID_UNIT,
 		4: 1 * Blockly.BlockSvg.GRID_UNIT,
 		5: 1 * Blockly.BlockSvg.GRID_UNIT,
+		6: 1 * Blockly.BlockSvg.GRID_UNIT,
 	},
 	4: {
 		0: 3 * Blockly.BlockSvg.GRID_UNIT,
@@ -481,6 +484,7 @@ Blockly.BlockSvg.SHAPE_IN_SHAPE_PADDING = {
 		3: 3 * Blockly.BlockSvg.GRID_UNIT,
 		4: 1 * Blockly.BlockSvg.GRID_UNIT,
 		5: 2 * Blockly.BlockSvg.GRID_UNIT,
+		6: 2 * Blockly.BlockSvg.GRID_UNIT,
 	},
 	5: {
 		0: 5 * Blockly.BlockSvg.GRID_UNIT,
@@ -489,6 +493,16 @@ Blockly.BlockSvg.SHAPE_IN_SHAPE_PADDING = {
 		3: 5 * Blockly.BlockSvg.GRID_UNIT,
 		4: 5 * Blockly.BlockSvg.GRID_UNIT,
 		5: 3 * Blockly.BlockSvg.GRID_UNIT,
+		6: 4 * Blockly.BlockSvg.GRID_UNIT,
+	},
+	6: {
+		0: 2 * Blockly.BlockSvg.GRID_UNIT,
+		1: 1 * Blockly.BlockSvg.GRID_UNIT,
+		2: 1 * Blockly.BlockSvg.GRID_UNIT,
+		3: 3 * Blockly.BlockSvg.GRID_UNIT,
+		4: 3 * Blockly.BlockSvg.GRID_UNIT,
+		5: 2 * Blockly.BlockSvg.GRID_UNIT,
+		6: 1 * Blockly.BlockSvg.GRID_UNIT,
 	},
 };
 
@@ -1807,7 +1821,7 @@ Blockly.BlockSvg.CUSTOM_SHAPES = new Map([
   [Blockly.OUTPUT_SHAPE_SQUARE, {
     emptyInputPath: "M 0 4 a 4 4 0 0 1 4 -4 h 40 a 4 4 0 0 1 4 4 v 24 a 4 4 0 0 1 -4 4 h -40 a 4 4 0 0 1 -4 -4 z",
     emptyInputWidth: 12 * Blockly.BlockSvg.GRID_UNIT,
-    curvature: Infinity,
+    curvature: 1000,
     noEdgeShape: true
   }],
   [Blockly.OUTPUT_SHAPE_LEAF, {
@@ -1834,21 +1848,21 @@ Blockly.BlockSvg.CUSTOM_SHAPES = new Map([
   [Blockly.OUTPUT_SHAPE_PLUS, {
     emptyInputPath: "M 36 0 a 4 4 0 0 1 4 4 l 0 2 a 4 4 0 0 0 4 4 a 4 4 0 0 1 4 4 l 0 4 a 4 4 0 0 1 -4 4 a 4 4 0 0 0 -4 4 l 0 2 a 4 4 0 0 1 -4 4  h -24 a 4 4 0 0 1 -4 -4 l 0 -2 a 4 4 0 0 0 -4 -4 a 4 4 0 0 1 -4 -4 l 0 -4 a 4 4 0 0 1 4 -4 a 4 4 0 0 0 4 -4 l 0 -2 a 4 4 0 0 1 4 -4 z",
     emptyInputWidth: 12 * Blockly.BlockSvg.GRID_UNIT,
-    curvature: Infinity,
+    curvature: 1000,
     leftPath: (block) => {
       const paddingMultiplier = Blockly.BlockSvg.SEP_SPACE_Y / 2 / Blockly.BlockSvg.GRID_UNIT;
       const unit = 6 * paddingMultiplier;
       const remainingHeight = block.height - 36 * paddingMultiplier;
       return [
-        `a ${unit} ${unit} 0 0 1 ${-unit} ${-unit} ` +
-        `a ${unit} ${unit} 0 0 0 ${-unit} ${-unit} ` +
-        `l -2 0 ` +
-        `a ${unit} ${unit} 0 0 1 ${-unit} ${-unit} ` +
-        `l 0 ${-remainingHeight} ` +
-        `a ${unit} ${unit} 0 0 1 ${unit} ${-unit} ` +
-        `l 2 0 ` +
-        `a ${unit} ${unit} 0 0 0 ${unit} ${-unit} ` +
-        `a ${unit} ${unit} 0 0 1 ${unit} ${-unit} `
+        `a ${unit} ${unit} 0 0 1 ${-unit} ${-unit}`,
+        `a ${unit} ${unit} 0 0 0 ${-unit} ${-unit}`,
+        `l -2 0`,
+        `a ${unit} ${unit} 0 0 1 ${-unit} ${-unit}`,
+        `l 0 ${-remainingHeight}`,
+        `a ${unit} ${unit} 0 0 1 ${unit} ${-unit}`,
+        `l 2 0`,
+        `a ${unit} ${unit} 0 0 0 ${unit} ${-unit}`,
+        `a ${unit} ${unit} 0 0 1 ${unit} ${-unit}`
       ]
     },
     rightPath: (block) => {
@@ -1856,21 +1870,47 @@ Blockly.BlockSvg.CUSTOM_SHAPES = new Map([
       const unit = 6 * paddingMultiplier;
       const remainingHeight = block.height - 36 * paddingMultiplier;
       return [
-        `a ${unit} ${unit} 0 0 1 ${unit} ${unit} ` +
-        `a ${unit} ${unit} 0 0 0 ${unit} ${unit} ` +
-        `l 2 0 ` +
-        `a ${unit} ${unit} 0 0 1 ${unit} ${unit} ` +
-        `l 0 ${remainingHeight} ` +
-        `a ${unit} ${unit} 0 0 1 ${-unit} ${unit} ` +
-        `l -2 0 ` +
-        `a ${unit} ${unit} 0 0 0 ${-unit} ${unit} ` +
-        `a ${unit} ${unit} 0 0 1 ${-unit} ${unit} `
+        `a ${unit} ${unit} 0 0 1 ${unit} ${unit}`,
+        `a ${unit} ${unit} 0 0 0 ${unit} ${unit}`,
+        `l 2 0`,
+        `a ${unit} ${unit} 0 0 1 ${unit} ${unit}`,
+        `l 0 ${remainingHeight}`,
+        `a ${unit} ${unit} 0 0 1 ${-unit} ${unit}`,
+        `l -2 0`,
+        `a ${unit} ${unit} 0 0 0 ${-unit} ${unit}`,
+        `a ${unit} ${unit} 0 0 1 ${-unit} ${unit}`
       ]
     },
     edgeShapeWidth: (block) => {
       const paddingMultiplier = Blockly.BlockSvg.SEP_SPACE_Y / 2 / Blockly.BlockSvg.GRID_UNIT;
       const unit = 6 * paddingMultiplier;
       return unit * 3 + 2;
+    }
+  }],
+  [Blockly.OUTPUT_SHAPE_OCTAGONAL, {
+    emptyInputPath: "M 10 0 h 28 l 10 10 l 0 12 l -10 10 h -28 l -10 -10 l 0 -12 l 10 -10 z",
+    emptyInputWidth: 12 * Blockly.BlockSvg.GRID_UNIT,
+    curvature: 1000,
+    leftPath: (block) => {
+      const unit = Blockly.BlockSvg.GRID_UNIT * 2.5;
+      const remainingHeight = block.height - unit * 2;
+      return [
+        `l ${-unit} ${-unit}`,
+        `l 0 ${-remainingHeight}`,
+        `l ${unit} ${-unit}`
+      ]
+    },
+    rightPath: (block) => {
+      const unit = Blockly.BlockSvg.GRID_UNIT * 2.5;
+      const remainingHeight = block.height - unit * 2;
+      return [
+        `l ${unit} ${unit}`,
+        `l 0 ${remainingHeight}`,
+        `l ${-unit} ${unit}`
+      ]
+    },
+    edgeShapeWidth: (block) => {
+      return Blockly.BlockSvg.GRID_UNIT * 2.5;
     }
   }]
 ]);
