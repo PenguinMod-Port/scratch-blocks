@@ -273,6 +273,12 @@ Blockly.OUTPUT_SHAPE_PLUS = 5;
 Blockly.OUTPUT_SHAPE_OCTAGONAL = 6;
 
 /**
+ * ENUM for output shape: bumped (BigInt).
+ * @const
+ */
+Blockly.OUTPUT_SHAPE_BUMPED = 7;
+
+/**
  * ENUM for categories.
  * @const
  */
