@@ -75,7 +75,10 @@
               paddingEditor.classList.remove("hidden");
               let x = Blockly.selected.getOutputShape();
               let y = Blockly.selected.type == 'extension_single_label' ? 0 : Blockly.selected.getInput("INPUT").connection.getOutputShape();
-              document.getElementById("paddingAmount").value = getPadding(x, y) / Blockly.BlockSvg.GRID_UNIT
+              document.getElementById("leftRight").checked = getPadding(x, y, "left") != getPadding(x, y, "right");
+              leftRight();
+              document.getElementById("paddingAmount").value = getPadding(x, y, "left") / Blockly.BlockSvg.GRID_UNIT;
+              document.getElementById("paddingAmount2").value = getPadding(x, y, "right") / Blockly.BlockSvg.GRID_UNIT;
             }
           }
         });
@@ -85,8 +88,11 @@
         updateExport();
       }
 
-      function getPadding(x, y) {
-        return (Blockly.BlockSvg.SHAPE_IN_SHAPE_PADDING[x] || [])[y] || 0
+      function getPadding(x, y, key) {
+        let a = (Blockly.BlockSvg.SHAPE_IN_SHAPE_PADDING[x] || [])[y]
+        if (a === undefined) return 0
+        if (typeof a == "object") return a[key]
+        return a
       }
 
       function updateExport() {
@@ -94,7 +100,14 @@
         for (let x of outputShapes) {
           output += `\t${x}: {\n`;
           for (let y of [0, ...outputShapes]) {
-            output += `\t\t${y}: ${getPadding(x, y) / Blockly.BlockSvg.GRID_UNIT} * Blockly.BlockSvg.GRID_UNIT,\n`;
+            let left = getPadding(x, y, "left") / Blockly.BlockSvg.GRID_UNIT;
+            let right = getPadding(x, y, "right") / Blockly.BlockSvg.GRID_UNIT;
+
+            if (left === right) {
+              output += `\t\t${y}: ${left} * Blockly.BlockSvg.GRID_UNIT,\n`;
+            } else {
+              output += `\t\t${y}: { left: ${left} * Blockly.BlockSvg.GRID_UNIT, right: ${right} * Blockly.BlockSvg.GRID_UNIT },\n`;
+            }
           }
           output += "\t},\n";
         }
@@ -106,12 +119,34 @@
       function updatePadding() {
         let x = Blockly.selected.getOutputShape();
         let y = Blockly.selected.type == 'extension_single_label' ? 0 : Blockly.selected.getInput("INPUT").connection.getOutputShape();
+        let left = +document.getElementById("paddingAmount").value
+        let right = document.getElementById("leftRight").checked ? +document.getElementById("paddingAmount2").value : left;
+
         Blockly.BlockSvg.SHAPE_IN_SHAPE_PADDING[x] ??= []
-        Blockly.BlockSvg.SHAPE_IN_SHAPE_PADDING[x][y] = +document.getElementById("paddingAmount").value * Blockly.BlockSvg.GRID_UNIT;
+        if (left === right) {
+          Blockly.BlockSvg.SHAPE_IN_SHAPE_PADDING[x][y] = left * Blockly.BlockSvg.GRID_UNIT;
+        } else {
+          Blockly.BlockSvg.SHAPE_IN_SHAPE_PADDING[x][y] = {
+            left: left * Blockly.BlockSvg.GRID_UNIT,
+            right: right * Blockly.BlockSvg.GRID_UNIT
+          };
+        }
 
         Blockly.selected.render();
 
         updateExport();
+      }
+
+      function leftRight() {
+        let pa1 = document.getElementById("paddingAmount");
+        let pa2 = document.getElementById("paddingAmount2");
+
+        if (document.getElementById("leftRight").checked) {
+          pa2.classList.remove("hidden");
+          pa2.value = pa1.value
+        } else {
+          pa2.classList.add("hidden");
+        }
       }
     </script>
 
@@ -152,11 +187,20 @@
     <div id="blocklyDiv"></div>
 
     <!-- Sidebar -->
-    <h1>Compressed Padding Playground</h1>
+    <h1>Padding Playground</h1>
     <textarea id="importExport" style="width: 26%; height: 12em;" readonly></textarea>
     <p id="paddingEditor" class="hidden">
-      <span>Padding: <input type="number" id="paddingAmount" min="0" max="10" step="1" placeholder="2"></span>
-      <button onclick="updatePadding()">Update padding</button>
+      <span>
+        Padding:
+        <input type="number" id="paddingAmount" min="0" max="10" step="1" placeholder="2" />
+        <input type="number" id="paddingAmount2" class="hidden" min="0" max="10" step="1" placeholder="2" />
+        <button onclick="updatePadding()">Update padding</button>
+      </span>
+      <br />
+      <span>
+        Left/Right:
+        <input type="checkbox" id="leftRight" onclick="leftRight()" />
+      </span>
     </p>
   </body>
 </html>

@@ -1086,7 +1086,7 @@ Blockly.BlockSvg.prototype.computeOutputPadding_ = function(inputRows) {
   // That's because a field will be rendered before any value input.
   if (firstField || !firstInput.connection) {
     otherShape = 0; // Field comes first in the row.
-    var shapeCurvature = Blockly.BlockSvg.CUSTOM_SHAPES.get(shape).curvature || 0
+    var shapeCurvature = getSubprop(Blockly.BlockSvg.CUSTOM_SHAPES.get(shape).curvature, "left") || 0
     if (0 > shapeCurvature) {
       var deltaHeight = firstInput.renderHeight - Blockly.BlockSvg.MIN_BLOCK_Y_REPORTER;
       // One grid unit per level of nesting.
@@ -1105,15 +1105,15 @@ Blockly.BlockSvg.prototype.computeOutputPadding_ = function(inputRows) {
     // Special case for hexagonal output: if the connection is larger height
     // than a standard reporter, add some start padding.
     // https://github.com/LLK/scratch-blocks/issues/376
-    var shapeCurvature = Blockly.BlockSvg.CUSTOM_SHAPES.get(shape).curvature || 0
-    var otherCurvature = Blockly.BlockSvg.CUSTOM_SHAPES.get(otherShape).curvature || 0
+    var shapeCurvature = getSubprop(Blockly.BlockSvg.CUSTOM_SHAPES.get(shape).curvature, "left") || 0
+    var otherCurvature = getSubprop(Blockly.BlockSvg.CUSTOM_SHAPES.get(otherShape).curvature, "left") || 0
     if (otherCurvature > shapeCurvature) {
       var deltaHeight = firstInput.renderHeight - Blockly.BlockSvg.MIN_BLOCK_Y_REPORTER;
       // One grid unit per level of nesting.
       row.paddingStart += deltaHeight / 2;
     }
   }
-  row.paddingStart += (Blockly.BlockSvg.SHAPE_IN_SHAPE_PADDING[shape] || [])[otherShape] || 0;
+  row.paddingStart += getSubprop((Blockly.BlockSvg.SHAPE_IN_SHAPE_PADDING[shape] || [])[otherShape], "left") || 0;
   // End row padding: based on last input or last field.
   var lastInput = row[row.length - 1];
   // In checking the right/end side, any value input takes precedence over any field.
@@ -1132,8 +1132,8 @@ Blockly.BlockSvg.prototype.computeOutputPadding_ = function(inputRows) {
     // Special case for hexagonal output: if the connection is larger height
     // than a standard reporter, add some end padding.
     // https://github.com/LLK/scratch-blocks/issues/376
-    var shapeCurvature = Blockly.BlockSvg.CUSTOM_SHAPES.get(shape).curvature || 0
-    var otherCurvature = Blockly.BlockSvg.CUSTOM_SHAPES.get(otherShape).curvature || 0
+    var shapeCurvature = getSubprop(Blockly.BlockSvg.CUSTOM_SHAPES.get(this.getOutputShapeRight()).curvature, "right") || 0
+    var otherCurvature = getSubprop(Blockly.BlockSvg.CUSTOM_SHAPES.get(otherShape).curvature, "right") || 0
     if (otherCurvature > shapeCurvature) {
       var deltaHeight = lastInput.renderHeight - Blockly.BlockSvg.MIN_BLOCK_Y_REPORTER;
       // One grid unit per level of nesting.
@@ -1142,14 +1142,14 @@ Blockly.BlockSvg.prototype.computeOutputPadding_ = function(inputRows) {
   } else {
     // No input in this row - mark as field.
     otherShape = 0;
-    var shapeCurvature = Blockly.BlockSvg.CUSTOM_SHAPES.get(shape).curvature || 0
+    var shapeCurvature = getSubprop(Blockly.BlockSvg.CUSTOM_SHAPES.get(this.getOutputShapeRight()).curvature, "right") || 0
     if (0 > shapeCurvature) {
       var deltaHeight = firstInput.renderHeight - Blockly.BlockSvg.MIN_BLOCK_Y_REPORTER;
       // One grid unit per level of nesting.
       row.paddingEnd += deltaHeight / 2;
     }
   }
-  row.paddingEnd += (Blockly.BlockSvg.SHAPE_IN_SHAPE_PADDING[shape] || [])[otherShape] || 0;
+  row.paddingEnd += getSubprop((Blockly.BlockSvg.SHAPE_IN_SHAPE_PADDING[shape] || [])[otherShape], "right") || 0;
 };
 
 /**
@@ -1465,7 +1465,7 @@ Blockly.BlockSvg.prototype.renderDrawBottom_ = function(steps, cursorY) {
   this.height = cursorY;
   if (this.edgeShapeWidth_) {
     this.edgeShapeWidth_ = this.height / 2; //more accurate assumption
-    let customShape = Blockly.BlockSvg.CUSTOM_SHAPES.get(this.getOutputShapeRight());
+    let customShape = Blockly.BlockSvg.CUSTOM_SHAPES.get(this.getOutputShape());
     if (customShape.edgeShapeWidth) {
       this.edgeShapeWidth_ = getSubprop(customShape.edgeShapeWidth(this), "right");
     }
