@@ -1815,5 +1815,46 @@ Blockly.BlockSvg.CUSTOM_SHAPES = new Map([
         `a ${esw * 0.4} ${esw * 0.4} 0 0 1 ${-esw * 0.4} ${esw * 0.4}`
       ];
     }
-  }]
+  }],
+  [
+    Blockly.OUTPUT_SHAPE_PLUS, {
+      emptyInputPath: "M 36 0 a 4 4 0 0 1 4 4 l 0 2 a 4 4 0 0 0 4 4 a 4 4 0 0 1 4 4 l 0 4 a 4 4 0 0 1 -4 4 a 4 4 0 0 0 -4 4 l 0 2 a 4 4 0 0 1 -4 4  h -24 a 4 4 0 0 1 -4 -4 l 0 -2 a 4 4 0 0 0 -4 -4 a 4 4 0 0 1 -4 -4 l 0 -4 a 4 4 0 0 1 4 -4 a 4 4 0 0 0 4 -4 l 0 -2 a 4 4 0 0 1 4 -4 z",
+      emptyInputWidth: 12 * Blockly.BlockSvg.GRID_UNIT,
+      curvature: Infinity,
+      leftPath: (block) => {
+        const paddingMultiplier = Blockly.BlockSvg.SEP_SPACE_Y / 2 / Blockly.BlockSvg.GRID_UNIT;
+        const unit = 6 * paddingMultiplier;
+        const remainingHeight = block.edgeShapeWidth_ * 2 - 36 * paddingMultiplier;
+        const remainingWidth = block.edgeShapeWidth_ - 20 * paddingMultiplier;
+        return [
+          `a ${unit} ${unit} 0 0 1 ${-unit} ${-unit} ` +
+          `a ${unit} ${unit} 0 0 0 ${-unit} ${-unit} ` +
+          `l -2 0 ` +
+          `a ${unit} ${unit} 0 0 1 ${-unit} ${-unit} ` +
+          `l 0 ${-remainingHeight} ` +
+          `a ${unit} ${unit} 0 0 1 ${unit} ${-unit} ` +
+          `l 2 0 ` +
+          `a ${unit} ${unit} 0 0 0 ${unit} ${-unit} ` +
+          `a ${unit} ${unit} 0 0 1 ${unit} ${-unit} `
+        ]
+      },
+      rightPath: (block) => {
+        const paddingMultiplier = Blockly.BlockSvg.SEP_SPACE_Y / 2 / Blockly.BlockSvg.GRID_UNIT;
+        const unit = 6 * paddingMultiplier;
+        const remainingHeight = block.edgeShapeWidth_ * 2 - 36 * paddingMultiplier;
+        const remainingWidth = block.edgeShapeWidth_ - 20 * paddingMultiplier;
+        return [
+          `a ${unit} ${unit} 0 0 1 ${unit} ${unit} ` +
+          `a ${unit} ${unit} 0 0 0 ${unit} ${unit} ` +
+          `l 2 0 ` +
+          `a ${unit} ${unit} 0 0 1 ${unit} ${unit} ` +
+          `l 0 ${remainingHeight} ` +
+          `a ${unit} ${unit} 0 0 1 ${-unit} ${unit} ` +
+          `l -2 0 ` +
+          `a ${unit} ${unit} 0 0 0 ${-unit} ${unit} ` +
+          `a ${unit} ${unit} 0 0 1 ${-unit} ${unit} `
+        ]
+      }
+    }
+  ]
 ]);
