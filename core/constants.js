@@ -279,6 +279,12 @@ Blockly.OUTPUT_SHAPE_OCTAGONAL = 6;
 Blockly.OUTPUT_SHAPE_BUMPED = 7;
 
 /**
+ * ENUM for output shape: indented (XML).
+ * @const
+ */
+Blockly.OUTPUT_SHAPE_INDENTED = 8;
+
+/**
  * ENUM for categories.
  * @const
  */
