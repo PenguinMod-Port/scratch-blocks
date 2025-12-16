@@ -1821,37 +1821,55 @@ Blockly.BlockSvg.CUSTOM_SHAPES = new Map([
     leftPath: (block) => {
       let hexRoundness = Blockly.BlockSvg.HEXAGONAL_SHAPE_ROUNDNESS;
       let diagonalWidth = block.edgeShapeWidth_ - hexRoundness * 1.5;
+      let yMult = block.height / 2 / block.edgeShapeWidth_;
       return [
-        `q ${-hexRoundness / 2} 0 ${-hexRoundness} ${-hexRoundness / 2}`,
-        `l ${-diagonalWidth} ${-diagonalWidth}`,
-        `q ${-hexRoundness} ${-hexRoundness} 0 ${-hexRoundness * 2}`,
-        `l ${diagonalWidth} ${-diagonalWidth}`,
-        `q ${hexRoundness / 2} ${-hexRoundness / 2} ${hexRoundness} ${-hexRoundness / 2}`
+        `q ${-hexRoundness / 2} 0 ${-hexRoundness} ${-hexRoundness / 2 * yMult}`,
+        `l ${-diagonalWidth} ${-diagonalWidth * yMult}`,
+        `q ${-hexRoundness} ${-hexRoundness * yMult} 0 ${-hexRoundness * 2 * yMult}`,
+        `l ${diagonalWidth} ${-diagonalWidth * yMult}`,
+        `q ${hexRoundness / 2} ${-hexRoundness / 2 * yMult} ${hexRoundness} ${-hexRoundness / 2 * yMult}`
       ];
     },
     rightPath: (block) => {
       let hexRoundness = Blockly.BlockSvg.HEXAGONAL_SHAPE_ROUNDNESS;
       let diagonalWidth = block.edgeShapeWidth_ - hexRoundness * 1.5;
+      let yMult = block.height / 2 / block.edgeShapeWidth_;
       return [
-        `q ${hexRoundness / 2} 0 ${hexRoundness} ${hexRoundness / 2}`,
-        `l ${diagonalWidth} ${diagonalWidth}`,
-        `q ${hexRoundness} ${hexRoundness} 0 ${hexRoundness * 2}`,
-        `l ${-diagonalWidth} ${diagonalWidth}`,
-        `q ${-hexRoundness / 2} ${hexRoundness / 2} ${-hexRoundness} ${hexRoundness / 2}`
+        `q ${hexRoundness / 2} 0 ${hexRoundness} ${hexRoundness / 2 * yMult}`,
+        `l ${diagonalWidth} ${diagonalWidth * yMult}`,
+        `q ${hexRoundness} ${hexRoundness * yMult} 0 ${hexRoundness * 2 * yMult}`,
+        `l ${-diagonalWidth} ${diagonalWidth * yMult}`,
+        `q ${-hexRoundness / 2} ${hexRoundness / 2 * yMult} ${-hexRoundness} ${hexRoundness / 2 * yMult}`
       ];
     },
+    edgeShapeWidth: (original) => {
+      return Math.min(original, Blockly.BlockSvg.GRID_UNIT * 15)
+    }
   }],
   [Blockly.OUTPUT_SHAPE_ROUND, {
     emptyInputPath: "M 16 0 h 16 a 16 16 0 0 1 0 32 h -16 a 16 16 0 0 1 0 -32 z",
     emptyInputWidth: 12 * Blockly.BlockSvg.GRID_UNIT,
     curvature: 1,
     leftPath: (block) => {
-      let esw = block.edgeShapeWidth_;
-      return [`a ${esw} ${esw} 0 0 1 0 ${-esw * 2}`];
+      let unit = block.edgeShapeWidth_;
+      let remainingHeight = block.height - unit * 2;
+      return [
+        `a ${unit} ${unit} 0 0 1 ${-unit} ${-unit}`,
+        `l 0 ${-remainingHeight}`,
+        `a ${unit} ${unit} 0 0 1 ${unit} ${-unit}`
+      ];
     },
     rightPath: (block) => {
-      let esw = block.edgeShapeWidth_;
-      return [`a ${esw} ${esw} 0 0 1 0 ${esw * 2}`];
+      let unit = block.edgeShapeWidth_;
+      let remainingHeight = block.height - unit * 2;
+      return [
+        `a ${unit} ${unit} 0 0 1 ${unit} ${unit}`,
+        `l 0 ${remainingHeight}`,
+        `a ${unit} ${unit} 0 0 1 ${-unit} ${unit}`
+      ];
+    },
+    edgeShapeWidth: (original) => {
+      return Math.min(original, Blockly.BlockSvg.GRID_UNIT * 15)
     }
   }],
   [Blockly.OUTPUT_SHAPE_SQUARE, {
