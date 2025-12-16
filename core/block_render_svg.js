@@ -1884,19 +1884,24 @@ Blockly.BlockSvg.CUSTOM_SHAPES = new Map([
     curvature: 1,
     leftPath: (block) => {
       let esw = block.edgeShapeWidth_;
+      let remainingHeight = block.height - esw * 2;
       return [
         `a ${esw} ${esw} 0 0 1 ${-esw} ${-esw}`,
-        `l 0 ${-esw * 0.6}`,
+        `l 0 ${-esw * 0.6 - remainingHeight}`,
         `a ${esw * 0.4} ${esw * 0.4} 0 0 1 ${esw * 0.4} ${-esw * 0.4}`
       ];
     },
     rightPath: (block) => {
       let esw = block.edgeShapeWidth_;
+      let remainingHeight = block.height - esw * 2;
       return [
         `a ${esw} ${esw} 0 0 1 ${esw} ${esw}`,
-        `l 0 ${esw * 0.6}`,
+        `l 0 ${esw * 0.6 + remainingHeight}`,
         `a ${esw * 0.4} ${esw * 0.4} 0 0 1 ${-esw * 0.4} ${esw * 0.4}`
       ];
+    },
+    edgeShapeWidth: (original) => {
+      return Math.min(original, Blockly.BlockSvg.GRID_UNIT * 15)
     }
   }],
   [Blockly.OUTPUT_SHAPE_PLUS, {
