@@ -523,13 +523,23 @@ Blockly.Connection.prototype.connect = function(otherConnection) {
   }
   this.checkConnection_(otherConnection);
   // Determine which block is superior (higher in the source stack).
+  var superior
+  var inferior
   if (this.isSuperior()) {
     // Superior block.
-    this.connect_(otherConnection);
+    superior = this;
+    inferior = otherConnection;
   } else {
     // Inferior block.
-    otherConnection.connect_(this);
+    superior = otherConnection;
+    inferior = this;
   }
+
+  let block = inferior.getSourceBlock();
+  let originalShape = block.getOutputShape();
+  superior.connect_(inferior);
+  let newShape = block.getOutputShape();
+  if (originalShape !== newShape && block.rendered) block.render();
 };
 
 /**

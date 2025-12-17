@@ -1739,6 +1739,13 @@ Blockly.Block.prototype.setOutputShape = function(outputShape) {
  * @return {?number} Value representing output shape (see constants.js).
  */
 Blockly.Block.prototype.getOutputShape = function() {
+  if (this.outputConnection && this.outputConnection.targetConnection) {
+    let connection = this.outputConnection;
+    let target = connection.targetConnection;
+    if (!target.check_) return this.outputShape_;
+    if (!connection.check_) return target.getOutputShape();
+    if (!connection.check_.reduce((v, o) => o && target.check_.includes(v), true)) return target.getOutputShape();
+  }
   return this.outputShape_;
 };
 
