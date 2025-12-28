@@ -1096,13 +1096,19 @@ Blockly.WorkspaceSvg.prototype.reportValue = function(id, value, isError = false
   var valueReportBox = goog.dom.createElement('div');
   valueReportBox.setAttribute('class', 'valueReportBox');
 
-  var valueAsString;
-  if (Object.is(value, -0)) {
-    valueAsString = '-0';
+  if (value === null || value == undefined) {
+    valueReportBox.textContent = 'null';
+  } else if (typeof value.toReporterContent == 'function') {
+    valueReportBox.append(value.toReporterContent());
   } else {
-    valueAsString = '' + value;
+    var valueAsString;
+    if (Object.is(value, -0)) {
+      valueAsString = '-0';
+    } else {
+      valueAsString = '' + value;
+    }
+    valueReportBox.textContent = valueAsString;
   }
-  valueReportBox.textContent = valueAsString;
 
   if (isError) valueReportBox.classList.add('errorReportBox')
   contentDiv.appendChild(valueReportBox);
