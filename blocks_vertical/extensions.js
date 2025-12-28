@@ -324,3 +324,16 @@ Blockly.Blocks['extension_single_input'] = {
     });
   }
 };
+
+Blockly.Blocks['extension_template'] = {
+  /**
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.jsonInit({
+      "message0": "",
+      "category": Blockly.Categories.pen,
+      "extensions": ["colours_more"]
+    });
+  }
+};
