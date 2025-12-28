@@ -1529,6 +1529,9 @@ Blockly.Block.prototype.interpolate_ = function(message, args, lastDummyAlign) {
           switch (element['type']) {
             case 'input_value':
               input = this.appendValueInput(element['name']);
+              if (element['shape']) {
+                input.connection.setOutputShape(element['shape']);
+              }
               break;
             case 'input_statement':
               input = this.appendStatementInput(element['name']);

@@ -337,7 +337,7 @@ Blockly.Connection.prototype.canConnectWithReason_ = function(target) {
     (this.targetConnection && this.targetConnection.sourceBlock_ && this.targetConnection.sourceBlock_.canDragDuplicate()) || 
     (target.targetConnection && target.targetConnection.sourceBlock_ && target.targetConnection.sourceBlock_.canDragDuplicate())
   ) {
-    return Blockly.Connection.REASON_DRAG_DUPLICATE
+    return Blockly.Connection.REASON_DRAG_DUPLICATE;
   }
   return Blockly.Connection.CAN_CONNECT;
 };
@@ -371,6 +371,10 @@ Blockly.Connection.prototype.checkConnection_ = function(target) {
       throw 'Connecting non-shadow to shadow block.';
     case Blockly.Connection.REASON_CUSTOM_PROCEDURE:
       throw 'Trying to replace a shadow on a custom procedure definition.';
+    case Blockly.Connection.REASON_DRAG_DUPLICATE:
+      // let it happen
+      break;
+      //throw 'Trying to replace a shadow on a drag duplicate block.';
     default:
       throw 'Unknown connection failure: this should never happen!';
   }
