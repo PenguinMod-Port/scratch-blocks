@@ -166,7 +166,11 @@ Blockly.Msg.LOOKS_NEXTBACKDROP = 'next backdrop';
 Blockly.Msg.LOOKS_PREVIOUSBACKDROP = 'previous backdrop';
 Blockly.Msg.LOOKS_RANDOMBACKDROP = 'random backdrop';
 
+Blockly.Msg.PM_LOOKS_CHANGESTRETCH = 'change stretch by x: %1 y: %2';
+Blockly.Msg.PM_LOOKS_SETSTRETCH = 'set stretch to x: %1 y: %2';
 Blockly.Msg.PM_LOOKS_STOPTALKING = 'stop speaking';
+Blockly.Msg.PM_LOOKS_STRETCHX = 'stretch x';
+Blockly.Msg.PM_LOOKS_STRETCHY = 'stretch y';
 
 // Motion blocks
 Blockly.Msg.MOTION_MOVESTEPS = 'move %1 steps';

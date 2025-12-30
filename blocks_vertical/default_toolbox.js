@@ -210,6 +210,32 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
     '<block type="looks_backdropnumbername" id="looks_backdropnumbername"></block>' +
     '<block type="looks_size" id="looks_size"></block>' +
     '<block type="looks_stoptalking" />' +
+    '<block type="looks_setStretch">' +
+      '<value name="X">' +
+        '<shadow type="math_number">' +
+          '<field name="NUM">100</field>' +
+        '</shadow>' +
+      '</value>' +
+      '<value name="Y">' +
+        '<shadow type="math_number">' +
+          '<field name="NUM">100</field>' +
+        '</shadow>' +
+      '</value>' +
+    '</block>' +
+    '<block type="looks_changeStretch">' +
+      '<value name="X">' +
+        '<shadow type="math_number">' +
+          '<field name="NUM">0</field>' +
+        '</shadow>' +
+      '</value>' +
+      '<value name="Y">' +
+        '<shadow type="math_number">' +
+          '<field name="NUM">0</field>' +
+        '</shadow>' +
+      '</value>' +
+    '</block>' +
+    '<block type="looks_stretchGetX" />' +
+    '<block type="looks_stretchGetY" />' +
   '</category>' +
   '<category name="%{BKY_CATEGORY_SOUND}" id="sound" colour="#D65CD6" secondaryColour="#BD42BD">' +
     '<block type="sound_play" id="sound_play">' +
