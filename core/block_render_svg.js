@@ -1248,7 +1248,7 @@ Blockly.BlockSvg.prototype.renderDraw_ = function(iconWidth, inputRows) {
     // Width of the curve/pointy-curve
     var shape = this.getOutputShape();
     if (shape !== Blockly.OUTPUT_SHAPE_SQUARE) {
-      this.edgeShapeWidth_ = (inputRows.bottomEdge + this.inputList.filter(v => v.type == Blockly.NEXT_STATEMENT).length * Blockly.BlockSvg.NOTCH_WIDTH) / 2;
+      this.edgeShapeWidth_ = (inputRows.bottomEdge + (this.isCollapsed() ? 0 : this.inputList.filter(v => v.type == Blockly.NEXT_STATEMENT).length) * Blockly.BlockSvg.NOTCH_WIDTH) / 2;
       this.edgeShape_ = shape;
       this.squareTopLeftCorner_ = true;
       this.height = this.edgeShapeWidth_ * 2;
@@ -1394,7 +1394,7 @@ Blockly.BlockSvg.prototype.renderDrawRight_ = function(steps,
   var connectionX, connectionY;
   for (var y = 0, row; row = inputRows[y]; y++) {
     cursorX = row.paddingStart;
-    if (this.edgeShape_ && this.inputList.find(v => v.type == Blockly.NEXT_STATEMENT)) cursorX += this.edgeShapeWidth_ + Blockly.BlockSvg.CORNER_RADIUS * 2
+    if (this.edgeShape_ && !this.isCollapsed() && this.inputList.find(v => v.type == Blockly.NEXT_STATEMENT)) cursorX += this.edgeShapeWidth_ + Blockly.BlockSvg.CORNER_RADIUS * 2
     if (y == 0) {
       cursorX += this.RTL ? -iconWidth : iconWidth;
     }
@@ -1433,7 +1433,7 @@ Blockly.BlockSvg.prototype.renderDrawRight_ = function(steps,
       cursorX += row.paddingEnd;
       // Update right edge for all inputs, such that all rows
       // stretch to be at least the size of all previous rows.
-      inputRows.rightEdge = Math.max(cursorX, inputRows.rightEdge, this.inputList.find(v => v.type == Blockly.NEXT_STATEMENT) ? Blockly.BlockSvg.MIN_BLOCK_X_WITH_STATEMENT + this.edgeShapeWidth_ : 0);
+      inputRows.rightEdge = Math.max(cursorX, inputRows.rightEdge, !this.isCollapsed() && this.inputList.find(v => v.type == Blockly.NEXT_STATEMENT) ? Blockly.BlockSvg.MIN_BLOCK_X_WITH_STATEMENT + this.edgeShapeWidth_ : 0);
       // Move to the right edge
       cursorX = Math.max(cursorX, inputRows.rightEdge);
       this.width = Math.max(this.width, cursorX);
@@ -1474,7 +1474,7 @@ Blockly.BlockSvg.prototype.renderDrawRight_ = function(steps,
       input.connection.setOffsetInBlock(connectionX, cursorY);
       if (input.connection.isConnected()) {
         this.width = Math.max(this.width, inputRows.statementEdge +
-          input.connection.targetBlock().getHeightWidth().width + (this.inputList.find(v => v.type == Blockly.NEXT_STATEMENT) ? this.edgeShapeWidth_ : 0));
+          input.connection.targetBlock().getHeightWidth().width + (!this.isCollapsed() && this.inputList.find(v => v.type == Blockly.NEXT_STATEMENT) ? this.edgeShapeWidth_ : 0));
       }
       if (this.type != Blockly.PROCEDURES_DEFINITION_BLOCK_TYPE &&
         (y == inputRows.length - 1 ||
@@ -1850,7 +1850,7 @@ Blockly.BlockSvg.prototype.renderMoveConnections_ = function() {
 };
 
 Blockly.BlockSvg.prototype.getOutputShapeRight = function() {
-  if (!this.outputConnection || this.inputList.find(v => v.type == Blockly.NEXT_STATEMENT)) return Blockly.OUTPUT_SHAPE_SQUARE;
+  if (!this.isCollapsed() && (!this.outputConnection || this.inputList.find(v => v.type == Blockly.NEXT_STATEMENT))) return Blockly.OUTPUT_SHAPE_SQUARE;
   return this.getOutputShape();
 }
 
