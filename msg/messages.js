@@ -416,3 +416,11 @@ Blockly.Msg.NEW_BROADCAST_MESSAGE = 'New message';
 Blockly.Msg.NEW_BROADCAST_MESSAGE_TITLE = 'New message name:';
 Blockly.Msg.BROADCAST_MODAL_TITLE = 'New Message';
 Blockly.Msg.DEFAULT_BROADCAST_MESSAGE_NAME = 'message1';
+
+// extra pm stuff
+Blockly.Msg.PM_COLLAPSE_ALL = 'Collapse All';
+Blockly.Msg.PM_COLLAPSE_BLOCK = 'Collapse Block';
+Blockly.Msg.PM_COLLAPSE_X_BLOCKS = 'Collapse %1 Blocks';
+Blockly.Msg.PM_EXPAND_ALL = 'Expand All';
+Blockly.Msg.PM_EXPAND_BLOCK = 'Expand Block';
+Blockly.Msg.PM_EXPAND_X_BLOCKS = 'Expand %1 Blocks';

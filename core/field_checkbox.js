@@ -38,7 +38,7 @@ const updateCheckColor = (field) => {
   else if (srcBlock.parentBlock_) {
     srcBlock.shadowColour_ = srcBlock.parentBlock_.getColourQuaternary();
     srcBlock.updateColour();
-    if (srcBlock.svgPath_) srcBlock.svgPath_.setAttribute("stroke", "#00000000");
+    if (srcBlock.svgPath_ && srcBlock.isShadow()) srcBlock.svgPath_.setAttribute("stroke", "#00000000");
   }
 };
 
@@ -164,6 +164,10 @@ Blockly.FieldCheckbox.prototype.updateWidth = function() {
 Blockly.FieldCheckbox.prototype.getClickTarget_ = function() {
   let output = Blockly.FieldCheckbox.superClass_.getClickTarget_.call(this)
   return this.sourceBlock_ && this.sourceBlock_.type !== "checkbox" ? this.fieldGroup_ : output
+}
+
+Blockly.FieldCheckbox.prototype.getText = function() {
+  return this.state_ == "TRUE" ? 'true' : 'false'
 }
 
 Blockly.Field.register('field_checkbox', Blockly.FieldCheckbox);

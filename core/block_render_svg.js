@@ -1092,7 +1092,7 @@ Blockly.BlockSvg.prototype.computeRightEdge_ = function(curEdge, hasStatement) {
       edge = Math.max(edge, Blockly.BlockSvg.MIN_BLOCK_X_OUTPUT);
     }
   }
-  if (hasStatement) {
+  if (hasStatement && !this.isCollapsed()) {
     // Statement blocks (C- or E- shaped) have a longer minimum width.
     edge = Math.max(edge, Blockly.BlockSvg.MIN_BLOCK_X_WITH_STATEMENT);
   }

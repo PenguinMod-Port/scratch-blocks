@@ -251,6 +251,41 @@ Blockly.ContextMenu.blockDeleteOption = function(block) {
   return deleteOption;
 };
 
+Blockly.ContextMenu.blockCollapseOption = function(block) {
+  var descendantCount = block.getDescendants(false, true).length;
+  var nextBlock = block.getNextBlock();
+  if (nextBlock) {
+    // Blocks in the current stack would survive this block's deletion.
+    descendantCount -= nextBlock.getDescendants(false, true).length;
+  }
+
+  if (block.isCollapsed()) {
+    var expandOption = {
+      text: descendantCount == 1 ? Blockly.Msg.PM_EXPAND_BLOCK :
+          Blockly.Msg.PM_EXPAND_X_BLOCKS.replace('%1', String(descendantCount)),
+      enabled: true,
+      callback: function() {
+        block.setCollapsed(false);
+        // uncollapse any blocks in branches
+        var blocks = block.getDescendants(false, true);
+        var badBlocks = nextBlock ? nextBlock.getDescendants(false, true) : [];
+        blocks.filter(v => !badBlocks.includes(v)).forEach(v => v.setCollapsed(false));
+      }
+    };
+    return expandOption;
+  } else {
+    var collapseOption = {
+      text: descendantCount == 1 ? Blockly.Msg.PM_COLLAPSE_BLOCK :
+          Blockly.Msg.PM_COLLAPSE_X_BLOCKS.replace('%1', String(descendantCount)),
+      enabled: true,
+      callback: function() {
+        block.setCollapsed(true);
+      }
+    };
+    return collapseOption;
+  }
+}
+
 /**
  * Make a context menu option for showing help for the current block.
  * @param {!Blockly.BlockSvg} block The block where the right-click originated.
@@ -398,7 +433,7 @@ Blockly.ContextMenu.toggleCollapseFn_ = function(topBlocks, shouldCollapse) {
 Blockly.ContextMenu.wsCollapseOption = function(hasExpandedBlocks, topBlocks) {
   return {
     enabled: hasExpandedBlocks,
-    text: Blockly.Msg.COLLAPSE_ALL,
+    text: Blockly.Msg.PM_COLLAPSE_ALL,
     callback: function() {
       Blockly.ContextMenu.toggleCollapseFn_(topBlocks, true);
     }
@@ -417,7 +452,7 @@ Blockly.ContextMenu.wsCollapseOption = function(hasExpandedBlocks, topBlocks) {
 Blockly.ContextMenu.wsExpandOption = function(hasCollapsedBlocks, topBlocks) {
   return {
     enabled: hasCollapsedBlocks,
-    text: Blockly.Msg.EXPAND_ALL,
+    text: Blockly.Msg.PM_EXPAND_ALL,
     callback: function() {
       Blockly.ContextMenu.toggleCollapseFn_(topBlocks, false);
     }
