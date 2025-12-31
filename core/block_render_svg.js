@@ -1274,6 +1274,9 @@ Blockly.BlockSvg.prototype.renderDraw_ = function(iconWidth, inputRows) {
   this.renderDrawBottom_(steps, cursorY);
   this.renderDrawLeft_(steps);
 
+  // fix collapsed inputs
+  if (this.isCollapsed()) this.svgGroup_.querySelectorAll('[data-argument-type="input"]').forEach(v => v.setAttribute('style', 'visibility: hidden'));
+
   var pathString = steps.join(' ');
   this.svgPath_.setAttribute('d', pathString);
 
@@ -1508,7 +1511,7 @@ Blockly.BlockSvg.prototype.renderInputShape_ = function(input, x, y) {
     return;
   }
   // Input shapes are only visibly rendered on non-connected slots.
-  if (input.connection.targetConnection) {
+  if (input.connection.targetConnection || this.isCollapsed()) {
     inputShape.setAttribute('style', 'visibility: hidden');
   } else {
     var inputShapeX = 0, inputShapeY = 0;
