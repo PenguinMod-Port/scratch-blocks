@@ -1850,7 +1850,9 @@ Blockly.BlockSvg.prototype.renderMoveConnections_ = function() {
 };
 
 Blockly.BlockSvg.prototype.getOutputShapeRight = function() {
-  if (!this.isCollapsed() && (!this.outputConnection || this.inputList.find(v => v.type == Blockly.NEXT_STATEMENT))) return Blockly.OUTPUT_SHAPE_SQUARE;
+  if (!this.outputConnection) return Blockly.OUTPUT_SHAPE_SQUARE;
+  if (this.isCollapsed()) return this.getOutputShape();
+  if (this.inputList.find(v => v.type == Blockly.NEXT_STATEMENT)) return Blockly.OUTPUT_SHAPE_SQUARE;
   return this.getOutputShape();
 }
 
