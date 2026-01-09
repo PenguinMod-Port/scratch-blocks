@@ -394,6 +394,13 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
     '<block type="control_is_clone" />' +
     '<block type="control_backToGreenFlag" />' +
     '<block type="control_restartproject" />' +
+    '<block type="control_repeatForSeconds">' +
+      '<value name="TIMES">' +
+        '<shadow type="math_whole_number">' +
+          '<field name="NUM">10</field>' +
+        '</shadow>' +
+      '</value>' +
+    '</block>' +
   '</category>' +
   '<category name="%{BKY_CATEGORY_SENSING}" id="sensing" colour="#4CBFE6" secondaryColour="#2E8EB8">' +
     '<block type="sensing_touchingobject" id="sensing_touchingobject">' +

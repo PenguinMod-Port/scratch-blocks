@@ -44,7 +44,7 @@ goog.require('goog.userAgent');
 Blockly.FieldImage = function(src, width, height, opt_alt, flip_rtl) {
   this.sourceBlock_ = null;
 
-  this.showWhenCollapsed_ = false;
+  this.showWhenCollapsed_ = opt_alt != "*";
 
   // Ensure height and width are numbers.  Strings are bad at math.
   this.height_ = Number(height);
@@ -179,6 +179,7 @@ Blockly.FieldImage.prototype.setText = function(alt) {
     // No change if null.
     return;
   }
+  this.showWhenCollapsed_ = alt == "*";
   this.text_ = alt;
 };
 
