@@ -93,6 +93,12 @@ Blockly.Colours = {
     "tertiary": "#FF3355",
     "quaternary": "#FF3355"
   },
+  "addons": {
+    "primary": "#29beb8",
+    "secondary": "#3aa8a4",
+    "tertiary": "#3aa8a4",
+    "quaternary": "#3aa8a4"
+  },
   "text": "#FFFFFF",
   "workspace": "#F9F9F9",
   "toolboxHover": "#4C97FF",
@@ -102,7 +108,7 @@ Blockly.Colours = {
   "toolbox": "#FFFFFF",
   "flyout": "#F9F9F9",
   "scrollbar": "#CECDCE",
-  "scrollbarHover": '#CECDCE',
+  "scrollbarHover": "#CECDCE",
   "textField": "#FFFFFF",
   "textFieldText": "#575E75",
   "insertionMarker": "#000000",
