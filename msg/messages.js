@@ -62,6 +62,7 @@ Blockly.Msg.PM_CONTROL_ESCAPELOOP = 'escape loop %1';
 Blockly.Msg.PM_CONTROL_IFELSEREPORTER = 'if %1 then %2 else %3';
 Blockly.Msg.PM_CONTROL_INLINESTACKOUTPUT = 'inline block';
 Blockly.Msg.PM_CONTROL_ISCLONE = 'is clone?';
+Blockly.Msg.PM_CONTROL_REPEATFORSECONDS = 'repeat for %1 seconds';
 Blockly.Msg.PM_CONTROL_RESTARTPROJECT = 'restart project';
 Blockly.Msg.PM_CONTROL_RUNFLAG = 'run %1';
 Blockly.Msg.PM_CONTROL_TRYCATCH_1 = 'try to do';
