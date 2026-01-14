@@ -1050,7 +1050,7 @@ Blockly.Blocks['argument_reporter_string_number'] = {
         }
       ],
       "canDragDuplicate": true,
-      "extensions": ["colours_more", "output_number", "output_string"]
+      "extensions": ["colours_more", "output_number", "output_any"]
     });
   }
 };
