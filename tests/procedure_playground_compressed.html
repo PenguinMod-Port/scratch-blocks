@@ -53,6 +53,17 @@
         <button id="okButton" onclick="applyMutation()">ok</button>
         <button id="rndButton" onclick="removeRandomInput()">remove random input</button>
         <button id="addRndButton" onclick="addRandomInput()">add random input</button>
+        <select id="forceOutput" onchange="setForceOutput(this.value)">
+          <option value="0">default</option>
+          <option value="1">round</option>
+          <option value="2">hexagonal</option>
+          <option value="3">square</option>
+          <option value="4">leaf</option>
+          <option value="5">plus</option>
+          <option value="6">octagonal</option>
+          <option value="7">bumped</option>
+          <option value="8">indented</option>
+        </select>
       </td>
     </tr>
   </table>
@@ -149,6 +160,7 @@
   <script>
     var editorActions = document.getElementById('editor-actions');
     editorActions.style.visibility = 'hidden';
+    var forceOutput = document.getElementById('forceOutput');
 
     var callback = null;
     var mutationRoot = null;
@@ -190,6 +202,7 @@
       mutationRoot.domToMutation(mutation);
       mutationRoot.initSvg();
       mutationRoot.render(false);
+      forceOutput.value = String(mutationRoot.getForceOutput());
     }
 
     function applyMutation() {
@@ -229,6 +242,10 @@
     function addRandomInput() {
       var rnd = Math.floor(Math.random() * 4);
       [addLabel, addTextNumber, addBoolean, addCommand][rnd]()
+    }
+
+    function setForceOutput() {
+      mutationRoot.setForceOutput(forceOutput.value);
     }
 
     function cancel() {

@@ -97,6 +97,7 @@ Blockly.ScratchBlocks.ProcedureUtils.definitionMutationToDom = function(
   container.setAttribute('argumentdefaults',
       JSON.stringify(this.argumentDefaults_));
   container.setAttribute('warp', JSON.stringify(this.warp_));
+  container.setAttribute('forceoutput', this.forceOutput_);
   return container;
 };
 
@@ -115,8 +116,8 @@ Blockly.ScratchBlocks.ProcedureUtils.definitionDomToMutation = function(xmlEleme
 
   this.argumentIds_ = JSON.parse(xmlElement.getAttribute('argumentids'));
   this.displayNames_ = JSON.parse(xmlElement.getAttribute('argumentnames'));
-  this.argumentDefaults_ = JSON.parse(
-      xmlElement.getAttribute('argumentdefaults'));
+  this.argumentDefaults_ = JSON.parse(xmlElement.getAttribute('argumentdefaults'));
+  if (xmlElement.hasAttribute('forceoutput')) this.forceOutput_ = parseInt(xmlElement.getAttribute('forceoutput'));
   this.updateDisplay_();
   if (this.updateArgumentReporterNames_) {
     this.updateArgumentReporterNames_(prevArgIds, prevDisplayNames);
@@ -869,6 +870,14 @@ Blockly.ScratchBlocks.ProcedureUtils.updateArgumentReporterNames_ = function(pre
   }
 };
 
+Blockly.ScratchBlocks.ProcedureUtils.setForceOutput = function(forceOutput) {
+  this.forceOutput_ = forceOutput;
+}
+
+Blockly.ScratchBlocks.ProcedureUtils.getForceOutput = function() {
+  return this.forceOutput_;
+}
+
 Blockly.Blocks['procedures_definition'] = {
   /**
    * Block for defining a procedure with no return value.
@@ -939,6 +948,7 @@ Blockly.Blocks['procedures_prototype'] = {
     this.argumentIds_ = [];
     this.argumentDefaults_ = [];
     this.warp_ = false;
+    this.forceOutput_ = 0;
   },
   // Shared.
   getProcCode: Blockly.ScratchBlocks.ProcedureUtils.getProcCode,
@@ -956,7 +966,11 @@ Blockly.Blocks['procedures_prototype'] = {
 
   // Only exists on procedures_prototype.
   createArgumentReporter_: Blockly.ScratchBlocks.ProcedureUtils.createArgumentReporter_,
-  updateArgumentReporterNames_: Blockly.ScratchBlocks.ProcedureUtils.updateArgumentReporterNames_
+  updateArgumentReporterNames_: Blockly.ScratchBlocks.ProcedureUtils.updateArgumentReporterNames_,
+
+  //pm
+  getForceOutput: Blockly.ScratchBlocks.ProcedureUtils.getForceOutput,
+  setForceOutput: Blockly.ScratchBlocks.ProcedureUtils.setForceOutput
 };
 
 Blockly.Blocks['procedures_declaration'] = {
@@ -974,6 +988,7 @@ Blockly.Blocks['procedures_declaration'] = {
     this.argumentIds_ = [];
     this.argumentDefaults_ = [];
     this.warp_ = false;
+    this.forceOutput_ = 0;
   },
   // Shared.
   getProcCode: Blockly.ScratchBlocks.ProcedureUtils.getProcCode,
@@ -1001,7 +1016,11 @@ Blockly.Blocks['procedures_declaration'] = {
   addBooleanExternal: Blockly.ScratchBlocks.ProcedureUtils.addBooleanExternal,
   addCommandExternal: Blockly.ScratchBlocks.ProcedureUtils.addCommandExternal,
   addStringNumberExternal: Blockly.ScratchBlocks.ProcedureUtils.addStringNumberExternal,
-  onChangeFn: Blockly.ScratchBlocks.ProcedureUtils.updateDeclarationProcCode_
+  onChangeFn: Blockly.ScratchBlocks.ProcedureUtils.updateDeclarationProcCode_,
+
+  //pm
+  getForceOutput: Blockly.ScratchBlocks.ProcedureUtils.getForceOutput,
+  setForceOutput: Blockly.ScratchBlocks.ProcedureUtils.setForceOutput
 };
 
 Blockly.Blocks['argument_reporter_boolean'] = {
@@ -1118,10 +1137,6 @@ Blockly.Blocks['argument_editor_command'] = {
 };
 
 Blockly.Blocks['procedures_return'] = {
-  /**
-   * Point towards drop-down menu.
-   * @this Blockly.Block
-  */
   init: function() {
     this.jsonInit({
       "message0": Blockly.Msg.PROCEDURES_RETURN,

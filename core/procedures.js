@@ -715,6 +715,13 @@ Blockly.Procedures.getAllProcedureReturnTypes = function(workspace) {
  * @returns {[Array<string>, number]} types & shape
  */
 Blockly.Procedures.getBlockReturnType = function(block, notProcedure = false) {
+  if (!notProcedure) {
+    let protoBlock = block.getInput('custom_block').connection.targetBlock();
+    if (protoBlock.forceOutput_ && protoBlock.forceOutput_ > 0) {
+      return [null, protoBlock.forceOutput_];
+    }
+  }
+
   var descendants = block.getCommandDescendants();
   let returnTypes = new Set();
   let returnShapes = new Set();
