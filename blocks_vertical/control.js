@@ -818,3 +818,17 @@ Blockly.Blocks["control_restartproject"] = {
     });
   }
 };
+
+Blockly.Blocks['control_waittick'] = {
+  /**
+   * pm: Block to wait (pause) stack until the next runtime tick.
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_CONTROL_WAITUNTILTICK,
+      "category": Blockly.Categories.control,
+      "extensions": ["colours_control", "shape_statement"]
+    });
+  }
+};

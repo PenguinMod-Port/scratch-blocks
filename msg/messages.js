@@ -70,6 +70,7 @@ Blockly.Msg.PM_CONTROL_TRYCATCH_2 = 'if a block errors %1';
 Blockly.Msg.PM_CONTROL_TRYCATCH_ERROR = 'error';
 Blockly.Msg.PM_CONTROL_THROWERROR = 'throw error %1';
 Blockly.Msg.PM_CONTROL_WAITORUNTIL = 'wait %1 seconds or until %2';
+Blockly.Msg.PM_CONTROL_WAITUNTILTICK = 'wait until next frame';
 
 // Data blocks
 Blockly.Msg.DATA_SETVARIABLETO = 'set %1 to %2';
