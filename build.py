@@ -30,7 +30,6 @@
 #
 # This script also generates:
 #   blocks_compressed.js: The compressed common blocks.
-#   blocks_horizontal_compressed.js: The compressed Scratch horizontal blocks.
 #   blocks_vertical_compressed.js: The compressed Scratch vertical blocks.
 #   msg/js/<LANG>.js for every language <LANG> defined in msg/js/<LANG>.json.
 
@@ -222,16 +221,13 @@ class Gen_compressed(threading.Thread):
   Uses the Closure Compiler's online API.
   Runs in a separate thread.
   """
-  def __init__(self, search_paths_vertical, search_paths_horizontal, closure_env):
+  def __init__(self, search_paths_vertical, closure_env):
     threading.Thread.__init__(self)
     self.search_paths_vertical = search_paths_vertical
-    self.search_paths_horizontal = search_paths_horizontal
     self.closure_env = closure_env
 
   def run(self):
     self.gen_core(True)
-    self.gen_core(False)
-    self.gen_blocks("horizontal")
     self.gen_blocks("vertical")
     self.gen_blocks("common")
 
@@ -570,12 +566,6 @@ class Gen_langfiles(threading.Thread):
       else:
         print("FAILED to create " + f)
 
-def exclude_vertical(item):
-  return not item.endswith("block_render_svg_vertical.js")
-
-def exclude_horizontal(item):
-  return not item.endswith("block_render_svg_horizontal.js")
-
 if __name__ == "__main__":
   try:
     closure_dir = CLOSURE_DIR_NPM
@@ -612,9 +602,6 @@ if __name__ == "__main__":
   search_paths = list(calcdeps.ExpandDirectories(
       ["core", os.path.join(closure_root, closure_library)]))
 
-  search_paths_horizontal = list(filter(exclude_vertical, search_paths))
-  search_paths_vertical = list(filter(exclude_horizontal, search_paths))
-
   closure_env = {
     "closure_dir": closure_dir,
     "closure_root": closure_root,
@@ -627,11 +614,9 @@ if __name__ == "__main__":
   # Compressed is limited by network and server speed.
   threads = [
     # Vertical:
-    Gen_uncompressed(search_paths_vertical, True, closure_env),
-    # Horizontal:
-    Gen_uncompressed(search_paths_horizontal, False, closure_env),
+    Gen_uncompressed(search_paths, True, closure_env),
     # Compressed forms of vertical and horizontal.
-    Gen_compressed(search_paths_vertical, search_paths_horizontal, closure_env),
+    Gen_compressed(search_paths, closure_env),
 
     # This is run locally in a separate thread.
     # Gen_langfiles()

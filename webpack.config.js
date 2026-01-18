@@ -12,7 +12,6 @@ var UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 module.exports = [{
   mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
   entry: {
-    horizontal: './shim/horizontal.js',
     vertical: './shim/vertical.js'
   },
   output: {
@@ -30,7 +29,6 @@ module.exports = [{
 }, {
   mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
   entry: {
-    horizontal: './shim/horizontal.js',
     vertical: './shim/vertical.js'
   },
   output: {
@@ -50,7 +48,7 @@ module.exports = [{
   },
   plugins: []
 },
-{
+/*{
   mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
   entry: './shim/gh-pages.js',
   output: {
@@ -70,9 +68,6 @@ module.exports = [{
       }, {
         from: 'blocks_common',
         to: 'playgrounds/blocks_common',
-      }, {
-        from: 'blocks_horizontal',
-        to: 'playgrounds/blocks_horizontal',
       }, {
         from: 'blocks_vertical',
         to: 'playgrounds/blocks_vertical',
@@ -94,4 +89,4 @@ module.exports = [{
         to: 'playgrounds'
       }])
   ]
-}];
+}*/];

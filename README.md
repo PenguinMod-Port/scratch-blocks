@@ -1,8 +1,6 @@
-# TurboWarp/scratch-blocks
+# PenguinMod-Port/scratch-blocks
 
-## Playgrounds
-
- - **Vertical blocks**: https://turbowarp.github.io/scratch-blocks/tests/vertical_playground_compressed.html
+[Preview](https://penguinmod-port.github.io/scratch-blocks)
 
 ## Local development
 
