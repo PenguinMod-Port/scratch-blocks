@@ -1097,7 +1097,7 @@ Blockly.WorkspaceSvg.prototype.reportValue = function(id, value, isError = false
   valueReportBox.setAttribute('class', 'valueReportBox');
 
   if (value === null || value == undefined) {
-    valueReportBox.textContent = 'null';
+    valueReportBox.innerHTML = '<i style="opacity: 0.75;">null</i>';
   } else if (typeof value.toReporterContent == 'function') {
     valueReportBox.append(value.toReporterContent());
   } else {

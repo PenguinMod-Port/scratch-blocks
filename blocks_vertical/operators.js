@@ -852,3 +852,17 @@ Blockly.Blocks['operator_notequal'] = {
     });
   }
 };
+
+Blockly.Blocks['operator_null'] = {
+  /**
+   * pm: Block for null value.
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_OPERATORS_NULL,
+      "category": Blockly.Categories.operators,
+      "extensions": ["colours_operators", "output_string"]
+    });
+  }
+}

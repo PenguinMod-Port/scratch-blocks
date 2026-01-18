@@ -262,6 +262,7 @@ Blockly.Msg.PM_OPERATORS_MATHOP_SIGN = 'sign';
 Blockly.Msg.PM_OPERATORS_NAND = '%1 nand %2';
 Blockly.Msg.PM_OPERATORS_NOR = '%1 nor %2';
 Blockly.Msg.PM_OPERATORS_NOTEQUAL = '%1 ≠ %2';
+Blockly.Msg.PM_OPERATORS_NULL = 'null';
 Blockly.Msg.PM_OPERATORS_POWER = '%1 ^ %2';
 Blockly.Msg.PM_OPERATORS_TYPE_BOOLEAN = 'boolean';
 Blockly.Msg.PM_OPERATORS_TYPE_NUMBER = 'number';
