@@ -719,7 +719,6 @@ Blockly.Procedures.getAllProcedureReturnTypes = function(workspace) {
 Blockly.Procedures.getBlockReturnType = function(block, notProcedure = false) {
   if (!notProcedure) {
     let protoBlock = block.getInput('custom_block').connection.targetBlock();
-    console.log(protoBlock)
     if (protoBlock.forceOutput_ && protoBlock.forceOutput_ > 0) {
       return [null, protoBlock.forceOutput_];
     }

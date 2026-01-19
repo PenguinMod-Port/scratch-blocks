@@ -367,6 +367,7 @@ Blockly.Connection.prototype.checkConnection_ = function(target) {
       msg += this + ' expected '  + this.check_ + ', found ' + target.check_;
       //throw msg;
       console.warn(msg);
+      break;
     case Blockly.Connection.REASON_SHADOW_PARENT:
       throw 'Connecting non-shadow to shadow block.';
     case Blockly.Connection.REASON_CUSTOM_PROCEDURE:
