@@ -52,7 +52,7 @@ Blockly.Blocks['matrix'] = {
         }
       ],
       "outputShape": Blockly.OUTPUT_SHAPE_ROUND,
-      "output": "Number",
+      "output": null,
       "extensions": ["colours_pen"]
     });
   },

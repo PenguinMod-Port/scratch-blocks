@@ -46,7 +46,7 @@ Blockly.Blocks['text'] = {
           "name": "TEXT"
         }
       ],
-      "output": "String",
+      "output": null,
       "outputShape": Blockly.OUTPUT_SHAPE_ROUND,
       "colour": Blockly.Colours.textField,
       "colourSecondary": Blockly.Colours.textField,

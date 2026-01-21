@@ -47,7 +47,7 @@ Blockly.Blocks['math_number'] = {
           "value": "0"
         }
       ],
-      "output": "Number",
+      "output": null,
       "outputShape": Blockly.OUTPUT_SHAPE_ROUND,
       "colour": Blockly.Colours.textField,
       "colourSecondary": Blockly.Colours.textField,
@@ -72,7 +72,7 @@ Blockly.Blocks['math_integer'] = {
           "precision": 1
         }
       ],
-      "output": "Number",
+      "output": null,
       "outputShape": Blockly.OUTPUT_SHAPE_ROUND,
       "colour": Blockly.Colours.textField,
       "colourSecondary": Blockly.Colours.textField,
@@ -98,7 +98,7 @@ Blockly.Blocks['math_whole_number'] = {
           "precision": 1
         }
       ],
-      "output": "Number",
+      "output": null,
       "outputShape": Blockly.OUTPUT_SHAPE_ROUND,
       "colour": Blockly.Colours.textField,
       "colourSecondary": Blockly.Colours.textField,
@@ -123,7 +123,7 @@ Blockly.Blocks['math_positive_number'] = {
           "min": 0
         }
       ],
-      "output": "Number",
+      "output": null,
       "outputShape": Blockly.OUTPUT_SHAPE_ROUND,
       "colour": Blockly.Colours.textField,
       "colourSecondary": Blockly.Colours.textField,
@@ -148,7 +148,7 @@ Blockly.Blocks['math_angle'] = {
           "value": 90
         }
       ],
-      "output": "Number",
+      "output": null,
       "outputShape": Blockly.OUTPUT_SHAPE_ROUND,
       "colour": Blockly.Colours.textField,
       "colourSecondary": Blockly.Colours.textField,

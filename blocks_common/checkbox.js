@@ -25,7 +25,7 @@ Blockly.Blocks['checkbox'] = {
           "name": "CHECKBOX"
         }
       ],
-      "output": "Boolean",
+      "output": null,
       "outputShape": Blockly.OUTPUT_SHAPE_HEXAGONAL,
       "colour": Blockly.Colours.textField,
       "colourSecondary": Blockly.Colours.textField,
