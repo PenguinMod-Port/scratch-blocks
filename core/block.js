@@ -1745,6 +1745,7 @@ Blockly.Block.prototype.getOutputShape = function() {
   if (this.outputConnection && this.outputConnection.targetConnection) {
     let connection = this.outputConnection;
     let target = connection.targetConnection;
+    if (!connection.check_ && this.isShadow()) return target.getOutputShape();
     if (!target.check_) return this.outputShape_;
     if (!connection.check_) return target.getOutputShape();
     if (!connection.check_.reduce((v, o) => o && target.check_.includes(v), true)) return target.getOutputShape();
