@@ -832,3 +832,111 @@ Blockly.Blocks['control_waittick'] = {
     });
   }
 };
+
+Blockly.Blocks['control_switch'] = {
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_CONTROL_CASE_SWITCH,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "CONDITION"
+        },
+        {
+          "type": "input_statement",
+          "name": "SUBSTACK",
+          "check": 'switchCase'
+        }
+      ],
+      "category": Blockly.Categories.control,
+      "extensions": ["colours_control", "shape_statement"]
+    });
+  }
+};
+
+Blockly.Blocks['control_switch_default'] = {
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_CONTROL_CASE_SWITCH,
+      "message1": Blockly.Msg.PM_CONTROL_CASE_DEFAULT,
+      "message2": "%1",
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "CONDITION"
+        },
+        {
+          "type": "input_statement",
+          "name": "SUBSTACK1",
+          "check": 'switchCase'
+        }
+      ],
+      "args2": [
+        {
+          "type": "input_statement",
+          "check": 'normal',
+          "name": "SUBSTACK2"
+        }
+      ],
+      "category": Blockly.Categories.control,
+      "extensions": ["colours_control", "shape_statement"]
+    });
+  }
+};
+
+Blockly.Blocks['control_case'] = {
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_CONTROL_CASE,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "CONDITION"
+        },
+        {
+          "type": "input_statement",
+          "check": 'normal',
+          "name": "SUBSTACK"
+        }
+      ],
+      "category": Blockly.Categories.control,
+      "extensions": ["colours_control", "shape_case"]
+    });
+  }
+};
+
+Blockly.Blocks['control_case_next'] = {
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_CONTROL_CASE_NEXT,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "CONDITION"
+        }
+      ],
+      "category": Blockly.Categories.control,
+      "extensions": ["colours_control", "shape_case"]
+    });
+  }
+};
+
+Blockly.Blocks['control_exitCase'] = {
+  init: function () {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_CONTROL_CASE_EXIT,
+      "args0": [
+        {
+          "type": "field_image",
+          "src": Blockly.mainWorkspace.options.pathToMedia + "arrow-down.svg",
+          "width": 24,
+          "height": 24,
+          "alt": "*",
+          "flip_rtl": true
+        }
+      ],
+      "category": Blockly.Categories.control,
+      "extensions": ["colours_control", "shape_end"]
+    });
+  }
+};

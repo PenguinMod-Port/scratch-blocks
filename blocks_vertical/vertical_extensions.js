@@ -80,6 +80,12 @@ Blockly.ScratchBlocks.VerticalExtensions.SHAPE_STATEMENT = function() {
   this.setNextStatement(true, "normal");
 };
 
+Blockly.ScratchBlocks.VerticalExtensions.SHAPE_CASE = function() {
+  this.setInputsInline(true);
+  this.setPreviousStatement(true, "switchCase");
+  this.setNextStatement(true, "switchCase");
+};
+
 /**
  * Extension to make a block be shaped as a hat block, regardless of its
  * inputs.  That means the block should have a next connection and have inline
@@ -301,6 +307,8 @@ Blockly.ScratchBlocks.VerticalExtensions.registerAll = function() {
   // Register extensions for common block shapes.
   Blockly.Extensions.register('shape_statement',
       Blockly.ScratchBlocks.VerticalExtensions.SHAPE_STATEMENT);
+  Blockly.Extensions.register('shape_case',
+      Blockly.ScratchBlocks.VerticalExtensions.SHAPE_CASE);
   Blockly.Extensions.register('shape_hat',
       Blockly.ScratchBlocks.VerticalExtensions.SHAPE_HAT);
   Blockly.Extensions.register('shape_end',
