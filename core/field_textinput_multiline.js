@@ -287,7 +287,7 @@ Blockly.FieldTextInputMultiline.prototype.setText = function(newText) {
 
 Blockly.FieldTextInput.prototype.getBorderRadius = function() {
   if (this.sourceBlock_.getOutputShape() == Blockly.OUTPUT_SHAPE_ROUND) {
-    return Math.min(this.size_.height / 2, Blockly.BlockSvg.GRID_UNIT * 7.5);
+    return Math.min(this.size_.height / 2, Blockly.BlockSvg.GRID_UNIT * 15);
   }
   return Blockly.BlockSvg.TEXT_FIELD_CORNER_RADIUS;
 };
