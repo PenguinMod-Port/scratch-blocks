@@ -103,6 +103,47 @@ Blockly.Blocks['control_repeat'] = {
   }
 };
 
+Blockly.Blocks['control_repeatForSeconds'] = {
+  /**
+   * pm: Block to repeat for n seconds (external number).
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.jsonInit({
+      "id": "control_repeatForSeconds",
+      "message0": Blockly.Msg.PM_CONTROL_REPEATFORSECONDS,
+      "message1": "%1", // Statement
+      "message2": "%1", // Icon
+      "lastDummyAlign2": "RIGHT",
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "TIMES"
+        }
+      ],
+      "args1": [
+        {
+          "type": "input_statement",
+          "check": 'normal',
+          "name": "SUBSTACK"
+        }
+      ],
+      "args2": [
+        {
+          "type": "field_image",
+          "src": Blockly.mainWorkspace.options.pathToMedia + "repeat.svg",
+          "width": 24,
+          "height": 24,
+          "alt": "*",
+          "flip_rtl": true
+        }
+      ],
+      "category": Blockly.Categories.control,
+      "extensions": ["colours_control", "shape_statement"]
+    });
+  }
+};
+
 Blockly.Blocks['control_if'] = {
   /**
    * Block for if-then.
@@ -527,6 +568,414 @@ Blockly.Blocks['control_all_at_once'] = {
       ],
       "category": Blockly.Categories.control,
       "extensions": ["colours_control", "shape_statement"]
+    });
+  }
+};
+
+
+Blockly.Blocks['control_inline_stack_output'] = {
+  /**
+   * pm: Block to run a stack and output a return from it.
+   * @this Blockly.Block
+   */
+  init: function () {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_CONTROL_INLINESTACKOUTPUT,
+      "message1": "%1",
+      "args1": [
+        {
+          "type": "input_statement",
+          "name": "SUBSTACK"
+        }
+      ],
+      "category": Blockly.Categories.control,
+      //"outputShape": Blockly.OUTPUT_SHAPE_SQUARE,
+      "extensions": ["colours_control", "output_returns"]
+    });
+  }
+};
+
+Blockly.Blocks['control_try_catch'] = {
+  /**
+   * Block for try-catch.
+   * @this Blockly.Block
+   */
+  init: function () {
+    this.jsonInit({
+      "type": "control_try_catch",
+      "message0": Blockly.Msg.PM_CONTROL_TRYCATCH_1,
+      "message1": "%1",
+      "message2": Blockly.Msg.PM_CONTROL_TRYCATCH_2,
+      "message3": "%1",
+      "args1": [
+        {
+          "type": "input_statement",
+          "name": "SUBSTACK"
+        }
+      ],
+      "args2": [
+        {
+          "type": "input_value",
+          "name": "SHADOW"
+        }
+      ],
+      "args3": [
+        {
+          "type": "input_statement",
+          "name": "SUBSTACK2"
+        }
+      ],
+      "category": Blockly.Categories.control,
+      "extensions": ["colours_control", "shape_statement"]
+    });
+  }
+};
+
+Blockly.Blocks['control_error'] = {
+  /**
+   * pm: Block to get a try catch error.
+   * @this Blockly.Block
+   */
+  init: function () {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_CONTROL_TRYCATCH_ERROR,
+      "canDragDuplicate": true,
+      "category": Blockly.Categories.control,
+      "extensions": ["colours_control", "output_string"]
+    });
+  }
+};
+
+Blockly.Blocks['control_throw_error'] = {
+  init: function () {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_CONTROL_THROWERROR,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "ERROR"
+        }
+      ],
+      "category": Blockly.Categories.control,
+      "extensions": ["colours_control", "shape_end"]
+    });
+  }
+};
+
+Blockly.Blocks["control_if_return_else_return"] = {
+  init: function() {
+    this.jsonInit({
+      "inputsInline": true,
+      "message0": Blockly.Msg.PM_CONTROL_IFELSEREPORTER,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "boolean",
+          "check": "Boolean"
+        },
+        {
+          "type": "input_value",
+          "name": "TEXT1"
+        },
+        {
+          "type": "input_value",
+          "name": "TEXT2"
+        }
+      ],
+      "category": Blockly.Categories.control,
+      "extensions": ["colours_control", "output_inputs"],
+    });
+  }
+};
+
+Blockly.Blocks['control_exitLoop'] = {
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_CONTROL_ESCAPELOOP,
+      "args0": [
+        {
+          "type": "field_image",
+          "src": Blockly.mainWorkspace.options.pathToMedia + "arrow-down.svg",
+          "width": 24,
+          "height": 24,
+          "alt": "*",
+          "flip_rtl": true
+        }
+      ],
+      "category": Blockly.Categories.control,
+      "extensions": ["colours_control", "shape_end"]
+    });
+  }
+};
+
+Blockly.Blocks['control_continueLoop'] = {
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_CONTROL_CONTINUELOOP,
+      "args0": [
+        {
+          "type": "field_image",
+          "src": Blockly.mainWorkspace.options.pathToMedia + "repeat.svg",
+          "width": 24,
+          "height": 24,
+          "alt": "*",
+          "flip_rtl": true
+        }
+      ],
+      "category": Blockly.Categories.control,
+      "extensions": ["colours_control", "shape_end"]
+    });
+  }
+};
+
+Blockly.Blocks['control_waitsecondsoruntil'] = {
+  /**
+   * pm: Block to wait (pause) stack for a specified amount of seconds, or until a condition is met.
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.jsonInit({
+      "id": "control_waitsecondsoruntil",
+      "message0": Blockly.Msg.PM_CONTROL_WAITORUNTIL,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "DURATION"
+        },
+        {
+          "type": "input_value",
+          "name": "CONDITION",
+          "check": "Boolean"
+        }
+      ],
+      "category": Blockly.Categories.control,
+      "extensions": ["colours_control", "shape_statement"]
+    });
+  }
+};
+
+Blockly.Blocks['control_delete_clones_of'] = {
+  /**
+   * pm: Block for "delete clones of..."
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.jsonInit({
+      "id": "control_delete_clones_of",
+      "message0": Blockly.Msg.PM_CONTROL_DELETECLONESOF,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "CLONE_OPTION"
+        }
+      ],
+      "category": Blockly.Categories.control,
+      "extensions": ["colours_control", "shape_statement"]
+    });
+  }
+};
+
+Blockly.Blocks['control_is_clone'] = {
+  /**
+   * pm: Block to check if a sprite is a clone.
+   * @this Blockly.Block
+   */
+  init: function () {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_CONTROL_ISCLONE,
+      "category": Blockly.Categories.control,
+      "extensions": ["colours_control", "output_boolean"]
+    });
+  }
+};
+
+Blockly.Blocks["control_backToGreenFlag"] = {
+  init: function() {
+    this.jsonInit({
+      "inputsInline": true,
+      "message0": Blockly.Msg.PM_CONTROL_RUNFLAG,
+      "args0": [
+        {
+          "type": "field_image",
+          "src": Blockly.mainWorkspace.options.pathToMedia + "flag.svg",
+          "width": 24,
+          "height": 24,
+          "alt": "flag"
+        }
+      ],
+      "category": Blockly.Categories.control,
+      "extensions": ["colours_control", "shape_statement"]
+    });
+  }
+};
+
+Blockly.Blocks["control_restartproject"] = {
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_CONTROL_RESTARTPROJECT,
+      "category": Blockly.Categories.control,
+      "extensions": ["colours_control", "shape_end"]
+    });
+  }
+};
+
+Blockly.Blocks['control_waittick'] = {
+  /**
+   * pm: Block to wait (pause) stack until the next runtime tick.
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_CONTROL_WAITUNTILTICK,
+      "category": Blockly.Categories.control,
+      "extensions": ["colours_control", "shape_statement"]
+    });
+  }
+};
+
+Blockly.Blocks['control_switch'] = {
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_CONTROL_CASE_SWITCH,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "CONDITION"
+        },
+        {
+          "type": "input_statement",
+          "name": "SUBSTACK",
+          "check": 'switchCase'
+        }
+      ],
+      "category": Blockly.Categories.control,
+      "extensions": ["colours_control", "shape_statement"]
+    });
+  }
+};
+
+Blockly.Blocks['control_switch_default'] = {
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_CONTROL_CASE_SWITCH,
+      "message1": Blockly.Msg.PM_CONTROL_CASE_DEFAULT,
+      "message2": "%1",
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "CONDITION"
+        },
+        {
+          "type": "input_statement",
+          "name": "SUBSTACK1",
+          "check": 'switchCase'
+        }
+      ],
+      "args2": [
+        {
+          "type": "input_statement",
+          "check": 'normal',
+          "name": "SUBSTACK2"
+        }
+      ],
+      "category": Blockly.Categories.control,
+      "extensions": ["colours_control", "shape_statement"]
+    });
+  }
+};
+
+Blockly.Blocks['control_case'] = {
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_CONTROL_CASE,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "CONDITION"
+        },
+        {
+          "type": "input_statement",
+          "check": 'normal',
+          "name": "SUBSTACK"
+        }
+      ],
+      "category": Blockly.Categories.control,
+      "extensions": ["colours_control", "shape_case"]
+    });
+  }
+};
+
+Blockly.Blocks['control_case_next'] = {
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_CONTROL_CASE_NEXT,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "CONDITION"
+        }
+      ],
+      "category": Blockly.Categories.control,
+      "extensions": ["colours_control", "shape_case"]
+    });
+  }
+};
+
+Blockly.Blocks['control_exitCase'] = {
+  init: function () {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_CONTROL_CASE_EXIT,
+      "args0": [
+        {
+          "type": "field_image",
+          "src": Blockly.mainWorkspace.options.pathToMedia + "arrow-down.svg",
+          "width": 24,
+          "height": 24,
+          "alt": "*",
+          "flip_rtl": true
+        }
+      ],
+      "category": Blockly.Categories.control,
+      "extensions": ["colours_control", "shape_end"]
+    });
+  }
+};
+
+Blockly.Blocks['control_from_to'] = {
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_CONTROL_FROMTO,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "SHADOW"
+        },
+        {
+          "type": "input_value",
+          "name": "FROM"
+        },
+        {
+          "type": "input_value",
+          "name": "TO"
+        },
+        {
+          "type": "input_statement",
+          "name": "SUBSTACK"
+        }
+      ],
+      "category": Blockly.Categories.control,
+      "extensions": ["colours_control", "shape_statement"]
+    });
+  }
+};
+
+Blockly.Blocks['control_from_to_index'] = {
+  init: function () {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_CONTROL_FROMTO_INDEX,
+      "canDragDuplicate": true,
+      "category": Blockly.Categories.control,
+      "extensions": ["colours_control", "output_number"]
     });
   }
 };

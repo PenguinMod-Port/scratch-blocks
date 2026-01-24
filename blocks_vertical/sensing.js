@@ -485,7 +485,8 @@ Blockly.Blocks['sensing_current'] = {
             [Blockly.Msg.SENSING_CURRENT_DAYOFWEEK, 'DAYOFWEEK'],
             [Blockly.Msg.SENSING_CURRENT_HOUR, 'HOUR'],
             [Blockly.Msg.SENSING_CURRENT_MINUTE, 'MINUTE'],
-            [Blockly.Msg.SENSING_CURRENT_SECOND, 'SECOND']
+            [Blockly.Msg.SENSING_CURRENT_SECOND, 'SECOND'],
+            [Blockly.Msg.PM_SENSING_CURRENT_TIMESTAMP, 'TIMESTAMP']
           ]
         }
       ],
@@ -549,6 +550,74 @@ Blockly.Blocks['sensing_online'] = {
       "message0": "online?",
       "category": Blockly.Categories.sensing,
       "checkboxInFlyout": true,
+      "extensions": ["colours_sensing", "output_boolean"]
+    });
+  }
+};
+
+Blockly.Blocks["sensing_thing_has_number"] = {
+  init: function() {
+    this.jsonInit({
+      "inputsInline": true,
+      "message0": Blockly.Msg.PM_SENSING_HAS_NUMBER,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "TEXT1"
+        }
+      ],
+      "category": Blockly.Categories.sensing,
+      "extensions": ["colours_sensing", "output_boolean"]
+    });
+  }
+};
+
+Blockly.Blocks["sensing_thing_has_text"] = {
+  init: function () {
+    this.jsonInit({
+      "inputsInline": true,
+      "message0": Blockly.Msg.PM_SENSING_HAS_TEXT,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "TEXT1"
+        }
+      ],
+      "category": Blockly.Categories.sensing,
+      "extensions": ["colours_sensing", "output_boolean"]
+    });
+  }
+};
+
+Blockly.Blocks["sensing_thing_is_number"] = {
+  init: function() {
+    this.jsonInit({
+      "inputsInline": true,
+      "message0": Blockly.Msg.PM_SENSING_IS_NUMBER,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "TEXT1"
+        }
+      ],
+      "category": Blockly.Categories.sensing,
+      "extensions": ["colours_sensing", "output_boolean"]
+    });
+  }
+};
+
+Blockly.Blocks["sensing_thing_is_text"] = {
+  init: function() {
+    this.jsonInit({
+      "inputsInline": true,
+      "message0": Blockly.Msg.PM_SENSING_IS_TEXT,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "TEXT1"
+        }
+      ],
+      "category": Blockly.Categories.sensing,
       "extensions": ["colours_sensing", "output_boolean"]
     });
   }

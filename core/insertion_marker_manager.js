@@ -612,8 +612,7 @@ Blockly.InsertionMarkerManager.prototype.disconnectMarker_ = function() {
   var imBlock = imConn.sourceBlock_;
   var markerNext = imBlock.nextConnection;
   var markerPrev = imBlock.previousConnection;
-
-
+  
   // The insertion marker is the first block in a stack, either because it
   // doesn't have a previous connection or because the previous connection is
   // not connected.  Unplug won't do anything in that case.  Instead, unplug the

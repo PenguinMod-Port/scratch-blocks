@@ -42,11 +42,11 @@ Blockly.Blocks['text'] = {
       "message0": "%1",
       "args0": [
         {
-          "type": "field_input",
+          "type": "field_input_multiline",
           "name": "TEXT"
         }
       ],
-      "output": "String",
+      "output": null,
       "outputShape": Blockly.OUTPUT_SHAPE_ROUND,
       "colour": Blockly.Colours.textField,
       "colourSecondary": Blockly.Colours.textField,

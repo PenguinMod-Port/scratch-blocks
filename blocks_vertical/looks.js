@@ -589,3 +589,79 @@ Blockly.Blocks['looks_nextbackdrop'] = {
     });
   }
 };
+
+Blockly.Blocks['looks_stoptalking'] = {
+  /**
+   * pm: Block to stop talking/thinking.
+   * @this Blockly.Block
+   */
+  init: function () {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_LOOKS_STOPTALKING,
+      "category": Blockly.Categories.looks,
+      "extensions": ["colours_looks", "shape_statement"]
+    });
+  }
+};
+
+Blockly.Blocks["looks_setStretch"] = {
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_LOOKS_SETSTRETCH,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "X"
+        },
+        {
+          "type": "input_value",
+          "name": "Y"
+        }
+      ],
+      "category": Blockly.Categories.looks,
+      "extensions": ["shape_statement", "colours_looks"]
+    });
+  }
+};
+
+Blockly.Blocks["looks_changeStretch"] = {
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_LOOKS_CHANGESTRETCH,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "X"
+        },
+        {
+          "type": "input_value",
+          "name": "Y"
+        }
+      ],
+      "category": Blockly.Categories.looks,
+      "extensions": ["shape_statement", "colours_looks"]
+    });
+  }
+};
+
+Blockly.Blocks["looks_stretchGetX"] = {
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_LOOKS_STRETCHX,
+      "checkboxInFlyout": true,
+      "category": Blockly.Categories.looks,
+      "extensions": ["output_number", "colours_looks"]
+    });
+  }
+};
+
+Blockly.Blocks["looks_stretchGetY"] = {
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_LOOKS_STRETCHY,
+      "checkboxInFlyout": true,
+      "category": Blockly.Categories.looks,
+      "extensions": ["output_number", "colours_looks"]
+    });
+  }
+};

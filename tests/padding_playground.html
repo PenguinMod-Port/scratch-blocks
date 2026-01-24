@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title>Padding Playground</title>
+
+    <script src="../blockly_uncompressed_vertical.js"></script>
+    <script src="../msg/messages.js"></script>
+    <script src="../msg/scratch_msgs.js"></script>
+    <script src="../blocks_vertical/vertical_extensions.js"></script>
+
+    <script src="../blocks_vertical/extensions.js"></script>
+
+    <script>
+      'use strict';
+
+      window.ScratchBlocks = Blockly;
+
+      var workspace = null;
+      var outputShapes;
+      var paddingEditor;
+
+      function start() {
+        outputShapes = [
+          Blockly.OUTPUT_SHAPE_HEXAGONAL,
+          Blockly.OUTPUT_SHAPE_ROUND,
+          Blockly.OUTPUT_SHAPE_SQUARE,
+          Blockly.OUTPUT_SHAPE_LEAF,
+          Blockly.OUTPUT_SHAPE_PLUS,
+          Blockly.OUTPUT_SHAPE_OCTAGONAL,
+          Blockly.OUTPUT_SHAPE_BUMPED,
+          Blockly.OUTPUT_SHAPE_INDENTED,
+          Blockly.OUTPUT_SHAPE_ARROW
+        ]
+
+        // Create main workspace.
+        workspace = Blockly.inject('blocklyDiv', {
+          media: '../media/',
+          noToolbox: true,
+          readOnly: true,
+          scrollbars: true,
+          zoom: {
+            controls: true,
+            wheel: true,
+            startScale: 0.675,
+            maxScale: 4,
+            minScale: 0.25,
+            scaleSpeed: 1.1
+          },
+        });
+
+        for (let x of outputShapes) {
+          for (let y of [0, ...outputShapes]) {
+            let block;
+            if (y == 0) {
+              block = workspace.newBlock('extension_single_label');
+            } else {
+              block = workspace.newBlock('extension_single_input');
+              block.getInput("INPUT").connection.setOutputShape(y);
+            }
+
+            block.setOutputShape(x);
+            block.moveBy(x * 200 - 100, (y + 1) * 100);
+            block.initSvg();
+            block.render();
+          }
+        }
+
+        workspace.addChangeListener(ev => {
+          console.log(ev)
+          if (ev.element == "selected") {
+            if (ev.oldValue) {
+              workspace.glowStack(ev.oldValue, false);
+              paddingEditor.classList.add("hidden");
+            }
+            if (Blockly.selected) {
+              workspace.glowStack(Blockly.selected.id, true);
+              paddingEditor.classList.remove("hidden");
+              let x = Blockly.selected.getOutputShape();
+              let y = Blockly.selected.type == 'extension_single_label' ? 0 : Blockly.selected.getInput("INPUT").connection.getOutputShape();
+              document.getElementById("leftRight").checked = getPadding(x, y, "left") != getPadding(x, y, "right");
+              leftRight();
+              document.getElementById("paddingAmount").value = getPadding(x, y, "left") / Blockly.BlockSvg.GRID_UNIT;
+              document.getElementById("paddingAmount2").value = getPadding(x, y, "right") / Blockly.BlockSvg.GRID_UNIT;
+            }
+          }
+        });
+
+        paddingEditor = document.getElementById("paddingEditor");
+
+        updateExport();
+      }
+
+      function getPadding(x, y, key) {
+        let a = (Blockly.BlockSvg.SHAPE_IN_SHAPE_PADDING[x] || [])[y]
+        if (a === undefined) return 0
+        if (typeof a == "object") return a[key]
+        return a
+      }
+
+      function updateExport() {
+        let output = "Blockly.BlockSvg.SHAPE_IN_SHAPE_PADDING = {\n";
+        for (let x of outputShapes) {
+          output += `\t${x}: {\n`;
+          for (let y of [0, ...outputShapes]) {
+            let left = getPadding(x, y, "left") / Blockly.BlockSvg.GRID_UNIT;
+            let right = getPadding(x, y, "right") / Blockly.BlockSvg.GRID_UNIT;
+
+            if (left === right) {
+              output += `\t\t${y}: ${left} * Blockly.BlockSvg.GRID_UNIT,\n`;
+            } else {
+              output += `\t\t${y}: { left: ${left} * Blockly.BlockSvg.GRID_UNIT, right: ${right} * Blockly.BlockSvg.GRID_UNIT },\n`;
+            }
+          }
+          output += "\t},\n";
+        }
+        output += "};";
+
+        document.getElementById("importExport").value = output;
+      }
+
+      function updatePadding() {
+        let x = Blockly.selected.getOutputShape();
+        let y = Blockly.selected.type == 'extension_single_label' ? 0 : Blockly.selected.getInput("INPUT").connection.getOutputShape();
+        let left = +document.getElementById("paddingAmount").value
+        let right = document.getElementById("leftRight").checked ? +document.getElementById("paddingAmount2").value : left;
+
+        Blockly.BlockSvg.SHAPE_IN_SHAPE_PADDING[x] ??= []
+        if (left === right) {
+          Blockly.BlockSvg.SHAPE_IN_SHAPE_PADDING[x][y] = left * Blockly.BlockSvg.GRID_UNIT;
+        } else {
+          Blockly.BlockSvg.SHAPE_IN_SHAPE_PADDING[x][y] = {
+            left: left * Blockly.BlockSvg.GRID_UNIT,
+            right: right * Blockly.BlockSvg.GRID_UNIT
+          };
+        }
+
+        Blockly.selected.render();
+
+        updateExport();
+      }
+
+      function leftRight() {
+        let pa1 = document.getElementById("paddingAmount");
+        let pa2 = document.getElementById("paddingAmount2");
+
+        if (document.getElementById("leftRight").checked) {
+          pa2.classList.remove("hidden");
+          pa2.value = pa1.value
+        } else {
+          pa2.classList.add("hidden");
+        }
+      }
+    </script>
+
+    <style>
+      html, body {
+        height: 100%;
+      }
+
+      body {
+        background-color: #fff;
+        font-family: sans-serif;
+        overflow: hidden;
+      }
+
+      h1 {
+        font-weight: normal;
+        font-size: 140%;
+      }
+
+      #blocklyDiv {
+        float: right;
+        height: 95%;
+        width: 70%;
+      }
+
+      #importExport {
+        font-family: monospace;
+        tab-size: 2;
+      }
+
+      .hidden {
+        display: none;
+      }
+    </style>
+  </head>
+
+  <body onload="start()">
+    <div id="blocklyDiv"></div>
+
+    <!-- Sidebar -->
+    <h1>Padding Playground</h1>
+    <textarea id="importExport" style="width: 26%; height: 12em;" readonly></textarea>
+    <p id="paddingEditor" class="hidden">
+      <span>
+        Padding:
+        <input type="number" id="paddingAmount" min="0" max="10" step="1" placeholder="2" />
+        <input type="number" id="paddingAmount2" class="hidden" min="0" max="10" step="1" placeholder="2" />
+        <button onclick="updatePadding()">Update padding</button>
+      </span>
+      <br />
+      <span>
+        Left/Right:
+        <input type="checkbox" id="leftRight" onclick="leftRight()" />
+      </span>
+    </p>
+  </body>
+</html>
