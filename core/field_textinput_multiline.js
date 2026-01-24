@@ -95,7 +95,7 @@ Blockly.FieldTextInputMultiline.prototype.showEditor_ = function(
   htmlInput.style.overflow = 'hidden';
   htmlInput.style.resize = 'none';
   htmlInput.style.textAlign = 'left';
-  htmlInput.style.paddingTop = '0.375em';
+  if (this.sourceBlock_ && !this.sourceBlock_.isInFlyout) htmlInput.style.paddingTop = '0.375em';
   div.style.boxShadow = '0px 0px 0px 4px ' + Blockly.Colours.fieldShadow;
 };
 

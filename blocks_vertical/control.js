@@ -940,3 +940,42 @@ Blockly.Blocks['control_exitCase'] = {
     });
   }
 };
+
+Blockly.Blocks['control_from_to'] = {
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_CONTROL_FROMTO,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "SHADOW"
+        },
+        {
+          "type": "input_value",
+          "name": "FROM"
+        },
+        {
+          "type": "input_value",
+          "name": "TO"
+        },
+        {
+          "type": "input_statement",
+          "name": "SUBSTACK"
+        }
+      ],
+      "category": Blockly.Categories.control,
+      "extensions": ["colours_control", "shape_statement"]
+    });
+  }
+};
+
+Blockly.Blocks['control_from_to_index'] = {
+  init: function () {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_CONTROL_FROMTO_INDEX,
+      "canDragDuplicate": true,
+      "category": Blockly.Categories.control,
+      "extensions": ["colours_control", "output_number"]
+    });
+  }
+};
