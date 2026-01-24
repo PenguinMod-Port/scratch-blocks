@@ -482,6 +482,8 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
     '</block>' +
     '<block type="sensing_current" id="sensing_current"></block>' +
     '<block type="sensing_dayssince2000" id="sensing_dayssince2000"></block>' +
+    '<block type="sensing_online" id="sensing_online"></block>' +
+    '<block type="sensing_username" id="sensing_username"></block>' +
     '<block type="sensing_thing_has_number">' +
       '<value name="TEXT1">' +
         '<shadow type="text" />' +

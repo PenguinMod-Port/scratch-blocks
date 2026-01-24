@@ -543,6 +543,18 @@ Blockly.Blocks['sensing_userid'] = {
   }
 };
 
+Blockly.Blocks['sensing_online'] = {
+  init: function() {
+    this.jsonInit({
+      // TODO: we need infrastructure to translate new blockly strings
+      "message0": "online?",
+      "category": Blockly.Categories.sensing,
+      "checkboxInFlyout": true,
+      "extensions": ["colours_sensing", "output_boolean"]
+    });
+  }
+};
+
 Blockly.Blocks["sensing_thing_has_number"] = {
   init: function() {
     this.jsonInit({
