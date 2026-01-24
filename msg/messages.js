@@ -257,6 +257,8 @@ Blockly.Msg.OPERATORS_MATHOP_EEXP = 'e ^';
 Blockly.Msg.OPERATORS_MATHOP_10EXP = '10 ^';
 
 Blockly.Msg.PM_OPERATORS_CONSTRAIN = 'constrain %1 min %2 max %3';
+Blockly.Msg.PM_OPERATORS_CHAR_NEWLINE = 'new line';
+Blockly.Msg.PM_OPERATORS_CHAR_TAB = 'tab character';
 Blockly.Msg.PM_OPERATORS_GTE = '%1 ≥ %2';
 Blockly.Msg.PM_OPERATORS_INTERPOLATE = 'interpolate %1 to %2 by %3';
 Blockly.Msg.PM_OPERATORS_JOIN3 = 'join %1 %2 %3';

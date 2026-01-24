@@ -45,6 +45,7 @@ goog.require('Blockly.FieldIconMenu');
 goog.require('Blockly.FieldImage');
 goog.require('Blockly.FieldNote');
 goog.require('Blockly.FieldTextInput');
+goog.require('Blockly.FieldTextInputMultiline');
 goog.require('Blockly.FieldTextInputRemovable');
 goog.require('Blockly.FieldTextDropdown');
 goog.require('Blockly.FieldNumber');

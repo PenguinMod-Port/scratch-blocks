@@ -1275,7 +1275,11 @@ Blockly.BlockSvg.prototype.renderDraw_ = function(iconWidth, inputRows) {
       
       let customShape = Blockly.BlockSvg.CUSTOM_SHAPES.get(shape);
       if (customShape.edgeShapeWidth) {
+        const right = getSubprop(customShape.edgeShapeWidth(this.edgeShapeWidth_), "right");
         this.edgeShapeWidth_ = getSubprop(customShape.edgeShapeWidth(this.edgeShapeWidth_), "left");
+        inputRows.rightEdge = Math.max(inputRows.rightEdge, right + this.edgeShapeWidth_ + Blockly.BlockSvg.GRID_UNIT * 2);
+      } else {
+        inputRows.rightEdge = Math.max(inputRows.rightEdge, this.edgeShapeWidth_ * 2 + Blockly.BlockSvg.GRID_UNIT * 2);
       }
       if (getSubprop(customShape.unsafeEdges, "left") && !this.inputList.find(v => v.type == Blockly.NEXT_STATEMENT)) {
         inputRows[0].paddingStart += this.edgeShapeWidth_
