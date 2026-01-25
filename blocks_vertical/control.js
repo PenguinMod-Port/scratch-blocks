@@ -979,3 +979,37 @@ Blockly.Blocks['control_from_to_index'] = {
     });
   }
 };
+
+Blockly.Blocks['control_decr_counter'] = {
+  /**
+   * pm: Block to subtract one from the counter value.
+   * @this Blockly.Block
+   */
+  init: function () {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_CONTROL_DECRCOUNTER,
+      "category": Blockly.Categories.control,
+      "extensions": ["colours_control", "shape_statement"]
+    });
+  }
+};
+
+Blockly.Blocks['control_set_counter'] = {
+  /**
+   * pm: Block to set the counter value.
+   * @this Blockly.Block
+   */
+  init: function () {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_CONTROL_SETCOUNTER,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "VALUE"
+        }
+      ],
+      "category": Blockly.Categories.control,
+      "extensions": ["colours_control", "shape_statement"]
+    });
+  }
+};
