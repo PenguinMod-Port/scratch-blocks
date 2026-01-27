@@ -836,7 +836,7 @@ Blockly.ScratchBlocks.ProcedureUtils.shiftFieldCallback = function(field, direct
   let index;
   for (const [i, input] of Object.entries(this.inputList)) {
     const isTargetField = input.connection
-      ? input.connection.targetBlock()?.getField(field.name) === field
+      ? (input.connection.targetBlock() && input.connection.targetBlock().getField(field.name) === field)
       : input.fieldRow.includes(field);
 
     if (isTargetField) {
