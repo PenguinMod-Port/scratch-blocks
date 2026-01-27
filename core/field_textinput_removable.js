@@ -53,11 +53,17 @@ Blockly.FieldTextInputRemovable = function(text, opt_validator, opt_restrictor) 
 };
 goog.inherits(Blockly.FieldTextInputRemovable, Blockly.FieldTextInput);
 
+// settings
+
+Blockly.FieldTextInputRemovable.REARRANGEABLE_INPUTS = true;
+
 /**
  * Show the inline free-text editor on top of the text with the remove button.
  * @private
  */
 Blockly.FieldTextInputRemovable.prototype.showEditor_ = function() {
+  const REARRANGEABLE_INPUTS = Blockly.FieldTextInputRemovable.REARRANGEABLE_INPUTS;
+
   Blockly.FieldTextInputRemovable.superClass_.showEditor_.call(this);
 
   var div = Blockly.WidgetDiv.DIV;
@@ -69,6 +75,20 @@ Blockly.FieldTextInputRemovable.prototype.showEditor_ = function() {
   this.removeButtonMouseWrapper_ = Blockly.bindEvent_(removeButton,
       'mousedown', this, this.removeCallback_);
   div.appendChild(removeButton);
+
+  if (REARRANGEABLE_INPUTS) {
+    var leftButton = goog.dom.createDom(goog.dom.TagName.IMG, 'blocklyTextRemoveIcon');
+    leftButton.setAttribute('src', Blockly.mainWorkspace.options.pathToMedia + 'icons/remove-arrow.svg');
+    leftButton.style.transform = 'translateX(-24px)';
+    Blockly.bindEvent_(leftButton, 'mousedown', this, () => this.shiftCallback_('left'));
+    div.appendChild(leftButton);
+
+    var rightButton = goog.dom.createDom(goog.dom.TagName.IMG, 'blocklyTextRemoveIcon');
+    rightButton.setAttribute('src', Blockly.mainWorkspace.options.pathToMedia + 'icons/remove-arrow.svg');
+    rightButton.style.transform = 'rotate(180deg) translateX(-24px)';
+    Blockly.bindEvent_(rightButton, 'mousedown', this, () => this.shiftCallback_('right'));
+    div.appendChild(rightButton);
+  }
 };
 
 /**
@@ -83,6 +103,15 @@ Blockly.FieldTextInputRemovable.prototype.removeCallback_ = function() {
     console.warn('Expected a source block with removeFieldCallback');
   }
 };
+
+Blockly.FieldTextInputRemovable.prototype.shiftCallback_ = function(direction) {
+  if (!this.sourceBlock_ || !this.sourceBlock_.shiftFieldCallback) {
+    console.warn('Expected a source block with shiftFieldCallback');
+    return;
+  }
+
+  this.sourceBlock_.shiftFieldCallback(this, direction);
+}
 
 /**
  * Helper function to construct a FieldTextInputRemovable from a JSON arg object,
