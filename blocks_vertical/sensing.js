@@ -622,3 +622,231 @@ Blockly.Blocks["sensing_thing_is_text"] = {
     });
   }
 };
+
+Blockly.Blocks['sensing_fulltouchingobjectmenu'] = {
+  init: function () {
+    this.jsonInit({
+      message0: '%1',
+      args0: [{
+        type: 'field_dropdown',
+        name: 'OBJECT',
+        options: [
+          ['mouse-pointer', '_mouse_'],
+          ['edge', '_edge_']
+        ]
+      }],
+      extensions: ['output_string', 'colours_sensing']
+    });
+  }
+};
+
+Blockly.Blocks['sensing_touchingobjectmenusprites'] = {
+  init: function () {
+    this.jsonInit({
+      message0: '%1',
+      args0: [{
+        type: 'field_dropdown',
+        name: 'SPRITE',
+        options: [['myself', '_myself_']]
+      }],
+      extensions: ['output_string', 'colours_sensing']
+    });
+  }
+};
+
+Blockly.Blocks['sensing_keyoptions'] = {
+  init: function () {
+    this.jsonInit({
+      message0: '%1',
+      args0: [{
+        type: 'field_dropdown',
+        name: 'KEY_OPTION',
+        options: [['space', 'space'], ['any', 'any']]
+      }],
+      extensions: ['output_string', 'colours_sensing']
+    });
+  }
+};
+
+Blockly.Blocks['sensing_scrolldirections'] = {
+  init: function () {
+    this.jsonInit({
+      message0: '%1',
+      args0: [{
+        type: 'field_dropdown',
+        name: 'SCROLL_OPTION',
+        options: [['up', 'up'], ['down', 'down']]
+      }],
+      extensions: ['output_string', 'colours_sensing']
+    });
+  }
+};
+
+Blockly.Blocks['sensing_fingeroptions'] = {
+  init: function () {
+    this.jsonInit({
+      message0: '%1',
+      args0: [{
+        type: 'field_dropdown',
+        name: 'FINGER',
+        options: [['1', '1'], ['2', '2'], ['3', '3'], ['4', '4'], ['5', '5']]
+      }],
+      extensions: ['output_string', 'colours_sensing']
+    });
+  }
+};
+
+Blockly.Blocks['sensing_objecttouchingclonesprite'] = {
+  init: function () {
+    this.jsonInit({
+      message0: Blockly.Msg.PM_SENSING_OBJECT_TOUCHING_CLONE,
+      args0: [
+        { type: 'input_value', name: 'FULLTOUCHINGOBJECTMENU' },
+        { type: 'input_value', name: 'SPRITETOUCHINGOBJECTMENU' }
+      ],
+      extensions: ['output_boolean', 'colours_sensing']
+    });
+  }
+};
+
+Blockly.Blocks['sensing_objecttouchingobject'] = {
+  init: function () {
+    this.jsonInit({
+      message0: Blockly.Msg.PM_SENSING_OBJECT_TOUCHING_OBJECT,
+      args0: [
+        { type: 'input_value', name: 'FULLTOUCHINGOBJECTMENU' },
+        { type: 'input_value', name: 'SPRITETOUCHINGOBJECTMENU' }
+      ],
+      extensions: ['output_boolean', 'colours_sensing']
+    });
+  }
+};
+
+Blockly.Blocks['sensing_keyhit'] = {
+  init: function () {
+    this.jsonInit({
+      message0: Blockly.Msg.PM_SENSING_KEY_HIT,
+      args0: [{ type: 'input_value', name: 'KEY_OPTION' }],
+      extensions: ['output_boolean', 'colours_sensing']
+    });
+  }
+};
+
+Blockly.Blocks['sensing_mousescrolling'] = {
+  init: function () {
+    this.jsonInit({
+      message0: Blockly.Msg.PM_SENSING_MOUSE_SCROLLING,
+      args0: [{ type: 'input_value', name: 'SCROLL_OPTION' }],
+      extensions: ['output_boolean', 'colours_sensing']
+    });
+  }
+};
+
+Blockly.Blocks['sensing_mouseclicked'] = {
+  init: function () {
+    this.jsonInit({
+      message0: Blockly.Msg.PM_SENSING_MOUSE_CLICKED,
+      extensions: ['output_boolean', 'colours_sensing']
+    });
+  }
+};
+
+Blockly.Blocks['sensing_fingerdown'] = {
+  init: function () {
+    this.jsonInit({
+      message0: Blockly.Msg.PM_SENSING_FINGER_DOWN,
+      args0: [{ type: 'input_value', name: 'FINGER_OPTION' }],
+      extensions: ['output_boolean', 'colours_sensing']
+    });
+  }
+};
+
+Blockly.Blocks['sensing_fingertapped'] = {
+  init: function () {
+    this.jsonInit({
+      message0: Blockly.Msg.PM_SENSING_FINGER_TAPPED,
+      args0: [{ type: 'input_value', name: 'FINGER_OPTION' }],
+      extensions: ['output_boolean', 'colours_sensing']
+    });
+  }
+};
+
+Blockly.Blocks['sensing_fingerx'] = {
+  init: function () {
+    this.jsonInit({
+      message0: Blockly.Msg.PM_SENSING_FINGER_X,
+      args0: [{ type: 'input_value', name: 'FINGER_OPTION' }],
+      extensions: ['output_number', 'colours_sensing']
+    });
+  }
+};
+
+Blockly.Blocks['sensing_fingery'] = {
+  init: function () {
+    this.jsonInit({
+      message0: Blockly.Msg.PM_SENSING_FINGER_Y,
+      args0: [{ type: 'input_value', name: 'FINGER_OPTION' }],
+      extensions: ['output_number', 'colours_sensing']
+    });
+  }
+};
+
+Blockly.Blocks['sensing_distanceTo'] = {
+  init: function () {
+    this.jsonInit({
+      message0: Blockly.Msg.PM_SENSING_DISTANCE_TO_POINTS,
+      args0: [
+        { type: 'input_value', name: 'x1' },
+        { type: 'input_value', name: 'y1' },
+        { type: 'input_value', name: 'x2' },
+        { type: 'input_value', name: 'y2' }
+      ],
+      extensions: ['output_number', 'colours_sensing']
+    });
+  }
+};
+
+Blockly.Blocks['sensing_directionTo'] = {
+  init: function () {
+    this.jsonInit({
+      message0: Blockly.Msg.PM_SENSING_DIRECTION_TO_POINTS,
+      args0: [
+        { type: 'input_value', name: 'x2' },
+        { type: 'input_value', name: 'y2' },
+        { type: 'input_value', name: 'x1' },
+        { type: 'input_value', name: 'y1' }
+      ],
+      extensions: ['output_number', 'colours_sensing']
+    });
+  }
+};
+
+Blockly.Blocks['sensing_operatingsystem'] = {
+  init: function () {
+    this.jsonInit({
+      message0: Blockly.Msg.PM_SENSING_OPERATING_SYSTEM,
+      checkboxInFlyout: true,
+      extensions: ['output_string', 'colours_sensing']
+    });
+  }
+};
+
+Blockly.Blocks['sensing_browser'] = {
+  init: function () {
+    this.jsonInit({
+      message0: Blockly.Msg.PM_SENSING_BROWSER,
+      checkboxInFlyout: true,
+      extensions: ['output_string', 'colours_sensing']
+    });
+  }
+};
+
+Blockly.Blocks['sensing_url'] = {
+  init: function () {
+    this.jsonInit({
+      message0: Blockly.Msg.PM_SENSING_URL,
+      checkboxInFlyout: true,
+      extensions: ['output_string', 'colours_sensing']
+    });
+  }
+};
