@@ -384,6 +384,20 @@ Blockly.Msg.SOUND_CHANGEVOLUMEBY = 'change volume by %1';
 Blockly.Msg.SOUND_SETVOLUMETO = 'set volume to %1%';
 Blockly.Msg.SOUND_VOLUME = 'volume';
 Blockly.Msg.SOUND_RECORD = 'record...';
+Blockly.Msg.SOUND_SOUNDS_MENU = '%1';
+Blockly.Msg.SOUND_STOP = 'stop sound %1';
+Blockly.Msg.SOUND_PAUSE = 'pause sound %1';
+Blockly.Msg.SOUND_SET_STOP_FADEOUT_TO = 'set fade out to %1 seconds on %2';
+Blockly.Msg.SOUND_PLAY_AT_SECONDS = 'start sound %1 at %2 seconds';
+Blockly.Msg.SOUND_PLAY_AT_SECONDS_UNTIL_DONE = 'play sound %1 starting at %2 seconds until done';
+Blockly.Msg.SOUND_PAUSEALLSOUNDS = 'pause all sounds';
+Blockly.Msg.SOUND_PLAYALLSOUNDS = 'play all sounds';
+Blockly.Msg.SOUND_GETEFFECTVALUE = '%1 effect';
+Blockly.Msg.SOUND_ISSOUNDPLAYING = 'is %1 playing?';
+Blockly.Msg.SOUND_GETLENGTH = 'length of %1';
+Blockly.Msg.SOUND_GETTIMEPOSITION = 'current time position of %1';
+Blockly.Msg.SOUND_GETSOUNDVOLUME = 'current volume of %1';
+
 
 // Category labels
 Blockly.Msg.CATEGORY_MOTION = 'Motion';

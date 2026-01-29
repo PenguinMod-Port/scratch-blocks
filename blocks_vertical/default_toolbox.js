@@ -364,6 +364,87 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
       '</value>' +
     '</block>' +
     '<block type="sound_volume" id="sound_volume"></block>' +
+    '<block type="sound_stop">' +
+    '  <value name="SOUND_MENU">' +
+    '    <shadow type="sound_sounds_menu">' +
+    '      <field name="SOUND_MENU">0</field>' +
+    '    </shadow>' +
+    '  </value>' +
+    '</block>' +
+    '<block type="sound_pause">' +
+    '  <value name="SOUND_MENU">' +
+    '    <shadow type="sound_sounds_menu">' +
+    '      <field name="SOUND_MENU">0</field>' +
+    '    </shadow>' +
+    '  </value>' +
+    '</block>' +
+    '<block type="sound_set_stop_fadeout_to">' +
+    '  <value name="VALUE">' +
+    '    <shadow type="math_number">' +
+    '      <field name="NUM">1</field>' +
+    '    </shadow>' +
+    '  </value>' +
+    '  <value name="SOUND_MENU">' +
+    '    <shadow type="sound_sounds_menu">' +
+    '      <field name="SOUND_MENU">0</field>' +
+    '    </shadow>' +
+    '  </value>' +
+    '</block>' +
+    '<block type="sound_play_at_seconds">' +
+    '  <value name="SOUND_MENU">' +
+    '    <shadow type="sound_sounds_menu">' +
+    '      <field name="SOUND_MENU">0</field>' +
+    '    </shadow>' +
+    '  </value>' +
+    '  <value name="VALUE">' +
+    '    <shadow type="math_number">' +
+    '      <field name="NUM">0</field>' +
+    '    </shadow>' +
+    '  </value>' +
+    '</block>' +
+    '<block type="sound_play_at_seconds_until_done">' +
+    '  <value name="SOUND_MENU">' +
+    '    <shadow type="sound_sounds_menu">' +
+    '      <field name="SOUND_MENU">0</field>' +
+    '    </shadow>' +
+    '  </value>' +
+    '  <value name="VALUE">' +
+    '    <shadow type="math_number">' +
+    '      <field name="NUM">0</field>' +
+    '    </shadow>' +
+    '  </value>' +
+    '</block>' +
+    '<block type="sound_pauseallsounds" />' +
+    '<block type="sound_playallsounds" />' +
+    '<block type="sound_getEffectValue" />' +
+    '<block type="sound_isSoundPlaying">' +
+    '  <value name="SOUND_MENU">' +
+    '    <shadow type="sound_sounds_menu">' +
+    '      <field name="SOUND_MENU">0</field>' +
+    '    </shadow>' +
+    '  </value>' +
+    '</block>' +
+    '<block type="sound_getLength">' +
+    '  <value name="SOUND_MENU">' +
+    '    <shadow type="sound_sounds_menu">' +
+    '      <field name="SOUND_MENU">0</field>' +
+    '    </shadow>' +
+    '  </value>' +
+    '</block>' +
+    '<block type="sound_getTimePosition">' +
+    '  <value name="SOUND_MENU">' +
+    '    <shadow type="sound_sounds_menu">' +
+    '      <field name="SOUND_MENU">0</field>' +
+    '    </shadow>' +
+    '  </value>' +
+    '</block>' +
+    '<block type="sound_getSoundVolume">' +
+    '  <value name="SOUND_MENU">' +
+    '    <shadow type="sound_sounds_menu">' +
+    '      <field name="SOUND_MENU">0</field>' +
+    '    </shadow>' +
+    '  </value>' +
+    '</block>' +
   '</category>' +
   '<category name="%{BKY_CATEGORY_EVENTS}" id="events" colour="#FFD500" secondaryColour="#CC9900">' +
     '<block type="event_whenflagclicked" id="event_whenflagclicked"></block>' +

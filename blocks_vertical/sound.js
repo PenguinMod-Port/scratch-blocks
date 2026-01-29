@@ -244,3 +244,178 @@ Blockly.Blocks['sound_volume'] = {
     });
   }
 };
+
+Blockly.Blocks['sound_sounds_menu'] = {
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.SOUND_SOUNDS_MENU,
+      "args0": [
+        {
+          "type": "field_dropdown",
+          "name": "SOUND_MENU",
+          "options": [
+            ['1', '0'], ['2', '1'], ['3', '2'], ['4', '3'], ['5', '4'],
+            ['6', '5'], ['7', '6'], ['8', '7'], ['9', '8'], ['10', '9'],
+            ['call a function', function() { window.alert('function called!'); }]
+          ]
+        }
+      ],
+      "colour": Blockly.Colours.sounds.secondary,
+      "colourSecondary": Blockly.Colours.sounds.secondary,
+      "colourTertiary": Blockly.Colours.sounds.tertiary,
+      "colourQuaternary": Blockly.Colours.sounds.quaternary,
+      "extensions": ["output_string"]
+    });
+  }
+};
+
+Blockly.Blocks['sound_stop'] = {
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.SOUND_STOP,
+      "args0": [{ "type": "input_value", "name": "SOUND_MENU" }],
+      "category": Blockly.Categories.sound,
+      "extensions": ["colours_sounds", "shape_statement"]
+    });
+  }
+};
+
+Blockly.Blocks['sound_pause'] = {
+  init: function () {
+    this.jsonInit({
+      "message0": Blockly.Msg.SOUND_PAUSE,
+      "args0": [{ "type": "input_value", "name": "SOUND_MENU" }],
+      "category": Blockly.Categories.sound,
+      "extensions": ["colours_sounds", "shape_statement"]
+    });
+  }
+};
+
+Blockly.Blocks['sound_set_stop_fadeout_to'] = {
+  init: function () {
+    this.jsonInit({
+      "message0": Blockly.Msg.SOUND_SET_STOP_FADEOUT_TO,
+      "args0": [
+        { "type": "input_value", "name": "VALUE" },
+        { "type": "input_value", "name": "SOUND_MENU" }
+      ],
+      "category": Blockly.Categories.sound,
+      "extensions": ["colours_sounds", "shape_statement"]
+    });
+  }
+};
+
+Blockly.Blocks['sound_play_at_seconds'] = {
+  init: function () {
+    this.jsonInit({
+      "message0": Blockly.Msg.SOUND_PLAY_AT_SECONDS,
+      "args0": [
+        { "type": "input_value", "name": "SOUND_MENU" },
+        { "type": "input_value", "name": "VALUE" }
+      ],
+      "category": Blockly.Categories.sound,
+      "extensions": ["colours_sounds", "shape_statement"]
+    });
+  }
+};
+
+Blockly.Blocks['sound_play_at_seconds_until_done'] = {
+  init: function () {
+    this.jsonInit({
+      "message0": Blockly.Msg.SOUND_PLAY_AT_SECONDS_UNTIL_DONE,
+      "args0": [
+        { "type": "input_value", "name": "SOUND_MENU" },
+        { "type": "input_value", "name": "VALUE" }
+      ],
+      "category": Blockly.Categories.sound,
+      "extensions": ["colours_sounds", "shape_statement"]
+    });
+  }
+};
+
+Blockly.Blocks['sound_pauseallsounds'] = {
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.SOUND_PAUSEALLSOUNDS,
+      "category": Blockly.Categories.sound,
+      "extensions": ["colours_sounds", "shape_statement"]
+    });
+  }
+};
+
+Blockly.Blocks['sound_playallsounds'] = {
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.SOUND_PLAYALLSOUNDS,
+      "category": Blockly.Categories.sound,
+      "extensions": ["colours_sounds", "shape_statement"]
+    });
+  }
+};
+
+Blockly.Blocks['sound_getEffectValue'] = {
+  init: function() {
+    this.jsonInit({
+      "inputsInline": true,
+      "message0": Blockly.Msg.SOUND_GETEFFECTVALUE,
+      "checkboxInFlyout": true,
+      "category": Blockly.Categories.sound,
+      "args0": [
+        {
+          "type": "field_dropdown",
+          "name": "EFFECT",
+          "options": [
+            [Blockly.Msg.SOUND_EFFECTS_PITCH, 'PITCH'],
+            [Blockly.Msg.SOUND_EFFECTS_PAN, 'PAN']
+          ]
+        }
+      ],
+      "extensions": ["colours_sounds", "output_number"]
+    });
+  }
+};
+
+Blockly.Blocks["sound_isSoundPlaying"] = {
+  init: function() {
+    this.jsonInit({
+      "inputsInline": true,
+      "category": Blockly.Categories.sound,
+      "message0": Blockly.Msg.SOUND_ISSOUNDPLAYING,
+      "args0": [{ "type": "input_value", "name": "SOUND_MENU" }],
+      "extensions": ["output_boolean", "colours_sounds"]
+    });
+  }
+};
+
+Blockly.Blocks['sound_getLength'] = {
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.SOUND_GETLENGTH,
+      "args0": [{ "type": "input_value", "name": "SOUND_MENU" }],
+      "category": Blockly.Categories.sound,
+      "extensions": ["colours_sounds", "output_number"]
+    });
+  }
+};
+
+Blockly.Blocks['sound_getTimePosition'] = {
+  init: function () {
+    this.jsonInit({
+      "message0": Blockly.Msg.SOUND_GETTIMEPOSITION,
+      "args0": [{ "type": "input_value", "name": "SOUND_MENU" }],
+      "category": Blockly.Categories.sound,
+      "extensions": ["colours_sounds", "output_number"]
+    });
+  }
+};
+
+Blockly.Blocks['sound_getSoundVolume'] = {
+  init: function () {
+    this.jsonInit({
+      "message0": Blockly.Msg.SOUND_GETSOUNDVOLUME,
+      "args0": [{ "type": "input_value", "name": "SOUND_MENU" }],
+      "category": Blockly.Categories.sound,
+      "extensions": ["colours_sounds", "output_number"]
+    });
+  }
+};
