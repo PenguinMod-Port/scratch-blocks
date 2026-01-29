@@ -272,7 +272,7 @@ Blockly.Blocks['sound_sounds_menu'] = {
 Blockly.Blocks['sound_stop'] = {
   init: function() {
     this.jsonInit({
-      "message0": Blockly.Msg.SOUND_STOP,
+      "message0": Blockly.Msg.PM_SOUND_STOP,
       "args0": [{ "type": "input_value", "name": "SOUND_MENU" }],
       "category": Blockly.Categories.sound,
       "extensions": ["colours_sounds", "shape_statement"]
@@ -283,7 +283,7 @@ Blockly.Blocks['sound_stop'] = {
 Blockly.Blocks['sound_pause'] = {
   init: function () {
     this.jsonInit({
-      "message0": Blockly.Msg.SOUND_PAUSE,
+      "message0": Blockly.Msg.PM_SOUND_PAUSE,
       "args0": [{ "type": "input_value", "name": "SOUND_MENU" }],
       "category": Blockly.Categories.sound,
       "extensions": ["colours_sounds", "shape_statement"]
@@ -294,7 +294,7 @@ Blockly.Blocks['sound_pause'] = {
 Blockly.Blocks['sound_set_stop_fadeout_to'] = {
   init: function () {
     this.jsonInit({
-      "message0": Blockly.Msg.SOUND_SET_STOP_FADEOUT_TO,
+      "message0": Blockly.Msg.PM_SOUND_SET_STOP_FADEOUT_TO,
       "args0": [
         { "type": "input_value", "name": "VALUE" },
         { "type": "input_value", "name": "SOUND_MENU" }
@@ -308,7 +308,7 @@ Blockly.Blocks['sound_set_stop_fadeout_to'] = {
 Blockly.Blocks['sound_play_at_seconds'] = {
   init: function () {
     this.jsonInit({
-      "message0": Blockly.Msg.SOUND_PLAY_AT_SECONDS,
+      "message0": Blockly.Msg.PM_SOUND_PLAY_AT_SECONDS,
       "args0": [
         { "type": "input_value", "name": "SOUND_MENU" },
         { "type": "input_value", "name": "VALUE" }
@@ -322,7 +322,7 @@ Blockly.Blocks['sound_play_at_seconds'] = {
 Blockly.Blocks['sound_play_at_seconds_until_done'] = {
   init: function () {
     this.jsonInit({
-      "message0": Blockly.Msg.SOUND_PLAY_AT_SECONDS_UNTIL_DONE,
+      "message0": Blockly.Msg.PM_SOUND_PLAY_AT_SECONDS_UNTIL_DONE,
       "args0": [
         { "type": "input_value", "name": "SOUND_MENU" },
         { "type": "input_value", "name": "VALUE" }
@@ -336,7 +336,7 @@ Blockly.Blocks['sound_play_at_seconds_until_done'] = {
 Blockly.Blocks['sound_pauseallsounds'] = {
   init: function() {
     this.jsonInit({
-      "message0": Blockly.Msg.SOUND_PAUSEALLSOUNDS,
+      "message0": Blockly.Msg.PM_SOUND_PAUSEALLSOUNDS,
       "category": Blockly.Categories.sound,
       "extensions": ["colours_sounds", "shape_statement"]
     });
@@ -346,7 +346,7 @@ Blockly.Blocks['sound_pauseallsounds'] = {
 Blockly.Blocks['sound_playallsounds'] = {
   init: function() {
     this.jsonInit({
-      "message0": Blockly.Msg.SOUND_PLAYALLSOUNDS,
+      "message0": Blockly.Msg.PM_SOUND_PLAYALLSOUNDS,
       "category": Blockly.Categories.sound,
       "extensions": ["colours_sounds", "shape_statement"]
     });
@@ -357,7 +357,7 @@ Blockly.Blocks['sound_getEffectValue'] = {
   init: function() {
     this.jsonInit({
       "inputsInline": true,
-      "message0": Blockly.Msg.SOUND_GETEFFECTVALUE,
+      "message0": Blockly.Msg.PM_SOUND_GETEFFECTVALUE,
       "checkboxInFlyout": true,
       "category": Blockly.Categories.sound,
       "args0": [
@@ -380,7 +380,7 @@ Blockly.Blocks["sound_isSoundPlaying"] = {
     this.jsonInit({
       "inputsInline": true,
       "category": Blockly.Categories.sound,
-      "message0": Blockly.Msg.SOUND_ISSOUNDPLAYING,
+      "message0": Blockly.Msg.PM_SOUND_ISSOUNDPLAYING,
       "args0": [{ "type": "input_value", "name": "SOUND_MENU" }],
       "extensions": ["output_boolean", "colours_sounds"]
     });
@@ -390,7 +390,7 @@ Blockly.Blocks["sound_isSoundPlaying"] = {
 Blockly.Blocks['sound_getLength'] = {
   init: function() {
     this.jsonInit({
-      "message0": Blockly.Msg.SOUND_GETLENGTH,
+      "message0": Blockly.Msg.PM_SOUND_GETLENGTH,
       "args0": [{ "type": "input_value", "name": "SOUND_MENU" }],
       "category": Blockly.Categories.sound,
       "extensions": ["colours_sounds", "output_number"]
@@ -401,7 +401,7 @@ Blockly.Blocks['sound_getLength'] = {
 Blockly.Blocks['sound_getTimePosition'] = {
   init: function () {
     this.jsonInit({
-      "message0": Blockly.Msg.SOUND_GETTIMEPOSITION,
+      "message0": Blockly.Msg.PM_SOUND_GETTIMEPOSITION,
       "args0": [{ "type": "input_value", "name": "SOUND_MENU" }],
       "category": Blockly.Categories.sound,
       "extensions": ["colours_sounds", "output_number"]
@@ -412,7 +412,7 @@ Blockly.Blocks['sound_getTimePosition'] = {
 Blockly.Blocks['sound_getSoundVolume'] = {
   init: function () {
     this.jsonInit({
-      "message0": Blockly.Msg.SOUND_GETSOUNDVOLUME,
+      "message0": Blockly.Msg.PM_SOUND_GETSOUNDVOLUME,
       "args0": [{ "type": "input_value", "name": "SOUND_MENU" }],
       "category": Blockly.Categories.sound,
       "extensions": ["colours_sounds", "output_number"]

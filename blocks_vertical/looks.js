@@ -843,7 +843,7 @@ Blockly.Blocks["looks_setTintColor"] = {
           "name": "color"
         }
       ],
-      "message0": Blockly.Msg.LOOKS_SETTINTCOLOR,
+      "message0": Blockly.Msg.PM_LOOKS_SETTINTCOLOR,
       "category": Blockly.Categories.looks,
       "extensions": ["colours_looks", "shape_statement"]
     });
@@ -853,7 +853,7 @@ Blockly.Blocks["looks_setTintColor"] = {
 Blockly.Blocks['looks_tintColor'] = {
   init: function () {
     this.jsonInit({
-      "message0": Blockly.Msg.LOOKS_TINTCOLOR,
+      "message0": Blockly.Msg.PM_LOOKS_TINTCOLOR,
       "category": Blockly.Categories.looks,
       "checkboxInFlyout": true,
       "extensions": ["colours_looks", "output_string"]
@@ -864,7 +864,7 @@ Blockly.Blocks['looks_tintColor'] = {
 Blockly.Blocks['looks_previouscostume'] = {
   init: function() {
     this.jsonInit({
-      "message0": Blockly.Msg.LOOKS_PREVIOUSCOSTUME,
+      "message0": Blockly.Msg.PM_LOOKS_PREVIOUSCOSTUME,
       "category": Blockly.Categories.looks,
       "extensions": ["colours_looks", "shape_statement"]
     });
@@ -874,7 +874,7 @@ Blockly.Blocks['looks_previouscostume'] = {
 Blockly.Blocks['looks_previousbackdrop'] = {
   init: function() {
     this.jsonInit({
-      "message0": Blockly.Msg.LOOKS_PREVIOUSBACKDROP,
+      "message0": Blockly.Msg.PM_LOOKS_PREVIOUSBACKDROP,
       "category": Blockly.Categories.looks,
       "extensions": ["colours_looks", "shape_statement"]
     });
@@ -884,7 +884,7 @@ Blockly.Blocks['looks_previousbackdrop'] = {
 Blockly.Blocks['looks_getOtherSpriteVisible_menu'] = {
   init: function () {
     this.jsonInit({
-      "message0": Blockly.Msg.LOOKS_GETOTHERSPRITEVISIBLE_MENU,
+      "message0": Blockly.Msg.PM_LOOKS_GETOTHERSPRITEVISIBLE_MENU,
       "args0": [
         {
           "type": "field_dropdown",
@@ -904,7 +904,7 @@ Blockly.Blocks["looks_getOtherSpriteVisible"] = {
     this.jsonInit({
       "inputsInline": true,
       "category": "looks",
-      "message0": Blockly.Msg.LOOKS_GETOTHERSPRITEVISIBLE,
+      "message0": Blockly.Msg.PM_LOOKS_GETOTHERSPRITEVISIBLE,
       "args0": [
         {
           "type": "input_value",
@@ -922,7 +922,7 @@ Blockly.Blocks["looks_getOtherSpriteVisible"] = {
 Blockly.Blocks['looks_getinputofcostume'] = {
   init: function() {
     this.jsonInit({
-      "message0": Blockly.Msg.LOOKS_GETINPUTOFCOSTUME,
+      "message0": Blockly.Msg.PM_LOOKS_GETINPUTOFCOSTUME,
       "args0": [
         {
           "type": "input_value",
@@ -943,7 +943,7 @@ Blockly.Blocks['looks_getinputofcostume'] = {
 Blockly.Blocks['looks_getinput_menu'] = {
   init: function () {
     this.jsonInit({
-      "message0": Blockly.Msg.LOOKS_GETINPUT_MENU,
+      "message0": Blockly.Msg.PM_LOOKS_GETINPUT_MENU,
       "args0": [
         {
           "type": "field_dropdown",
@@ -965,7 +965,7 @@ Blockly.Blocks['looks_getinput_menu'] = {
 Blockly.Blocks['looks_goTargetLayer'] = {
   init: function() {
     this.jsonInit({
-      "message0": Blockly.Msg.LOOKS_GOTARGETLAYER,
+      "message0": Blockly.Msg.PM_LOOKS_GOTARGETLAYER,
       "args0": [
         {
           "type": "field_dropdown",
@@ -991,7 +991,7 @@ Blockly.Blocks["looks_layersSetLayer"] = {
     this.jsonInit({
       "inputsInline": true,
       "category": "looks",
-      "message0": Blockly.Msg.LOOKS_LAYERSSETLAYER,
+      "message0": Blockly.Msg.PM_LOOKS_LAYERSSETLAYER,
       "args0": [
         {
           "type": "input_value",
@@ -1011,7 +1011,7 @@ Blockly.Blocks["looks_layersGetLayer"] = {
     this.jsonInit({
       "inputsInline": true,
       "category": "looks",
-      "message0": Blockly.Msg.LOOKS_LAYERSGETLAYER,
+      "message0": Blockly.Msg.PM_LOOKS_LAYERSGETLAYER,
       "checkboxInFlyout": true,
       "extensions": [
         "output_number",

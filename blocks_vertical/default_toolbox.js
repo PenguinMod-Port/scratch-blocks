@@ -42,6 +42,16 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
         '</shadow>' +
       '</value>' +
     '</block>' +
+    '<block type="motion_movebacksteps" id="motion_movebacksteps">' +
+    '  <value name="STEPS">' +
+    '    <shadow type="math_number" />' +
+    '  </value>' +
+    '</block>' +
+    '<block type="motion_moveupdownsteps" id="motion_moveupdownsteps">' +
+    '  <value name="STEPS">' +
+    '    <shadow type="math_number" />' +
+    '  </value>' +
+    '</block>' +
     '<block type="motion_turnright" id="motion_turnright">' +
       '<value name="DEGREES">' +
         '<shadow type="math_number">' +
@@ -56,6 +66,33 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
         '</shadow>' +
       '</value>' +
     '</block>' +
+    '<block type="motion_turnrightaroundxy" id="motion_turnrightaroundxy">' +
+      '<value name="DEGREES">' +
+        '<shadow type="math_number">' +
+          '<field name="NUM">15</field>' +
+        '</shadow>' +
+      '</value>' +
+      '<value name="X">' +
+        '<shadow type="math_number" />' +
+      '</value>' +
+      '<value name="Y">' +
+        '<shadow type="math_number" />' +
+      '</value>' +
+    '</block>' +
+    '<block type="motion_turnleftaroundxy" id="motion_turnleftaroundxy">' +
+      '<value name="DEGREES">' +
+        '<shadow type="math_number">' +
+          '<field name="NUM">15</field>' +
+        '</shadow>' +
+      '</value>' +
+      '<value name="X">' +
+        '<shadow type="math_number" />' +
+      '</value>' +
+      '<value name="Y">' +
+        '<shadow type="math_number" />' +
+      '</value>' +
+    '</block>' +
+    '<block type="motion_turnaround" />' +
     '<block type="motion_pointindirection" id="motion_pointindirection">' +
       '<value name="DIRECTION">' +
         '<shadow type="math_angle">' +
@@ -81,6 +118,7 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
         '</shadow>' +
       '</value>' +
     '</block>' +
+    '<block type="motion_pointinrandomdirection" />' +
     '<block type="motion_gotoxy" id="motion_gotoxy">' +
       '<value name="X">' +
         '<shadow id="movex" type="math_number">' +
@@ -127,6 +165,14 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
         '</shadow>' +
       '</value>' +
     '</block>' +
+    '<block type="motion_glidedirectionstepsinseconds">' +
+    '  <value name="STEPS">' +
+    '    <shadow type="math_number" />' +
+    '  </value>' +
+    '  <value name="SECS">' +
+    '    <shadow type="math_number" />' +
+    '  </value>' +
+    '</block>' +
     '<block type="motion_changexby" id="motion_changexby">' +
       '<value name="DX">' +
         '<shadow type="math_number">' +
@@ -172,6 +218,18 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
     '<block type="motion_ifonspritebounce" id="motion_ifonspritebounce">' +
       '<value name="SPRITE">' +
         '<shadow type="motion_ifonspritebounce_menu">' +
+        '</shadow>' +
+      '</value>' +
+    '</block>' +
+    '<block type="motion_ifonxybounce" id="motion_ifonxybounce">' +
+      '<value name="X">' +
+        '<shadow id="movex" type="math_number">' +
+          '<field name="NUM">0</field>' +
+        '</shadow>' +
+      '</value>' +
+      '<value name="Y">' +
+        '<shadow id="movey" type="math_number">' +
+          '<field name="NUM">0</field>' +
         '</shadow>' +
       '</value>' +
     '</block>' +
