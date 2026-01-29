@@ -678,6 +678,68 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
         '<shadow type="text" />' +
       '</value>' +
     '</block>' +
+    '<block type="sensing_objecttouchingclonesprite">' +
+    '  <value name="FULLTOUCHINGOBJECTMENU">' +
+    '    <shadow type="sensing_fulltouchingobjectmenu"/>' +
+    '  </value>' +
+    '  <value name="SPRITETOUCHINGOBJECTMENU">' +
+    '    <shadow type="sensing_touchingobjectmenusprites"/>' +
+    '  </value>' +
+    '</block>' +
+    '<block type="sensing_objecttouchingobject">' +
+    '  <value name="FULLTOUCHINGOBJECTMENU">' +
+    '    <shadow type="sensing_fulltouchingobjectmenu"/>' +
+    '  </value>' +
+    '  <value name="SPRITETOUCHINGOBJECTMENU">' +
+    '    <shadow type="sensing_touchingobjectmenusprites"/>' +
+    '  </value>' +
+    '</block>' +
+    '<block type="sensing_keyhit">' +
+    '  <value name="KEY_OPTION">' +
+    '    <shadow type="sensing_keyoptions"/>' +
+    '  </value>' +
+    '</block>' +
+    '<block type="sensing_mousescrolling">' +
+    '  <value name="SCROLL_OPTION">' +
+    '    <shadow type="sensing_scrolldirections"/>' +
+    '  </value>' +
+    '</block>' +
+    '<block type="sensing_mouseclicked"/>' +
+    '<block type="sensing_fingerdown">' +
+    '  <value name="FINGER_OPTION">' +
+    '    <shadow type="sensing_fingeroptions"/>' +
+    '  </value>' +
+    '</block>' +
+    '<block type="sensing_fingertapped">' +
+    '  <value name="FINGER_OPTION">' +
+    '    <shadow type="sensing_fingeroptions"/>' +
+    '  </value>' +
+    '</block>' +
+    '<block type="sensing_fingerx">' +
+    '  <value name="FINGER_OPTION">' +
+    '    <shadow type="sensing_fingeroptions"/>' +
+    '  </value>' +
+    '</block>' +
+    '<block type="sensing_fingery">' +
+    '  <value name="FINGER_OPTION">' +
+    '    <shadow type="sensing_fingeroptions"/>' +
+    '  </value>' +
+    '</block>' +
+    '<block type="sensing_distanceTo">' +
+    '  <value name="x1"><shadow type="math_number"/></value>' +
+    '  <value name="y1"><shadow type="math_number"/></value>' +
+    '  <value name="x2"><shadow type="math_number"/></value>' +
+    '  <value name="y2"><shadow type="math_number"/></value>' +
+    '</block>' +
+    '<block type="sensing_directionTo">' +
+    '  <value name="x2"><shadow type="math_number"/></value>' +
+    '  <value name="y2"><shadow type="math_number"/></value>' +
+    '  <value name="x1"><shadow type="math_number"/></value>' +
+    '  <value name="y1"><shadow type="math_number"/></value>' +
+    '</block>' +
+    '<block type="sensing_operatingsystem"/>' +
+    '<block type="sensing_browser"/>' +
+    '<block type="sensing_url"/>' +
   '</category>' +
   '<category name="%{BKY_CATEGORY_OPERATORS}" id="operators" colour="#40BF4A" secondaryColour="#389438">' +
     '<block type="operator_add" id="operator_add">' +
