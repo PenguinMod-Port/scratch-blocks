@@ -1216,6 +1216,25 @@ Blockly.Blocks['argument_editor_command'] = {
   shiftFieldCallback: Blockly.ScratchBlocks.ProcedureUtils.shiftArgumentCallback_
 };
 
+Blockly.Blocks['procedures_set'] = {
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_PROCEDURES_SET,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "PARAM"
+        },
+        {
+          "type": "input_value",
+          "name": "VALUE"
+        }
+      ],
+      "extensions": ["colours_more", "shape_statement"]
+    });
+  }
+};
+
 Blockly.Blocks['procedures_return'] = {
   init: function() {
     this.jsonInit({
