@@ -243,25 +243,32 @@ Blockly.Procedures.flyoutCategory = function(workspace) {
     xmlList.push(block);
   }
 
+  var seperator = goog.dom.createDom('sep')
+  seperator.setAttribute('gap', 36)
+  xmlList.push(seperator)
+
+  var setBlock = goog.dom.createDom('block');
+  setBlock.setAttribute('type', 'procedures_set');
+  var setBlockValue = goog.dom.createDom('value');
+  setBlockValue.setAttribute('name', 'VALUE');
+  var setBlockShadow = goog.dom.createDom('shadow');
+  setBlockShadow.setAttribute('type', 'text');
+  setBlockValue.appendChild(setBlockShadow);
+  setBlock.appendChild(setBlockValue);
+  xmlList.push(setBlock);
+
   var showReturn = (
     Blockly.Procedures.DEFAULT_ENABLE_RETURNS ?
     true /*mutations.length > 0*/ :
     workspace.procedureReturnsEnabled
   );
   if (showReturn) {
-    var seperator = goog.dom.createDom('sep')
-    seperator.setAttribute('gap', 36)
-    xmlList.push(seperator)
-
     var returnBlock = goog.dom.createDom('block');
     returnBlock.setAttribute('type', Blockly.PROCEDURES_RETURN_BLOCK_TYPE);
     var returnBlockValue = goog.dom.createDom('value');
     returnBlockValue.setAttribute('name', 'VALUE');
     var returnBlockShadow = goog.dom.createDom('shadow');
     returnBlockShadow.setAttribute('type', 'text');
-    var returnBlockField = goog.dom.createDom('field');
-    returnBlockField.setAttribute('name', 'TEXT');
-    returnBlockShadow.appendChild(returnBlockField);
     returnBlockValue.appendChild(returnBlockShadow);
     returnBlock.appendChild(returnBlockValue);
     xmlList.push(returnBlock);
