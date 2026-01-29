@@ -248,7 +248,7 @@ Blockly.Blocks['sound_volume'] = {
 Blockly.Blocks['sound_sounds_menu'] = {
   init: function() {
     this.jsonInit({
-      "message0": Blockly.Msg.SOUND_SOUNDS_MENU,
+      "message0": "%1",
       "args0": [
         {
           "type": "field_dropdown",
