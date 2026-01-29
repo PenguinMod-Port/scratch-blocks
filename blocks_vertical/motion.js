@@ -169,6 +169,30 @@ Blockly.Blocks['motion_pointtowards'] = {
   }
 };
 
+Blockly.Blocks['motion_pointtowardsxy'] = {
+  /**
+   * Block to point towards an x and y position.
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.MOTION_POINTTOWARDS_XY,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "X"
+        },
+        {
+          "type": "input_value",
+          "name": "Y"
+        }
+      ],
+      "category": Blockly.Categories.motion,
+      "extensions": ["colours_motion", "shape_statement"]
+    });
+  }
+};
+
 Blockly.Blocks['motion_goto_menu'] = {
   /**
    * Go to drop-down menu.
@@ -399,6 +423,30 @@ Blockly.Blocks['motion_sety'] = {
   }
 };
 
+Blockly.Blocks['motion_changebyxy'] = {
+  /**
+   * pBlock to change X and Y at the same time.
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.MOTION_CHANGEBYXY,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "DX"
+        },
+        {
+          "type": "input_value",
+          "name": "DY"
+        }
+      ],
+      "category": Blockly.Categories.motion,
+      "extensions": ["colours_motion", "shape_statement"]
+    });
+  }
+};
+
 Blockly.Blocks['motion_ifonedgebounce'] = {
   /**
    * Block to bounce on edge.
@@ -407,6 +455,78 @@ Blockly.Blocks['motion_ifonedgebounce'] = {
   init: function() {
     this.jsonInit({
       "message0": Blockly.Msg.MOTION_IFONEDGEBOUNCE,
+      "category": Blockly.Categories.motion,
+      "extensions": ["colours_motion", "shape_statement"]
+    });
+  }
+};
+
+Blockly.Blocks['motion_ifonspritebounce_menu'] = {
+  /**
+   * If touching sprite bounce drop-down menu.
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.jsonInit({
+      "message0": "%1",
+      "args0": [
+        {
+          "type": "field_dropdown",
+          "name": "TO",
+          "options": [
+            [Blockly.Msg.SENSING_TOUCHINGOBJECT_EDGE, '_edge_'],
+            [Blockly.Msg.MOTION_GOTO_POINTER, '_mouse_'],
+            [Blockly.Msg.MOTION_GLIDETO_RANDOM, '_random_']
+          ]
+        }
+      ],
+      "colour": Blockly.Colours.motion.secondary,
+      "colourSecondary": Blockly.Colours.motion.secondary,
+      "colourTertiary": Blockly.Colours.motion.tertiary,
+      "colourQuaternary": Blockly.Colours.motion.quaternary,
+      "extensions": ["output_string"]
+    });
+  }
+};
+
+Blockly.Blocks['motion_ifonspritebounce'] = {
+  /**
+   * Block to bounce on a sprite.
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.MOTION_IFONSPRITEBOUNCE,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "SPRITE"
+        }
+      ],
+      "category": Blockly.Categories.motion,
+      "extensions": ["colours_motion", "shape_statement"]
+    });
+  }
+};
+
+Blockly.Blocks['motion_ifonxybounce'] = {
+  /**
+   * pm: Block to bounce on x and y.
+   * @this Blockly.Block
+   */
+  init: function () {
+    this.jsonInit({
+      "message0": Blockly.Msg.MOTION_IFONXYBOUNCE,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "X"
+        },
+        {
+          "type": "input_value",
+          "name": "Y"
+        }
+      ],
       "category": Blockly.Categories.motion,
       "extensions": ["colours_motion", "shape_statement"]
     });
@@ -519,6 +639,37 @@ Blockly.Blocks['motion_scroll_up'] = {
         {
           "type": "input_value",
           "name": "DISTANCE"
+        }
+      ],
+      "category": Blockly.Categories.motion,
+      "extensions": ["colours_motion", "shape_statement"]
+    });
+  }
+};
+
+Blockly.Blocks['motion_move_sprite_to_scene_side'] = {
+  /**
+   * Block to move the sprite to the stage's side.
+   * @this Blockly.Block
+   */
+  init: function () {
+    this.jsonInit({
+      "message0": Blockly.Msg.MOTION_MOVE_SPRITE_TO_SCENE_SIDE,
+      "args0": [
+        {
+          "type": "field_dropdown",
+          "name": "ALIGNMENT",
+          "options": [
+            [Blockly.Msg.MOTION_ALIGNSCENE_MIDDLE, 'middle'],
+            [Blockly.Msg.MOTION_ALIGNSCENE_LEFT, 'left'],
+            [Blockly.Msg.MOTION_ALIGNSCENE_RIGHT, 'right'],
+            [Blockly.Msg.MOTION_ALIGNSCENE_TOPLEFT, 'top-left'],
+            [Blockly.Msg.MOTION_ALIGNSCENE_TOP, 'top'],
+            [Blockly.Msg.MOTION_ALIGNSCENE_TOPRIGHT, 'top-right'],
+            [Blockly.Msg.MOTION_ALIGNSCENE_BOTTOMLEFT, 'bottom-left'],
+            [Blockly.Msg.MOTION_ALIGNSCENE_BOTTOM, 'bottom'],
+            [Blockly.Msg.MOTION_ALIGNSCENE_BOTTOMRIGHT, 'bottom-right'],
+          ]
         }
       ],
       "category": Blockly.Categories.motion,

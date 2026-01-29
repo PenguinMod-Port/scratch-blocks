@@ -69,6 +69,18 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
         '</shadow>' +
       '</value>' +
     '</block>' +
+    '<block type="motion_pointtowardsxy" id="motion_pointtowards_xy">' +
+      '<value name="X">' +
+        '<shadow type="math_number">' +
+          '<field name="NUM">0</field>' +
+        '</shadow>' +
+      '</value>' +
+      '<value name="Y">' +
+        '<shadow type="math_number">' +
+          '<field name="NUM">0</field>' +
+        '</shadow>' +
+      '</value>' +
+    '</block>' +
     '<block type="motion_gotoxy" id="motion_gotoxy">' +
       '<value name="X">' +
         '<shadow id="movex" type="math_number">' +
@@ -143,7 +155,26 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
         '</shadow>' +
       '</value>' +
     '</block>' +
+    '<block type="motion_changebyxy" id="motion_changeyby">' +
+      '<value name="DX">' +
+        '<shadow type="math_number">' +
+          '<field name="NUM">10</field>' +
+        '</shadow>' +
+      '</value>' +
+      '<value name="DY">' +
+        '<shadow type="math_number">' +
+          '<field name="NUM">10</field>' +
+        '</shadow>' +
+      '</value>' +
+    '</block>' +
+    '<block type="motion_move_sprite_to_scene_side" id="motion_move_sprite_to_scene_side"></block>' +
     '<block type="motion_ifonedgebounce" id="motion_ifonedgebounce"></block>' +
+    '<block type="motion_ifonspritebounce" id="motion_ifonspritebounce">' +
+      '<value name="SPRITE">' +
+        '<shadow type="motion_ifonspritebounce_menu">' +
+        '</shadow>' +
+      '</value>' +
+    '</block>' +
     '<block type="motion_setrotationstyle" id="motion_setrotationstyle"></block>' +
     '<block type="motion_xposition" id="motion_xposition"></block>' +
     '<block type="motion_yposition" id="motion_yposition"></block>' +
@@ -152,6 +183,22 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
   '<category name="%{BKY_CATEGORY_LOOKS}" id="looks" colour="#9966FF" secondaryColour="#774DCB">' +
     '<block type="looks_show" id="looks_show"></block>' +
     '<block type="looks_hide" id="looks_hide"></block>' +
+    '<block type="looks_changeVisibilityOfSprite">' +
+    '<field name="VISIBLE_TYPE">show</field>' +
+    '  <value name="VISIBLE_OPTION">' +
+    '    <shadow type="looks_changeVisibilityOfSprite_menu"></shadow>' +
+    '  </value>' +
+    '</block>' +
+    '<block type="looks_changeVisibilityOfSpriteShow">' +
+    '  <value name="VISIBLE_OPTION">' +
+    '    <shadow type="looks_changeVisibilityOfSprite_menu"></shadow>' +
+    '  </value>' +
+    '</block>' +
+    '<block type="looks_changeVisibilityOfSpriteHide">' +
+    '  <value name="VISIBLE_OPTION">' +
+    '    <shadow type="looks_changeVisibilityOfSprite_menu"></shadow>' +
+    '  </value>' +
+    '</block>' +
     '<block type="looks_switchcostumeto" id="looks_switchcostumeto">' +
       '<value name="COSTUME">' +
         '<shadow type="looks_costume"></shadow>' +
@@ -236,6 +283,44 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
     '</block>' +
     '<block type="looks_stretchGetX" />' +
     '<block type="looks_stretchGetY" />' +
+    '<block type="looks_setTintColor">' +
+    '  <value name="color">' +
+    '    <shadow type="colour_picker" />' +
+    '  </value>' +
+    '</block>' +
+    '<block type="looks_tintColor" />' +
+    '<block type="looks_previouscostume" />' +
+    '<block type="looks_previousbackdrop" />' +
+    '<block type="looks_getOtherSpriteVisible">' +
+    '  <value name="VISIBLE_OPTION">' +
+    '    <shadow type="looks_getOtherSpriteVisible_menu">' +
+    '      <field name="VISIBLE_OPTION">_myself_</field>' +
+    '    </shadow>' +
+    '  </value>' +
+    '</block>' +
+    '<block type="looks_getinputofcostume">' +
+    '  <value name="INPUT">' +
+    '    <shadow type="looks_getinput_menu">' +
+    '      <field name="INPUT">width</field>' +
+    '    </shadow>' +
+    '  </value>' +
+    '  <value name="COSTUME">' +
+    '    <shadow type="looks_costume" />' +
+    '  </value>' +
+    '</block>' +
+    '<block type="looks_goTargetLayer">' +
+    '  <value name="VISIBLE_OPTION">' +
+    '    <shadow type="looks_getOtherSpriteVisible_menu" />' +
+    '  </value>' +
+    '</block>' +
+    '<block type="looks_layersSetLayer">' +
+    '  <value name="NUM">' +
+    '    <shadow type="math_number">' +
+    '      <field name="NUM">1</field>' +
+    '    </shadow>' +
+    '  </value>' +
+    '</block>' +
+    '<block type="looks_layersGetLayer" />' +
   '</category>' +
   '<category name="%{BKY_CATEGORY_SOUND}" id="sound" colour="#D65CD6" secondaryColour="#BD42BD">' +
     '<block type="sound_play" id="sound_play">' +
