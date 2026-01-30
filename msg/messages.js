@@ -243,24 +243,24 @@ Blockly.Msg.MOTION_XSCROLL = 'x scroll';
 Blockly.Msg.MOTION_YSCROLL = 'y scroll';
 Blockly.Msg.MOTION_STAGE_SELECTED = 'Stage selected: no motion blocks';
 
-Blockly.Msg.PM_MOTION_IFONSPRITEBOUNCE_EDGE = 'mouse-pointer';
-Blockly.Msg.PM_MOTION_IFONSPRITEBOUNCE = 'if touching %1, bounce';
-Blockly.Msg.PM_MOTION_POINTTOWARDS_XY = 'point towards x: %1 y: %2';
-Blockly.Msg.PM_MOTION_IFONXYBOUNCE = 'if touching x: %1 y: %2, bounce';
 Blockly.Msg.PM_MOTION_CHANGEBYXY = 'change by x: %1 y: %2';
+Blockly.Msg.PM_MOTION_GLIDEDIRECTIONSTEPSINSECONDS = 'glide %1 steps %2 in %3 secs';
+Blockly.Msg.PM_MOTION_GLIDE_BACKWARDS = 'backwards';
+Blockly.Msg.PM_MOTION_GLIDE_DOWN = 'down';
+Blockly.Msg.PM_MOTION_GLIDE_FORWARDS = 'forwards';
+Blockly.Msg.PM_MOTION_GLIDE_UP = 'up';
+Blockly.Msg.PM_MOTION_IFONSPRITEBOUNCE = 'if touching %1, bounce';
+Blockly.Msg.PM_MOTION_IFONSPRITEBOUNCE_EDGE = 'mouse-pointer';
+Blockly.Msg.PM_MOTION_IFONXYBOUNCE = 'if touching x: %1 y: %2, bounce';
 Blockly.Msg.PM_MOTION_MOVEBACKSTEPS = 'move back %1 steps';
 Blockly.Msg.PM_MOTION_MOVEUPDOWNSTEPS = 'move %1 %2 steps';
 Blockly.Msg.PM_MOTION_MOVEUPDOWNSTEPS_UP = 'up';
 Blockly.Msg.PM_MOTION_MOVEUPDOWNSTEPS_DOWN = 'down';
+Blockly.Msg.PM_MOTION_POINTTOWARDS_XY = 'point towards x: %1 y: %2';
+Blockly.Msg.PM_MOTION_POINTINRANDOMDIRECTION = 'point in random direction';
 Blockly.Msg.PM_MOTION_TURNRIGHTAROUNDXY = 'turn %1 %2 degrees around x: %3 y: %4';
 Blockly.Msg.PM_MOTION_TURNLEFTAROUNDXY = 'turn %1 %2 degrees around x: %3 y: %4';
 Blockly.Msg.PM_MOTION_TURNAROUND = 'turn around';
-Blockly.Msg.PM_MOTION_POINTINRANDOMDIRECTION = 'point in random direction';
-Blockly.Msg.PM_MOTION_GLIDEDIRECTIONSTEPSINSECONDS = 'glide %1 steps %2 in %3 secs';
-Blockly.Msg.PM_MOTION_GLIDE_FORWARDS = 'forwards';
-Blockly.Msg.PM_MOTION_GLIDE_BACKWARDS = 'backwards';
-Blockly.Msg.PM_MOTION_GLIDE_UP = 'up';
-Blockly.Msg.PM_MOTION_GLIDE_DOWN = 'down';
 
 // Operators blocks
 Blockly.Msg.OPERATORS_ADD = '%1 + %2';
