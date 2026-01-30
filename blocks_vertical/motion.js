@@ -48,54 +48,6 @@ Blockly.Blocks['motion_movesteps'] = {
   }
 };
 
-Blockly.Blocks['motion_movebacksteps'] = {
-  /**
-   * pm: Block to move back steps.
-   * @this Blockly.Block
-   */
-  init: function() {
-    this.jsonInit({
-      "message0": Blockly.Msg.PM_MOTION_MOVEBACKSTEPS,
-      "args0": [
-        {
-          "type": "input_value",
-          "name": "STEPS"
-        }
-      ],
-      "category": Blockly.Categories.motion,
-      "extensions": ["colours_motion", "shape_statement"]
-    });
-  }
-};
-
-Blockly.Blocks['motion_moveupdownsteps'] = {
-  /**
-   * pm: Block to move up or down steps.
-   * @this Blockly.Block
-   */
-  init: function() {
-    this.jsonInit({
-      "message0": Blockly.Msg.PM_MOTION_MOVEUPDOWNSTEPS,
-      "args0": [
-        {
-          "type": "field_dropdown",
-          "name": "DIRECTION",
-          "options": [
-            [Blockly.Msg.PM_MOTION_MOVEUPDOWNSTEPS_UP, 'up'],
-            [Blockly.Msg.PM_MOTION_MOVEUPDOWNSTEPS_DOWN, 'down']
-          ]
-        },
-        {
-          "type": "input_value",
-          "name": "STEPS"
-        }
-      ],
-      "category": Blockly.Categories.motion,
-      "extensions": ["colours_motion", "shape_statement"]
-    });
-  }
-};
-
 Blockly.Blocks['motion_turnright'] = {
   /**
    * Block to turn right.
@@ -142,74 +94,6 @@ Blockly.Blocks['motion_turnleft'] = {
         {
           "type": "input_value",
           "name": "DEGREES"
-        }
-      ],
-      "category": Blockly.Categories.motion,
-      "extensions": ["colours_motion", "shape_statement"]
-    });
-  }
-};
-
-Blockly.Blocks['motion_turnrightaroundxy'] = {
-  /**
-   * pm: Block to turn right around a certain point.
-   * @this Blockly.Block
-   */
-  init: function () {
-    this.jsonInit({
-      "message0": Blockly.Msg.PM_MOTION_TURNRIGHTAROUNDXY,
-      "args0": [
-        {
-          "type": "field_image",
-          "src": Blockly.mainWorkspace.options.pathToMedia + "rotate-right.svg",
-          "width": 24,
-          "height": 24
-        },
-        {
-          "type": "input_value",
-          "name": "DEGREES"
-        },
-        {
-          "type": "input_value",
-          "name": "X"
-        },
-        {
-          "type": "input_value",
-          "name": "Y"
-        }
-      ],
-      "category": Blockly.Categories.motion,
-      "extensions": ["colours_motion", "shape_statement"]
-    });
-  }
-};
-
-Blockly.Blocks['motion_turnleftaroundxy'] = {
-  /**
-   * pm: Block to turn left around a certain point.
-   * @this Blockly.Block
-   */
-  init: function () {
-    this.jsonInit({
-      "message0": Blockly.Msg.PM_MOTION_TURNLEFTAROUNDXY,
-      "args0": [
-        {
-          "type": "field_image",
-          "src": Blockly.mainWorkspace.options.pathToMedia + "rotate-left.svg",
-          "width": 24,
-          "height": 24
-        },
-        {
-          "type": "input_value",
-          "name": "DEGREES"
-        },
-        {
-          "type": "input_value",
-          "name": "X"
-        },
-        {
-          "type": "input_value",
-          "name": "Y"
         }
       ],
       "category": Blockly.Categories.motion,
@@ -277,30 +161,6 @@ Blockly.Blocks['motion_pointtowards'] = {
         {
           "type": "input_value",
           "name": "TOWARDS"
-        }
-      ],
-      "category": Blockly.Categories.motion,
-      "extensions": ["colours_motion", "shape_statement"]
-    });
-  }
-};
-
-Blockly.Blocks['motion_pointtowardsxy'] = {
-  /**
-   * pm: Block to point towards an x and y position.
-   * @this Blockly.Block
-   */
-  init: function() {
-    this.jsonInit({
-      "message0": Blockly.Msg.PM_MOTION_POINTTOWARDS_XY,
-      "args0": [
-        {
-          "type": "input_value",
-          "name": "X"
-        },
-        {
-          "type": "input_value",
-          "name": "Y"
         }
       ],
       "category": Blockly.Categories.motion,
@@ -539,30 +399,6 @@ Blockly.Blocks['motion_sety'] = {
   }
 };
 
-Blockly.Blocks['motion_changebyxy'] = {
-  /**
-   * pm: Block to change X and Y at the same time.
-   * @this Blockly.Block
-   */
-  init: function() {
-    this.jsonInit({
-      "message0": Blockly.Msg.PM_MOTION_CHANGEBYXY,
-      "args0": [
-        {
-          "type": "input_value",
-          "name": "DX"
-        },
-        {
-          "type": "input_value",
-          "name": "DY"
-        }
-      ],
-      "category": Blockly.Categories.motion,
-      "extensions": ["colours_motion", "shape_statement"]
-    });
-  }
-};
-
 Blockly.Blocks['motion_ifonedgebounce'] = {
   /**
    * Block to bounce on edge.
@@ -601,50 +437,6 @@ Blockly.Blocks['motion_ifonspritebounce_menu'] = {
       "colourTertiary": Blockly.Colours.motion.tertiary,
       "colourQuaternary": Blockly.Colours.motion.quaternary,
       "extensions": ["output_string"]
-    });
-  }
-};
-
-Blockly.Blocks['motion_ifonspritebounce'] = {
-  /**
-   * pm: Block to bounce on a sprite.
-   * @this Blockly.Block
-   */
-  init: function() {
-    this.jsonInit({
-      "message0": Blockly.Msg.PM_MOTION_IFONSPRITEBOUNCE,
-      "args0": [
-        {
-          "type": "input_value",
-          "name": "SPRITE"
-        }
-      ],
-      "category": Blockly.Categories.motion,
-      "extensions": ["colours_motion", "shape_statement"]
-    });
-  }
-};
-
-Blockly.Blocks['motion_ifonxybounce'] = {
-  /**
-   * pm: Block to bounce on x and y.
-   * @this Blockly.Block
-   */
-  init: function () {
-    this.jsonInit({
-      "message0": Blockly.Msg.PM_MOTION_IFONXYBOUNCE,
-      "args0": [
-        {
-          "type": "input_value",
-          "name": "X"
-        },
-        {
-          "type": "input_value",
-          "name": "Y"
-        }
-      ],
-      "category": Blockly.Categories.motion,
-      "extensions": ["colours_motion", "shape_statement"]
     });
   }
 };
@@ -897,6 +689,214 @@ Blockly.Blocks['motion_glidedirectionstepsinseconds'] = {
         {
           "type": "input_value",
           "name": "SECS"
+        }
+      ],
+      "category": Blockly.Categories.motion,
+      "extensions": ["colours_motion", "shape_statement"]
+    });
+  }
+};
+
+Blockly.Blocks['motion_movebacksteps'] = {
+  /**
+   * pm: Block to move back steps.
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_MOTION_MOVEBACKSTEPS,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "STEPS"
+        }
+      ],
+      "category": Blockly.Categories.motion,
+      "extensions": ["colours_motion", "shape_statement"]
+    });
+  }
+};
+
+Blockly.Blocks['motion_moveupdownsteps'] = {
+  /**
+   * pm: Block to move up or down steps.
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_MOTION_MOVEUPDOWNSTEPS,
+      "args0": [
+        {
+          "type": "field_dropdown",
+          "name": "DIRECTION",
+          "options": [
+            [Blockly.Msg.PM_MOTION_MOVEUPDOWNSTEPS_UP, 'up'],
+            [Blockly.Msg.PM_MOTION_MOVEUPDOWNSTEPS_DOWN, 'down']
+          ]
+        },
+        {
+          "type": "input_value",
+          "name": "STEPS"
+        }
+      ],
+      "category": Blockly.Categories.motion,
+      "extensions": ["colours_motion", "shape_statement"]
+    });
+  }
+};
+
+Blockly.Blocks['motion_turnrightaroundxy'] = {
+  /**
+   * pm: Block to turn right around a certain point.
+   * @this Blockly.Block
+   */
+  init: function () {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_MOTION_TURNRIGHTAROUNDXY,
+      "args0": [
+        {
+          "type": "field_image",
+          "src": Blockly.mainWorkspace.options.pathToMedia + "rotate-right.svg",
+          "width": 24,
+          "height": 24
+        },
+        {
+          "type": "input_value",
+          "name": "DEGREES"
+        },
+        {
+          "type": "input_value",
+          "name": "X"
+        },
+        {
+          "type": "input_value",
+          "name": "Y"
+        }
+      ],
+      "category": Blockly.Categories.motion,
+      "extensions": ["colours_motion", "shape_statement"]
+    });
+  }
+};
+
+Blockly.Blocks['motion_turnleftaroundxy'] = {
+  /**
+   * pm: Block to turn left around a certain point.
+   * @this Blockly.Block
+   */
+  init: function () {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_MOTION_TURNLEFTAROUNDXY,
+      "args0": [
+        {
+          "type": "field_image",
+          "src": Blockly.mainWorkspace.options.pathToMedia + "rotate-left.svg",
+          "width": 24,
+          "height": 24
+        },
+        {
+          "type": "input_value",
+          "name": "DEGREES"
+        },
+        {
+          "type": "input_value",
+          "name": "X"
+        },
+        {
+          "type": "input_value",
+          "name": "Y"
+        }
+      ],
+      "category": Blockly.Categories.motion,
+      "extensions": ["colours_motion", "shape_statement"]
+    });
+  }
+};
+
+Blockly.Blocks['motion_pointtowardsxy'] = {
+  /**
+   * pm: Block to point towards an x and y position.
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_MOTION_POINTTOWARDS_XY,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "X"
+        },
+        {
+          "type": "input_value",
+          "name": "Y"
+        }
+      ],
+      "category": Blockly.Categories.motion,
+      "extensions": ["colours_motion", "shape_statement"]
+    });
+  }
+};
+
+Blockly.Blocks['motion_changebyxy'] = {
+  /**
+   * pm: Block to change X and Y at the same time.
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_MOTION_CHANGEBYXY,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "DX"
+        },
+        {
+          "type": "input_value",
+          "name": "DY"
+        }
+      ],
+      "category": Blockly.Categories.motion,
+      "extensions": ["colours_motion", "shape_statement"]
+    });
+  }
+};
+
+Blockly.Blocks['motion_ifonspritebounce'] = {
+  /**
+   * pm: Block to bounce on a sprite.
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_MOTION_IFONSPRITEBOUNCE,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "SPRITE"
+        }
+      ],
+      "category": Blockly.Categories.motion,
+      "extensions": ["colours_motion", "shape_statement"]
+    });
+  }
+};
+
+Blockly.Blocks['motion_ifonxybounce'] = {
+  /**
+   * pm: Block to bounce on x and y.
+   * @this Blockly.Block
+   */
+  init: function () {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_MOTION_IFONXYBOUNCE,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "X"
+        },
+        {
+          "type": "input_value",
+          "name": "Y"
         }
       ],
       "category": Blockly.Categories.motion,
