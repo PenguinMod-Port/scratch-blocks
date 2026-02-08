@@ -886,3 +886,52 @@ Blockly.Blocks["operator_tabCharacter"] = {
     });
   }
 };
+
+Blockly.Blocks['operator_expandablejoininputs'] = {
+  /**
+   * pm: Block for joining n number of strings together
+   * @this Blockly.Block
+   */
+  init: function () {
+    this.jsonInit({
+      "message0": 'join %1',
+      "args0": [
+        {
+          "type": "field_expandable",
+          "name": "EXPANDABLE",
+          "value": 2,
+          "min": 2
+        },
+      ],
+      "category": Blockly.Categories.operators,
+      "extensions": ["colours_operators", "output_string"]
+    });
+
+    this.possibleStrings = [
+      Blockly.Msg.OPERATORS_JOIN_APPLE,
+      Blockly.Msg.OPERATORS_JOIN_BANANA,
+      Blockly.Msg.PM_OPERATORS_JOIN_PEAR
+    ];
+  },
+
+  expandableCallback(field, oldValue, newValue) {
+    if (oldValue < newValue) {
+      for (let i = oldValue; i < newValue; i++) {
+        let input = this.appendValueInput('INPUT' + (i + 1));
+        let shadow = this.workspace.newBlock('text');
+        shadow.setShadow(true);
+        shadow.setFieldValue(this.possibleStrings[i] ?? "", 'TEXT');
+        shadow.initSvg();
+        shadow.render();
+        shadow.outputConnection.connect(input.connection);
+      }
+    } else {
+      for (let i = newValue; i < oldValue; i++) {
+        this.removeInput('INPUT' + (i + 1));
+      }
+    }
+
+    this.initSvg();
+    if (this.rendered) this.render();
+  }
+};
