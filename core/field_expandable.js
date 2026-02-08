@@ -12,7 +12,7 @@ goog.require('Blockly.BlockSvg.render');
  * @extends {Blockly.Field}
  * @constructor
  */
-Blockly.FieldExpandable = function(value, opt_min, opt_max) {
+Blockly.FieldExpandable = function(value, opt_min = 0, opt_max = Infinity) {
   this.size_ = new goog.math.Size(
       Blockly.BlockSvg.FIELD_WIDTH,
       Blockly.BlockSvg.FIELD_HEIGHT);
@@ -121,7 +121,7 @@ Blockly.FieldExpandable.prototype.setValue = function(value) {
     }
 
     let oldValue = Number(this.getValue());
-    let newValue = Math.max(Math.min(this.max ?? Infinity, value), this.min ?? 0);
+    let newValue = Math.max(Math.min(this.max, value), this.min);
     if (oldValue == newValue) {
         return;
     }
