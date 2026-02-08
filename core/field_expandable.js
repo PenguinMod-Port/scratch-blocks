@@ -63,11 +63,12 @@ Blockly.FieldExpandable.prototype.init = function() {
 
   this.textElement_.style.display = "none";
 
-  const ratio = Blockly.BlockSvg.FIELD_HEIGHT / 32;
+  this.size_.height = Blockly.BlockSvg.FIELD_HEIGHT * 0.75;
+  const ratio = this.size_.height / 32;
 
   var addGroup = Blockly.utils.createSvgElement('g', {}, null);
   Blockly.utils.createSvgElement('rect', {
-    'x': Blockly.BlockSvg.FIELD_HEIGHT + Blockly.BlockSvg.GRID_UNIT,
+    'x': this.size_.height + Blockly.BlockSvg.GRID_UNIT,
     'y': 0,
     'rx': 4,
     'ry': 4,
@@ -78,7 +79,7 @@ Blockly.FieldExpandable.prototype.init = function() {
     'cursor': this.CURSOR
   }, addGroup);
   Blockly.utils.createSvgElement('image', {
-    'x': 5 * ratio + Blockly.BlockSvg.FIELD_HEIGHT + Blockly.BlockSvg.GRID_UNIT,
+    'x': 5 * ratio + this.size_.height + Blockly.BlockSvg.GRID_UNIT,
     'y': 5 * ratio,
     'width': this.size_.height / 1.5,
     'height': this.size_.height / 1.5,
@@ -125,15 +126,19 @@ Blockly.FieldExpandable.prototype.setValue = function(value) {
         return;
     }
 
+    Blockly.Events.setGroup(true);
+
     Blockly.Field.prototype.setValue.call(this, newValue);
 
     if (this.sourceBlock_ && this.sourceBlock_.expandableCallback) {
         this.sourceBlock_.expandableCallback(this, oldValue, newValue);
     }
+
+    Blockly.Events.setGroup(false);
 };
 
 Blockly.FieldExpandable.prototype.updateWidth = function() {
-    this.size_.width = Blockly.BlockSvg.FIELD_HEIGHT * 2 + Blockly.BlockSvg.GRID_UNIT;
+    this.size_.width = this.size_.height * 2 + Blockly.BlockSvg.GRID_UNIT;
 }
 
 //dont do anything this is handled manually
