@@ -305,6 +305,7 @@ Blockly.Msg.PM_OPERATORS_CHAR_TAB = 'tab character';
 Blockly.Msg.PM_OPERATORS_GTE = '%1 ≥ %2';
 Blockly.Msg.PM_OPERATORS_INTERPOLATE = 'interpolate %1 to %2 by %3';
 Blockly.Msg.PM_OPERATORS_JOIN3 = 'join %1 %2 %3';
+Blockly.Msg.PM_OPERATORS_JOINE = 'join %1';
 Blockly.Msg.PM_OPERATORS_JOIN_PEAR = 'pear';
 Blockly.Msg.PM_OPERATORS_LTE = '%1 ≤ %2';
 Blockly.Msg.PM_OPERATORS_MATHOP_LOG2 = 'log2';

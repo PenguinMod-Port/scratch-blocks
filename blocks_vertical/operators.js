@@ -894,7 +894,7 @@ Blockly.Blocks['operator_expandablejoininputs'] = {
    */
   init: function () {
     this.jsonInit({
-      "message0": 'join %1',
+      "message0": Blockly.Msg.PM_OPERATORS_JOINE,
       "args0": [
         {
           "type": "field_expandable",
