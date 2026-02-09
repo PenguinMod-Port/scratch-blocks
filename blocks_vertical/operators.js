@@ -935,3 +935,52 @@ Blockly.Blocks['operator_expandablejoininputs'] = {
     if (this.rendered) this.render();
   }
 };
+
+Blockly.Blocks['operator_range_expandable'] = {
+  init: function () {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_OPERATORS_RANGE_EXPANDABLE,
+      "args0": [
+        {
+          "type": "field_dropdown",
+          "name": "RANGE",
+          "options": [
+            [Blockly.Msg.PM_OPERATORS_MAXIMUM, 'maximum'],
+            [Blockly.Msg.PM_OPERATORS_AVERAGE, 'average'],
+            [Blockly.Msg.PM_OPERATORS_MINIMUM, 'minimum'],
+            [Blockly.Msg.PM_OPERATORS_RANGE, 'range']
+          ]
+        },
+        {
+          "type": "field_expandable",
+          "name": "EXPANDABLE",
+          "value": 2,
+          "min": 2
+        },
+      ],
+      "category": Blockly.Categories.operators,
+      "extensions": ["colours_operators", "output_number"]
+    });
+  },
+
+  expandableCallback(field, oldValue, newValue) {
+    if (oldValue < newValue) {
+      for (let i = oldValue; i < newValue; i++) {
+        let input = this.appendValueInput('INPUT' + (i + 1));
+        let shadow = this.workspace.newBlock('math_number');
+        shadow.setShadow(true);
+        shadow.setFieldValue(0, 'NUM');
+        shadow.initSvg();
+        shadow.render();
+        shadow.outputConnection.connect(input.connection);
+      }
+    } else {
+      for (let i = newValue; i < oldValue; i++) {
+        this.removeInput('INPUT' + (i + 1));
+      }
+    }
+
+    this.initSvg();
+    if (this.rendered) this.render();
+  }
+}

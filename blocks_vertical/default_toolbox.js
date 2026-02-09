@@ -1081,6 +1081,7 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
     '<block type="operator_newLine" />' +
     '<block type="operator_tabCharacter" />' +
     '<block type="operator_expandablejoininputs" />' +
+    '<block type="operator_range_expandable" />' +
   '</category>' +
   '<category name="%{BKY_CATEGORY_VARIABLES}" id="data" colour="#FF8C1A" secondaryColour="#DB6E00" custom="VARIABLE">' +
   '</category>' +
