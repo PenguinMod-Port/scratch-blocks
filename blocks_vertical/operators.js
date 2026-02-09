@@ -920,7 +920,7 @@ Blockly.Blocks['operator_expandablejoininputs'] = {
         let input = this.appendValueInput('INPUT' + (i + 1));
         let shadow = this.workspace.newBlock('text');
         shadow.setShadow(true);
-        shadow.setFieldValue(this.possibleStrings[i] || "", 'TEXT');
+        shadow.setFieldValue(this.possibleStrings[i] || "...", 'TEXT');
         shadow.initSvg();
         shadow.render();
         shadow.outputConnection.connect(input.connection);
@@ -969,7 +969,7 @@ Blockly.Blocks['operator_range_expandable'] = {
         let input = this.appendValueInput('INPUT' + (i + 1));
         let shadow = this.workspace.newBlock('math_number');
         shadow.setShadow(true);
-        shadow.setFieldValue(0, 'NUM');
+        shadow.setFieldValue(i + 1, 'NUM');
         shadow.initSvg();
         shadow.render();
         shadow.outputConnection.connect(input.connection);
