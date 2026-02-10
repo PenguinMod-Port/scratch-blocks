@@ -899,8 +899,7 @@ Blockly.Blocks['operator_expandablejoininputs'] = {
         {
           "type": "field_expandable",
           "name": "EXPANDABLE",
-          "value": 2,
-          "min": 2
+          "value": 2
         },
       ],
       "category": Blockly.Categories.operators,
@@ -954,8 +953,7 @@ Blockly.Blocks['operator_range_expandable'] = {
         {
           "type": "field_expandable",
           "name": "EXPANDABLE",
-          "value": 2,
-          "min": 2
+          "value": 2
         },
       ],
       "category": Blockly.Categories.operators,

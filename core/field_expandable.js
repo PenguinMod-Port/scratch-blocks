@@ -12,7 +12,7 @@ goog.require('Blockly.BlockSvg.render');
  * @extends {Blockly.Field}
  * @constructor
  */
-Blockly.FieldExpandable = function(value, opt_min = 0, opt_max = Infinity) {
+Blockly.FieldExpandable = function(value, opt_min = 1, opt_max = Infinity) {
   this.size_ = new goog.math.Size(
       Blockly.BlockSvg.FIELD_WIDTH,
       Blockly.BlockSvg.FIELD_HEIGHT);
@@ -22,6 +22,8 @@ Blockly.FieldExpandable = function(value, opt_min = 0, opt_max = Infinity) {
   this.addArgType('button');
   this.min = opt_min;
   this.max = opt_max;
+
+  this.tempValue_ = value;
 };
 goog.inherits(Blockly.FieldExpandable, Blockly.Field);
 
@@ -86,7 +88,7 @@ Blockly.FieldExpandable.prototype.init = function() {
     'xlink:href': Blockly.FieldExpandable.ADD_IMAGE,
     'href': Blockly.FieldExpandable.ADD_IMAGE,
   }, addGroup);
-  Blockly.bindEvent_(addGroup, 'mousedown', this, () => this.setValue(Number(this.getValue()) + 1));
+  Blockly.bindEvent_(addGroup, 'mousedown', this, () => !this.sourceBlock_.isInFlyout && this.setValue(Number(this.getValue()) + 1));
   this.fieldGroup_.insertBefore(addGroup, this.textElement_);
 
   var removeGroup = Blockly.utils.createSvgElement('g', {}, null);
@@ -109,10 +111,10 @@ Blockly.FieldExpandable.prototype.init = function() {
     'xlink:href': Blockly.FieldExpandable.REMOVE_IMAGE,
     'href': Blockly.FieldExpandable.REMOVE_IMAGE,
   }, removeGroup);
-  Blockly.bindEvent_(removeGroup, 'mousedown', this, () => this.setValue(Number(this.getValue()) - 1));
+  Blockly.bindEvent_(removeGroup, 'mousedown', this, () => !this.sourceBlock_.isInFlyout && this.setValue(Number(this.getValue()) - 1));
   this.fieldGroup_.insertBefore(removeGroup, this.textElement_);
 
-  this.setValue(Number(this.getValue()));
+  this.setValue(Number(this.getValue()) || this.tempValue_);
 };
 
 Blockly.FieldExpandable.prototype.setValue = function(value) {
