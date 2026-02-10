@@ -314,7 +314,9 @@ Blockly.ScratchBlocks.ProcedureUtils.deleteShadows_ = function(connectionMap) {
  * @private
  */
 Blockly.ScratchBlocks.ProcedureUtils.addLabelField_ = function(text) {
-  this.appendDummyInput().appendField(text);
+  if (text) {
+    this.appendDummyInput().appendField(text);
+  }
 };
 
 /**

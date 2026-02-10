@@ -1272,21 +1272,26 @@ Blockly.BlockSvg.prototype.renderDraw_ = function(iconWidth, inputRows) {
       this.edgeShape_ = shape;
       this.squareTopLeftCorner_ = true;
       this.height = this.edgeShapeWidth_ * 2;
-      
+
       let customShape = Blockly.BlockSvg.CUSTOM_SHAPES.get(shape);
-      if (customShape.edgeShapeWidth) {
-        const right = getSubprop(customShape.edgeShapeWidth(this.edgeShapeWidth_), "right");
-        this.edgeShapeWidth_ = getSubprop(customShape.edgeShapeWidth(this.edgeShapeWidth_), "left");
-        inputRows.rightEdge = Math.max(inputRows.rightEdge, right + this.edgeShapeWidth_ + Blockly.BlockSvg.GRID_UNIT * 2);
-      } else {
-        inputRows.rightEdge = Math.max(inputRows.rightEdge, this.edgeShapeWidth_ * 2 + Blockly.BlockSvg.GRID_UNIT * 2);
+      let rightCustomShape = Blockly.BlockSvg.CUSTOM_SHAPES.get(this.getOutputShapeRight());
+
+      let left = customShape.edgeShapeWidth ? getSubprop(customShape.edgeShapeWidth(this.edgeShapeWidth_), "left") : this.edgeShapeWidth_;
+      let right = 0;
+      this.edgeShapeWidth_ = left;
+
+      if (!this.inputList.find(v => v.type == Blockly.NEXT_STATEMENT)) {
+        right = rightCustomShape.edgeShapeWidth ? getSubprop(rightCustomShape.edgeShapeWidth(this.edgeShapeWidth_), "right") : this.edgeShapeWidth_;
+
+        if (getSubprop(customShape.unsafeEdges, "left")) {
+          inputRows[0].paddingStart += customShape.edgeShapeWidth ? getSubprop(customShape.edgeShapeWidth(this.height / 2), "left") : this.height / 2;
+        }
+        if (getSubprop(rightCustomShape.unsafeEdges, "right")) {
+          inputRows[0].paddingEnd += rightCustomShape.edgeShapeWidth ? getSubprop(rightCustomShape.edgeShapeWidth(this.height / 2), "right") : this.height / 2;
+        }
       }
-      if (getSubprop(customShape.unsafeEdges, "left") && !this.inputList.find(v => v.type == Blockly.NEXT_STATEMENT)) {
-        inputRows[0].paddingStart += this.edgeShapeWidth_
-      }
-      if (getSubprop(customShape.unsafeEdges, "right")) {
-        inputRows[0].paddingEnd += getSubprop(customShape.edgeShapeWidth(this.height / 2), "right");
-      }
+
+      inputRows.rightEdge = Math.max(inputRows.rightEdge, left + right + Blockly.BlockSvg.GRID_UNIT * 2);
     }
   }
 
