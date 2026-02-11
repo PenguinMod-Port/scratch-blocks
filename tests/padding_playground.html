@@ -23,17 +23,7 @@
       var paddingEditor;
 
       function start() {
-        outputShapes = [
-          Blockly.OUTPUT_SHAPE_HEXAGONAL,
-          Blockly.OUTPUT_SHAPE_ROUND,
-          Blockly.OUTPUT_SHAPE_SQUARE,
-          Blockly.OUTPUT_SHAPE_LEAF,
-          Blockly.OUTPUT_SHAPE_PLUS,
-          Blockly.OUTPUT_SHAPE_OCTAGONAL,
-          Blockly.OUTPUT_SHAPE_BUMPED,
-          Blockly.OUTPUT_SHAPE_INDENTED,
-          Blockly.OUTPUT_SHAPE_ARROW
-        ]
+        outputShapes = Array.from(Blockly.BlockSvg.CUSTOM_SHAPES.keys());
 
         // Create main workspace.
         workspace = Blockly.inject('blocklyDiv', {
@@ -51,18 +41,18 @@
           },
         });
 
-        for (let x of outputShapes) {
-          for (let y of [0, ...outputShapes]) {
+        for (let x in outputShapes) {
+          for (let y in [0, ...outputShapes]) {
             let block;
             if (y == 0) {
               block = workspace.newBlock('extension_single_label');
             } else {
               block = workspace.newBlock('extension_single_input');
-              block.getInput("INPUT").connection.setOutputShape(y);
+              block.getInput("INPUT").connection.setOutputShape(outputShapes[y - 1]);
             }
 
-            block.setOutputShape(x);
-            block.moveBy(x * 200 - 100, (y + 1) * 100);
+            block.setOutputShape(outputShapes[x]);
+            block.moveBy(x * 200 - 100, y * 100);
             block.initSvg();
             block.render();
           }

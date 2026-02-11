@@ -285,6 +285,12 @@ Blockly.OUTPUT_SHAPE_BUMPED = 7;
 Blockly.OUTPUT_SHAPE_INDENTED = 8;
 
 /**
+ * ENUM for output shape: scrapped (maps).
+ * @const
+ */
+Blockly.OUTPUT_SHAPE_SCRAPPED = 9;
+
+/**
  * ENUM for output shape: arrow (sets).
  * @const
  */
