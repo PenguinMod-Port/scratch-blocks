@@ -981,4 +981,56 @@ Blockly.Blocks['operator_range_expandable'] = {
     this.initSvg();
     if (this.rendered) this.render();
   }
-}
+};
+
+Blockly.Blocks['operator_expandableMath'] = {
+  /**
+   * pm: Block for performing multiple math operations (determined by user)
+   * @this Blockly.Block
+   */
+  init: function () {
+    this.jsonInit({
+      "message0": '%1',
+      "args0": [
+        {
+          "type": "field_expandable",
+          "name": "EXPANDABLE",
+          "value": 2
+        }
+      ],
+      "category": Blockly.Categories.operators,
+      "extensions": ["colours_operators", "output_number"]
+    });
+  },
+
+  expandableCallback(field, oldValue, newValue) {
+    if (oldValue < newValue) {
+      for (let i = oldValue; i < newValue; i++) {
+        let input = this.appendValueInput('NUM' + (i + 1));
+        let shadow = this.workspace.newBlock('math_number');
+        shadow.setShadow(true);
+        shadow.setFieldValue(i + 1, 'NUM');
+        shadow.initSvg();
+        shadow.render();
+        shadow.outputConnection.connect(input.connection);
+
+        if (i > 0) {
+          input.appendField(new Blockly.FieldDropdown([
+            ["+", "+"],
+            ["-", "-"],
+            ["*", "*"],
+            ["/", "/"],
+            ["^", "^"]
+          ]), 'OP' + (i + 1));
+        }
+      }
+    } else {
+      for (let i = newValue; i < oldValue; i++) {
+        this.removeInput('NUM' + (i + 1));
+      }
+    }
+
+    this.initSvg();
+    if (this.rendered) this.render();
+  }
+};
