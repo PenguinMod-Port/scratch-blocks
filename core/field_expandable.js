@@ -14,8 +14,8 @@ goog.require('Blockly.BlockSvg.render');
  */
 Blockly.FieldExpandable = function(value, opt_min = 1, opt_max = Infinity) {
   this.size_ = new goog.math.Size(
-      Blockly.BlockSvg.FIELD_WIDTH,
-      Blockly.BlockSvg.FIELD_HEIGHT);
+    Blockly.BlockSvg.FIELD_WIDTH,
+    Blockly.BlockSvg.FIELD_HEIGHT);
   this.setText('0');
 
   this.arrowWidth_ = 0;
@@ -114,33 +114,33 @@ Blockly.FieldExpandable.prototype.init = function() {
   Blockly.bindEvent_(removeGroup, 'mousedown', this, () => !this.sourceBlock_.isInFlyout && this.setValue(Number(this.getValue()) - 1));
   this.fieldGroup_.insertBefore(removeGroup, this.textElement_);
 
-  this.setValue(Number(this.getValue()) || this.tempValue_);
+  this.setValue(Number(this.getValue()) || this.tempValue_, true);
 };
 
-Blockly.FieldExpandable.prototype.setValue = function(value) {
-    if (value == null) {
-        return;
-    }
+Blockly.FieldExpandable.prototype.setValue = function(value, firstRun = false) {
+  if (value == null) {
+    return;
+  }
 
-    let oldValue = Number(this.getValue());
-    let newValue = Math.max(Math.min(this.max, value), this.min);
-    if (oldValue == newValue) {
-        return;
-    }
+  let oldValue = Number(this.getValue());
+  let newValue = Math.max(Math.min(this.max, value), this.min);
+  if (oldValue == newValue) {
+    return;
+  }
 
-    Blockly.Events.setGroup(true);
+  Blockly.Events.setGroup(true);
 
-    Blockly.Field.prototype.setValue.call(this, newValue);
+  Blockly.Field.prototype.setValue.call(this, newValue);
 
-    if (this.sourceBlock_ && this.sourceBlock_.expandableCallback) {
-        this.sourceBlock_.expandableCallback(this, oldValue, newValue);
-    }
+  if (this.sourceBlock_ && this.sourceBlock_.expandableCallback) {
+      this.sourceBlock_.expandableCallback(this, oldValue, newValue, !firstRun);
+  }
 
-    Blockly.Events.setGroup(false);
+  Blockly.Events.setGroup(false);
 };
 
 Blockly.FieldExpandable.prototype.updateWidth = function() {
-    this.size_.width = this.size_.height * 2 + Blockly.BlockSvg.GRID_UNIT;
+  this.size_.width = this.size_.height * 2 + Blockly.BlockSvg.GRID_UNIT;
 }
 
 //dont do anything this is handled manually

@@ -913,16 +913,19 @@ Blockly.Blocks['operator_expandablejoininputs'] = {
     ];
   },
 
-  expandableCallback(field, oldValue, newValue) {
+  expandableCallback(field, oldValue, newValue, createShadows) {
     if (oldValue < newValue) {
       for (let i = oldValue; i < newValue; i++) {
         let input = this.appendValueInput('INPUT' + (i + 1));
-        let shadow = this.workspace.newBlock('text');
-        shadow.setShadow(true);
-        shadow.setFieldValue(this.possibleStrings[i] || "...", 'TEXT');
-        shadow.initSvg();
-        shadow.render();
-        shadow.outputConnection.connect(input.connection);
+        
+        if (createShadows) {
+          let shadow = this.workspace.newBlock('text');
+          shadow.setShadow(true);
+          shadow.setFieldValue(this.possibleStrings[i] || "...", 'TEXT');
+          shadow.initSvg();
+          shadow.render();
+          shadow.outputConnection.connect(input.connection);
+        }
       }
     } else {
       for (let i = newValue; i < oldValue; i++) {
@@ -961,16 +964,19 @@ Blockly.Blocks['operator_range_expandable'] = {
     });
   },
 
-  expandableCallback(field, oldValue, newValue) {
+  expandableCallback(field, oldValue, newValue, createShadows) {
     if (oldValue < newValue) {
       for (let i = oldValue; i < newValue; i++) {
         let input = this.appendValueInput('INPUT' + (i + 1));
-        let shadow = this.workspace.newBlock('math_number');
-        shadow.setShadow(true);
-        shadow.setFieldValue(i + 1, 'NUM');
-        shadow.initSvg();
-        shadow.render();
-        shadow.outputConnection.connect(input.connection);
+
+        if (createShadows) {
+          let shadow = this.workspace.newBlock('math_number');
+          shadow.setShadow(true);
+          shadow.setFieldValue(i + 1, 'NUM');
+          shadow.initSvg();
+          shadow.render();
+          shadow.outputConnection.connect(input.connection);
+        }
       }
     } else {
       for (let i = newValue; i < oldValue; i++) {
@@ -1003,16 +1009,19 @@ Blockly.Blocks['operator_expandableMath'] = {
     });
   },
 
-  expandableCallback(field, oldValue, newValue) {
+  expandableCallback(field, oldValue, newValue, createShadows) {
     if (oldValue < newValue) {
       for (let i = oldValue; i < newValue; i++) {
         let input = this.appendValueInput('NUM' + (i + 1));
-        let shadow = this.workspace.newBlock('math_number');
-        shadow.setShadow(true);
-        shadow.setFieldValue(i + 1, 'NUM');
-        shadow.initSvg();
-        shadow.render();
-        shadow.outputConnection.connect(input.connection);
+
+        if (createShadows) {
+          let shadow = this.workspace.newBlock('math_number');
+          shadow.setShadow(true);
+          shadow.setFieldValue(i + 1, 'NUM');
+          shadow.initSvg();
+          shadow.render();
+          shadow.outputConnection.connect(input.connection);
+        }
 
         if (i > 0) {
           input.appendField(new Blockly.FieldDropdown([

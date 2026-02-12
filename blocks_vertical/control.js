@@ -1041,7 +1041,7 @@ Blockly.Blocks['control_expandableIf'] = {
     this.getInput('EXPANDABLE').setAlign(Blockly.ALIGN_RIGHT);
   },
 
-  expandableCallback(field, oldValue, newValue) {
+  expandableCallback(field, oldValue, newValue, createShadows) {
     if (oldValue < newValue) {
       for (let i = oldValue; i < newValue; i++) {
         let stackIndex = Math.floor((i + 1) / 2) + 1;
@@ -1064,11 +1064,13 @@ Blockly.Blocks['control_expandableIf'] = {
           input.appendField(Blockly.Msg.PM_CONTROL_IFEXPANDABLE_IF);
           this.moveInputBefore(inputName, dummyName);
 
-          let shadow = this.workspace.newBlock('checkbox');
-          shadow.setShadow(true);
-          shadow.initSvg();
-          shadow.render();
-          shadow.outputConnection.connect(input.connection);
+          if (createShadows) {
+            let shadow = this.workspace.newBlock('checkbox');
+            shadow.setShadow(true);
+            shadow.initSvg();
+            shadow.render();
+            shadow.outputConnection.connect(input.connection);
+          }
 
           if (!substackExists) {
             let substackName = 'SUBSTACK' + stackIndex;
@@ -1091,13 +1093,8 @@ Blockly.Blocks['control_expandableIf'] = {
       for (let i = newValue; i < oldValue; i++) {
         this.removeInput('DUMMY' + (i + 1));
 
-        if (i % 2 == 0) {
-          let inputName = 'BOOL' + Math.ceil((i + 1) / 2);
-          if (this.getInput(inputName)) this.removeInput(inputName);
-        } else {
-          let substackName = 'SUBSTACK' + (Math.ceil(i / 2) + 1);
-          if (this.getInput(substackName)) this.removeInput(substackName);
-        }
+        let inputName = i % 2 == 0 ? 'BOOL' + Math.ceil((i + 1) / 2) : 'SUBSTACK' + (Math.ceil(i / 2) + 1);
+        if (this.getInput(inputName)) this.removeInput(inputName);
       }
     }
 

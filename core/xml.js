@@ -887,7 +887,7 @@ Blockly.Xml.domToField_ = function(block, fieldName, xml) {
   if (field.referencesVariables()) {
     Blockly.Xml.domToFieldVariable_(workspace, xml, text, field);
   } else {
-    field.setValue(text);
+    field.setValue(text, true);
   }
 };
 
