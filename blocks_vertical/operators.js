@@ -1024,13 +1024,15 @@ Blockly.Blocks['operator_expandableMath'] = {
         }
 
         if (i > 0) {
-          input.appendField(new Blockly.FieldDropdown([
+          let field = new Blockly.FieldDropdown([
             ["+", "+"],
             ["-", "-"],
             ["*", "*"],
             ["/", "/"],
             ["^", "^"]
-          ]), 'OP' + (i + 1));
+          ]);
+          input.appendField(field, 'OP' + (i + 1));
+          field.setValue("+"); //so field exists on vm
         }
       }
     } else {
