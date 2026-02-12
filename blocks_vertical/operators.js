@@ -1031,7 +1031,7 @@ Blockly.Blocks['operator_expandableMath'] = {
             ["/", "/"],
             ["^", "^"]
           ]), 'OP' + (i + 1));
-          Blockly.Events.fire(new Blockly.Events.BlockChange(this, 'field', 'OP' + (i + 1), "", "+")); // tell vm it updated
+          Blockly.Events.fire(new Blockly.Events.BlockChange(this, 'field', 'OP' + (i + 1), "-", "+")); // tell vm it updated
         }
       }
     } else {
