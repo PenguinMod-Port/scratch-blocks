@@ -123,6 +123,9 @@ Blockly.WorkspaceSvg = function(options, opt_blockDragSurface, opt_wsDragSurface
 };
 goog.inherits(Blockly.WorkspaceSvg, Blockly.Workspace);
 
+// settings
+Blockly.WorkspaceSvg.VALUE_REPORT_COPY = true;
+
 /**
  * A wrapper function called when a resize event occurs.
  * You can pass the result to `unbindEvent_`.
@@ -1096,7 +1099,7 @@ Blockly.WorkspaceSvg.prototype.reportValue = function(id, value, isError = false
   var valueReportBox = goog.dom.createElement('div');
   valueReportBox.setAttribute('class', 'valueReportBox');
 
-  if (value === null || value == undefined) {
+  if (value === null || value === undefined) {
     valueReportBox.innerHTML = '<i style="opacity: 0.75;">null</i>';
   } else if (typeof value.toReporterContent == 'function') {
     valueReportBox.append(value.toReporterContent());
@@ -1112,6 +1115,29 @@ Blockly.WorkspaceSvg.prototype.reportValue = function(id, value, isError = false
 
   if (isError) valueReportBox.classList.add('errorReportBox')
   contentDiv.appendChild(valueReportBox);
+
+  if (Blockly.WorkspaceSvg.VALUE_REPORT_COPY) {
+    var copyContainer = goog.dom.createElement('div');
+    copyContainer.classList.add('valueReportCopy');
+
+    var copyImage = goog.dom.createElement('img');
+    copyImage.src = Blockly.mainWorkspace.options.pathToMedia + 'icons/report-value-copy.svg';
+    copyImage.addEventListener('click', () => {
+      let text;
+      if (value === null || value === undefined) {
+        text = '-0';
+      } else if (Object.is(value, -0)) {
+        text = '-0'
+      } else {
+        text = '' + value;
+      }
+      navigator.clipboard.writeText(text);
+    });
+    copyContainer.appendChild(copyImage);
+
+    contentDiv.appendChild(copyContainer);
+  }
+
   Blockly.DropDownDiv.setColour(
     Blockly.Colours[isError ? 'errorReportBackground' : 'valueReportBackground'],
     Blockly.Colours[isError ? 'errorReportBorder' : 'valueReportBorder']
