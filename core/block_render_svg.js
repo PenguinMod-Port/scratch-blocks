@@ -933,7 +933,7 @@ Blockly.BlockSvg.prototype.renderCompute_ = function(iconWidth) {
     // See github.com/LLK/scratch-blocks/issues/1658
     // In all other cases, statement and value inputs catch all preceding dummy
     // inputs, and cause a line break before following inputs.
-    if ((!this.inlineInputs && (!inputList[i - 1] || inputList[i - 1].type !== Blockly.DUMMY_INPUT)) || (!isSecondInputOnProcedure &&
+    if ((!this.inputsInline && (!inputList[i - 1] || inputList[i - 1].type !== Blockly.DUMMY_INPUT)) || (!isSecondInputOnProcedure &&
         (!lastType || lastType == Blockly.NEXT_STATEMENT ||
         input.type == Blockly.NEXT_STATEMENT))) {
       lastType = input.type;
@@ -1167,6 +1167,11 @@ Blockly.BlockSvg.prototype.computeOutputPadding_ = function(inputRows) {
   }
   // Blocks with outputs must have single row to be padded.
   if (inputRows.length > 1) {
+    let shape = this.getOutputShapeRight();
+    let totalHeight = inputRows.reduce((o, v) => o + v.height, 0)
+    if (!this.inputsInline && shape !== Blockly.OUTPUT_SHAPE_SQUARE) {
+      inputRows[inputRows.length - 1].paddingEnd = getSubprop(Blockly.BlockSvg.CUSTOM_SHAPES.get(shape).edgeShapeWidth, "right")(totalHeight / 2);
+    }
     return;
   }
   var row = inputRows[0];
@@ -1471,8 +1476,7 @@ Blockly.BlockSvg.prototype.renderDrawRight_ = function(steps,
         // by its own rendered height.
         var fieldY = cursorY + row.height / 2;
 
-        var fieldX = Blockly.BlockSvg.getAlignedCursor_(cursorX, input,
-            inputRows.rightEdge);
+        var fieldX = Blockly.BlockSvg.getAlignedCursor_(cursorX, input, inputRows, y);
 
         cursorX = this.renderFields_(input.fieldRow, fieldX, fieldY);
         if (input.type == Blockly.INPUT_VALUE) {
@@ -1551,7 +1555,6 @@ Blockly.BlockSvg.prototype.renderDrawRight_ = function(steps,
     }
     cursorY += row.height;
   }
-  if (this.getOutputShapeRight() !== Blockly.OUTPUT_SHAPE_SQUARE && inputRows.length > 1) steps.push('h', this.edgeShapeWidth_);
   this.drawEdgeShapeRight_(steps);
   if (!inputRows.length) {
     cursorY = Blockly.BlockSvg.MIN_BLOCK_Y;
@@ -1884,13 +1887,13 @@ Blockly.BlockSvg.getInputShapeInfo_ = function(shape) {
  * @return {number} The new cursor position.
  * @private
  */
-Blockly.BlockSvg.getAlignedCursor_ = function(cursorX, input, rightEdge) {
+Blockly.BlockSvg.getAlignedCursor_ = function(cursorX, input, inputRows, rowI) {
   // Align inline field rows (left/right/centre).
   if (input.align === Blockly.ALIGN_RIGHT) {
-    cursorX += rightEdge - input.fieldWidth -
-      (2 * Blockly.BlockSvg.SEP_SPACE_X);
+    let offset = Blockly.BlockSvg.SEP_SPACE_X
+    cursorX = Math.max(cursorX, inputRows.rightEdge - input.fieldWidth - input.renderWidth - offset);
   } else if (input.align === Blockly.ALIGN_CENTRE) {
-    cursorX = Math.max(cursorX, rightEdge / 2 - input.fieldWidth / 2);
+    cursorX = Math.max(cursorX, inputRows.rightEdge / 2 - input.fieldWidth / 2);
   }
   return cursorX;
 };

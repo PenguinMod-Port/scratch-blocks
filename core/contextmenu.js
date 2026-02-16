@@ -284,6 +284,26 @@ Blockly.ContextMenu.blockCollapseOption = function(block) {
     };
     return collapseOption;
   }
+};
+
+Blockly.ContextMenu.blockInlineOption = function(block) {
+  if (block.inputsInline) {
+    return {
+      text: Blockly.Msg.PM_EXTERNAL_BLOCK,
+      enabled: true,
+      callback: function() {
+        block.setInputsInline(false);
+      }
+    };
+  } else {
+    return {
+      text: Blockly.Msg.PM_INLINE_BLOCK,
+      enabled: true,
+      callback: function() {
+        block.setInputsInline(true);
+      }
+    };
+  }
 }
 
 /**

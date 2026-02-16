@@ -917,6 +917,7 @@ Blockly.Blocks['operator_expandablejoininputs'] = {
     if (oldValue < newValue) {
       for (let i = oldValue; i < newValue; i++) {
         let input = this.appendValueInput('INPUT' + (i + 1));
+        input.setAlign(Blockly.ALIGN_RIGHT);
         
         if (createShadows) {
           let shadow = this.workspace.newBlock('text');

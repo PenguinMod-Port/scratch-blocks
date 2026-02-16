@@ -714,6 +714,9 @@ Blockly.BlockSvg.prototype.showContextMenu_ = function(e) {
     if (this.workspace.options.collapse) {
       menuOptions.push(Blockly.ContextMenu.blockCollapseOption(block));
     }
+    if (!this.isCollapsed() && this.workspace.options.externalInputs) {
+      menuOptions.push(Blockly.ContextMenu.blockInlineOption(block));
+    }
     menuOptions.push(Blockly.ContextMenu.blockDeleteOption(block));
   } else if (this.parentBlock_ && this.isShadow_) {
     this.parentBlock_.showContextMenu_(e);

@@ -1078,7 +1078,19 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
     '<block type="operator_null" />' +
     '<block type="operator_newLine" />' +
     '<block type="operator_tabCharacter" />' +
-    '<block type="operator_expandablejoininputs" />' +
+    '<block type="operator_expandablejoininputs">' +
+      '<field name="EXPANDABLE">2</field>' +
+      '<value name="INPUT1">' +
+        '<shadow type="text">' +
+          '<field name="TEXT">apple</field>' +
+        '</shadow>' +
+      '</value>' +
+      '<value name="INPUT2">' +
+        '<shadow type="text">' +
+          '<field name="TEXT">banana</field>' +
+        '</shadow>' +
+      '</value>' +
+    '</block>' +
     '<block type="operator_range_expandable" />' +
     '<block type="operator_expandableMath" />' +
   '</category>' +
