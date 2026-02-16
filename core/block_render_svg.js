@@ -1515,7 +1515,7 @@ Blockly.BlockSvg.prototype.renderDrawRight_ = function(steps,
       // Subtract CORNER_RADIUS * 2 to account for the top right corner
       // and also the bottom right corner. Only move vertically the non-corner length.
       if (this.getOutputShapeRight() == Blockly.OUTPUT_SHAPE_SQUARE) {
-        steps.push('v', row.height - Blockly.BlockSvg.CORNER_RADIUS * 2);
+        steps.push('v', row.height - Blockly.BlockSvg.CORNER_RADIUS * (inputRows[y + 1] && inputRows[y + 1].type === Blockly.BlockSvg.INLINE ? 1 : 2));
       }
     } else if (row.type == Blockly.NEXT_STATEMENT) {
       // Nested statement.
