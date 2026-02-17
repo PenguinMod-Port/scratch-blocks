@@ -37,6 +37,7 @@ goog.require('Blockly.scratchBlocksUtils');
 goog.require('Blockly.Tooltip');
 goog.require('Blockly.Touch');
 goog.require('Blockly.utils');
+goog.require('Blockly.FieldExpandable');
 
 goog.require('goog.Timer');
 goog.require('goog.asserts');
