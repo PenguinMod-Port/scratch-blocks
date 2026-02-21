@@ -1068,13 +1068,13 @@ Blockly.Blocks["looks_getEffectValue"] = {
             [Blockly.Msg.LOOKS_EFFECT_MOSAIC, 'MOSAIC'],
             [Blockly.Msg.LOOKS_EFFECT_BRIGHTNESS, 'BRIGHTNESS'],
             [Blockly.Msg.LOOKS_EFFECT_GHOST, 'GHOST'],
-            ["saturation", 'SATURATION'],
-            ["red", 'RED'],
-            ["green", 'GREEN'],
-            ["blue", 'BLUE'],
-            ["opaque", 'OPAQUE'],
-            ["horizontal shear", 'HORIZONTAL_SHEAR'],
-            ["vertical shear", 'VERTICAL_SHEAR']
+            [Blockly.Msg.PM_LOOKS_EFFECT_SATURATION, 'SATURATION'],
+            [Blockly.Msg.PM_LOOKS_EFFECT_RED, 'RED'],
+            [Blockly.Msg.PM_LOOKS_EFFECT_GREEN, 'GREEN'],
+            [Blockly.Msg.PM_LOOKS_EFFECT_BLUE, 'BLUE'],
+            [Blockly.Msg.PM_LOOKS_EFFECT_OPAQUE, 'OPAQUE'],
+            [Blockly.Msg.PM_LOOKS_EFFECT_HORIZ_SHEAR, 'HORIZONTAL_SHEAR'],
+            [Blockly.Msg.PM_LOOKS_EFFECT_VERTI_SHEAR, 'VERTICAL_SHEAR']
           ]
         }
       ],
