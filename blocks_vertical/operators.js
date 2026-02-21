@@ -1044,3 +1044,27 @@ Blockly.Blocks['operator_expandableMath'] = {
     if (this.rendered) this.render();
   }
 };
+
+Blockly.Blocks["operator_toUpperLowerCase"] = {
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_OPERATORS_CASE_TO,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "TEXT"
+        },
+        {
+          "type": "field_dropdown",
+          "name": "OPTION",
+          "options": [
+            [Blockly.Msg.PM_OPERATORS_CASE_UPPER, "upper"],
+            [Blockly.Msg.PM_OPERATORS_CASE_LOWER, "lower"]
+          ]
+        }
+      ],
+      "category": Blockly.Categories.operators,
+      "extensions": ["colours_operators", "output_string"]
+    });
+  }
+};

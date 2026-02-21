@@ -303,6 +303,9 @@ Blockly.Msg.OPERATORS_MATHOP_EEXP = 'e ^';
 Blockly.Msg.OPERATORS_MATHOP_10EXP = '10 ^';
 
 Blockly.Msg.PM_OPERATORS_AVERAGE = 'average';
+Blockly.Msg.PM_OPERATORS_CASE_LOWER = 'lowercase';
+Blockly.Msg.PM_OPERATORS_CASE_TO = '%1 to %2';
+Blockly.Msg.PM_OPERATORS_CASE_UPPER = 'uppercase';
 Blockly.Msg.PM_OPERATORS_CONSTRAIN = 'constrain %1 min %2 max %3';
 Blockly.Msg.PM_OPERATORS_CHAR_NEWLINE = 'new line';
 Blockly.Msg.PM_OPERATORS_CHAR_TAB = 'tab character';
