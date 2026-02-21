@@ -1051,8 +1051,6 @@ Blockly.Blocks['looks_changeVisibilityOfSpriteHide'] = {
   }
 };
 
-
-
 Blockly.Blocks["looks_getEffectValue"] = {
   init: function() {
     this.jsonInit({
