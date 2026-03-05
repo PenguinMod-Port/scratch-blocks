@@ -468,6 +468,11 @@ Blockly.Field.prototype.render_ = function() {
 
     // Apply new text element x position.
     this.textElement_.setAttribute('x', centerTextX);
+
+    // pm: text colour
+    if (this.sourceBlock_.textColour) {
+      this.textElement_.style.fill = `${this.sourceBlock_.textColour} !important`;
+    }
   }
 
   // Update any drawn box to the correct width and height.

@@ -663,12 +663,12 @@ Blockly.BlockSvg.prototype.updateColour = function() {
     if (input.outlinePath) {
       input.outlinePath.setAttribute('fill', this.getColourTertiary());
     }
-    if (this.textColour) for (const field of input.fieldRow) {
+    /*if (this.textColour) for (const field of input.fieldRow) {
       if (field.textElement_ && field instanceof Blockly.FieldLabel) {
         field.textElement_.style.fill = this.textColour;
         field.textElement_.setAttribute('stoke', this.textColour);
       }
-    }
+    }*/
   }
 
   // Render icon(s) if applicable
