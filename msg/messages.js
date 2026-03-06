@@ -64,6 +64,7 @@ Blockly.Msg.PM_CONTROL_CASE_SWITCH = 'switch %1 %2';
 Blockly.Msg.PM_CONTROL_CONTINUELOOP = 'continue loop %1';
 Blockly.Msg.PM_CONTROL_DECRCOUNTER = 'decrement counter';
 Blockly.Msg.PM_CONTROL_DELETECLONESOF = 'delete clones of %1';
+Blockly.Msg.PM_CONTROL_DO = 'do %1 %2';
 Blockly.Msg.PM_CONTROL_ESCAPELOOP = 'escape loop %1';
 Blockly.Msg.PM_CONTROL_FROMTO = 'for %1 of %2 to %3 %4';
 Blockly.Msg.PM_CONTROL_FROMTO_INDEX = 'index';
