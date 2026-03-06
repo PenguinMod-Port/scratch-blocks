@@ -471,7 +471,7 @@ Blockly.Field.prototype.render_ = function() {
 
     // pm: text colour
     if (this.sourceBlock_.textColour) {
-      this.textElement_.style.fill = `${this.sourceBlock_.textColour} !important`;
+      this.textElement_.style.setProperty('fill', this.sourceBlock_.textColour, "important");
     }
   }
 
