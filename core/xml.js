@@ -232,8 +232,8 @@ Blockly.Xml.blockToDom = function(block, opt_noId) {
       element.appendChild(container);
     }
   }
-  if (block.inputsInlineDefault != block.inputsInline) {
-    element.setAttribute('inline', block.inputsInline);
+  if (block.inputsInline) {
+    element.setAttribute('inline', true);
   }
   if (block.isCollapsed()) {
     element.setAttribute('collapsed', true);
