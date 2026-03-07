@@ -1483,7 +1483,7 @@ Blockly.BlockSvg.prototype.renderDrawRight_ = function(steps,
           // Create inline input connection.
           // In blocks with a notch, inputs should be bumped to a min X,
           // to avoid overlapping with the notch.
-          if (this.previousConnection) {
+          if (this.previousConnection && (!inputRows[y - 1] || inputRows[y - 1].type !== Blockly.BlockSvg.INLINE)) {
             cursorX = Math.max(cursorX, Blockly.BlockSvg.INPUT_AND_FIELD_MIN_X);
           }
           connectionX = this.RTL ? -cursorX : cursorX;
