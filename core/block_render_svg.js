@@ -663,12 +663,12 @@ Blockly.BlockSvg.prototype.updateColour = function() {
     if (input.outlinePath) {
       input.outlinePath.setAttribute('fill', this.getColourTertiary());
     }
-    if (this.textColour) for (const field of input.fieldRow) {
+    /*if (this.textColour) for (const field of input.fieldRow) {
       if (field.textElement_ && field instanceof Blockly.FieldLabel) {
         field.textElement_.style.fill = this.textColour;
         field.textElement_.setAttribute('stoke', this.textColour);
       }
-    }
+    }*/
   }
 
   // Render icon(s) if applicable
@@ -2129,9 +2129,9 @@ Blockly.BlockSvg.CUSTOM_SHAPES = new Map([
     unsafeEdges: true,
     leftPath: (block) => {
       const hexRoundness = Blockly.BlockSvg.HEXAGONAL_SHAPE_ROUNDNESS;
-      const diagonalWidth = block.edgeShapeWidth_ - hexRoundness * 1.5;
+      const diagonalWidth = (block.edgeShapeWidth_ + hexRoundness) - hexRoundness * 1.5;
       const verticalWidth = block.edgeShapeWidth_ - hexRoundness / 4;
-      const yMult = block.height / 2 / block.edgeShapeWidth_;
+      const yMult = block.height / 2 / (block.edgeShapeWidth_ + hexRoundness);
       return [
         `h ${-verticalWidth}`,
         `q ${-hexRoundness / 2} 0 0 ${-hexRoundness / 2 * yMult}`,
@@ -2144,9 +2144,9 @@ Blockly.BlockSvg.CUSTOM_SHAPES = new Map([
     },
     rightPath: (block) => {
       const hexRoundness = Blockly.BlockSvg.HEXAGONAL_SHAPE_ROUNDNESS;
-      const diagonalWidth = block.edgeShapeWidth_ - hexRoundness * 1.5;
+      const diagonalWidth = (block.edgeShapeWidth_ + hexRoundness) - hexRoundness * 1.5;
       const verticalWidth = block.edgeShapeWidth_ - hexRoundness / 4;
-      const yMult = block.height / 2 / block.edgeShapeWidth_;
+      const yMult = block.height / 2 / (block.edgeShapeWidth_ + hexRoundness);
       return [
         `h ${verticalWidth}`,
         `q ${hexRoundness / 2} 0 0 ${hexRoundness / 2 * yMult}`,
@@ -2158,7 +2158,7 @@ Blockly.BlockSvg.CUSTOM_SHAPES = new Map([
       ];
     },
     edgeShapeWidth: (original) => {
-      return Math.min(original, Blockly.BlockSvg.GRID_UNIT * 15)
+      return Math.min(original, Blockly.BlockSvg.GRID_UNIT * 15) - Blockly.BlockSvg.HEXAGONAL_SHAPE_ROUNDNESS;
     }
   }],
   [Blockly.OUTPUT_SHAPE_SCRAPPED, {

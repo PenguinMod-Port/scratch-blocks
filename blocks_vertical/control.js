@@ -946,6 +946,8 @@ Blockly.Blocks['control_from_to'] = {
   init: function() {
     this.jsonInit({
       "message0": Blockly.Msg.PM_CONTROL_FROMTO,
+      "message1": "%1",
+      "lastDummyAlign1": "RIGHT",
       "args0": [
         {
           "type": "input_value",
@@ -962,6 +964,16 @@ Blockly.Blocks['control_from_to'] = {
         {
           "type": "input_statement",
           "name": "SUBSTACK"
+        }
+      ],
+      "args1": [
+        {
+          "type": "field_image",
+          "src": Blockly.mainWorkspace.options.pathToMedia + "repeat.svg",
+          "width": 24,
+          "height": 24,
+          "alt": "*",
+          "flip_rtl": true
         }
       ],
       "category": Blockly.Categories.control,
@@ -1100,5 +1112,44 @@ Blockly.Blocks['control_expandableIf'] = {
 
     this.initSvg();
     if (this.rendered) this.render();
+  }
+};
+
+Blockly.Blocks['control_do_while'] = {
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_CONTROL_DO,
+      "message1": Blockly.Msg.CONTROL_WHILE,
+      "message2": "%1",
+      "lastDummyAlign2": "RIGHT",
+      "args0": [
+        {
+          "type": "input_dummy"
+        },
+        {
+          "type": "input_statement",
+          "name": "SUBSTACK"
+        }
+      ],
+      "args1": [
+        {
+          "type": "input_value",
+          "name": "CONDITION",
+          "check": "Boolean"
+        }
+      ],
+      "args2": [
+        {
+          "type": "field_image",
+          "src": Blockly.mainWorkspace.options.pathToMedia + "repeat.svg",
+          "width": 24,
+          "height": 24,
+          "alt": "*",
+          "flip_rtl": true
+        }
+      ],
+      "category": Blockly.Categories.control,
+      "extensions": ["colours_control", "shape_statement"]
+    });
   }
 };

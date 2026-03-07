@@ -379,6 +379,7 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
     '  </value>' +
     '</block>' +
     '<block type="looks_layersGetLayer" />' +
+    '<block type="looks_getEffectValue" />' +
   '</category>' +
   '<category name="%{BKY_CATEGORY_SOUND}" id="sound" colour="#D65CD6" secondaryColour="#BD42BD">' +
     '<block type="sound_play" id="sound_play">' +
@@ -666,6 +667,11 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
         '<shadow type="math_number">' +
           '<field name="NUM">1</field>' +
         '</shadow>' +
+      '</value>' +
+    '</block>' +
+    '<block type="control_do_while">' +
+      '<value name="CONDITION">' +
+        '<shadow type="checkbox" />' +
       '</value>' +
     '</block>' +
   '</category>' +
@@ -1093,6 +1099,11 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
     '</block>' +
     '<block type="operator_range_expandable" />' +
     '<block type="operator_expandableMath" />' +
+    '<block type="operator_toUpperLowerCase">' +
+      '<value name="TEXT">' +
+        '<shadow type="text" />' +
+      '</value>' +
+    '</block>' +
   '</category>' +
   '<category name="%{BKY_CATEGORY_VARIABLES}" id="data" colour="#FF8C1A" secondaryColour="#DB6E00" custom="VARIABLE">' +
   '</category>' +

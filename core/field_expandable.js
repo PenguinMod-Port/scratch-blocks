@@ -68,51 +68,53 @@ Blockly.FieldExpandable.prototype.init = function() {
   this.size_.height = Blockly.BlockSvg.FIELD_HEIGHT * 0.75;
   const ratio = this.size_.height / 32;
 
-  var addGroup = Blockly.utils.createSvgElement('g', {}, null);
-  Blockly.utils.createSvgElement('rect', {
-    'x': this.size_.height + Blockly.BlockSvg.GRID_UNIT,
-    'y': 0,
-    'rx': 4,
-    'ry': 4,
-    'width': this.size_.height,
-    'height': this.size_.height,
-    'fill': "#00000000",
-    'stroke': "#00000035",
-    'cursor': this.CURSOR
-  }, addGroup);
-  Blockly.utils.createSvgElement('image', {
-    'x': 5 * ratio + this.size_.height + Blockly.BlockSvg.GRID_UNIT,
-    'y': 5 * ratio,
-    'width': this.size_.height / 1.5,
-    'height': this.size_.height / 1.5,
-    'xlink:href': Blockly.FieldExpandable.ADD_IMAGE,
-    'href': Blockly.FieldExpandable.ADD_IMAGE,
-  }, addGroup);
-  Blockly.bindEvent_(addGroup, 'mousedown', this, () => !this.sourceBlock_.isInFlyout && this.setValue(Number(this.getValue()) + 1));
-  this.fieldGroup_.insertBefore(addGroup, this.textElement_);
+  if (!this.sourceBlock_.isInsertionMarker()) {
+    var addGroup = Blockly.utils.createSvgElement('g', {}, null);
+    Blockly.utils.createSvgElement('rect', {
+      'x': this.size_.height + Blockly.BlockSvg.GRID_UNIT,
+      'y': 0,
+      'rx': 4,
+      'ry': 4,
+      'width': this.size_.height,
+      'height': this.size_.height,
+      'fill': "#00000000",
+      'stroke': "#00000035",
+      'cursor': this.CURSOR
+    }, addGroup);
+    Blockly.utils.createSvgElement('image', {
+      'x': 5 * ratio + this.size_.height + Blockly.BlockSvg.GRID_UNIT,
+      'y': 5 * ratio,
+      'width': this.size_.height / 1.5,
+      'height': this.size_.height / 1.5,
+      'xlink:href': Blockly.FieldExpandable.ADD_IMAGE,
+      'href': Blockly.FieldExpandable.ADD_IMAGE,
+    }, addGroup);
+    Blockly.bindEvent_(addGroup, 'mousedown', this, () => !this.sourceBlock_.isInFlyout && this.setValue(Number(this.getValue()) + 1));
+    this.fieldGroup_.insertBefore(addGroup, this.textElement_);
 
-  var removeGroup = Blockly.utils.createSvgElement('g', {}, null);
-  Blockly.utils.createSvgElement('rect', {
-    'x': 0,
-    'y': 0,
-    'rx': 4,
-    'ry': 4,
-    'width': this.size_.height,
-    'height': this.size_.height,
-    'fill': "#00000000",
-    'stroke': "#00000035",
-    'cursor': this.CURSOR
-  }, removeGroup);
-  Blockly.utils.createSvgElement('image', {
-    'x': 5 * ratio,
-    'y': 5 * ratio,
-    'width': this.size_.height / 1.5,
-    'height': this.size_.height / 1.5,
-    'xlink:href': Blockly.FieldExpandable.REMOVE_IMAGE,
-    'href': Blockly.FieldExpandable.REMOVE_IMAGE,
-  }, removeGroup);
-  Blockly.bindEvent_(removeGroup, 'mousedown', this, () => !this.sourceBlock_.isInFlyout && this.setValue(Number(this.getValue()) - 1));
-  this.fieldGroup_.insertBefore(removeGroup, this.textElement_);
+    var removeGroup = Blockly.utils.createSvgElement('g', {}, null);
+    Blockly.utils.createSvgElement('rect', {
+      'x': 0,
+      'y': 0,
+      'rx': 4,
+      'ry': 4,
+      'width': this.size_.height,
+      'height': this.size_.height,
+      'fill': "#00000000",
+      'stroke': "#00000035",
+      'cursor': this.CURSOR
+    }, removeGroup);
+    Blockly.utils.createSvgElement('image', {
+      'x': 5 * ratio,
+      'y': 5 * ratio,
+      'width': this.size_.height / 1.5,
+      'height': this.size_.height / 1.5,
+      'xlink:href': Blockly.FieldExpandable.REMOVE_IMAGE,
+      'href': Blockly.FieldExpandable.REMOVE_IMAGE,
+    }, removeGroup);
+    Blockly.bindEvent_(removeGroup, 'mousedown', this, () => !this.sourceBlock_.isInFlyout && this.setValue(Number(this.getValue()) - 1));
+    this.fieldGroup_.insertBefore(removeGroup, this.textElement_);
+  }
 
   this.setValue(Number(this.getValue()) || this.tempValue_, true);
 };
