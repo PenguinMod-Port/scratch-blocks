@@ -75,13 +75,11 @@ Blockly.ScratchBlocks.VerticalExtensions.COLOUR_TEXTFIELD = function() {
  * @readonly
  */
 Blockly.ScratchBlocks.VerticalExtensions.SHAPE_STATEMENT = function() {
-  this.setInputsInline(true);
   this.setPreviousStatement(true, "normal");
   this.setNextStatement(true, "normal");
 };
 
 Blockly.ScratchBlocks.VerticalExtensions.SHAPE_CASE = function() {
-  this.setInputsInline(true);
   this.setPreviousStatement(true, "switchCase");
   this.setNextStatement(true, "switchCase");
 };
@@ -94,7 +92,6 @@ Blockly.ScratchBlocks.VerticalExtensions.SHAPE_CASE = function() {
  * @readonly
  */
 Blockly.ScratchBlocks.VerticalExtensions.SHAPE_HAT = function() {
-  this.setInputsInline(true);
   this.setNextStatement(true, "normal");
 };
 
@@ -106,7 +103,6 @@ Blockly.ScratchBlocks.VerticalExtensions.SHAPE_HAT = function() {
  * @readonly
  */
 Blockly.ScratchBlocks.VerticalExtensions.SHAPE_END = function() {
-  this.setInputsInline(true);
   this.setPreviousStatement(true, "normal");
 };
 
@@ -118,7 +114,6 @@ Blockly.ScratchBlocks.VerticalExtensions.SHAPE_END = function() {
  * @readonly
  */
 Blockly.ScratchBlocks.VerticalExtensions.OUTPUT_NUMBER = function() {
-  this.setInputsInline(true);
   this.setOutputShape(Blockly.OUTPUT_SHAPE_ROUND);
   this.setOutput(true, 'Number');
 };
@@ -131,7 +126,6 @@ Blockly.ScratchBlocks.VerticalExtensions.OUTPUT_NUMBER = function() {
  * @readonly
  */
 Blockly.ScratchBlocks.VerticalExtensions.OUTPUT_STRING = function() {
-  this.setInputsInline(true);
   this.setOutputShape(Blockly.OUTPUT_SHAPE_ROUND);
   this.setOutput(true, 'String');
 };
@@ -144,20 +138,17 @@ Blockly.ScratchBlocks.VerticalExtensions.OUTPUT_STRING = function() {
  * @readonly
  */
 Blockly.ScratchBlocks.VerticalExtensions.OUTPUT_BOOLEAN = function() {
-  this.setInputsInline(true);
   this.setOutputShape(Blockly.OUTPUT_SHAPE_HEXAGONAL);
   this.setOutput(true, 'Boolean');
 };
 
 
 Blockly.ScratchBlocks.VerticalExtensions.OUTPUT_ANY = function() {
-  this.setInputsInline(true);
   this.setOutputShape(Blockly.OUTPUT_SHAPE_ROUND);
   this.setOutput(true);
 };
 
 Blockly.ScratchBlocks.VerticalExtensions.OUTPUT_RETURNS = function () {
-  this.setInputsInline(true);
   this.setOutputShape(Blockly.OUTPUT_SHAPE_ROUND);
   this.setOutput(true);
   this.setOnChange(function() {
@@ -168,7 +159,6 @@ Blockly.ScratchBlocks.VerticalExtensions.OUTPUT_RETURNS = function () {
 };
 
 Blockly.ScratchBlocks.VerticalExtensions.OUTPUT_INPUTS = function () {
-  this.setInputsInline(true);
   this.setOutputShape(Blockly.OUTPUT_SHAPE_ROUND);
   this.setOutput(true);
   this.setOnChange(function() {

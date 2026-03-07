@@ -666,7 +666,7 @@ Blockly.Blocks['control_throw_error'] = {
 Blockly.Blocks["control_if_return_else_return"] = {
   init: function() {
     this.jsonInit({
-      "inputsInline": true,
+      "inputsInline": false,
       "message0": Blockly.Msg.PM_CONTROL_IFELSEREPORTER,
       "args0": [
         {

@@ -711,10 +711,10 @@ Blockly.BlockSvg.prototype.showContextMenu_ = function(e) {
     if (this.isEditable() && this.workspace.options.comments) {
       menuOptions.push(Blockly.ContextMenu.blockCommentOption(block));
     }
-    if (this.workspace.options.collapse) {
+    if (this.workspace.options.collapse && this.type !== Blockly.PROCEDURES_DEFINITION_BLOCK_TYPE) {
       menuOptions.push(Blockly.ContextMenu.blockCollapseOption(block));
     }
-    if (!this.isCollapsed() && this.inputList.length > 1 && this.workspace.options.externalInputs) {
+    if (!this.isCollapsed() && this.workspace.options.externalInputs && this.type !== Blockly.PROCEDURES_DEFINITION_BLOCK_TYPE) {
       menuOptions.push(Blockly.ContextMenu.blockInlineOption(block));
     }
     menuOptions.push(Blockly.ContextMenu.blockDeleteOption(block));
