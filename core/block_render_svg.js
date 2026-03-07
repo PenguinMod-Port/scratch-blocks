@@ -1168,9 +1168,9 @@ Blockly.BlockSvg.prototype.computeOutputPadding_ = function(inputRows) {
   // Blocks with outputs must have single row to be padded.
   if (inputRows.length > 1) {
     let shape = this.getOutputShapeRight();
-    let totalHeight = inputRows.reduce((o, v) => o + v.height, 0)
+    let totalHeight = inputRows.reduce((o, v) => o + v.height, 0);
     if (!this.inputsInline && shape !== Blockly.OUTPUT_SHAPE_SQUARE) {
-      inputRows[inputRows.length - 1].paddingEnd = getSubprop(Blockly.BlockSvg.CUSTOM_SHAPES.get(shape).edgeShapeWidth, "right")(totalHeight / 2);
+      inputRows.forEach(v => v.paddingEnd = getSubprop(Blockly.BlockSvg.CUSTOM_SHAPES.get(shape).edgeShapeWidth, "right")(totalHeight / 2));
     }
     return;
   }
@@ -1502,9 +1502,10 @@ Blockly.BlockSvg.prototype.renderDrawRight_ = function(steps,
       // stretch to be at least the size of all previous rows.
       inputRows.rightEdge = Math.max(cursorX, inputRows.rightEdge, !this.isCollapsed() && this.inputList.find(v => v.type == Blockly.NEXT_STATEMENT) ? Blockly.BlockSvg.MIN_BLOCK_X_WITH_STATEMENT + this.edgeShapeWidth_ : 0);
       // Move to the right edge
+      let cursorXChanged = this.width < inputRows.rightEdge;
       cursorX = Math.max(cursorX, inputRows.rightEdge);
       this.width = Math.max(this.width, cursorX);
-      if (this.getOutputShapeRight() == Blockly.OUTPUT_SHAPE_SQUARE) {
+      if (this.getOutputShapeRight() == Blockly.OUTPUT_SHAPE_SQUARE && (!inputRows[y - 1] || inputRows[y - 1].type !== Blockly.BlockSvg.INLINE || cursorXChanged)) {
         // Include corner radius in drawing the horizontal line.
         steps.push('H', cursorX - Blockly.BlockSvg.CORNER_RADIUS);
         steps.push(Blockly.BlockSvg.TOP_RIGHT_CORNER);
@@ -1515,7 +1516,7 @@ Blockly.BlockSvg.prototype.renderDrawRight_ = function(steps,
       // Subtract CORNER_RADIUS * 2 to account for the top right corner
       // and also the bottom right corner. Only move vertically the non-corner length.
       if (this.getOutputShapeRight() == Blockly.OUTPUT_SHAPE_SQUARE) {
-        steps.push('v', row.height - Blockly.BlockSvg.CORNER_RADIUS * (inputRows[y + 1] && inputRows[y + 1].type === Blockly.BlockSvg.INLINE ? 1 : 2));
+        steps.push('v', row.height - Blockly.BlockSvg.CORNER_RADIUS * (inputRows[y - 1] && inputRows[y - 1].type === Blockly.BlockSvg.INLINE ? (cursorXChanged ? 1 : 0) : 2));
       }
     } else if (row.type == Blockly.NEXT_STATEMENT) {
       // Nested statement.
@@ -1890,7 +1891,7 @@ Blockly.BlockSvg.getInputShapeInfo_ = function(shape) {
 Blockly.BlockSvg.getAlignedCursor_ = function(cursorX, input, inputRows, rowI) {
   // Align inline field rows (left/right/centre).
   if (input.align === Blockly.ALIGN_RIGHT) {
-    let offset = Blockly.BlockSvg.SEP_SPACE_X
+    let offset = inputRows[rowI].paddingEnd;
     cursorX = Math.max(cursorX, inputRows.rightEdge - input.fieldWidth - input.renderWidth - offset);
   } else if (input.align === Blockly.ALIGN_CENTRE) {
     cursorX = Math.max(cursorX, inputRows.rightEdge / 2 - input.fieldWidth / 2);
