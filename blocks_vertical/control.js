@@ -1153,3 +1153,49 @@ Blockly.Blocks['control_do_while'] = {
     });
   }
 };
+
+Blockly.Blocks['control_run_as_sprite_menu'] = {
+  /**
+   * pm: Run-as-sprite drop-down menu.
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.jsonInit({
+      "message0": "%1",
+      "args0": [
+        {
+          "type": "field_dropdown",
+          "name": "RUN_AS_OPTION",
+          "options": [
+            ["Stage", '_stage_']
+          ]
+        }
+      ],
+      "extensions": ["colours_control", "output_string"]
+    });
+  }
+};
+
+Blockly.Blocks['control_run_as_sprite'] = {
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_CONTROL_RUNAS,
+      "message1": "%1",
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "RUN_AS_OPTION"
+        }
+      ],
+      "args1": [
+        {
+          "type": "input_statement",
+          "check": 'normal',
+          "name": "SUBSTACK"
+        }
+      ],
+      "category": Blockly.Categories.control,
+      "extensions": ["colours_control", "shape_statement"]
+    });
+  }
+};
