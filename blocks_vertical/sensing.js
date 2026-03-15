@@ -654,20 +654,6 @@ Blockly.Blocks['sensing_touchingobjectmenusprites'] = {
   }
 };
 
-Blockly.Blocks['sensing_keyoptions'] = {
-  init: function () {
-    this.jsonInit({
-      message0: '%1',
-      args0: [{
-        type: 'field_dropdown',
-        name: 'KEY_OPTION',
-        options: [['space', 'space'], ['any', 'any']]
-      }],
-      extensions: ['output_string', 'colours_sensing']
-    });
-  }
-};
-
 Blockly.Blocks['sensing_scrolldirections'] = {
   init: function () {
     this.jsonInit({
