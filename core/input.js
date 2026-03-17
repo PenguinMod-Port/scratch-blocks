@@ -272,7 +272,7 @@ Blockly.Input.prototype.initOutlinePath = function(svgRoot) {
   if (this.outlinePath) {
     return;
   }
-  if (this.type == Blockly.INPUT_VALUE) {
+  if (this.type == Blockly.INPUT_VALUE || this.type == Blockly.NEXT_STATEMENT) {
     this.outlinePath = Blockly.utils.createSvgElement(
         'path',
         {

@@ -934,8 +934,7 @@ Blockly.BlockSvg.prototype.renderCompute_ = function(iconWidth) {
     // In all other cases, statement and value inputs catch all preceding dummy
     // inputs, and cause a line break before following inputs.
     if ((!this.inputsInline && (!inputList[i - 1] || inputList[i - 1].type !== Blockly.DUMMY_INPUT)) || (!isSecondInputOnProcedure &&
-        (!lastType || lastType == Blockly.NEXT_STATEMENT ||
-        input.type == Blockly.NEXT_STATEMENT))) {
+        (!lastType))) {
       lastType = input.type;
       row = this.createRowForInput_(input);
       inputRows.push(row);
@@ -980,6 +979,7 @@ Blockly.BlockSvg.prototype.renderCompute_ = function(iconWidth) {
         if (row.statementNotchAtBottom) {
           paddedHeight -= Blockly.BlockSvg.NOTCH_HEIGHT;
         }
+        paddedHeight += 4 * Blockly.BlockSvg.INLINE_PADDING_Y;
       }
       input.renderHeight = Math.max(input.renderHeight, paddedHeight);
       input.renderWidth = Math.max(input.renderWidth, paddedWidth);
@@ -1493,6 +1493,17 @@ Blockly.BlockSvg.prototype.renderDrawRight_ = function(steps,
           input.connection.setOffsetInBlock(connectionX, connectionY);
           this.renderInputShape_(input, cursorX, cursorY + connectionYOffset);
           cursorX += input.renderWidth + Blockly.BlockSvg.SEP_SPACE_X;
+        } else if (input.type == Blockly.NEXT_STATEMENT) {
+          // Create inline output connection.
+          // Attempt to center the connection vertically.
+          var connectionYOffset = 1 * Blockly.BlockSvg.INLINE_PADDING_Y;
+          connectionY = cursorY + connectionYOffset;
+          this.renderInputShape_(input, cursorX, cursorY + connectionYOffset);
+          cursorX += this.edgeShape_ ? 0 : 32;
+          connectionX = this.RTL ? -cursorX : cursorX;
+          input.connection.setOffsetInBlock(connectionX, connectionY);
+          cursorX += input.connection.targetConnection ? -32 : 32;
+          cursorX += input.renderWidth + Blockly.BlockSvg.SEP_SPACE_X;
         }
       }
       // Remove final separator and replace it with right-padding.
@@ -1578,10 +1589,20 @@ Blockly.BlockSvg.prototype.renderInputShape_ = function(input, x, y) {
     // No input shape for this input - e.g., the block is an insertion marker.
     return;
   }
+
   // Input shapes are only visibly rendered on non-connected slots.
   if (input.connection.targetConnection || this.isCollapsed()) {
     inputShape.setAttribute('style', 'visibility: hidden');
   } else {
+    if (input.type === Blockly.NEXT_STATEMENT) {
+      let nss = "m 0,4 A 4,4 0 0,1 4,0 H 12 c 2,0 3,1 4,2 l 4,4 c 1,1 2,2 4,2 h 12 c 2,0 3,-1 4,-2 l 4,-4 c 1,-1 2,-2 4,-2 H 60 a 4,4 0 0,1 4,4 v 40  a 4,4 0 0,1 -4,4 H 48   c -2,0 -3,1 -4,2 l -4,4 c -1,1 -2,2 -4,2 h -12 c -2,0 -3,-1 -4,-2 l -4,-4 c -1,-1 -2,-2 -4,-2 H 4 a 4,4 0 0,1 -4,-4 z";
+      inputShape.setAttribute('d', nss);
+      inputShape.setAttribute('transform', 'translate(' + x + ',' + y + ')');
+      inputShape.setAttribute('data-argument-type', 'input');
+      inputShape.setAttribute('style', 'visibility: visible');
+      return;
+    }
+
     var inputShapeX = 0, inputShapeY = 0;
     var inputShapeInfo =
         Blockly.BlockSvg.getInputShapeInfo_(input.connection.getOutputShape());
