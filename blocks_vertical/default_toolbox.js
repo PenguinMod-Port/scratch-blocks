@@ -807,6 +807,12 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
     '<block type="sensing_operatingsystem"/>' +
     '<block type="sensing_browser"/>' +
     '<block type="sensing_url"/>' +
+    '<block type="sensing_setclipboard">' +
+      '<value name="ITEM">' +
+        '<shadow type="text" />' +
+      '</value>' +
+    '</block>' +
+    '<block type="sensing_getclipboard"/>' +
   '</category>' +
   '<category name="%{BKY_CATEGORY_OPERATORS}" id="operators" colour="#40BF4A" secondaryColour="#389438">' +
     '<block type="operator_add" id="operator_add">' +

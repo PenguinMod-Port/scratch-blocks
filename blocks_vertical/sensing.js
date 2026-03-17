@@ -836,3 +836,38 @@ Blockly.Blocks['sensing_url'] = {
     });
   }
 };
+
+Blockly.Blocks['sensing_setclipboard'] = {
+  /**
+   * pm: Block to add an item to the Clipboard
+   * @this Blockly.Block
+   */
+  init: function () {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_SENSING_CLIPBOARD_SET,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "ITEM"
+        }
+      ],
+      "category": Blockly.Categories.sensing,
+      "extensions": ["colours_sensing", "shape_statement"]
+    });
+  }
+};
+
+Blockly.Blocks['sensing_getclipboard'] = {
+  /**
+   * pm: Block to report the current item in the Clipboard
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_SENSING_CLIPBOARD_GET,
+      "category": Blockly.Categories.sensing,
+      "checkboxInFlyout": true,
+      "extensions": ["colours_sensing", "output_string"]
+    });
+  }
+};
