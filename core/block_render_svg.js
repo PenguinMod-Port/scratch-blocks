@@ -467,8 +467,8 @@ Blockly.BlockSvg.SHAPE_IN_SHAPE_PADDING = {
 		0: 3 * Blockly.BlockSvg.GRID_UNIT,
 		1: 2 * Blockly.BlockSvg.GRID_UNIT,
 		2: 1 * Blockly.BlockSvg.GRID_UNIT,
-		3: 3 * Blockly.BlockSvg.GRID_UNIT,
-		4: 3 * Blockly.BlockSvg.GRID_UNIT,
+		3: 4 * Blockly.BlockSvg.GRID_UNIT,
+		4: 4 * Blockly.BlockSvg.GRID_UNIT,
 		5: 2 * Blockly.BlockSvg.GRID_UNIT,
 		6: 2 * Blockly.BlockSvg.GRID_UNIT,
 		7: 3 * Blockly.BlockSvg.GRID_UNIT,
@@ -493,7 +493,7 @@ Blockly.BlockSvg.SHAPE_IN_SHAPE_PADDING = {
 		0: 3 * Blockly.BlockSvg.GRID_UNIT,
 		1: 2 * Blockly.BlockSvg.GRID_UNIT,
 		2: 1 * Blockly.BlockSvg.GRID_UNIT,
-		3: 3 * Blockly.BlockSvg.GRID_UNIT,
+		3: 4 * Blockly.BlockSvg.GRID_UNIT,
 		4: 1 * Blockly.BlockSvg.GRID_UNIT,
 		5: 2 * Blockly.BlockSvg.GRID_UNIT,
 		6: 2 * Blockly.BlockSvg.GRID_UNIT,
@@ -542,17 +542,17 @@ Blockly.BlockSvg.SHAPE_IN_SHAPE_PADDING = {
 		10: 1 * Blockly.BlockSvg.GRID_UNIT,
 	},
 	8: {
-		0: 1 * Blockly.BlockSvg.GRID_UNIT,
-		1: 1 * Blockly.BlockSvg.GRID_UNIT,
-		2: 1 * Blockly.BlockSvg.GRID_UNIT,
-		3: 1 * Blockly.BlockSvg.GRID_UNIT,
-		4: 1 * Blockly.BlockSvg.GRID_UNIT,
-		5: 1 * Blockly.BlockSvg.GRID_UNIT,
-		6: 1 * Blockly.BlockSvg.GRID_UNIT,
-		7: 1 * Blockly.BlockSvg.GRID_UNIT,
+		0: 2 * Blockly.BlockSvg.GRID_UNIT,
+		1: 2 * Blockly.BlockSvg.GRID_UNIT,
+		2: 2 * Blockly.BlockSvg.GRID_UNIT,
+		3: 2 * Blockly.BlockSvg.GRID_UNIT,
+		4: 2 * Blockly.BlockSvg.GRID_UNIT,
+		5: 2 * Blockly.BlockSvg.GRID_UNIT,
+		6: 2 * Blockly.BlockSvg.GRID_UNIT,
+		7: 2 * Blockly.BlockSvg.GRID_UNIT,
 		8: 0 * Blockly.BlockSvg.GRID_UNIT,
-		9: 0 * Blockly.BlockSvg.GRID_UNIT,
-		10: 1 * Blockly.BlockSvg.GRID_UNIT,
+		9: 1 * Blockly.BlockSvg.GRID_UNIT,
+		10: { left: 1 * Blockly.BlockSvg.GRID_UNIT, right: 2 * Blockly.BlockSvg.GRID_UNIT },
 	},
 	9: {
 		0: 1 * Blockly.BlockSvg.GRID_UNIT,
@@ -1313,7 +1313,7 @@ Blockly.BlockSvg.prototype.renderDraw_ = function(iconWidth, inputRows) {
       let right = 0;
       this.edgeShapeWidth_ = left;
 
-      if (!this.inputList.find(v => v.type == Blockly.NEXT_STATEMENT)) {
+      if (this.inputsInline && !this.inputList.find(v => v.type == Blockly.NEXT_STATEMENT)) {
         right = rightCustomShape.edgeShapeWidth ? getSubprop(rightCustomShape.edgeShapeWidth(this.edgeShapeWidth_), "right") : this.edgeShapeWidth_;
 
         if (getSubprop(customShape.unsafeEdges, "left")) {
