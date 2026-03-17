@@ -1313,7 +1313,7 @@ Blockly.BlockSvg.prototype.renderDraw_ = function(iconWidth, inputRows) {
       let right = 0;
       this.edgeShapeWidth_ = left;
 
-      if (this.inputRows.length === 1 && !this.inputList.find(v => v.type == Blockly.NEXT_STATEMENT)) {
+      if (inputRows.length === 1 && !this.inputList.find(v => v.type == Blockly.NEXT_STATEMENT)) {
         right = rightCustomShape.edgeShapeWidth ? getSubprop(rightCustomShape.edgeShapeWidth(this.edgeShapeWidth_), "right") : this.edgeShapeWidth_;
 
         if (getSubprop(customShape.unsafeEdges, "left")) {
