@@ -977,12 +977,16 @@ Blockly.BlockSvg.prototype.renderCompute_ = function(iconWidth) {
       if (input.connection.type === Blockly.NEXT_STATEMENT) {
         // Subtract height of notch, only if the last block in the stack has a next connection.
         if (row.statementNotchAtBottom) {
-          paddedHeight -= Blockly.BlockSvg.NOTCH_HEIGHT;
+          paddedHeight -= 2 * Blockly.BlockSvg.INLINE_PADDING_Y;
         }
         paddedHeight += 4 * Blockly.BlockSvg.INLINE_PADDING_Y;
       }
       input.renderHeight = Math.max(input.renderHeight, paddedHeight);
       input.renderWidth = Math.max(input.renderWidth, paddedWidth);
+      console.log(row);
+      if (input.connection.type === Blockly.NEXT_STATEMENT && !row.statementNotchAtBottom) {
+        input.renderHeight -= 2 * Blockly.BlockSvg.INLINE_PADDING_Y;
+      }
     }
     row.height = Math.max(row.height, input.renderHeight);
     input.fieldWidth = 0;
@@ -1108,7 +1112,7 @@ Blockly.BlockSvg.prototype.computeInputHeight_ = function(input, row,
 Blockly.BlockSvg.prototype.createRowForInput_ = function(input) {
   // Create new row.
   var row = [];
-  if (input.type != Blockly.NEXT_STATEMENT) {
+  if (true) {
     row.type = Blockly.BlockSvg.INLINE;
   } else {
     row.type = input.type;
@@ -1496,13 +1500,20 @@ Blockly.BlockSvg.prototype.renderDrawRight_ = function(steps,
         } else if (input.type == Blockly.NEXT_STATEMENT) {
           // Create inline output connection.
           // Attempt to center the connection vertically.
+          if (this.previousConnection && (!inputRows[y - 1] || inputRows[y - 1].type !== Blockly.BlockSvg.INLINE)) {
+            cursorX = Math.max(cursorX, Blockly.BlockSvg.INPUT_AND_FIELD_MIN_X);
+          }
           var connectionYOffset = 1 * Blockly.BlockSvg.INLINE_PADDING_Y;
           connectionY = cursorY + connectionYOffset;
           this.renderInputShape_(input, cursorX, cursorY + connectionYOffset);
           cursorX += this.edgeShape_ ? 0 : 32;
           connectionX = this.RTL ? -cursorX : cursorX;
           input.connection.setOffsetInBlock(connectionX, connectionY);
-          cursorX += input.connection.targetConnection ? -32 : 32;
+          if (input.connection.targetConnection) {
+            cursorX -= 32;
+          } else {
+            cursorX += 32;
+          }
           cursorX += input.renderWidth + Blockly.BlockSvg.SEP_SPACE_X;
         }
       }
@@ -1595,7 +1606,7 @@ Blockly.BlockSvg.prototype.renderInputShape_ = function(input, x, y) {
     inputShape.setAttribute('style', 'visibility: hidden');
   } else {
     if (input.type === Blockly.NEXT_STATEMENT) {
-      let nss = "m 0,4 A 4,4 0 0,1 4,0 H 12 c 2,0 3,1 4,2 l 4,4 c 1,1 2,2 4,2 h 12 c 2,0 3,-1 4,-2 l 4,-4 c 1,-1 2,-2 4,-2 H 60 a 4,4 0 0,1 4,4 v 40  a 4,4 0 0,1 -4,4 H 48   c -2,0 -3,1 -4,2 l -4,4 c -1,1 -2,2 -4,2 h -12 c -2,0 -3,-1 -4,-2 l -4,-4 c -1,-1 -2,-2 -4,-2 H 4 a 4,4 0 0,1 -4,-4 z";
+      let nss = "m 0 4 A 4 4 0 0 1 4 0 H 12 c 2 0 3 1 4 2 l 4 4 c 1 1 2 2 4 2 h 12 c 2 0 3 -1 4 -2 l 4 -4 c 1 -1 2 -2 4 -2 H 60 a 4 4 0 0 1 4 4 v 24 a 4 4 0 0 1 -4 4 H 48 c -2 0 -3 1 -4 2 l -4 4 c -1 1 -2 2 -4 2 h -12 c -2 0 -3 -1 -4 -2 l -4 -4 c -1 -1 -2 -2 -4 -2 H 4 a 4 4 0 0 1 -4 -4 z";
       inputShape.setAttribute('d', nss);
       inputShape.setAttribute('transform', 'translate(' + x + ',' + y + ')');
       inputShape.setAttribute('data-argument-type', 'input');
