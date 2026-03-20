@@ -462,19 +462,21 @@ Blockly.BlockSvg.SHAPE_IN_SHAPE_PADDING = {
 		8: 5 * Blockly.BlockSvg.GRID_UNIT,
 		9: 5 * Blockly.BlockSvg.GRID_UNIT,
 		10: { left: 5 * Blockly.BlockSvg.GRID_UNIT, right: 3 * Blockly.BlockSvg.GRID_UNIT },
+		11: 5 * Blockly.BlockSvg.GRID_UNIT,
 	},
 	2: {
 		0: 3 * Blockly.BlockSvg.GRID_UNIT,
 		1: 2 * Blockly.BlockSvg.GRID_UNIT,
 		2: 1 * Blockly.BlockSvg.GRID_UNIT,
 		3: 4 * Blockly.BlockSvg.GRID_UNIT,
-		4: 4 * Blockly.BlockSvg.GRID_UNIT,
+		4: 3 * Blockly.BlockSvg.GRID_UNIT,
 		5: 2 * Blockly.BlockSvg.GRID_UNIT,
 		6: 2 * Blockly.BlockSvg.GRID_UNIT,
 		7: 3 * Blockly.BlockSvg.GRID_UNIT,
 		8: 4 * Blockly.BlockSvg.GRID_UNIT,
 		9: 4 * Blockly.BlockSvg.GRID_UNIT,
 		10: { left: 4 * Blockly.BlockSvg.GRID_UNIT, right: 2 * Blockly.BlockSvg.GRID_UNIT },
+		11: 4 * Blockly.BlockSvg.GRID_UNIT,
 	},
 	3: {
 		0: 2 * Blockly.BlockSvg.GRID_UNIT,
@@ -488,6 +490,7 @@ Blockly.BlockSvg.SHAPE_IN_SHAPE_PADDING = {
 		8: 1 * Blockly.BlockSvg.GRID_UNIT,
 		9: 1 * Blockly.BlockSvg.GRID_UNIT,
 		10: 1 * Blockly.BlockSvg.GRID_UNIT,
+		11: 1 * Blockly.BlockSvg.GRID_UNIT,
 	},
 	4: {
 		0: 3 * Blockly.BlockSvg.GRID_UNIT,
@@ -501,6 +504,7 @@ Blockly.BlockSvg.SHAPE_IN_SHAPE_PADDING = {
 		8: 4 * Blockly.BlockSvg.GRID_UNIT,
 		9: 4 * Blockly.BlockSvg.GRID_UNIT,
 		10: { left: 4 * Blockly.BlockSvg.GRID_UNIT, right: 2 * Blockly.BlockSvg.GRID_UNIT },
+		11: 4 * Blockly.BlockSvg.GRID_UNIT,
 	},
 	5: {
 		0: 5 * Blockly.BlockSvg.GRID_UNIT,
@@ -514,6 +518,7 @@ Blockly.BlockSvg.SHAPE_IN_SHAPE_PADDING = {
 		8: 5 * Blockly.BlockSvg.GRID_UNIT,
 		9: 5 * Blockly.BlockSvg.GRID_UNIT,
 		10: { left: 5 * Blockly.BlockSvg.GRID_UNIT, right: 4 * Blockly.BlockSvg.GRID_UNIT },
+		11: 5 * Blockly.BlockSvg.GRID_UNIT,
 	},
 	6: {
 		0: 2 * Blockly.BlockSvg.GRID_UNIT,
@@ -527,6 +532,7 @@ Blockly.BlockSvg.SHAPE_IN_SHAPE_PADDING = {
 		8: 3 * Blockly.BlockSvg.GRID_UNIT,
 		9: 3 * Blockly.BlockSvg.GRID_UNIT,
 		10: { left: 3 * Blockly.BlockSvg.GRID_UNIT, right: 1 * Blockly.BlockSvg.GRID_UNIT },
+		11: 3 * Blockly.BlockSvg.GRID_UNIT,
 	},
 	7: {
 		0: 1 * Blockly.BlockSvg.GRID_UNIT,
@@ -540,6 +546,7 @@ Blockly.BlockSvg.SHAPE_IN_SHAPE_PADDING = {
 		8: 1 * Blockly.BlockSvg.GRID_UNIT,
 		9: 1 * Blockly.BlockSvg.GRID_UNIT,
 		10: 1 * Blockly.BlockSvg.GRID_UNIT,
+		11: 0 * Blockly.BlockSvg.GRID_UNIT,
 	},
 	8: {
 		0: 2 * Blockly.BlockSvg.GRID_UNIT,
@@ -553,6 +560,7 @@ Blockly.BlockSvg.SHAPE_IN_SHAPE_PADDING = {
 		8: 0 * Blockly.BlockSvg.GRID_UNIT,
 		9: 1 * Blockly.BlockSvg.GRID_UNIT,
 		10: { left: 1 * Blockly.BlockSvg.GRID_UNIT, right: 2 * Blockly.BlockSvg.GRID_UNIT },
+		11: 0 * Blockly.BlockSvg.GRID_UNIT,
 	},
 	9: {
 		0: 1 * Blockly.BlockSvg.GRID_UNIT,
@@ -566,6 +574,7 @@ Blockly.BlockSvg.SHAPE_IN_SHAPE_PADDING = {
 		8: 1 * Blockly.BlockSvg.GRID_UNIT,
 		9: 1 * Blockly.BlockSvg.GRID_UNIT,
 		10: 1 * Blockly.BlockSvg.GRID_UNIT,
+		11: 1 * Blockly.BlockSvg.GRID_UNIT,
 	},
 	10: {
 		0: { left: 0 * Blockly.BlockSvg.GRID_UNIT, right: 4 * Blockly.BlockSvg.GRID_UNIT },
@@ -579,6 +588,21 @@ Blockly.BlockSvg.SHAPE_IN_SHAPE_PADDING = {
 		8: { left: -1 * Blockly.BlockSvg.GRID_UNIT, right: 5 * Blockly.BlockSvg.GRID_UNIT },
 		9: { left: -1 * Blockly.BlockSvg.GRID_UNIT, right: 5 * Blockly.BlockSvg.GRID_UNIT },
 		10: { left: -1 * Blockly.BlockSvg.GRID_UNIT, right: 2 * Blockly.BlockSvg.GRID_UNIT },
+		11: { left: -1 * Blockly.BlockSvg.GRID_UNIT, right: 4 * Blockly.BlockSvg.GRID_UNIT },
+	},
+	11: {
+		0: 2 * Blockly.BlockSvg.GRID_UNIT,
+		1: 1 * Blockly.BlockSvg.GRID_UNIT,
+		2: 1 * Blockly.BlockSvg.GRID_UNIT,
+		3: 1 * Blockly.BlockSvg.GRID_UNIT,
+		4: 1 * Blockly.BlockSvg.GRID_UNIT,
+		5: 1 * Blockly.BlockSvg.GRID_UNIT,
+		6: 1 * Blockly.BlockSvg.GRID_UNIT,
+		7: 1 * Blockly.BlockSvg.GRID_UNIT,
+		8: 0 * Blockly.BlockSvg.GRID_UNIT,
+		9: 0 * Blockly.BlockSvg.GRID_UNIT,
+		10: { left: 0 * Blockly.BlockSvg.GRID_UNIT, right: 1 * Blockly.BlockSvg.GRID_UNIT },
+		11: 1 * Blockly.BlockSvg.GRID_UNIT,
 	},
 };
 
@@ -2239,6 +2263,55 @@ Blockly.BlockSvg.CUSTOM_SHAPES = new Map([
     },
     edgeShapeWidth: (original) => {
       return Math.min(original, Blockly.BlockSvg.MIN_BLOCK_Y_REPORTER / 2)
+    }
+  }],
+  [Blockly.OUTPUT_SHAPE_TICKET, {
+    emptyInputWidth: 12 * Blockly.BlockSvg.GRID_UNIT,
+    emptyInputPath: "M 14 0 l 20 0 l 9 0 a -5 -5 0 0 1 5 5 a 5 -5 0 0 1 -5 5 l -2 0 a 6 -6 0 0 0 -6 6 l 0 0 a 6 -6 0 0 0 6 6 l 2 0 a 5 -5 0 0 1 5 5 a -5 -5 0 0 1 -5 5 l -9 0 h -20 l -9 0 a -5 -5 0 0 1 -5 -5 a 5 -5 0 0 1 5 -5 l 2 0 a 6 -6 0 0 0 6 -6 l 0 0 a 6 -6 0 0 0 -6 -6 l -2 0 a 5 -5 0 0 1 -5 -5 a -5 -5 0 0 1 5 -5 l 9 0 z",
+    curvature: 1000,
+    unsafeEdges: true,
+    leftPath: (block) => {
+      const paddingMultiplier = Blockly.BlockSvg.SEP_SPACE_Y / 2 / Blockly.BlockSvg.GRID_UNIT;
+      const unit = 6 * paddingMultiplier;
+      const remainingHeight = block.height - 36 * paddingMultiplier;
+      return [
+        `l ${-unit - 2} 0`,
+        `a ${-unit} ${-unit} 0 0 1 ${-unit} ${-unit}`,
+        `l 0 ${-remainingHeight / 2}`,
+        `a ${unit} ${-unit} 0 0 1 ${unit} ${-unit}`,
+        `l 2 0`,
+        `a ${unit} ${-unit} 0 0 0 ${unit} ${-unit}`,
+        `a ${unit} ${-unit} 0 0 0 ${-unit} ${-unit}`,
+        `l -2 0`,
+        `a ${unit} ${-unit} 0 0 1 ${-unit} ${-unit}`,
+        `l 0 ${-remainingHeight / 2}`,
+        `a ${-unit} ${-unit} 0 0 1 ${unit} ${-unit}`,
+        `l ${unit + 2} 0`
+      ]
+    },
+    rightPath: (block) => {
+      const paddingMultiplier = Blockly.BlockSvg.SEP_SPACE_Y / 2 / Blockly.BlockSvg.GRID_UNIT;
+      const unit = 6 * paddingMultiplier;
+      const remainingHeight = block.height - 36 * paddingMultiplier;
+      return [
+        `l ${unit + 2} 0`,
+        `a ${-unit} ${-unit} 0 0 1 ${unit} ${unit}`,
+        `l 0 ${remainingHeight / 2}`,
+        `a ${unit} ${-unit} 0 0 1 ${-unit} ${unit}`,
+        `l -2 0`,
+        `a ${unit} ${-unit} 0 0 0 ${-unit} ${unit}`,
+        `a ${unit} ${-unit} 0 0 0 ${unit} ${unit}`,
+        `l 2 0`,
+        `a ${unit} ${-unit} 0 0 1 ${unit} ${unit}`,
+        `l 0 ${remainingHeight / 2}`,
+        `a ${-unit} ${-unit} 0 0 1 ${-unit} ${unit}`,
+        `l ${-unit - 2} 0`
+      ]
+    },
+    edgeShapeWidth: (original) => {
+      const paddingMultiplier = Blockly.BlockSvg.SEP_SPACE_Y / 2 / Blockly.BlockSvg.GRID_UNIT;
+      const unit = 6 * paddingMultiplier;
+      return unit * 2 + 2;
     }
   }]
 ]);
