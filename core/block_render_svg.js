@@ -2006,7 +2006,7 @@ Blockly.BlockSvg.CUSTOM_SHAPES = new Map([
   }],
   [Blockly.OUTPUT_SHAPE_LEAF, {
     emptyInputWidth: 12 * Blockly.BlockSvg.GRID_UNIT,
-    curvature: 1,
+    curvature: 10,
     leftPath: (block) => {
       const esw = block.edgeShapeWidth_;
       const remainingHeight = block.height - esw * 2;
