@@ -463,6 +463,7 @@ Blockly.BlockSvg.SHAPE_IN_SHAPE_PADDING = {
 		9: 5 * Blockly.BlockSvg.GRID_UNIT,
 		10: { left: 5 * Blockly.BlockSvg.GRID_UNIT, right: 3 * Blockly.BlockSvg.GRID_UNIT },
 		11: 5 * Blockly.BlockSvg.GRID_UNIT,
+		12: 5 * Blockly.BlockSvg.GRID_UNIT,
 	},
 	2: {
 		0: 3 * Blockly.BlockSvg.GRID_UNIT,
@@ -477,6 +478,7 @@ Blockly.BlockSvg.SHAPE_IN_SHAPE_PADDING = {
 		9: 4 * Blockly.BlockSvg.GRID_UNIT,
 		10: { left: 4 * Blockly.BlockSvg.GRID_UNIT, right: 2 * Blockly.BlockSvg.GRID_UNIT },
 		11: 4 * Blockly.BlockSvg.GRID_UNIT,
+		12: 4 * Blockly.BlockSvg.GRID_UNIT,
 	},
 	3: {
 		0: 2 * Blockly.BlockSvg.GRID_UNIT,
@@ -491,6 +493,7 @@ Blockly.BlockSvg.SHAPE_IN_SHAPE_PADDING = {
 		9: 1 * Blockly.BlockSvg.GRID_UNIT,
 		10: 1 * Blockly.BlockSvg.GRID_UNIT,
 		11: 1 * Blockly.BlockSvg.GRID_UNIT,
+		12: 1 * Blockly.BlockSvg.GRID_UNIT,
 	},
 	4: {
 		0: 3 * Blockly.BlockSvg.GRID_UNIT,
@@ -505,6 +508,7 @@ Blockly.BlockSvg.SHAPE_IN_SHAPE_PADDING = {
 		9: 4 * Blockly.BlockSvg.GRID_UNIT,
 		10: { left: 4 * Blockly.BlockSvg.GRID_UNIT, right: 2 * Blockly.BlockSvg.GRID_UNIT },
 		11: 4 * Blockly.BlockSvg.GRID_UNIT,
+		12: 4 * Blockly.BlockSvg.GRID_UNIT,
 	},
 	5: {
 		0: 5 * Blockly.BlockSvg.GRID_UNIT,
@@ -519,6 +523,7 @@ Blockly.BlockSvg.SHAPE_IN_SHAPE_PADDING = {
 		9: 5 * Blockly.BlockSvg.GRID_UNIT,
 		10: { left: 5 * Blockly.BlockSvg.GRID_UNIT, right: 4 * Blockly.BlockSvg.GRID_UNIT },
 		11: 5 * Blockly.BlockSvg.GRID_UNIT,
+		12: 5 * Blockly.BlockSvg.GRID_UNIT,
 	},
 	6: {
 		0: 2 * Blockly.BlockSvg.GRID_UNIT,
@@ -533,6 +538,7 @@ Blockly.BlockSvg.SHAPE_IN_SHAPE_PADDING = {
 		9: 3 * Blockly.BlockSvg.GRID_UNIT,
 		10: { left: 3 * Blockly.BlockSvg.GRID_UNIT, right: 1 * Blockly.BlockSvg.GRID_UNIT },
 		11: 3 * Blockly.BlockSvg.GRID_UNIT,
+		12: 3 * Blockly.BlockSvg.GRID_UNIT,
 	},
 	7: {
 		0: 1 * Blockly.BlockSvg.GRID_UNIT,
@@ -547,6 +553,7 @@ Blockly.BlockSvg.SHAPE_IN_SHAPE_PADDING = {
 		9: 1 * Blockly.BlockSvg.GRID_UNIT,
 		10: 1 * Blockly.BlockSvg.GRID_UNIT,
 		11: 0 * Blockly.BlockSvg.GRID_UNIT,
+		12: 1 * Blockly.BlockSvg.GRID_UNIT,
 	},
 	8: {
 		0: 2 * Blockly.BlockSvg.GRID_UNIT,
@@ -561,6 +568,7 @@ Blockly.BlockSvg.SHAPE_IN_SHAPE_PADDING = {
 		9: 1 * Blockly.BlockSvg.GRID_UNIT,
 		10: { left: 1 * Blockly.BlockSvg.GRID_UNIT, right: 2 * Blockly.BlockSvg.GRID_UNIT },
 		11: 0 * Blockly.BlockSvg.GRID_UNIT,
+		12: 1 * Blockly.BlockSvg.GRID_UNIT,
 	},
 	9: {
 		0: 1 * Blockly.BlockSvg.GRID_UNIT,
@@ -575,6 +583,7 @@ Blockly.BlockSvg.SHAPE_IN_SHAPE_PADDING = {
 		9: 1 * Blockly.BlockSvg.GRID_UNIT,
 		10: 1 * Blockly.BlockSvg.GRID_UNIT,
 		11: 1 * Blockly.BlockSvg.GRID_UNIT,
+		12: 1 * Blockly.BlockSvg.GRID_UNIT,
 	},
 	10: {
 		0: { left: 0 * Blockly.BlockSvg.GRID_UNIT, right: 4 * Blockly.BlockSvg.GRID_UNIT },
@@ -589,6 +598,7 @@ Blockly.BlockSvg.SHAPE_IN_SHAPE_PADDING = {
 		9: { left: -1 * Blockly.BlockSvg.GRID_UNIT, right: 5 * Blockly.BlockSvg.GRID_UNIT },
 		10: { left: -1 * Blockly.BlockSvg.GRID_UNIT, right: 2 * Blockly.BlockSvg.GRID_UNIT },
 		11: { left: -1 * Blockly.BlockSvg.GRID_UNIT, right: 4 * Blockly.BlockSvg.GRID_UNIT },
+		12: { left: -1 * Blockly.BlockSvg.GRID_UNIT, right: 4 * Blockly.BlockSvg.GRID_UNIT },
 	},
 	11: {
 		0: 2 * Blockly.BlockSvg.GRID_UNIT,
@@ -603,6 +613,22 @@ Blockly.BlockSvg.SHAPE_IN_SHAPE_PADDING = {
 		9: 0 * Blockly.BlockSvg.GRID_UNIT,
 		10: { left: 0 * Blockly.BlockSvg.GRID_UNIT, right: 1 * Blockly.BlockSvg.GRID_UNIT },
 		11: 1 * Blockly.BlockSvg.GRID_UNIT,
+		12: 0 * Blockly.BlockSvg.GRID_UNIT,
+	},
+	12: {
+		0: 0 * Blockly.BlockSvg.GRID_UNIT,
+		1: -1 * Blockly.BlockSvg.GRID_UNIT,
+		2: 0 * Blockly.BlockSvg.GRID_UNIT,
+		3: 0 * Blockly.BlockSvg.GRID_UNIT,
+		4: 0 * Blockly.BlockSvg.GRID_UNIT,
+		5: 0 * Blockly.BlockSvg.GRID_UNIT,
+		6: 0 * Blockly.BlockSvg.GRID_UNIT,
+		7: 0 * Blockly.BlockSvg.GRID_UNIT,
+		8: 0 * Blockly.BlockSvg.GRID_UNIT,
+		9: 0 * Blockly.BlockSvg.GRID_UNIT,
+		10: 0 * Blockly.BlockSvg.GRID_UNIT,
+		11: 0 * Blockly.BlockSvg.GRID_UNIT,
+		12: -1 * Blockly.BlockSvg.GRID_UNIT,
 	},
 };
 
