@@ -303,6 +303,12 @@ Blockly.OUTPUT_SHAPE_ARROW = 10;
 Blockly.OUTPUT_SHAPE_TICKET = 11;
 
 /**
+ * ENUM for output shape: slanted (regex).
+ * @const
+ */
+Blockly.OUTPUT_SHAPE_SLANTED = 12;
+
+/**
  * ENUM for categories.
  * @const
  */

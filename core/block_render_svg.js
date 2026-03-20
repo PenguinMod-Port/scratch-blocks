@@ -2313,6 +2313,36 @@ Blockly.BlockSvg.CUSTOM_SHAPES = new Map([
       const unit = 6 * paddingMultiplier;
       return unit * 2 + 2;
     }
+  }],
+  [Blockly.OUTPUT_SHAPE_SLANTED, {
+    emptyInputWidth: 12 * Blockly.BlockSvg.GRID_UNIT,
+    unsafeEdges: true,
+    curvature: 1000,
+    leftPath: (block) => {
+      const hexRoundness = Blockly.BlockSvg.HEXAGONAL_SHAPE_ROUNDNESS;
+      const diagonalWidth = block.edgeShapeWidth_ - hexRoundness * 1.5;
+      const yMult = block.height / 2 / block.edgeShapeWidth_;
+      return [
+        `l ${-block.edgeShapeWidth_ + hexRoundness / 2} 0`,
+        `c ${-hexRoundness / 2} 0 ${-hexRoundness / 2} ${-hexRoundness * yMult} 0 ${-hexRoundness * 2 * yMult}`,
+        `l ${diagonalWidth} ${-diagonalWidth * 2 * yMult}`,
+        `q ${hexRoundness / 2} ${-hexRoundness * yMult} ${hexRoundness} ${-hexRoundness * yMult}`
+      ];
+    },
+    rightPath: (block) => {
+      const hexRoundness = Blockly.BlockSvg.HEXAGONAL_SHAPE_ROUNDNESS;
+      const diagonalWidth = block.edgeShapeWidth_ - hexRoundness * 1.5;
+      const yMult = block.height / 2 / block.edgeShapeWidth_;
+      return [
+        `l ${block.edgeShapeWidth_ - hexRoundness / 2} 0`,
+        `c ${hexRoundness / 2} 0 ${hexRoundness / 2} ${hexRoundness * yMult} 0 ${hexRoundness * 2 * yMult}`,
+        `l ${-diagonalWidth} ${diagonalWidth * 2 * yMult}`,
+        `q ${-hexRoundness / 2} ${hexRoundness * yMult} ${-hexRoundness} ${hexRoundness * yMult}`
+      ];
+    },
+    edgeShapeWidth: (original) => {
+      return Math.min(original, Blockly.BlockSvg.GRID_UNIT * 15);
+    }
   }]
 ]);
 
