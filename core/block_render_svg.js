@@ -1572,7 +1572,7 @@ Blockly.BlockSvg.prototype.renderDrawRight_ = function(steps,
       // Subtract CORNER_RADIUS * 2 to account for the top right corner
       // and also the bottom right corner. Only move vertically the non-corner length.
       if (this.getOutputShapeRight() == Blockly.OUTPUT_SHAPE_SQUARE) {
-        if (y === 0) {
+        if (y === 0 && this.nextConnection) {
           steps.push('v', Blockly.BlockSvg.NOTCH_START_PADDING);
           steps.push(Blockly.BlockSvg.NOTCH_PATH_VERT_RIGHT);
           steps.push('v', row.height - Blockly.BlockSvg.NOTCH_START_PADDING - Blockly.BlockSvg.NOTCH_WIDTH - Blockly.BlockSvg.CORNER_RADIUS * 3);
