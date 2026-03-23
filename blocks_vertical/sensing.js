@@ -732,6 +732,7 @@ Blockly.Blocks['sensing_mouseclicked'] = {
   init: function () {
     this.jsonInit({
       message0: Blockly.Msg.PM_SENSING_MOUSE_CLICKED,
+      checkboxInFlyout: true,
       extensions: ['output_boolean', 'colours_sensing']
     });
   }
@@ -868,6 +869,75 @@ Blockly.Blocks['sensing_getclipboard'] = {
       "category": Blockly.Categories.sensing,
       "checkboxInFlyout": true,
       "extensions": ["colours_sensing", "output_string"]
+    });
+  }
+};
+
+Blockly.Blocks['sensing_mouse_button_down'] = {
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_SENSING_MOUSE_BUTTON_DOWN,
+      "args0": [
+        {
+          "type": "field_dropdown",
+          "name": "BUTTON_OPTION",
+          "options": [
+            [Blockly.Msg.PM_SENSING_MOUSE_BUTTON_LEFT, 'left'],
+            [Blockly.Msg.PM_SENSING_MOUSE_BUTTON_MIDDLE, 'middle'],
+            [Blockly.Msg.PM_SENSING_MOUSE_BUTTON_RIGHT, 'right'],
+            [Blockly.Msg.PM_SENSING_MOUSE_BUTTON_ANY, 'any']
+          ]
+        }
+      ],
+      "category": Blockly.Categories.sensing,
+      "checkboxInFlyout": true,
+      "extensions": ["colours_sensing", "output_boolean"]
+    });
+  }
+};
+
+Blockly.Blocks['sensing_mouse_button_clicked'] = {
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_SENSING_MOUSE_BUTTON_CLICKED,
+      "args0": [
+        {
+          "type": "field_dropdown",
+          "name": "BUTTON_OPTION",
+          "options": [
+            [Blockly.Msg.PM_SENSING_MOUSE_BUTTON_LEFT, 'left'],
+            [Blockly.Msg.PM_SENSING_MOUSE_BUTTON_MIDDLE, 'middle'],
+            [Blockly.Msg.PM_SENSING_MOUSE_BUTTON_RIGHT, 'right'],
+            [Blockly.Msg.PM_SENSING_MOUSE_BUTTON_ANY, 'any']
+          ]
+        }
+      ],
+      "category": Blockly.Categories.sensing,
+      "checkboxInFlyout": true,
+      "extensions": ["colours_sensing", "output_boolean"]
+    });
+  }
+};
+
+Blockly.Blocks['sensing_mouse_button_released'] = {
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_SENSING_MOUSE_BUTTON_RELEASED,
+      "args0": [
+        {
+          "type": "field_dropdown",
+          "name": "BUTTON_OPTION",
+          "options": [
+            [Blockly.Msg.PM_SENSING_MOUSE_BUTTON_LEFT, 'left'],
+            [Blockly.Msg.PM_SENSING_MOUSE_BUTTON_MIDDLE, 'middle'],
+            [Blockly.Msg.PM_SENSING_MOUSE_BUTTON_RIGHT, 'right'],
+            [Blockly.Msg.PM_SENSING_MOUSE_BUTTON_ANY, 'any']
+          ]
+        }
+      ],
+      "category": Blockly.Categories.sensing,
+      "checkboxInFlyout": true,
+      "extensions": ["colours_sensing", "output_boolean"]
     });
   }
 };
