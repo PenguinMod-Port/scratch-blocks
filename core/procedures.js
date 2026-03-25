@@ -222,10 +222,45 @@ Blockly.Procedures.flyoutCategory = function(workspace) {
   var xmlList = [];
 
   Blockly.Procedures.addCreateButton_(workspace, xmlList);
-
-  // Create call blocks for each procedure defined in the workspace
+  
   var mutations = Blockly.Procedures.allProcedureMutations(workspace);
   mutations = Blockly.Procedures.sortProcedureMutations_(mutations);
+  
+  var returnBlock = goog.dom.createDom('block');
+  returnBlock.setAttribute('type', Blockly.PROCEDURES_RETURN_BLOCK_TYPE);
+  var returnBlockValue = goog.dom.createDom('value');
+  returnBlockValue.setAttribute('name', 'VALUE');
+  var returnBlockShadow = goog.dom.createDom('shadow');
+  returnBlockShadow.setAttribute('type', 'text');
+  returnBlockValue.appendChild(returnBlockShadow);
+  returnBlock.appendChild(returnBlockValue);
+  xmlList.push(returnBlock);
+
+  var seperator = goog.dom.createDom('sep');
+  seperator.setAttribute('gap', 36);
+  xmlList.push(seperator);
+
+  if (mutations.length > 0) {
+    var setBlock = goog.dom.createDom('block');
+    setBlock.setAttribute('type', 'procedures_set');
+    var setBlockValue = goog.dom.createDom('value');
+    setBlockValue.setAttribute('name', 'VALUE');
+    var setBlockShadow = goog.dom.createDom('shadow');
+    setBlockShadow.setAttribute('type', 'text');
+    setBlockValue.appendChild(setBlockShadow);
+    setBlock.appendChild(setBlockValue);
+    xmlList.push(setBlock);
+
+    var reevaluateBlock = goog.dom.createDom('block');
+    reevaluateBlock.setAttribute('type', 'procedures_reevaluate');
+    xmlList.push(reevaluateBlock);
+
+    var seperator = goog.dom.createDom('sep');
+    seperator.setAttribute('gap', 36);
+    xmlList.push(seperator);
+  }
+
+  // Create call blocks for each procedure defined in the workspace
   for (var i = 0; i < mutations.length; i++) {
     var mutation = mutations[i].cloneNode(false);
     var procCode = mutation.getAttribute('proccode');
@@ -241,42 +276,6 @@ Blockly.Procedures.flyoutCategory = function(workspace) {
     block.setAttribute('gap', 12);
     block.appendChild(mutation);
     xmlList.push(block);
-  }
-
-  var seperator = goog.dom.createDom('sep')
-  seperator.setAttribute('gap', 36)
-  xmlList.push(seperator)
-
-  var setBlock = goog.dom.createDom('block');
-  setBlock.setAttribute('type', 'procedures_set');
-  var setBlockValue = goog.dom.createDom('value');
-  setBlockValue.setAttribute('name', 'VALUE');
-  var setBlockShadow = goog.dom.createDom('shadow');
-  setBlockShadow.setAttribute('type', 'text');
-  setBlockValue.appendChild(setBlockShadow);
-  setBlock.appendChild(setBlockValue);
-  xmlList.push(setBlock);
-
-  var showReturn = (
-    Blockly.Procedures.DEFAULT_ENABLE_RETURNS ?
-    true /*mutations.length > 0*/ :
-    workspace.procedureReturnsEnabled
-  );
-  if (showReturn) {
-    var returnBlock = goog.dom.createDom('block');
-    returnBlock.setAttribute('type', Blockly.PROCEDURES_RETURN_BLOCK_TYPE);
-    var returnBlockValue = goog.dom.createDom('value');
-    returnBlockValue.setAttribute('name', 'VALUE');
-    var returnBlockShadow = goog.dom.createDom('shadow');
-    returnBlockShadow.setAttribute('type', 'text');
-    returnBlockValue.appendChild(returnBlockShadow);
-    returnBlock.appendChild(returnBlockValue);
-    xmlList.push(returnBlock);
-
-    var returnDocsButton = goog.dom.createDom('button');
-    returnDocsButton.setAttribute('callbackkey', 'OPEN_RETURN_DOCS');
-    returnDocsButton.setAttribute('text', Blockly.Msg.PROCEDURES_DOCS);
-    //xmlList.unshift(returnDocsButton);
   }
 
   return xmlList;

@@ -1238,6 +1238,21 @@ Blockly.Blocks['procedures_set'] = {
   }
 };
 
+Blockly.Blocks['procedures_reevaluate'] = {
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_PROCEDURES_REEVALUATE,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "PARAM"
+        }
+      ],
+      "extensions": ["colours_more", "shape_statement"]
+    });
+  }
+};
+
 Blockly.Blocks['procedures_return'] = {
   init: function() {
     this.jsonInit({
