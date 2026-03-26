@@ -235,7 +235,7 @@ Blockly.FieldTextInputMultiline.prototype.updateHeight = function() {
 Blockly.FieldTextInputMultiline.prototype.onHtmlInputKeyDown_ = function(e) {
   var htmlInput = Blockly.FieldTextInput.htmlInput_;
   var tabKey = 9, enterKey = 13, escKey = 27;
-  if (e.keyCode == enterKey && this.sourceBlock_ && this.sourceBlock_.isInFlyout) {
+  if (e.keyCode == enterKey && (!e.shiftKey || (this.sourceBlock_ && this.sourceBlock_.isInFlyout))) {
     Blockly.WidgetDiv.hide();
     Blockly.DropDownDiv.hideWithoutAnimation();
   } else if (e.keyCode == escKey) {
