@@ -227,9 +227,10 @@ Blockly.ContextMenu.blockSwatchesOptions = function(block) {
   let swatches = Blockly.Swatches.getSwatches(block.type);
   let options = [];
   for (let i = 0; i < swatches.length; i++) {
+    if (swatches[i].opcode ==- block.type) continue;
     options.push({
       text: swatches[i].opcode,
-      enabled: swatches[i].opcode !== block.type,
+      enabled: true,
       callback: () => Blockly.Swatches.applySwatch(block, swatches[i])
     });
   }

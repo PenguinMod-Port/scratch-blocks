@@ -1,12 +1,18 @@
 goog.provide('Blockly.Swatches');
+goog.require('Blockly.Xml')
 
 Blockly.Swatches.swatchList = [
     [
         {
-            opcode: "control_while"
+            opcode: "control_forever"
         },
         {
-            opcode: "control_do_while"
+            opcode: "control_while",
+            fillIn: {CONDITION: '<shadow type="checkbox" />'}
+        },
+        {
+            opcode: "control_do_while",
+            fillIn: {CONDITION: '<shadow type="checkbox" />'}
         }
     ]
 ]
@@ -40,11 +46,24 @@ Blockly.Swatches.applySwatch = function(block, swatch) {
 
     let newBlock = workspace.newBlock(swatch.opcode);
 
-    for (let i = 0; i < newBlock.inputList.length; i++) {
-        let input = newBlock.inputList[i];
-        let connection = input && inputs[input.name];
-        if (connection) {
+    for (let [name, connection] of Object.entries(inputs)) {
+        let input = newBlock.getInput(name);
+        if (input) {
             input.connection.connect(connection);
+            connection.sourceBlock_.render();
+        } else if (connection.sourceBlock_.isShadow()) {
+            connection.sourceBlock_.dispose();
+        }
+    }
+
+    // fillIn
+    for (let [inputName, v] of Object.entries(swatch.fillIn || {})) {
+        let input = newBlock.getInput(inputName);
+        if (input && !input.connection.targetConnection) {
+            let fillInBlock = Blockly.Xml.domToBlock(Blockly.Xml.textToDom(`<xml>${v}</xml>`).firstChild, workspace);
+            input.connection.connect(fillInBlock.outputConnection ?? fillInBlock.previousConnection);
+            fillInBlock.initSvg();
+            fillInBlock.render();
         }
     }
 
