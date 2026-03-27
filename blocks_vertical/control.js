@@ -1199,3 +1199,46 @@ Blockly.Blocks['control_run_as_sprite'] = {
     });
   }
 };
+
+Blockly.Blocks['control_stop_sprite_menu'] = {
+  /**
+   * pm: Stop-sprite drop-down menu.
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.jsonInit({
+      "message0": "%1",
+      "args0": [
+        {
+          "type": "field_dropdown",
+          "name": "STOP_OPTION",
+          "options": [
+            ["Stage", '_stage_']
+          ]
+        }
+      ],
+      "extensions": ["colours_control", "output_string"]
+    });
+  }
+};
+
+Blockly.Blocks['control_stop_sprite'] = {
+  /**
+   * pm: Block for "stop (...)"
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.jsonInit({
+      "id": "control_stop_sprite",
+      "message0": Blockly.Msg.PM_CONTROL_STOPSPRITE,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "STOP_OPTION"
+        }
+      ],
+      "category": Blockly.Categories.control,
+      "extensions": ["colours_control", "shape_statement"]
+    });
+  }
+};

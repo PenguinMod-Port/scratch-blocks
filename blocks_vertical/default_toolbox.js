@@ -675,9 +675,14 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
       '</value>' +
     '</block>' +
     '<block type="control_run_as_sprite">' +
-    '  <value name="RUN_AS_OPTION">' +
-    '    <shadow type="control_run_as_sprite_menu"/>' +
-    '  </value>' +
+      '<value name="RUN_AS_OPTION">' +
+        '<shadow type="control_run_as_sprite_menu"/>' +
+      '</value>' +
+    '</block>' +
+    '<block type="control_stop_sprite">' +
+      '<value name="STOP_OPTION">' +
+        '<shadow type="control_stop_sprite_menu"/>' +
+      '</value>' +
     '</block>' +
   '</category>' +
   '<category name="%{BKY_CATEGORY_SENSING}" id="sensing" colour="#4CBFE6" secondaryColour="#2E8EB8">' +

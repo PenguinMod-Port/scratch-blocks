@@ -79,6 +79,7 @@ Blockly.Msg.PM_CONTROL_RESTARTPROJECT = 'restart project';
 Blockly.Msg.PM_CONTROL_RUNAS = 'as %1 do';
 Blockly.Msg.PM_CONTROL_RUNFLAG = 'run %1';
 Blockly.Msg.PM_CONTROL_SETCOUNTER = 'set counter to %1';
+Blockly.Msg.PM_CONTROL_STOPSPRITE = 'stop %1';
 Blockly.Msg.PM_CONTROL_TRYCATCH_1 = 'try to do';
 Blockly.Msg.PM_CONTROL_TRYCATCH_2 = 'if a block errors %1';
 Blockly.Msg.PM_CONTROL_TRYCATCH_ERROR = 'error';
