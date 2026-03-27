@@ -91,6 +91,8 @@ Blockly.BlockSvg = function(workspace, prototypeName, opt_id) {
 };
 goog.inherits(Blockly.BlockSvg, Blockly.Block);
 
+Blockly.BlockSvg.SWATCHES = true;
+
 /**
  * Height of this block, not including any statement blocks above or below.
  * Height is in workspace units.
@@ -718,6 +720,10 @@ Blockly.BlockSvg.prototype.showContextMenu_ = function(e) {
       menuOptions.push(Blockly.ContextMenu.blockInlineOption(block));
     }
     menuOptions.push(Blockly.ContextMenu.blockDeleteOption(block));
+
+    if (Blockly.BlockSvg.SWATCHES) {
+      menuOptions = menuOptions.concat(Blockly.ContextMenu.blockSwatchesOptions(block));
+    }
   } else if (this.parentBlock_ && this.isShadow_) {
     this.parentBlock_.showContextMenu_(e);
     return;

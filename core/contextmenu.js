@@ -31,6 +31,7 @@
 goog.provide('Blockly.ContextMenu');
 
 goog.require('Blockly.Events.BlockCreate');
+goog.require('Blockly.Swatches');
 goog.require('Blockly.scratchBlocksUtils');
 goog.require('Blockly.utils');
 goog.require('Blockly.utils.uiMenu');
@@ -221,6 +222,19 @@ Blockly.ContextMenu.callbackFactory = function(block, xml) {
 };
 
 // Helper functions for creating context menu options.
+
+Blockly.ContextMenu.blockSwatchesOptions = function(block) {
+  let swatches = Blockly.Swatches.getSwatches(block.type);
+  let options = [];
+  for (let i = 0; i < swatches.length; i++) {
+    options.push({
+      text: swatches[i].opcode,
+      enabled: swatches[i].opcode !== block.type,
+      callback: () => Blockly.Swatches.applySwatch(block, swatches[i])
+    });
+  }
+  return options;
+}
 
 /**
  * Make a context menu option for deleting the current block.
