@@ -228,8 +228,14 @@ Blockly.ContextMenu.blockSwatchesOptions = function(block) {
   let options = [];
   for (let i = 0; i < swatches.length; i++) {
     if (swatches[i].opcode ==- block.type) continue;
+
+    //make block to get name
+    let temp = block.workspace.newBlock(swatches[i].opcode);
+    let name = temp.toString(30);
+    temp.dispose();
+
     options.push({
-      text: swatches[i].opcode,
+      text: name,
       enabled: true,
       callback: () => Blockly.Swatches.applySwatch(block, swatches[i])
     });

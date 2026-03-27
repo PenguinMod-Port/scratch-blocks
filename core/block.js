@@ -1271,10 +1271,19 @@ Blockly.Block.prototype.toString = function(opt_maxLength, opt_emptyToken) {
       }
       if (input.connection) {
         var child = input.connection.targetBlock();
-        if (child) {
-          text.push(child.toString(undefined, opt_emptyToken));
+        let insideText = "";
+        while (child) {
+          insideText += child.toString(undefined, opt_emptyToken);
+          child = child.getNextBlock();
+          if (child) insideText += "; ";
+        }
+        
+        if (input.type == Blockly.NEXT_STATEMENT) {
+          text.push(`{${insideText}}`);
+        } else if (input.type == Blockly.INPUT_VALUE && input.connection.getOutputShape() == Blockly.OUTPUT_SHAPE_HEXAGONAL) {
+          text.push(`<${insideText}>`);
         } else {
-          text.push("...");
+          text.push(`(${insideText})`);
         }
       }
     }
