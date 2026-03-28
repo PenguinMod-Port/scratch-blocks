@@ -150,13 +150,13 @@ Blockly.Swatches.applySwatch = function(block, swatch) {
         let input = newBlock.getInput(inputName);
         if (input && !input.connection.targetConnection) {
             let fillInBlock = Blockly.Xml.domToBlock(Blockly.Xml.textToDom(`<xml>${v}</xml>`).firstChild, workspace);
-            input.connection.connect(fillInBlock.outputConnection ?? fillInBlock.previousConnection);
+            input.connection.connect(fillInBlock.outputConnection || fillInBlock.previousConnection);
             fillInBlock.initSvg();
             fillInBlock.render();
         } else if (input && input.connection.targetBlock().type.startsWith("math_")) {
             let value = input.connection.targetBlock().getFieldValue("NUM");
             let fillInBlock = Blockly.Xml.domToBlock(Blockly.Xml.textToDom(`<xml>${v}</xml>`).firstChild, workspace);
-            input.connection.connect(fillInBlock.outputConnection ?? fillInBlock.previousConnection);
+            input.connection.connect(fillInBlock.outputConnection || fillInBlock.previousConnection);
             fillInBlock.setFieldValue(value, "NUM");
             fillInBlock.initSvg();
             fillInBlock.render();
