@@ -41,6 +41,7 @@ goog.require('goog.events');
 goog.require('goog.style');
 goog.require('goog.ui.Menu');
 goog.require('goog.ui.MenuItem');
+goog.require('goog.ui.MenuSeparator');
 goog.require('goog.userAgent');
 
 
@@ -106,6 +107,11 @@ Blockly.ContextMenu.populate_ = function(options, rtl) {
   });
 
   for (var i = 0, option; option = options[i]; i++) {
+    if (option === "---") { //separator
+      menu.addChild(new goog.ui.MenuSeparator(), true);
+      continue;
+    }
+
     var menuItem = new goog.ui.MenuItem(option.text);
     menuItem.setRightToLeft(rtl);
     menu.addChild(menuItem, true);
@@ -221,13 +227,17 @@ Blockly.ContextMenu.callbackFactory = function(block, xml) {
   };
 };
 
+Blockly.ContextMenu.separator = function() {
+  return "---";
+};
+
 // Helper functions for creating context menu options.
 
 Blockly.ContextMenu.blockSwatchesOptions = function(block) {
   let swatches = Blockly.Swatches.getSwatches(block.type);
   let options = [];
   for (let i = 0; i < swatches.length; i++) {
-    if (swatches[i].opcode ==- block.type) continue;
+    if (swatches[i].opcode === block.type) continue;
 
     //make block to get name
     let temp = block.workspace.newBlock(swatches[i].opcode);

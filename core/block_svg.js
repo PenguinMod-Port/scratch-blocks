@@ -722,7 +722,11 @@ Blockly.BlockSvg.prototype.showContextMenu_ = function(e) {
     menuOptions.push(Blockly.ContextMenu.blockDeleteOption(block));
 
     if (Blockly.BlockSvg.SWATCHES) {
-      menuOptions = menuOptions.concat(Blockly.ContextMenu.blockSwatchesOptions(block));
+      let swatches = Blockly.ContextMenu.blockSwatchesOptions(block);
+      if (swatches.length > 0) {
+        menuOptions.push(Blockly.ContextMenu.separator());
+        menuOptions = menuOptions.concat(swatches);
+      }
     }
   } else if (this.parentBlock_ && this.isShadow_) {
     this.parentBlock_.showContextMenu_(e);

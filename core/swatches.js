@@ -22,7 +22,10 @@ Blockly.Swatches.swatchList = [
         },
         {
             opcode: "control_waitsecondsoruntil",
-            fillIn: {DURATION: '<shadow type="math_number"><field name="NUM">1</field></shadow>', CONDITION:'<shadow type="checkbox" />'}
+            fillIn: {
+                DURATION: '<shadow type="math_number"><field name="NUM">1</field></shadow>',
+                CONDITION:'<shadow type="checkbox" />'
+            }
         },
         {
             opcode: "control_wait_until",
@@ -30,6 +33,22 @@ Blockly.Swatches.swatchList = [
         }
     ],
     [
+        {
+            opcode: "control_repeat",
+            fillIn: {TIMES: '<shadow type="math_whole_number"><field name="NUM">10</field></shadow>'},
+            remapInputs: {TIMES: ["TO"]}
+        },
+        {
+            opcode: "control_from_to",
+            fillIn: {
+                SHADOW: '<shadow type="control_from_to_index" />',
+                FROM: '<shadow type="math_integer"><field name="NUM">1</field></shadow>',
+                TO: '<shadow type="math_integer"><field name="NUM">10</field></shadow>'
+            },
+            remapInputs: {
+                TO: ["TIMES"]
+            }
+        },
         {
             opcode: "control_forever"
         },
@@ -40,6 +59,37 @@ Blockly.Swatches.swatchList = [
         {
             opcode: "control_do_while",
             fillIn: {CONDITION: '<shadow type="checkbox" />'}
+        }
+    ],
+    [
+        {
+            opcode: "control_exitLoop"
+        },
+        {
+            opcode: "control_continueLoop"
+        }
+    ],
+    [
+        {
+            opcode: "control_switch"
+        },
+        {
+            opcode: "control_switch_default"
+        }
+    ],
+    [
+        {
+            opcode: "control_incr_counter"
+        },
+        {
+            opcode: "control_decr_counter"
+        },
+        {
+            opcode: "control_set_counter",
+            fillIn: {VALUE: '<shadow type="math_integer"><field name="NUM">0</field></shadow>'}
+        },
+        {
+            opcode: "control_clear_counter"
         }
     ]
 ]
