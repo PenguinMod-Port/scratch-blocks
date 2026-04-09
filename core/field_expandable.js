@@ -17,6 +17,7 @@ Blockly.FieldExpandable = function(value, opt_min = 1, opt_max = Infinity) {
     Blockly.BlockSvg.FIELD_WIDTH,
     Blockly.BlockSvg.FIELD_HEIGHT);
   this.setText('0');
+  this.showWhenCollapsed_ = false;
 
   this.arrowWidth_ = 0;
   this.addArgType('button');

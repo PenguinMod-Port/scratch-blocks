@@ -14,6 +14,41 @@ Blockly.Swatches.swatchList = [
         }
     ],
 
+    // event
+    [
+        {
+            opcode: "event_whenflagclicked"
+        },
+        {
+            opcode: "event_whenstopclicked"
+        }
+    ],
+    [
+        {
+            opcode: "event_always"
+        },
+        {
+            opcode: "event_whenanything",
+            fillIn: {ANYTHING: '<shadow type="checkbox" />'}
+        }
+    ],
+    [
+        {
+            opcode: "event_whenkeypressed"
+        },
+        {
+            opcode: "event_whenkeyhit"
+        }
+    ],
+    [
+        {
+            opcode: "event_broadcast"
+        },
+        {
+            opcode: "event_broadcastandwait"
+        }
+    ],
+
     // control
     [
         {
