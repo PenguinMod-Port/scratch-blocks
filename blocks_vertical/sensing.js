@@ -941,3 +941,13 @@ Blockly.Blocks['sensing_mouse_button_released'] = {
     });
   }
 };
+
+Blockly.Blocks["sensing_mobile"] = {
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_SENSING_MOBILE,
+      "category": Blockly.Categories.sensing,
+      "extensions": ["colours_sensing", "output_boolean"]
+    });
+  }
+};
