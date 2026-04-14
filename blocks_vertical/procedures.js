@@ -162,8 +162,8 @@ Blockly.ScratchBlocks.ProcedureUtils.updateDisplay_ = function() {
   if (!wasRendered && this.getReturn) {
     this.setInputsInline(true);
     if (this.getReturn()[1] === Blockly.PROCEDURES_CALL_TYPE_STATEMENT) {
-      this.setPreviousStatement(true, null);
-      this.setNextStatement(true, null);
+      this.setPreviousStatement(true, "normal");
+      this.setNextStatement(true, "normal");
     } else {
       this.setOutput(true, this.getReturn()[0])
       this.setOutputShape(this.getReturn()[1])
