@@ -1118,10 +1118,31 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
       '</value>' +
     '</block>' +
     '<block type="operator_range_expandable" />' +
-    '<block type="operator_expandableMath" />' +
+    '<block type="operator_expandableMath">' +
+      '<field name="EXPANDABLE">2</field>' +
+      '<value name="NUM1">' +
+        '<shadow type="math_number">' +
+          '<field name="NUM">1</field>' +
+        '</shadow>' +
+      '</value>' +
+      '<value name="NUM2">' +
+        '<shadow type="math_number">' +
+          '<field name="NUM">2</field>' +
+        '</shadow>' +
+      '</value>' +
+    '</block>' +
     '<block type="operator_toUpperLowerCase">' +
       '<value name="TEXT">' +
         '<shadow type="text" />' +
+      '</value>' +
+    '</block>' +
+    '<block type="operator_expandableBool">' +
+      '<field name="EXPANDABLE">2</field>' +
+      '<value name="BOOL1">' +
+        '<shadow type="checkbox" />' +
+      '</value>' +
+      '<value name="BOOL2">' +
+        '<shadow type="checkbox" />' +
       '</value>' +
     '</block>' +
   '</category>' +

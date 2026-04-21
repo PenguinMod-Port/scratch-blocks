@@ -1069,3 +1069,60 @@ Blockly.Blocks["operator_toUpperLowerCase"] = {
     });
   }
 };
+
+Blockly.Blocks['operator_expandableBool'] = {
+  /**
+   * pm: Block for performing multiple truth operations (determined by user)
+   * @this Blockly.Block
+   */
+  init: function () {
+    this.jsonInit({
+      "message0": '%1',
+      "args0": [
+        {
+          "type": "field_expandable",
+          "name": "EXPANDABLE",
+          "value": 2
+        }
+      ],
+      "category": Blockly.Categories.operators,
+      "extensions": ["colours_operators", "output_boolean"]
+    });
+  },
+
+  expandableCallback(field, oldValue, newValue, createShadows) {
+    if (oldValue < newValue) {
+      for (let i = oldValue; i < newValue; i++) {
+        let input = this.appendValueInput('BOOL' + (i + 1));
+        input.setCheck('Boolean');
+
+        if (createShadows) {
+          let shadow = this.workspace.newBlock('checkbox');
+          shadow.setShadow(true);
+          shadow.initSvg();
+          shadow.render();
+          shadow.outputConnection.connect(input.connection);
+        }
+
+        if (i > 0) {
+          input.appendField(new Blockly.FieldDropdown([
+            [Blockly.Msg.PM_OPERATORS_EXPANDABLEBOOL_AND, "a"],
+            [Blockly.Msg.PM_OPERATORS_EXPANDABLEBOOL_OR, "o"],
+            [Blockly.Msg.PM_OPERATORS_EXPANDABLEBOOL_XOR, "x"],
+            [Blockly.Msg.PM_OPERATORS_EXPANDABLEBOOL_NAND, "n"],
+            [Blockly.Msg.PM_OPERATORS_EXPANDABLEBOOL_NOR, "N"],
+            [Blockly.Msg.PM_OPERATORS_EXPANDABLEBOOL_XNOR, "X"]
+          ]), 'OP' + (i + 1));
+          Blockly.Events.fire(new Blockly.Events.BlockChange(this, 'field', 'OP' + (i + 1), "o", "a")); // tell vm it updated
+        }
+      }
+    } else {
+      for (let i = newValue; i < oldValue; i++) {
+        this.removeInput('BOOL' + (i + 1));
+      }
+    }
+
+    this.initSvg();
+    if (this.rendered) this.render();
+  }
+};
