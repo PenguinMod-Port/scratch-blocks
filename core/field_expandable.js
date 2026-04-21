@@ -3,6 +3,7 @@
 goog.provide('Blockly.FieldExpandable');
 
 goog.require('Blockly.Field');
+goog.require('Blockly.BlockSvg');
 goog.require('Blockly.BlockSvg.render');
 
 /**
@@ -69,7 +70,7 @@ Blockly.FieldExpandable.prototype.init = function() {
   this.size_.height = Blockly.BlockSvg.FIELD_HEIGHT * 0.75;
   const ratio = this.size_.height / 32;
 
-  if (!this.sourceBlock_.isInsertionMarker()) {
+  if (!this.sourceBlock_.isInsertionMarker() && !Blockly.BlockSvg.HIDE_EXPANDABLES) {
     var addGroup = Blockly.utils.createSvgElement('g', {}, null);
     Blockly.utils.createSvgElement('rect', {
       'x': this.size_.height + Blockly.BlockSvg.GRID_UNIT,
@@ -143,6 +144,10 @@ Blockly.FieldExpandable.prototype.setValue = function(value, firstRun = false) {
 };
 
 Blockly.FieldExpandable.prototype.updateWidth = function() {
+  if (Blockly.BlockSvg.HIDE_EXPANDABLES) {
+    this.size_.width = 0;
+    return;
+  }
   this.size_.width = this.size_.height * 2 + Blockly.BlockSvg.GRID_UNIT;
 }
 

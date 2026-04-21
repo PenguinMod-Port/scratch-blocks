@@ -253,6 +253,23 @@ Blockly.ContextMenu.blockSwatchesOptions = function(block) {
   return options;
 }
 
+Blockly.ContextMenu.blockExpandableOptions = function(block) {
+  let expandable = block.inputList.map(v => v.fieldRow).flat().find(v => v instanceof Blockly.FieldExpandable);
+  let value = Number(expandable.getValue());
+  return [
+    {
+      text: Blockly.Msg.PM_EXPAND_EXPANDABLE,
+      enabled: (value + 1) <= expandable.max,
+      callback: () => expandable.setValue(value + 1)
+    },
+    {
+      text: Blockly.Msg.PM_RETRACT_EXPANDABLE,
+      enabled: (value - 1) >= expandable.min,
+      callback: () => expandable.setValue(value - 1)
+    }
+  ]
+}
+
 /**
  * Make a context menu option for deleting the current block.
  * @param {!Blockly.BlockSvg} block The block where the right-click originated.

@@ -1232,6 +1232,13 @@ Blockly.BlockSvg.prototype.computeOutputPadding_ = function(inputRows) {
   // Start row padding: based on first input or first field.
   var firstInput = row[0];
   var firstField = firstInput.fieldRow[0];
+  if (firstField && firstField.getSize().width === 0) {
+    firstField = null;
+    if (firstInput.type == Blockly.DUMMY_INPUT && firstInput.fieldRow.length == 1 && row[1]) {
+      firstInput = row[1];
+      firstField = firstInput.fieldRow[0];
+    }
+  }
   var otherShape;
   // In checking the left/start side, a field takes precedence over any input.
   // That's because a field will be rendered before any value input.

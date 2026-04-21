@@ -557,3 +557,6 @@ Blockly.Msg.PM_EXPAND_BLOCK = 'Expand Block';
 Blockly.Msg.PM_EXPAND_X_BLOCKS = 'Expand %1 Blocks';
 Blockly.Msg.PM_INLINE_BLOCK = 'Inline Inputs';
 Blockly.Msg.PM_EXTERNAL_BLOCK = 'External Inputs';
+
+Blockly.Msg.PM_EXPAND_EXPANDABLE = 'Expand';
+Blockly.Msg.PM_RETRACT_EXPANDABLE = 'Retract';

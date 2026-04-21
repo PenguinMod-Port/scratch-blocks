@@ -91,6 +91,8 @@ Blockly.BlockSvg = function(workspace, prototypeName, opt_id) {
 };
 goog.inherits(Blockly.BlockSvg, Blockly.Block);
 
+// settings
+Blockly.BlockSvg.HIDE_EXPANDABLES = false;
 Blockly.BlockSvg.SWATCHES = true;
 
 /**
@@ -720,6 +722,11 @@ Blockly.BlockSvg.prototype.showContextMenu_ = function(e) {
       menuOptions.push(Blockly.ContextMenu.blockInlineOption(block));
     }
     menuOptions.push(Blockly.ContextMenu.blockDeleteOption(block));
+
+    if (Blockly.BlockSvg.HIDE_EXPANDABLES && this.inputList.map(v => v.fieldRow).flat().some(v => v instanceof Blockly.FieldExpandable)) {
+      menuOptions.push(Blockly.ContextMenu.separator());
+      menuOptions = menuOptions.concat(Blockly.ContextMenu.blockExpandableOptions(block));
+    }
 
     if (Blockly.BlockSvg.SWATCHES) {
       let swatches = Blockly.ContextMenu.blockSwatchesOptions(block);
