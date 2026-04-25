@@ -1126,3 +1126,59 @@ Blockly.Blocks['operator_expandableBool'] = {
     if (this.rendered) this.render();
   }
 };
+
+Blockly.Blocks['operator_expandableCompare'] = {
+  /**
+   * pm: Block for performing multiple truth operations (determined by user)
+   * @this Blockly.Block
+   */
+  init: function () {
+    this.jsonInit({
+      "message0": '%1',
+      "args0": [
+        {
+          "type": "field_expandable",
+          "name": "EXPANDABLE",
+          "value": 2
+        }
+      ],
+      "category": Blockly.Categories.operators,
+      "extensions": ["colours_operators", "output_boolean"]
+    });
+  },
+
+  expandableCallback(field, oldValue, newValue, createShadows) {
+    if (oldValue < newValue) {
+      for (let i = oldValue; i < newValue; i++) {
+        let input = this.appendValueInput('INPUT' + (i + 1));
+
+        if (createShadows) {
+          let shadow = this.workspace.newBlock('text');
+          shadow.setShadow(true);
+          shadow.initSvg();
+          shadow.render();
+          shadow.outputConnection.connect(input.connection);
+        }
+
+        if (i > 0) {
+          input.appendField(new Blockly.FieldDropdown([
+            ["=", "e"],
+            ["≠", "n"],
+            [">", "m"],
+            ["≥", "M"],
+            ["<", "l"],
+            ["≤", "L"]
+          ]), 'OP' + (i + 1));
+          Blockly.Events.fire(new Blockly.Events.BlockChange(this, 'field', 'OP' + (i + 1), "n", "e")); // tell vm it updated
+        }
+      }
+    } else {
+      for (let i = newValue; i < oldValue; i++) {
+        this.removeInput('INPUT' + (i + 1));
+      }
+    }
+
+    this.initSvg();
+    if (this.rendered) this.render();
+  }
+};
