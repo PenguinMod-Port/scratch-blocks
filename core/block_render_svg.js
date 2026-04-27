@@ -1281,7 +1281,7 @@ Blockly.BlockSvg.prototype.computeOutputPadding_ = function(inputRows) {
       }
     }
   }
-  row.paddingStart += getSubprop((Blockly.BlockSvg.SHAPE_IN_SHAPE_PADDING[shape] || [])[otherShape], "left") || 0;
+  row.paddingStart += getSubprop(Blockly.BlockSvg.getShapePadding(shape, otherShape), "left") || 0;
   // End row padding: based on last input or last field.
   var lastInput = row[row.length - 1];
   // In checking the right/end side, any value input takes precedence over any field.
@@ -1327,7 +1327,7 @@ Blockly.BlockSvg.prototype.computeOutputPadding_ = function(inputRows) {
       }
     }
   }
-  row.paddingEnd += getSubprop((Blockly.BlockSvg.SHAPE_IN_SHAPE_PADDING[shape] || [])[otherShape], "right") || 0;
+  row.paddingEnd += getSubprop(Blockly.BlockSvg.getShapePadding(shape, otherShape), "right") || 0;
 };
 
 /**
@@ -1998,6 +1998,24 @@ Blockly.BlockSvg.prototype.getOutputShapeRight = function() {
   return this.getOutputShape();
 }
 
+Blockly.BlockSvg.getShapePadding = function(external, internal) {
+  if (Blockly.BlockSvg.SHAPE_IN_SHAPE_PADDING[external]?.[internal]) return Blockly.BlockSvg.SHAPE_IN_SHAPE_PADDING[external][internal];
+
+  let externalShape = Blockly.BlockSvg.CUSTOM_SHAPES.get(external);
+  if (externalShape && externalShape.blockPadding && externalShape.blockPadding.external) {
+    let padding = externalShape.blockPadding.external[internal];
+    if (padding) return padding;
+  }
+
+  let internalShape = Blockly.BlockSvg.CUSTOM_SHAPES.get(internal);
+  if (internalShape && internalShape.blockPadding && internalShape.blockPadding.internal) {
+    let padding = internalShape.blockPadding.internal[external];
+    if (padding) return padding;
+  }
+
+  return 0;
+}
+
 Blockly.BlockSvg.CUSTOM_SHAPES = new Map([
   [Blockly.OUTPUT_SHAPE_HEXAGONAL, {
     emptyInputWidth: 12 * Blockly.BlockSvg.GRID_UNIT,
@@ -2485,3 +2503,21 @@ Blockly.BlockSvg.registerCustomNotch("arrow", `l 7 0 c 1 0 2 1 2 2 c 0 1 -1 2 -2
 Blockly.BlockSvg.registerCustomNotch("ticket", `l 6 0 c 1 0 2 1 2 2 l 0 6 l 8 0 l 0 -4 c 0 -3 4 -3 4 0 l 0 4 l 8 0 l 0 -6 c 0 -1 1 -2 2 -2 l 6 0`);
 Blockly.BlockSvg.registerCustomNotch("pincer", `c 2 0 3 1 4 2 l 4 4 c 1 1 2 2 4 2 l 1 0 l 0 -2 l -1 0 c -2 0 -3 -2 -4 -3 l 5 1 l 5 -2 l 5 2 l 5 -1 c -1 1 -2 3 -4 3 l -1 0 l 0 2 l 1 0 c 2 0 3 -1 4 -2 l 4 -4 c 1 -1 2 -2 4 -2`);
 Blockly.BlockSvg.registerCustomNotch("inverted", `c 2 0 3 -1 4 -2 l 4 -4 c 1 -1 2 -2 4 -2 h 12 c 2 0 3 1 4 2 l 4 4 c 1 1 2 2 4 2`);
+
+Blockly.BlockSvg.registerCustomShape = function(name, shapeInfo) {
+  name = "custom-" + String(name);
+  shapeInfo.name = name;
+  
+  if (!shapeInfo.emptyInputWidth) shapeInfo.emptyInputWidth = 12 * Blockly.BlockSvg.GRID_UNIT;
+
+  // compat
+  if (shapeInfo.blockPaddingStart && shapeInfo.blockPaddingEnd) {
+    shapeInfo.unsafeEdges = true
+  } else if (shapeInfo.blockPaddingStart) {
+    shapeInfo.unsafeEdges = {left: true};
+  } else if (shapeInfo.blockPaddingEnd) {
+    shapeInfo.unsafeEdges = {right: true};
+  }
+
+  Blockly.BlockSvg.CUSTOM_SHAPES.set(name, shapeInfo);
+}
