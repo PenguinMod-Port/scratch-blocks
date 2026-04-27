@@ -1999,7 +1999,7 @@ Blockly.BlockSvg.prototype.getOutputShapeRight = function() {
 }
 
 Blockly.BlockSvg.getShapePadding = function(external, internal) {
-  if (Blockly.BlockSvg.SHAPE_IN_SHAPE_PADDING[external]?.[internal]) return Blockly.BlockSvg.SHAPE_IN_SHAPE_PADDING[external][internal];
+  if (Blockly.BlockSvg.SHAPE_IN_SHAPE_PADDING[external] && Blockly.BlockSvg.SHAPE_IN_SHAPE_PADDING[external][internal]) return Blockly.BlockSvg.SHAPE_IN_SHAPE_PADDING[external][internal];
 
   let externalShape = Blockly.BlockSvg.CUSTOM_SHAPES.get(external);
   if (externalShape && externalShape.blockPadding && externalShape.blockPadding.external) {
