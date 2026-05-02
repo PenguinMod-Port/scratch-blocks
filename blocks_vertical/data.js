@@ -540,7 +540,7 @@ Blockly.Blocks['data_shiftlist'] = {
    */
   init: function() {
     this.jsonInit({
-      "message0": "shift %1 by %2",
+      "message0": Blockly.Msg.PM_DATA_SHIFTLIST,
       "args0": [
         {
           "type": "field_variable",
@@ -561,7 +561,7 @@ Blockly.Blocks['data_shiftlist'] = {
 Blockly.Blocks['data_reverselist'] = {
   init: function() {
     this.jsonInit({
-      "message0": 'reverse %1',
+      "message0": Blockly.Msg.PM_DATA_REVERSELIST,
       "args0": [
         {
           "type": "field_variable",
@@ -578,7 +578,7 @@ Blockly.Blocks['data_reverselist'] = {
 Blockly.Blocks['data_itemexistslist'] = {
   init: function() {
     this.jsonInit({
-      "message0": 'item %1 exists in %2 ?',
+      "message0": Blockly.Msg.PM_DATA_ITEMEXISTSLIST,
       "args0": [
         {
           "type": "input_value",
@@ -603,7 +603,7 @@ Blockly.Blocks['data_listisempty'] = {
    */
   init: function() {
     this.jsonInit({
-      "message0": 'is %1 empty?',
+      "message0": Blockly.Msg.PM_DATA_LISTEMPTY,
       "args0": [
         {
           "type": "field_variable",
@@ -620,7 +620,7 @@ Blockly.Blocks['data_listisempty'] = {
 Blockly.Blocks['data_listarray'] = {
   init: function() {
     this.jsonInit({
-      "message0": 'get list %1 as an array',
+      "message0": Blockly.Msg.PM_DATA_LISTARRAY_GET,
       "args0": [
         {
           "type": "field_variable",
@@ -637,7 +637,7 @@ Blockly.Blocks['data_listarray'] = {
 Blockly.Blocks['data_arraylist'] = {
   init: function() {
     this.jsonInit({
-      "message0": 'set %2 to array %1',
+      "message0": Blockly.Msg.PM_DATA_LISTARRAY_SET,
       "args0": [
         {
           "type": "input_value",
@@ -658,7 +658,7 @@ Blockly.Blocks['data_arraylist'] = {
 Blockly.Blocks['data_amountinlist'] = {
   init: function() {
     this.jsonInit({
-      "message0": 'amount of %1 in %2',
+      "message0": Blockly.Msg.PM_DATA_AMOUNTINLIST,
       "args0": [
         {
           "type": "input_value",
@@ -679,7 +679,7 @@ Blockly.Blocks['data_amountinlist'] = {
 Blockly.Blocks['data_listforeachnum'] = {
   init: function() {
     this.jsonInit({
-      "message0": 'for each index: %2 in %1',
+      "message0": Blockly.Msg.PM_DATA_FOREACH_INDEX,
       "message1": "%1",
       "message2": "%1",
       "lastDummyAlign2": "RIGHT",
@@ -720,7 +720,7 @@ Blockly.Blocks['data_listforeachnum'] = {
 Blockly.Blocks['data_listforeachitem'] = {
   init: function() {
     this.jsonInit({
-      "message0": 'for each value: %2 in %1',
+      "message0": Blockly.Msg.PM_DATA_FOREACH_VALUE,
       "message1": "%1",
       "message2": "%1",
       "lastDummyAlign2": "RIGHT",
@@ -761,7 +761,7 @@ Blockly.Blocks['data_listforeachitem'] = {
 Blockly.Blocks['data_filterlistindex'] = {
   init: function() {
     this.jsonInit({
-      "message0": 'index',
+      "message0": Blockly.Msg.PM_DATA_UPVAR_INDEX,
       "args0": [],
       "category": Blockly.Categories.dataLists,
       "extensions": ["colours_data_lists", "output_number"],
@@ -773,7 +773,7 @@ Blockly.Blocks['data_filterlistindex'] = {
 Blockly.Blocks['data_filterlistitem'] = {
   init: function() {
     this.jsonInit({
-      "message0": 'item',
+      "message0": Blockly.Msg.PM_DATA_UPVAR_ITEM,
       "args0": [],
       "category": Blockly.Categories.dataLists,
       "extensions": ["colours_data_lists", "output_any"],
@@ -785,7 +785,7 @@ Blockly.Blocks['data_filterlistitem'] = {
 Blockly.Blocks['data_filterlist'] = {
   init: function() {
     this.jsonInit({
-      "message0": 'filter %1 by %2 %3 %4',
+      "message0": Blockly.Msg.PM_DATA_FILTERLIST,
       "args0": [
         {
           "type": "field_variable",

@@ -112,6 +112,20 @@ Blockly.Msg.DATA_INDEX_ALL = 'all';
 Blockly.Msg.DATA_INDEX_LAST = 'last';
 Blockly.Msg.DATA_INDEX_RANDOM = 'random';
 
+// pm list blocks
+Blockly.Msg.PM_DATA_AMOUNTINLIST = 'amount of %1 in %2';
+Blockly.Msg.PM_DATA_FILTERLIST = 'filter %1 by %2 %3 %4';
+Blockly.Msg.PM_DATA_FOREACH_INDEX = 'for each index: %2 in %1';
+Blockly.Msg.PM_DATA_FOREACH_VALUE = 'for each value: %2 in %1';
+Blockly.Msg.PM_DATA_ITEMEXISTSLIST = 'item %1 exists in %2?';
+Blockly.Msg.PM_DATA_LISTARRAY_GET = 'get list %1 as an array';
+Blockly.Msg.PM_DATA_LISTARRAY_SET = 'set %2 to array %1';
+Blockly.Msg.PM_DATA_LISTEMPTY = 'is %1 empty?';
+Blockly.Msg.PM_DATA_REVERSELIST = 'reverse %1';
+Blockly.Msg.PM_DATA_SHIFTLIST = 'shift %1 by %2';
+Blockly.Msg.PM_DATA_UPVAR_INDEX = 'index';
+Blockly.Msg.PM_DATA_UPVAR_ITEM = 'item';
+
 // Event blocks
 Blockly.Msg.EVENT_WHENFLAGCLICKED = 'when %1 clicked';
 Blockly.Msg.EVENT_WHENTHISSPRITECLICKED = 'when this sprite clicked';
