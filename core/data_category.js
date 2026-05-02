@@ -81,16 +81,48 @@ Blockly.DataCategory.ListCategory = function(workspace) {
     var firstVariable = variableModelList[0];
 
     Blockly.DataCategory.addAddToList(xmlList, firstVariable);
+    Blockly.DataCategory.addInsertAtList(xmlList, firstVariable);
+    Blockly.DataCategory.addReplaceItemOfList(xmlList, firstVariable);
     Blockly.DataCategory.addSep(xmlList);
     Blockly.DataCategory.addDeleteOfList(xmlList, firstVariable);
     Blockly.DataCategory.addDeleteAllOfList(xmlList, firstVariable);
-    Blockly.DataCategory.addInsertAtList(xmlList, firstVariable);
-    Blockly.DataCategory.addReplaceItemOfList(xmlList, firstVariable);
+    Blockly.DataCategory.addBlockRaw(xmlList, `<block type="data_shiftlist">
+      ${Blockly.Variables.generateVariableFieldXml_(firstVariable, "LIST")}
+      <value name="INDEX">
+        <shadow type="math_whole_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+    </block>`);
+    Blockly.DataCategory.addSep(xmlList);
+    Blockly.DataCategory.addBlockRaw(xmlList, `<block type="data_reverselist">
+      ${Blockly.Variables.generateVariableFieldXml_(firstVariable, "LIST")}
+    </block>`);
+    Blockly.DataCategory.addBlockRaw(xmlList, `<block type="data_filterlist">
+      ${Blockly.Variables.generateVariableFieldXml_(firstVariable, "LIST")}
+      <value name="INDEX">
+        <shadow type="data_filterlistindex" />
+      </value>
+      <value name="ITEM">
+        <shadow type="data_filterlistitem" />
+      </value>
+      <value name="BOOL">
+        <shadow type="checkbox" />
+      </value>
+    </block>`)
     Blockly.DataCategory.addSep(xmlList);
     Blockly.DataCategory.addItemOfList(xmlList, firstVariable);
     Blockly.DataCategory.addItemNumberOfList(xmlList, firstVariable);
     Blockly.DataCategory.addLengthOfList(xmlList, firstVariable);
     Blockly.DataCategory.addListContainsItem(xmlList, firstVariable);
+    Blockly.DataCategory.addBlockRaw(xmlList, `<block type="data_amountinlist">
+      ${Blockly.Variables.generateVariableFieldXml_(firstVariable, "LIST")}
+      <value name="VALUE">
+        <shadow type="text">
+          <field name="TEXT">${Blockly.Msg.DEFAULT_LIST_ITEM}</field>
+        </shadow>
+      </value>
+    </block>`);
     Blockly.DataCategory.addSep(xmlList);
     Blockly.DataCategory.addShowList(xmlList, firstVariable);
     Blockly.DataCategory.addHideList(xmlList, firstVariable);
@@ -448,6 +480,10 @@ Blockly.DataCategory.addBlock = function(xmlList, variable, blockType,
     xmlList.push(block);
   }
 };
+
+Blockly.DataCategory.addBlockRaw = function(xmlList, xml) {
+  xmlList.push(Blockly.Xml.textToDom(`<xml>${xml}</xml>`).firstChild);
+}
 
 /**
  * Create the text representation of a value dom element with a shadow of the
