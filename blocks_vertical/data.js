@@ -164,7 +164,7 @@ Blockly.Blocks['data_setvariablevisible'] = {
       "extensions": ["colours_data", "shape_statement"]
     });
   }
-}
+};
 
 Blockly.Blocks['data_variablevisible'] = {
   /**
@@ -184,8 +184,7 @@ Blockly.Blocks['data_variablevisible'] = {
       "extensions": ["colours_data", "output_boolean"]
     });
   }
-}
-
+};
 
 Blockly.Blocks['data_listcontents'] = {
   /**
@@ -811,6 +810,97 @@ Blockly.Blocks['data_filterlist'] = {
     });
   }
 };
+
+Blockly.Blocks['data_setlistvisible'] = {
+  /**
+   * pm: block to set visibility of a variable
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_DATA_SETVARIABLEVISIBLE,
+      "args0": [
+        {
+          "type": "field_variable",
+          "name": "LIST",
+          "variableTypes": [Blockly.LIST_VARIABLE_TYPE]
+        },
+        {
+          "type": "input_value",
+          "name": "VISIBILITY",
+          "check": "Boolean"
+        }
+      ],
+      "category": Blockly.Categories.data,
+      "extensions": ["colours_data_lists", "shape_statement"]
+    });
+  }
+};
+
+Blockly.Blocks['data_listvisible'] = {
+  /**
+   * pm: block to get visibility of a variable
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_DATA_VARIABLEVISIBLE,
+      "args0": [
+        {
+          "type": "field_variable",
+          "name": "LIST",
+          "variableTypes": [Blockly.LIST_VARIABLE_TYPE]
+        }
+      ],
+      "category": Blockly.Categories.data,
+      "extensions": ["colours_data_lists", "output_boolean"]
+    });
+  }
+};
+
+Blockly.Blocks['data_listforeach'] = {
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_DATA_FOREACH,
+      "message1": "%1",
+      "message2": "%1",
+      "lastDummyAlign2": "RIGHT",
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "INDEX"
+        },
+        {
+          "type": "input_value",
+          "name": "ITEM"
+        },
+        {
+          "type": "field_variable",
+          "name": "LIST",
+          "variableTypes": [Blockly.LIST_VARIABLE_TYPE]
+        }
+      ],
+      "args1": [
+        {
+          "type": "input_statement",
+          "name": "SUBSTACK"
+        }
+      ],
+      "args2": [
+        {
+          "type": "field_image",
+          "src": Blockly.mainWorkspace.options.pathToMedia + "repeat.svg",
+          "width": 24,
+          "height": 24,
+          "alt": "*",
+          "flip_rtl": true
+        }
+      ],
+      "category": Blockly.Categories.dataLists,
+      "extensions": ["colours_data_lists", "shape_statement"]
+    });
+  }
+}
 
 /**
  * Mixin to add a context menu for a data_variable block.  It adds one item for

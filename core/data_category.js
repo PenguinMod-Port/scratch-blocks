@@ -109,7 +109,16 @@ Blockly.DataCategory.ListCategory = function(workspace) {
       <value name="BOOL">
         <shadow type="checkbox" />
       </value>
-    </block>`)
+    </block>`);
+    Blockly.DataCategory.addBlockRaw(xmlList, `<block type="data_listforeach">
+      ${Blockly.Variables.generateVariableFieldXml_(firstVariable, "LIST")}
+      <value name="INDEX">
+        <shadow type="data_filterlistindex" />
+      </value>
+      <value name="ITEM">
+        <shadow type="data_filterlistitem" />
+      </value>
+    </block>`);
     Blockly.DataCategory.addSep(xmlList);
     Blockly.DataCategory.addItemOfList(xmlList, firstVariable);
     Blockly.DataCategory.addItemNumberOfList(xmlList, firstVariable);
@@ -124,8 +133,8 @@ Blockly.DataCategory.ListCategory = function(workspace) {
       </value>
     </block>`);
     Blockly.DataCategory.addSep(xmlList);
-    Blockly.DataCategory.addShowList(xmlList, firstVariable);
-    Blockly.DataCategory.addHideList(xmlList, firstVariable);
+    Blockly.DataCategory.addBlock(xmlList, firstVariable, 'data_setlistvisible', 'LIST', ['VISIBILITY', 'checkbox', false]);
+    Blockly.DataCategory.addBlock(xmlList, firstVariable, 'data_listvisible', 'LIST');
   }
 
   return xmlList;

@@ -115,6 +115,7 @@ Blockly.Msg.DATA_INDEX_RANDOM = 'random';
 // pm list blocks
 Blockly.Msg.PM_DATA_AMOUNTINLIST = 'amount of %1 in %2';
 Blockly.Msg.PM_DATA_FILTERLIST = 'filter %1 by %2 %3 %4';
+Blockly.Msg.PM_DATA_FOREACH = 'for %1 %2 of %3';
 Blockly.Msg.PM_DATA_FOREACH_INDEX = 'for each index: %2 in %1';
 Blockly.Msg.PM_DATA_FOREACH_VALUE = 'for each value: %2 in %1';
 Blockly.Msg.PM_DATA_ITEMEXISTSLIST = 'item %1 exists in %2?';
