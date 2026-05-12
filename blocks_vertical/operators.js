@@ -630,7 +630,7 @@ Blockly.Blocks["operator_trueBoolean"] = {
   init: function() {
     this.jsonInit({
       "inputsInline": true,
-      "message0": "true",
+      "message0": Blockly.Msg.PM_OPERATORS_TRUE,
       "args0": [],
       "category": Blockly.Categories.operators,
       "extensions": ["colours_operators", "output_boolean"]
@@ -642,7 +642,19 @@ Blockly.Blocks["operator_falseBoolean"] = {
   init: function() {
     this.jsonInit({
       "inputsInline": true,
-      "message0": "false",
+      "message0": Blockly.Msg.PM_OPERATORS_FALSE,
+      "args0": [],
+      "category": Blockly.Categories.operators,
+      "extensions": ["colours_operators", "output_boolean"]
+    });
+  }
+};
+
+Blockly.Blocks["operator_randomBoolean"] = {
+  init: function() {
+    this.jsonInit({
+      "inputsInline": true,
+      "message0": Blockly.Msg.PM_OPERATORS_RANDOMBOOLEAN,
       "args0": [],
       "category": Blockly.Categories.operators,
       "extensions": ["colours_operators", "output_boolean"]
@@ -1180,5 +1192,69 @@ Blockly.Blocks['operator_expandableCompare'] = {
 
     this.initSvg();
     if (this.rendered) this.render();
+  }
+};
+
+
+
+Blockly.Blocks["operator_advMath"] = {
+  init: function() {
+    this.jsonInit({
+      "inputsInline": true,
+      "message0": "%1 %2 %3",
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "ONE"
+        },
+        {
+          "type": "field_dropdown",
+          "name": "OPTION",
+          "options": [
+            [Blockly.Msg.PM_OPERATORS_ROOT, "root"],
+            [Blockly.Msg.OPERATORS_MATHOP_LOG, "log"]
+          ]
+        },
+        {
+          "type": "input_value",
+          "name": "TWO"
+        }
+      ],
+      "category": Blockly.Categories.operators,
+      "extensions": ["colours_operators", "output_string"]
+    });
+  }
+};
+
+Blockly.Blocks["operator_advMathExpanded"] = {
+  init: function() {
+    this.jsonInit({
+      "inputsInline": true,
+      "message0": "%1 * %2 %3 %4",
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "ONE"
+        },
+        {
+          "type": "input_value",
+          "name": "TWO"
+        },
+        {
+          "type": "field_dropdown",
+          "name": "OPTION",
+          "options": [
+            [Blockly.Msg.PM_OPERATORS_ROOT, "root"],
+            [Blockly.Msg.OPERATORS_MATHOP_LOG, "log"]
+          ]
+        },
+        {
+          "type": "input_value",
+          "name": "THREE"
+        }
+      ],
+      "category": Blockly.Categories.operators,
+      "extensions": ["colours_operators", "output_number"]
+    });
   }
 };

@@ -1013,6 +1013,7 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
     '<block type="operator_checkboxBoolean" id="operator_checkboxBoolean"></block>' +
     '<block type="operator_trueBoolean"></block>' +
     '<block type="operator_falseBoolean"></block>' +
+    '<block type="operator_randomBoolean"></block>' +
     '<block type="operator_valid_type">' +
       '<value name="TEXT">' +
         '<shadow type="text" />' +
@@ -1152,6 +1153,25 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
       '</value>' +
       '<value name="INPUT2">' +
         '<shadow type="text" />' +
+      '</value>' +
+    '</block>' +
+    '<block type="operator_advMath">' +
+      '<value name="ONE">' +
+        '<shadow type="math_number" />' +
+      '</value>' +
+      '<value name="TWO">' +
+        '<shadow type="math_number" />' +
+      '</value>' +
+    '</block>' +
+    '<block type="operator_advMathExpanded">' +
+      '<value name="ONE">' +
+        '<shadow type="math_number" />' +
+      '</value>' +
+      '<value name="TWO">' +
+        '<shadow type="math_number" />' +
+      '</value>' +
+      '<value name="THREE">' +
+        '<shadow type="math_number" />' +
       '</value>' +
     '</block>' +
   '</category>' +
