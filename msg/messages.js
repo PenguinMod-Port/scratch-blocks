@@ -330,6 +330,9 @@ Blockly.Msg.OPERATORS_MATHOP_LOG = 'log';
 Blockly.Msg.OPERATORS_MATHOP_EEXP = 'e ^';
 Blockly.Msg.OPERATORS_MATHOP_10EXP = '10 ^';
 
+Blockly.Msg.PM_OPERATORS_ADVMATH = '%1 %2 %3';
+Blockly.Msg.PM_OPERATORS_ADVMATH_LOG = 'log';
+Blockly.Msg.PM_OPERATORS_ADVMATH_ROOT = 'root';
 Blockly.Msg.PM_OPERATORS_AVERAGE = 'average';
 Blockly.Msg.PM_OPERATORS_CASE_LOWER = 'lowercase';
 Blockly.Msg.PM_OPERATORS_CASE_TO = '%1 to %2';
@@ -362,7 +365,6 @@ Blockly.Msg.PM_OPERATORS_POWER = '%1 ^ %2';
 Blockly.Msg.PM_OPERATORS_RANDOMBOOLEAN = 'random';
 Blockly.Msg.PM_OPERATORS_RANGE = 'range';
 Blockly.Msg.PM_OPERATORS_RANGE_EXPANDABLE = '%1 of %2';
-Blockly.Msg.PM_OPERATORS_ROOT = 'root';
 Blockly.Msg.PM_OPERATORS_TRUE = 'true';
 Blockly.Msg.PM_OPERATORS_TYPE_BOOLEAN = 'boolean';
 Blockly.Msg.PM_OPERATORS_TYPE_NUMBER = 'number';

@@ -1201,7 +1201,7 @@ Blockly.Blocks["operator_advMath"] = {
   init: function() {
     this.jsonInit({
       "inputsInline": true,
-      "message0": "%1 %2 %3",
+      "message0": Blockly.Msg.PM_OPERATORS_ADVMATH,
       "args0": [
         {
           "type": "input_value",
@@ -1211,8 +1211,8 @@ Blockly.Blocks["operator_advMath"] = {
           "type": "field_dropdown",
           "name": "OPTION",
           "options": [
-            [Blockly.Msg.PM_OPERATORS_ROOT, "root"],
-            [Blockly.Msg.OPERATORS_MATHOP_LOG, "log"]
+            [Blockly.Msg.PM_OPERATORS_ADVMATH_ROOT, "root"],
+            [Blockly.Msg.PM_OPERATORS_ADVMATH_LOG, "log"]
           ]
         },
         {
@@ -1244,13 +1244,34 @@ Blockly.Blocks["operator_advMathExpanded"] = {
           "type": "field_dropdown",
           "name": "OPTION",
           "options": [
-            [Blockly.Msg.PM_OPERATORS_ROOT, "root"],
-            [Blockly.Msg.OPERATORS_MATHOP_LOG, "log"]
+            [Blockly.Msg.PM_OPERATORS_ADVMATH_ROOT, "root"],
+            [Blockly.Msg.PM_OPERATORS_ADVMATH_LOG, "log"]
           ]
         },
         {
           "type": "input_value",
           "name": "THREE"
+        }
+      ],
+      "category": Blockly.Categories.operators,
+      "extensions": ["colours_operators", "output_number"]
+    });
+  }
+};
+
+
+Blockly.Blocks['operator_advlog'] = {
+  init: function() {
+    this.jsonInit({
+      "message0": "%1 log %2",
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "NUM1",
+        },
+        {
+          "type": "input_value",
+          "name": "NUM2"
         }
       ],
       "category": Blockly.Categories.operators,

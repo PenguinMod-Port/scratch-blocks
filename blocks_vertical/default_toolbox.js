@@ -1174,6 +1174,14 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
         '<shadow type="math_number" />' +
       '</value>' +
     '</block>' +
+    '<block type="operator_advlog">' +
+      '<value name="NUM1">' +
+        '<shadow type="math_number" />' +
+      '</value>' +
+      '<value name="NUM2">' +
+        '<shadow type="math_number" />' +
+      '</value>' +
+    '</block>' +
   '</category>' +
   '<category name="%{BKY_CATEGORY_VARIABLES}" id="data" colour="#FF8C1A" secondaryColour="#DB6E00" custom="VARIABLE">' +
   '</category>' +
