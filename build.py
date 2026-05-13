@@ -243,7 +243,7 @@ class Gen_compressed(threading.Thread):
       ("compilation_level", "SIMPLE"),
 
       # remote will filter this out
-      ("language_in", "ECMASCRIPT_2017"),
+      ("language_in", "ECMASCRIPT_2020"),
       ("language_out", "ECMASCRIPT5"),
       ("rewrite_polyfills", "false"),
       ("define", "goog.DEBUG=false"),
@@ -280,6 +280,9 @@ class Gen_compressed(threading.Thread):
     # Define the parameters for the POST request.
     params = [
       ("compilation_level", "SIMPLE"),
+      
+      ("language_in", "ECMASCRIPT_2020"),
+      ("language_out", "ECMASCRIPT5"),
     ]
 
     # Read in all the source files.
