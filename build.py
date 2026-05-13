@@ -280,7 +280,7 @@ class Gen_compressed(threading.Thread):
     # Define the parameters for the POST request.
     params = [
       ("compilation_level", "SIMPLE"),
-      
+
       ("language_in", "ECMASCRIPT_2020"),
       ("language_out", "ECMASCRIPT5"),
     ]
