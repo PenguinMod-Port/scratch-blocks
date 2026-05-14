@@ -431,7 +431,7 @@ Blockly.Msg.SENSING_USERNAME = 'username';
 Blockly.Msg.SENSING_USERID = 'user id';
 
 Blockly.Msg.PM_SENSING_BROWSER = 'browser';
-Blockly.Msg.PM_SENSING_CLIPBOARD_SET = 'add %1 to clipboard';
+Blockly.Msg.PM_SENSING_CLIPBOARD_SET = 'set clipboard to %1';
 Blockly.Msg.PM_SENSING_CLIPBOARD_GET = 'clipboard';
 Blockly.Msg.PM_SENSING_CURRENT_TIMESTAMP = 'timestamp';
 Blockly.Msg.PM_SENSING_DIRECTION_TO_POINTS = 'direction from %3 %4 to %1 %2';
