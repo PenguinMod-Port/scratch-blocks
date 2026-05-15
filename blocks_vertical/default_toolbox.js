@@ -1182,6 +1182,16 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
         '<shadow type="math_number" />' +
       '</value>' +
     '</block>' +
+    '<block type="operator_javascript_output">' +
+      '<value name="JS">' +
+        '<shadow type="text" />' +
+      '</value>' +
+    '</block>' +
+    '<block type="operator_javascript_boolean">' +
+      '<value name="JS">' +
+        '<shadow type="text" />' +
+      '</value>' +
+    '</block>' +
   '</category>' +
   '<category name="%{BKY_CATEGORY_VARIABLES}" id="data" colour="#FF8C1A" secondaryColour="#DB6E00" custom="VARIABLE">' +
   '</category>' +
