@@ -1192,6 +1192,28 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
         '<shadow type="text" />' +
       '</value>' +
     '</block>' +
+    '<block type="operator_replaceAll">' +
+      '<value name="text">' +
+        '<shadow type="text" />' +
+      '</value>' +
+      '<value name="term">' +
+        '<shadow type="text" />' +
+      '</value>' +
+      '<value name="res">' +
+        '<shadow type="text" />' +
+      '</value>' +
+    '</block>' +
+    '<block type="operator_replaceFirst">' +
+      '<value name="text">' +
+        '<shadow type="text" />' +
+      '</value>' +
+      '<value name="term">' +
+        '<shadow type="text" />' +
+      '</value>' +
+      '<value name="res">' +
+        '<shadow type="text" />' +
+      '</value>' +
+    '</block>' +
   '</category>' +
   '<category name="%{BKY_CATEGORY_VARIABLES}" id="data" colour="#FF8C1A" secondaryColour="#DB6E00" custom="VARIABLE">' +
   '</category>' +
