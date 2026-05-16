@@ -73,3 +73,53 @@ Blockly.Blocks['matrix'] = {
     field.matrixHeight = height;
   },
 };
+
+Blockly.Blocks['matrix_extendable'] = {
+  /**
+   * Block for matrix value.
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.width = 5;
+    this.minWidth = 1;
+    this.maxWidth = 10;
+    this.height = 5;
+    this.minHeight = 1;
+    this.maxHeight = 10;
+
+    this.jsonInit({
+      "message0": "%1",
+      "args0": [
+        {
+          "type": "field_matrix_extendable",
+          "name": "MATRIX",
+          "width": this.width,
+          "minWidth": this.minWidth,
+          "maxWidth": this.maxWidth,
+          "height": this.height,
+          "minHeight": this.minHeight,
+          "maxHeight": this.maxHeight
+        }
+      ],
+      "outputShape": Blockly.OUTPUT_SHAPE_ROUND,
+      "output": null,
+      "extensions": ["colours_pen"]
+    });
+  },
+  mutationToDom: function() {
+    const container = document.createElement('mutation');
+    const field = this.getField('MATRIX')
+
+    container.setAttribute('width', field.matrixWidth);
+    container.setAttribute('height', field.matrixHeight);
+    return container;
+  },
+  domToMutation: function(xmlElement) {
+    const width = parseInt(xmlElement.getAttribute('width'), 10);
+    const height = parseInt(xmlElement.getAttribute('height'), 10);
+
+    const field = this.getField('MATRIX')
+    field.matrixWidth = width;
+    field.matrixHeight = height;
+  },
+};
