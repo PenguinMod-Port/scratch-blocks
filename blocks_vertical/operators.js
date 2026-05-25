@@ -1363,3 +1363,32 @@ Blockly.Blocks["operator_replaceFirst"] = {
     });
   }
 };
+
+Blockly.Blocks["operator_textStartsOrEndsWith"] = {
+  init: function() {
+    this.jsonInit({
+      "inputsInline": true,
+      "message0": Blockly.Msg.PM_OPERATORS_STARTSWITH,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "TEXT1"
+        },
+        {
+          "type": "field_dropdown",
+          "name": "OPTION",
+          "options": [
+            [Blockly.Msg.PM_OPERATORS_STARTSWITH_STARTS, "starts"],
+            [Blockly.Msg.PM_OPERATORS_STARTSWITH_ENDS, "ends"]
+          ]
+        },
+        {
+          "type": "input_value",
+          "name": "TEXT2"
+        }
+      ],
+      "category": Blockly.Categories.operator,
+      "extensions": ["colours_operators", "output_boolean"]
+    });
+  }
+};
