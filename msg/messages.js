@@ -59,7 +59,6 @@ Blockly.Msg.CONTROL_ALLATONCE = 'all at once';
 Blockly.Msg.PM_CONTROL_CASE = 'case %1 %2';
 Blockly.Msg.PM_CONTROL_CASE_DEFAULT = 'default';
 Blockly.Msg.PM_CONTROL_CASE_EXIT = 'exit case %1';
-Blockly.Msg.PM_CONTROL_CASE_EXPANDABLE = 'case %1 %2 %3';
 Blockly.Msg.PM_CONTROL_CASE_NEXT = 'run next case when %1';
 Blockly.Msg.PM_CONTROL_CASE_SWITCH = 'switch %1 %2';
 Blockly.Msg.PM_CONTROL_CONTINUELOOP = 'continue loop %1';
