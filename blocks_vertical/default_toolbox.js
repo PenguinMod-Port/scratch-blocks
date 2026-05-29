@@ -1222,6 +1222,51 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
         '<shadow type="text" />' +
       '</value>' +
     '</block>' +
+    '<block type="operator_regexmatch">' +
+      '<value name="text">' +
+        '<shadow type="text" />' +
+      '</value>' +
+      '<value name="reg">' +
+        '<shadow type="text" />' +
+      '</value>' +
+      '<value name="regrule">' +
+        '<shadow type="text" />' +
+      '</value>' +
+    '</block>' +
+    '<block type="operator_getLettersFromIndexToIndexInText">' +
+      '<value name="INDEX1">' +
+        '<shadow type="math_whole_number" />' +
+      '</value>' +
+      '<value name="INDEX2">' +
+        '<shadow type="math_whole_number" />' +
+      '</value>' +
+      '<value name="TEXT">' +
+        '<shadow type="text" />' +
+      '</value>' +
+    '</block>' +
+    '<block type="operator_getLettersFromIndexToIndexInTextFixed">' +
+      '<value name="INDEX1">' +
+        '<shadow type="math_whole_number" />' +
+      '</value>' +
+      '<value name="INDEX2">' +
+        '<shadow type="math_whole_number" />' +
+      '</value>' +
+      '<value name="TEXT">' +
+        '<shadow type="text" />' +
+      '</value>' +
+    '</block>' +
+    '<block type="operator_readLineInMultilineText">' +
+      '<value name="LINE">' +
+        '<shadow type="math_whole_number">' +
+          '<field name="NUM">1</field>' +
+        '</shadow>' +
+      '</value>' +
+      '<value name="TEXT">' + 
+        '<shadow type="text">' +
+          '<field name="TEXT">apple\nbanana</field>' +
+        '</shadow>' + 
+      '</value>' +
+    '</block>' +
   '</category>' +
   '<category name="%{BKY_CATEGORY_VARIABLES}" id="data" colour="#FF8C1A" secondaryColour="#DB6E00" custom="VARIABLE">' +
   '</category>' +
