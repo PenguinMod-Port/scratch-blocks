@@ -73,6 +73,7 @@ Blockly.Connection.REASON_SHADOW_PARENT = 6;
 // Fixes #1127, but may be the wrong solution.
 Blockly.Connection.REASON_CUSTOM_PROCEDURE = 7;
 Blockly.Connection.REASON_DRAG_DUPLICATE = 8;
+Blockly.Connection.REASON_DUAL_CONNECTION = 9;
 
 /**
  * Connection this connection connects to.  Null if not connected.
@@ -308,9 +309,11 @@ Blockly.Connection.prototype.canConnectWithReason_ = function(target) {
     var blockA = this.sourceBlock_;
     var blockB = target.getSourceBlock();
     var superiorConn = this;
+    var inferiorConn = target;
   } else {
     var blockB = this.sourceBlock_;
     var blockA = target.getSourceBlock();
+    var inferiorConn = this;
     var superiorConn = target;
   }
   if (blockA && blockA == blockB) {
@@ -338,6 +341,12 @@ Blockly.Connection.prototype.canConnectWithReason_ = function(target) {
     (target.targetConnection && target.targetConnection.sourceBlock_ && target.targetConnection.sourceBlock_.canDragDuplicate())
   ) {
     return Blockly.Connection.REASON_DRAG_DUPLICATE;
+  } else if (
+    (superiorConn.type == Blockly.OUTPUT_VALUE && ((blockA.previousConnection && blockA.previousConnection.targetConnection) || (blockA.nextConnection && blockA.nextConnection.targetConnection))) ||
+    (superiorConn.type == Blockly.NEXT_STATEMENT && blockA.outputConnection && blockA.outputConnection.targetConnection) ||
+    (inferiorConn.type == Blockly.PREVIOUS_STATEMENT && blockB.outputConnection && blockB.outputConnection.targetConnection)
+  ) {
+    return Blockly.Connection.REASON_DUAL_CONNECTION;
   }
   return Blockly.Connection.CAN_CONNECT;
 };

@@ -1243,3 +1243,16 @@ Blockly.Blocks['control_stop_sprite'] = {
     });
   }
 };
+
+Blockly.Blocks['control_dualblock'] = {
+  /**
+   * @this Blockly.Block
+   */
+  init: function () {
+    this.jsonInit({
+      "message0": 'dual block',
+      "category": Blockly.Categories.control,
+      "extensions": ["colours_control", "shape_statement", "output_string"]
+    });
+  }
+};

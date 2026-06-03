@@ -1486,7 +1486,9 @@ Blockly.BlockSvg.prototype.renderDrawTop_ = function(steps, rightEdge) {
     // Top edge.
     if (this.previousConnection) {
       // Space before the notch
-      steps.push('H', Blockly.BlockSvg.NOTCH_START_PADDING);
+      let notchStart = Blockly.BlockSvg.NOTCH_START_PADDING;
+      if (this.edgeShape_) notchStart += this.edgeShapeWidth_;
+      steps.push('H', notchStart);
 
       // if we have a custom check that corresponds to a custom notch, use it
       const checkStatement = (this.previousConnection.check_ || []).length === 1 ? this.previousConnection.check_[0] : null;
@@ -1495,8 +1497,9 @@ Blockly.BlockSvg.prototype.renderDrawTop_ = function(steps, rightEdge) {
       else steps.push(Blockly.BlockSvg.NOTCH_PATH_LEFT);
 
       // Create previous block connection.
-      var connectionX = (this.RTL ?
-          -Blockly.BlockSvg.NOTCH_WIDTH : Blockly.BlockSvg.NOTCH_WIDTH);
+      let connectionX = Blockly.BlockSvg.NOTCH_WIDTH;
+      if (this.edgeShape_) connectionX += this.edgeShapeWidth_;
+      connectionX *= this.RTL ? -1 : 1;
       this.previousConnection.setOffsetInBlock(connectionX, 0);
     }
   }
@@ -1681,6 +1684,7 @@ Blockly.BlockSvg.prototype.renderDrawBottom_ = function(steps, cursorY) {
       Blockly.BlockSvg.NOTCH_START_PADDING +
       Blockly.BlockSvg.CORNER_RADIUS
     );
+    if (this.edgeShape_) notchStart += this.edgeShapeWidth_;
     steps.push('H', notchStart, ' ');
     
     // if we have a custom check that corresponds to a custom notch, use it
@@ -1690,8 +1694,9 @@ Blockly.BlockSvg.prototype.renderDrawBottom_ = function(steps, cursorY) {
     else steps.push(Blockly.BlockSvg.NOTCH_PATH_RIGHT);
 
     // Create next block connection.
-    var connectionX = this.RTL ? -Blockly.BlockSvg.NOTCH_WIDTH :
-        Blockly.BlockSvg.NOTCH_WIDTH;
+    var connectionX = Blockly.BlockSvg.NOTCH_WIDTH;
+    if (this.edgeShape_) connectionX += this.edgeShapeWidth_;
+    connectionX *= this.RTL ? -1 : 1;
     this.nextConnection.setOffsetInBlock(connectionX, cursorY);
     // Include height of notch in block height.
     this.height += Blockly.BlockSvg.NOTCH_HEIGHT;
@@ -1718,12 +1723,14 @@ Blockly.BlockSvg.prototype.renderDrawLeft_ = function(steps) {
     this.outputConnection.setOffsetInBlock(0, this.height / 2);
   }
   if (this.edgeShape_) {
+    if (this.nextConnection) this.height -= Blockly.BlockSvg.NOTCH_HEIGHT;
     const customShape = Blockly.BlockSvg.CUSTOM_SHAPES.get(this.edgeShape_);
     if (customShape) {
       const path = customShape.leftPath(this);
       if (path && Array.isArray(path)) steps.push(...path);
       else console.error(`Left Path Function for shape: ${this.edgeShape_} did not return an Array!`);
     }
+    if (this.nextConnection) this.height += Blockly.BlockSvg.NOTCH_HEIGHT;
   }
   steps.push('z');
 };
