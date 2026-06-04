@@ -443,6 +443,12 @@ Blockly.BlockSvg.FIELD_TEXTINPUT_EXPAND_PAST_TRUNCATION = false;
 Blockly.BlockSvg.FIELD_TEXTINPUT_ANIMATE_POSITIONING = false;
 
 /**
+ * Minimum width of a block with output and stack inputs (dual blocks).
+ * @const
+ */
+Blockly.BlockSvg.MIN_BLOCK_X_DUAL = Blockly.BlockSvg.MIN_BLOCK_X_OUTPUT + Blockly.BlockSvg.NOTCH_START_PADDING + Blockly.BlockSvg.NOTCH_WIDTH;
+
+/**
  * Map of output/input shapes and the amount they should cause a block to be padded.
  * Outer key is the outer shape, inner key is the inner shape.
  * When a block with the outer shape contains an input block with the inner shape
@@ -1180,7 +1186,7 @@ Blockly.BlockSvg.prototype.computeRightEdge_ = function(curEdge, hasStatement) {
   var edge = curEdge;
   if (this.previousConnection || this.nextConnection) {
     // Blocks with notches
-    edge = Math.max(edge, Blockly.BlockSvg.MIN_BLOCK_X);
+    edge = Math.max(edge, this.outputConnection ? Blockly.BlockSvg.MIN_BLOCK_X_DUAL : Blockly.BlockSvg.MIN_BLOCK_X);
   } else if (this.outputConnection) {
     if (this.isShadow() && !this.canDragDuplicate()) {
       // Single-fields
@@ -1544,7 +1550,7 @@ Blockly.BlockSvg.prototype.renderDrawRight_ = function(steps,
           // In blocks with a notch, inputs should be bumped to a min X,
           // to avoid overlapping with the notch.
           if (this.previousConnection && (!inputRows[y - 1] || inputRows[y - 1].type !== Blockly.BlockSvg.INLINE)) {
-            cursorX = Math.max(cursorX, Blockly.BlockSvg.INPUT_AND_FIELD_MIN_X);
+            cursorX = Math.max(cursorX, Blockly.BlockSvg.INPUT_AND_FIELD_MIN_X + this.edgeShapeWidth_);
           }
           connectionX = this.RTL ? -cursorX : cursorX;
           // Attempt to center the connection vertically.
