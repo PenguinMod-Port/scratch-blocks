@@ -316,6 +316,7 @@ Blockly.Connection.prototype.canConnectWithReason_ = function(target) {
     var inferiorConn = this;
     var superiorConn = target;
   }
+  console.log(blockA, blockB, superiorConn, inferiorConn);
   if (blockA && blockA == blockB) {
     return Blockly.Connection.REASON_SELF_CONNECTION;
   } else if (target.type != Blockly.OPPOSITE_TYPE[this.type]) {
@@ -342,9 +343,10 @@ Blockly.Connection.prototype.canConnectWithReason_ = function(target) {
   ) {
     return Blockly.Connection.REASON_DRAG_DUPLICATE;
   } else if (
-    (superiorConn.type == Blockly.OUTPUT_VALUE && ((blockA.previousConnection && blockA.previousConnection.targetConnection) || (blockA.nextConnection && blockA.nextConnection.targetConnection))) ||
-    (superiorConn.type == Blockly.NEXT_STATEMENT && blockA.outputConnection && blockA.outputConnection.targetConnection) ||
-    (inferiorConn.type == Blockly.PREVIOUS_STATEMENT && blockB.outputConnection && blockB.outputConnection.targetConnection)
+    (superiorConn == blockA.outputConnection && ((blockA.previousConnection && blockA.previousConnection.targetConnection) || (blockA.nextConnection && blockA.nextConnection.targetConnection))) ||
+    (inferiorConn == blockB.outputConnection && ((blockB.previousConnection && blockB.previousConnection.targetConnection) || (blockB.nextConnection && blockB.nextConnection.targetConnection))) ||
+    (superiorConn == blockA.nextConnection && blockA.outputConnection && blockA.outputConnection.targetConnection) ||
+    (inferiorConn == blockB.previousConnection && blockB.outputConnection && blockB.outputConnection.targetConnection)
   ) {
     return Blockly.Connection.REASON_DUAL_CONNECTION;
   }
