@@ -132,6 +132,9 @@ Blockly.FieldNumber.prototype.getNumRestrictor = function(opt_min, opt_max,
   if (this.decimalAllowed_) {
     pattern += "|[\\.]";
   }
+  if (this.infinityAllowed_) {
+    pattern += "|[i]";
+  }
   if (this.negativeAllowed_) {
     pattern += "|[-]";
   }
@@ -164,7 +167,8 @@ Blockly.FieldNumber.prototype.setConstraints_ = function(opt_min, opt_max,
   this.negativeAllowed_ = (typeof opt_min == 'undefined') || isNaN(opt_min) ||
       opt_min < 0;
   this.exponentialAllowed_ = this.decimalAllowed_;
-  this.binaryAllowed_ = true; // feel free to make these conditional or whatever
+  this.infinityAllowed_ = true; // feel free to make these conditional or whatever
+  this.binaryAllowed_ = true; 
   this.hexAllowed_ = true;
   this.octalAllowed_ = true;
 };
@@ -357,7 +361,14 @@ Blockly.FieldNumber.numPadEraseButtonTouch = function(e) {
 Blockly.FieldNumber.updateDisplay_ = function(newValue, newSelection) {
   var htmlInput = Blockly.FieldTextInput.htmlInput_;
   // Updates the display. The actual setValue occurs when editing ends.
+  if (newValue == "i" || newValue == "I") {
+      newValue = "Infinity"
+  }
+  if (newValue == "-i" || newValue == "-I") {
+      newValue = "-Infinity"
+  }
   htmlInput.value = newValue;
+ 
   // Resize and scroll the text field appropriately
   Blockly.FieldNumber.superClass_.resizeEditor_.call(
       Blockly.FieldNumber.activeField_);
