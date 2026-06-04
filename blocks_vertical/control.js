@@ -1252,7 +1252,7 @@ Blockly.Blocks['control_dualblock'] = {
     this.jsonInit({
       "message0": 'dual block',
       "category": Blockly.Categories.control,
-      "extensions": ["colours_control", "shape_statement", "output_string"]
+      "extensions": ["colours_control", "shape_statement", "output_any"]
     });
   }
 };

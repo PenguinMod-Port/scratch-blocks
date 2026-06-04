@@ -316,7 +316,6 @@ Blockly.Connection.prototype.canConnectWithReason_ = function(target) {
     var inferiorConn = this;
     var superiorConn = target;
   }
-  console.log(blockA, blockB, superiorConn, inferiorConn);
   if (blockA && blockA == blockB) {
     return Blockly.Connection.REASON_SELF_CONNECTION;
   } else if (target.type != Blockly.OPPOSITE_TYPE[this.type]) {
