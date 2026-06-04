@@ -755,9 +755,9 @@ Blockly.Xml.domToBlockHeadless_ = function(xmlBlock, workspace) {
         if (childBlockElement) {
           blockChild = Blockly.Xml.domToBlockHeadless_(childBlockElement,
               workspace);
-          if (blockChild.outputConnection) {
+          if (input.type == Blockly.INPUT_VALUE) {
             input.connection.connect(blockChild.outputConnection);
-          } else if (blockChild.previousConnection) {
+          } else if (input.type == Blockly.NEXT_STATEMENT) {
             input.connection.connect(blockChild.previousConnection);
           } else {
             goog.asserts.fail(
