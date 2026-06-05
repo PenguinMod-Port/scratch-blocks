@@ -1288,7 +1288,7 @@ Blockly.BlockSvg.prototype.computeOutputPadding_ = function(inputRows) {
     }
   }
   row.paddingStart += getSubprop(Blockly.BlockSvg.getShapePadding(shape, otherShape), "left") || 0;
-  if (!this.outputConnection.targetConnection && this.getSurroundParent()) row.paddingStart = Blockly.BlockSvg.SEP_SPACE_X;
+  if (!(!this.previousConnection || !this.previousConnection.targetConnection || !this.getSurroundParent())) row.paddingStart = Blockly.BlockSvg.SEP_SPACE_X;
   // End row padding: based on last input or last field.
   var lastInput = row[row.length - 1];
   // In checking the right/end side, any value input takes precedence over any field.
@@ -1367,7 +1367,7 @@ Blockly.BlockSvg.prototype.renderDraw_ = function(iconWidth, inputRows) {
     if (shape !== Blockly.OUTPUT_SHAPE_SQUARE) {
       this.edgeShapeWidth_ = (inputRows.bottomEdge + (this.isCollapsed() ? 0 : this.inputList.filter(v => v.type == Blockly.NEXT_STATEMENT).length) * Blockly.BlockSvg.NOTCH_WIDTH) / 2;
       this.edgeShape_ = shape;
-      this.squareTopLeftCorner_ = !this.previousConnection || !this.getSurroundParent();
+      this.squareTopLeftCorner_ = !this.previousConnection || !this.previousConnection.targetConnection || !this.getSurroundParent();
       this.height = this.edgeShapeWidth_ * 2;
 
       let customShape = Blockly.BlockSvg.CUSTOM_SHAPES.get(shape);
@@ -1494,7 +1494,7 @@ Blockly.BlockSvg.prototype.renderDrawTop_ = function(steps, rightEdge) {
     if (this.previousConnection) {
       // Space before the notch
       let notchStart = Blockly.BlockSvg.NOTCH_START_PADDING;
-      if (this.edgeShape_ && !this.getSurroundParent()) notchStart += this.edgeShapeWidth_;
+      if (this.edgeShape_ && (!this.previousConnection || !this.previousConnection.targetConnection || !this.getSurroundParent())) notchStart += this.edgeShapeWidth_;
       steps.push('H', notchStart);
 
       // if we have a custom check that corresponds to a custom notch, use it
@@ -1505,7 +1505,7 @@ Blockly.BlockSvg.prototype.renderDrawTop_ = function(steps, rightEdge) {
 
       // Create previous block connection.
       let connectionX = Blockly.BlockSvg.NOTCH_WIDTH;
-      if (this.edgeShape_ && !this.getSurroundParent()) connectionX += this.edgeShapeWidth_;
+      if (this.edgeShape_ && (!this.previousConnection || !this.previousConnection.targetConnection || !this.getSurroundParent())) connectionX += this.edgeShapeWidth_;
       connectionX *= this.RTL ? -1 : 1;
       this.previousConnection.setOffsetInBlock(connectionX, 0);
     }
@@ -1529,7 +1529,7 @@ Blockly.BlockSvg.prototype.renderDrawRight_ = function(steps,
   var connectionX, connectionY;
   for (var y = 0, row; row = inputRows[y]; y++) {
     cursorX = row.paddingStart;
-    if (this.edgeShape_ && (this.outputConnection.targetConnection || !this.getSurroundParent()) && inputRows.length > 1) cursorX += this.edgeShapeWidth_ + Blockly.BlockSvg.CORNER_RADIUS * 2
+    if (this.edgeShape_ && (!this.previousConnection || !this.previousConnection.targetConnection || !this.getSurroundParent()) && inputRows.length > 1) cursorX += this.edgeShapeWidth_ + Blockly.BlockSvg.CORNER_RADIUS * 2
     if (y == 0) {
       cursorX += this.RTL ? -iconWidth : iconWidth;
     }
@@ -1551,7 +1551,7 @@ Blockly.BlockSvg.prototype.renderDrawRight_ = function(steps,
           // In blocks with a notch, inputs should be bumped to a min X,
           // to avoid overlapping with the notch.
           if (this.previousConnection && (!inputRows[y - 1] || inputRows[y - 1].type !== Blockly.BlockSvg.INLINE)) {
-            cursorX = Math.max(cursorX, Blockly.BlockSvg.INPUT_AND_FIELD_MIN_X + ((this.outputConnection && !this.outputConnection.targetConnection && this.getSurroundParent()) ? 0 : this.edgeShapeWidth_));
+            cursorX = Math.max(cursorX, Blockly.BlockSvg.INPUT_AND_FIELD_MIN_X + (!(!this.previousConnection || !this.previousConnection.targetConnection || !this.getSurroundParent()) ? 0 : this.edgeShapeWidth_));
           }
           connectionX = this.RTL ? -cursorX : cursorX;
           // Attempt to center the connection vertically.
@@ -1691,7 +1691,7 @@ Blockly.BlockSvg.prototype.renderDrawBottom_ = function(steps, cursorY) {
       Blockly.BlockSvg.NOTCH_START_PADDING +
       Blockly.BlockSvg.CORNER_RADIUS
     );
-    if (this.edgeShape_ && !this.getSurroundParent()) notchStart += this.edgeShapeWidth_;
+    if (this.edgeShape_ && (!this.previousConnection || !this.previousConnection.targetConnection || !this.getSurroundParent())) notchStart += this.edgeShapeWidth_;
     steps.push('H', notchStart, ' ');
     
     // if we have a custom check that corresponds to a custom notch, use it
@@ -1702,14 +1702,14 @@ Blockly.BlockSvg.prototype.renderDrawBottom_ = function(steps, cursorY) {
 
     // Create next block connection.
     var connectionX = Blockly.BlockSvg.NOTCH_WIDTH;
-    if (this.edgeShape_ && !this.getSurroundParent()) connectionX += this.edgeShapeWidth_;
+    if (this.edgeShape_ && (!this.previousConnection || !this.previousConnection.targetConnection || !this.getSurroundParent())) connectionX += this.edgeShapeWidth_;
     connectionX *= this.RTL ? -1 : 1;
     this.nextConnection.setOffsetInBlock(connectionX, cursorY);
     // Include height of notch in block height.
     this.height += Blockly.BlockSvg.NOTCH_HEIGHT;
   }
   // Bottom horizontal line
-  if (!this.edgeShape_ || (this.outputConnection && !this.outputConnection.targetConnection && this.getSurroundParent())) {
+  if (!this.edgeShape_ || !(!this.previousConnection || !this.previousConnection.targetConnection || !this.getSurroundParent())) {
     steps.push('H', Blockly.BlockSvg.CORNER_RADIUS);
     // Bottom left corner
     steps.push(Blockly.BlockSvg.BOTTOM_LEFT_CORNER);
@@ -1729,7 +1729,7 @@ Blockly.BlockSvg.prototype.renderDrawLeft_ = function(steps) {
     // Scratch-style reporters have output connection y at half block height.
     this.outputConnection.setOffsetInBlock(0, this.height / 2);
   }
-  if (this.edgeShape_ && (this.outputConnection.targetConnection || !this.getSurroundParent())) {
+  if (this.edgeShape_ && (!this.previousConnection || !this.previousConnection.targetConnection || !this.getSurroundParent())) {
     if (this.nextConnection) this.height -= Blockly.BlockSvg.NOTCH_HEIGHT;
     const customShape = Blockly.BlockSvg.CUSTOM_SHAPES.get(this.edgeShape_);
     if (customShape) {
@@ -2000,6 +2000,12 @@ Blockly.BlockSvg.prototype.renderMoveConnections_ = function() {
   if (this.nextConnection) {
     this.nextConnection.moveToOffset(blockTL);
     if (this.nextConnection.isConnected()) {
+      // lazy poop thing to fix dual block rendering
+      let nextBlock = this.nextConnection.targetBlock();
+      if (nextBlock.outputConnection && (nextBlock.previousConnection || nextBlock.nextConnection)) {
+        nextBlock.render(false);
+      }
+
       this.nextConnection.tighten_();
     }
   }
