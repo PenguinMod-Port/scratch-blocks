@@ -523,6 +523,23 @@ Blockly.Blocks["operator_character_to_code"] = {
   }
 };
 
+Blockly.Blocks["operator_code_to_character"] = {
+  init: function () {
+    this.jsonInit({
+      "inputsInline": true,
+      "message0": "id %1 to character",
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "ONE"
+        }
+      ],
+      "category": Blockly.Categories.operators,
+      "extensions": ["colours_operators", "output_string"]
+    });
+  }
+};
+
 Blockly.Blocks['operator_checkboxBoolean'] = {
   init: function() {
     this.jsonInit({
