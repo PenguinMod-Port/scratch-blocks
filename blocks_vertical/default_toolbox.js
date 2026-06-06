@@ -1268,6 +1268,68 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
         '</shadow>' + 
       '</value>' +
     '</block>' +
+    '<block type="operator_indexOfTextInText">' +
+      '<value name="TEXT1">' +
+        '<shadow type="text">' +
+          '<field name="TEXT">world</field>' +
+        '</shadow>' +
+      '</value>' +
+      '<value name="TEXT2">' +
+        '<shadow type="text">' +
+          '<field name="TEXT">Hello world!</field>' +
+        '</shadow>' +
+      '</value>' +
+    '</block>' +
+    '<block type="operator_lastIndexOfTextInText">' +
+      '<value name="TEXT1">' +
+        '<shadow type="text">' +
+          '<field name="TEXT">world</field>' +
+        '</shadow>' +
+      '</value>' +
+      '<value name="TEXT2">' +
+        '<shadow type="text">' +
+          '<field name="TEXT">Hello world!</field>' +
+        '</shadow>' +
+      '</value>' +
+    '</block>' +
+    '<block type="operator_character_to_code">' +
+      '<value name="ONE">' +
+          '<shadow type="text">' +
+            '<field name="TEXT">a</field>' +
+          '</shadow>' +
+      '</value>' +
+    '</block>' +
+    '<block type="operator_code_to_character">' +
+      '<value name="ONE">' +
+        '<shadow type="text">' +
+          '<field name="TEXT">97</field>' +
+        '</shadow>' +
+      '</value>' +
+    '</block>' +
+    '<block type="operator_countAppearTimes">' +
+      '<value name="TEXT1">' +
+        '<shadow type="text">' +
+          '<field name="TEXT">a</field>' +
+        '</shadow>' +
+      '</value>' +
+      '<value name="TEXT2">' +
+        '<shadow type="text">' +
+          '<field name="TEXT">abc abc abc</field>' +
+        '</shadow>' +
+      '</value>' +
+    '</block>' +
+    '<block type="operator_textIncludesLetterFrom">' +
+      '<value name="TEXT1">' +
+        '<shadow type="text">' +
+          '<field name="TEXT">abcdef</field>' +
+        '</shadow>' +
+      '</value>' +
+      '<value name="TEXT2">' +
+        '<shadow type="text">' +
+          '<field name="TEXT">fgh</field>' +
+        '</shadow>' +
+      '</value>' +
+    '</block>' +
   '</category>' +
   '<category name="%{BKY_CATEGORY_VARIABLES}" id="data" colour="#FF8C1A" secondaryColour="#DB6E00" custom="VARIABLE">' +
   '</category>' +
