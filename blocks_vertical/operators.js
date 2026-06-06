@@ -767,6 +767,48 @@ Blockly.Blocks['operator_valid_type'] = {
   }
 };
 
+Blockly.Blocks["operator_countAppearTimes"] = {
+  init: function() {
+    this.jsonInit({
+      "inputsInline": true,
+      "message0": "amount of times %1 appears in %2",
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "TEXT1"
+        },
+        {
+          "type": "input_value",
+          "name": "TEXT2"
+        }
+      ],
+      "category": Blockly.Categories.operator,
+      "extensions": ["colours_operators", "output_number"]
+    });
+  }
+};
+
+Blockly.Blocks["operator_textIncludesLetterFrom"] = {
+  init: function () {
+    this.jsonInit({
+      "inputsInline": true,
+      "message0": "%1 includes a letter from %2?",
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "TEXT1"
+        },
+        {
+          "type": "input_value",
+          "name": "TEXT2"
+        }
+      ],
+      "category": Blockly.Categories.operator,
+      "extensions": ["colours_operators", "output_boolean"]
+    });
+  }
+};
+
 Blockly.Blocks['operator_power'] = {
   /**
    * pm: Block for getting a ^ b.
