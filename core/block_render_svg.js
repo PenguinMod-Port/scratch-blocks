@@ -2001,11 +2001,10 @@ Blockly.BlockSvg.prototype.renderMoveConnections_ = function() {
     this.nextConnection.moveToOffset(blockTL);
     if (this.nextConnection.isConnected()) {
       // lazy poop thing to fix dual block rendering
-      let nextBlock = this.nextConnection.targetBlock();
-      if (nextBlock.outputConnection && (nextBlock.previousConnection || nextBlock.nextConnection)) {
+      let nextBlock = this;
+      while (nextBlock = nextBlock.getNextBlock()) {
         nextBlock.render(false);
       }
-
       this.nextConnection.tighten_();
     }
   }
