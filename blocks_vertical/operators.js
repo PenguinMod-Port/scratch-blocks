@@ -510,7 +510,7 @@ Blockly.Blocks["operator_character_to_code"] = {
   init: function () {
     this.jsonInit({
       "inputsInline": true,
-      "message0": "character %1 to id",
+      "message0": Blockly.Msg.PM_OPERATORS_CHARACTER_TO_CODE,
       "args0": [
         {
           "type": "input_value",
@@ -527,7 +527,7 @@ Blockly.Blocks["operator_code_to_character"] = {
   init: function () {
     this.jsonInit({
       "inputsInline": true,
-      "message0": "id %1 to character",
+      "message0": Blockly.Msg.PM_OPERATORS_CODE_TO_CHARACTER,
       "args0": [
         {
           "type": "input_value",
@@ -700,7 +700,7 @@ Blockly.Blocks["operator_indexOfTextInText"] = {
   init: function() {
     this.jsonInit({
       "inputsInline": true,
-      "message0": "index of %1 in %2",
+      "message0": Blockly.Msg.PM_OPERATORS_INDEX_OF_TEXT_IN_TEXT,
       "args0": [
         {
           "type": "input_value",
@@ -721,7 +721,7 @@ Blockly.Blocks["operator_lastIndexOfTextInText"] = {
   init: function() {
     this.jsonInit({
       "inputsInline": true,
-      "message0": "last index of %1 in %2",
+      "message0": Blockly.Msg.PM_OPERATORS_LAST_INDEX_OF_TEXT_IN_TEXT,
       "args0": [
         {
           "type": "input_value",
@@ -771,7 +771,7 @@ Blockly.Blocks["operator_countAppearTimes"] = {
   init: function() {
     this.jsonInit({
       "inputsInline": true,
-      "message0": "amount of times %1 appears in %2",
+      "message0": Blockly.Msg.PM_OPERATORS_COUNT_APPEAR_TIMES,
       "args0": [
         {
           "type": "input_value",
@@ -792,7 +792,7 @@ Blockly.Blocks["operator_textIncludesLetterFrom"] = {
   init: function () {
     this.jsonInit({
       "inputsInline": true,
-      "message0": "%1 includes a letter from %2?",
+      "message0": Blockly.Msg.PM_OPERATORS_TEXT_INCLUDES_LETTER_FROM,
       "args0": [
         {
           "type": "input_value",
