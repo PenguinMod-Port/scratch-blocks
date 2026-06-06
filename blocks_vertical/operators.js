@@ -696,6 +696,48 @@ Blockly.Blocks["operator_randomBoolean"] = {
   }
 };
 
+Blockly.Blocks["operator_indexOfTextInText"] = {
+  init: function() {
+    this.jsonInit({
+      "inputsInline": true,
+      "message0": "index of %1 in %2",
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "TEXT1"
+        },
+        {
+          "type": "input_value",
+          "name": "TEXT2"
+        }
+      ],
+      "category": Blockly.Categories.operator,
+      "extensions": ["colours_operators", "output_number"]
+    });
+  }
+};
+
+Blockly.Blocks["operator_lastIndexOfTextInText"] = {
+  init: function() {
+    this.jsonInit({
+      "inputsInline": true,
+      "message0": "last index of %1 in %2",
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "TEXT1"
+        },
+        {
+          "type": "input_value",
+          "name": "TEXT2"
+        }
+      ],
+      "category": Blockly.Categories.operator,
+      "extensions": ["colours_operators", "output_number"]
+    });
+  }
+};
+
 Blockly.Blocks['operator_valid_type'] = {
   /**
    * Block for "advanced" math ops on a number.
