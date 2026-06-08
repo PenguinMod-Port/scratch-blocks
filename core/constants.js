@@ -438,11 +438,6 @@ Blockly.PROCEDURES_PROTOTYPE_BLOCK_TYPE = 'procedures_prototype';
 Blockly.PROCEDURES_CALL_BLOCK_TYPE = 'procedures_call';
 
 /**
- * Enum for procedure call terminals.
- */
-Blockly.PROCEDURES_CALL_TYPE_TERMINAL = -1;
-
-/**
  * Enum for procedure call statements.
  */
 Blockly.PROCEDURES_CALL_TYPE_STATEMENT = 0;
