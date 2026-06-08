@@ -122,7 +122,8 @@ Blockly.ScratchBlocks.ProcedureUtils.definitionDomToMutation = function(xmlEleme
   this.argumentIds_ = JSON.parse(xmlElement.getAttribute('argumentids'));
   this.displayNames_ = JSON.parse(xmlElement.getAttribute('argumentnames'));
   this.argumentDefaults_ = JSON.parse(xmlElement.getAttribute('argumentdefaults'));
-  if (xmlElement.hasAttribute('forceoutput')) this.forceOutput_ = parseInt(xmlElement.getAttribute('forceoutput'));
+  // gee wiz father, i sure hope no one changes these id's on us!
+  this.setForceOutput(parseInt(xmlElement.getAttribute('forceoutput')) || Blockly.PROCEDURES_CALL_TYPE_STATEMENT);
   this.updateDisplay_();
   if (this.updateArgumentReporterNames_) {
     this.updateArgumentReporterNames_(prevArgIds, prevDisplayNames);
@@ -159,14 +160,25 @@ Blockly.ScratchBlocks.ProcedureUtils.updateDisplay_ = function() {
   this.createAllInputs_(connectionMap);
   this.deleteShadows_(connectionMap);
 
-  if (!wasRendered && this.getReturn) {
+  if (this.getReturn) {
     this.setInputsInline(true);
-    if (this.getReturn()[1] === Blockly.PROCEDURES_CALL_TYPE_STATEMENT) {
-      this.setPreviousStatement(true, "normal");
-      this.setNextStatement(true, "normal");
-    } else {
-      this.setOutput(true, this.getReturn()[0])
-      this.setOutputShape(this.getReturn()[1])
+    switch (this.getReturn()[1]) {
+      case Blockly.PROCEDURES_CALL_TYPE_STATEMENT:
+        this.setPreviousStatement(true, "normal");
+        this.setNextStatement(true, "normal");
+        this.setOutput(false);
+        break;
+      case Blockly.PROCEDURES_CALL_TYPE_TERMINAL:
+        this.setPreviousStatement(true, "normal");
+        this.setNextStatement(false, "normal");
+        this.setOutput(false);
+        break;
+      default:
+        this.setPreviousStatement(false);
+        this.setNextStatement(false);
+        this.setOutput(true, this.getReturn()[0]);
+        this.setOutputShape(this.getReturn()[1]);
+        break;
     }
   }
 
@@ -949,7 +961,9 @@ Blockly.ScratchBlocks.ProcedureUtils.updateArgumentReporterNames_ = function(pre
 };
 
 Blockly.ScratchBlocks.ProcedureUtils.setForceOutput = function(forceOutput) {
-  this.forceOutput_ = forceOutput;
+  this.forceOutput_ = parseInt(forceOutput);
+  this.return_ = [null, this.forceOutput_];
+  this.updateDisplay_();
 }
 
 Blockly.ScratchBlocks.ProcedureUtils.getForceOutput = function() {
@@ -1067,6 +1081,7 @@ Blockly.Blocks['procedures_declaration'] = {
     this.argumentDefaults_ = [];
     this.warp_ = false;
     this.forceOutput_ = 0;
+    this.return_ = [[], Blockly.PROCEDURES_CALL_TYPE_STATEMENT];
   },
   // Shared.
   getProcCode: Blockly.ScratchBlocks.ProcedureUtils.getProcCode,
@@ -1075,6 +1090,7 @@ Blockly.Blocks['procedures_declaration'] = {
   deleteShadows_: Blockly.ScratchBlocks.ProcedureUtils.deleteShadows_,
   createAllInputs_: Blockly.ScratchBlocks.ProcedureUtils.createAllInputs_,
   updateDisplay_: Blockly.ScratchBlocks.ProcedureUtils.updateDisplay_,
+  getReturn: Blockly.ScratchBlocks.ProcedureUtils.getReturn,
 
   // Exist on all three blocks, but have different implementations.
   mutationToDom: Blockly.ScratchBlocks.ProcedureUtils.definitionMutationToDom,
