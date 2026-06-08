@@ -53,7 +53,7 @@
         <button id="okButton" onclick="applyMutation()">ok</button>
         <button id="rndButton" onclick="removeRandomInput()">remove random input</button>
         <button id="addRndButton" onclick="addRandomInput()">add random input</button>
-        <select id="forceOutput" onchange="setForceOutput(this.value)">
+        <select id="forceOutput" onchange="setForceOutput()">
           <option value="0">default</option>
           <option value="1">hexagonal</option>
           <option value="2">round</option>
@@ -68,6 +68,7 @@
           <option value="11">ticket</option>
           <option value="12">slanted</option>
         </select>
+        <span>terminal: <input type="checkbox" id="terminal" onchange="setTerminal()" /></span>
       </td>
     </tr>
   </table>
@@ -165,6 +166,7 @@
     var editorActions = document.getElementById('editor-actions');
     editorActions.style.visibility = 'hidden';
     var forceOutput = document.getElementById('forceOutput');
+    var terminal = document.getElementById('terminal');
 
     var callback = null;
     var mutationRoot = null;
@@ -207,6 +209,7 @@
       mutationRoot.initSvg();
       mutationRoot.render(false);
       forceOutput.value = String(mutationRoot.getForceOutput());
+      terminal.checked = mutationRoot.isTerminal_;
     }
 
     function applyMutation() {
@@ -250,6 +253,10 @@
 
     function setForceOutput() {
       mutationRoot.setForceOutput(forceOutput.value);
+    }
+
+    function setTerminal() {
+      mutationRoot.isTerminal_ = terminal.checked;
     }
 
     function cancel() {
