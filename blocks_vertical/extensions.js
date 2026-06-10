@@ -367,6 +367,7 @@ Blockly.Blocks['dual block custom notch custom block shape black text branched r
         },
         {
           "type": "input_statement",
+          "check": "scrapped",
           "name": "SUBSTACK"
         }
       ],
