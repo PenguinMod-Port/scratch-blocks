@@ -350,3 +350,48 @@ Blockly.Blocks['extension_template'] = {
     });
   }
 };
+
+Blockly.Blocks['dual block custom notch custom block shape black text branched reporter when'] = {
+  /**
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_CONTROL_DO,
+      "message1": Blockly.Msg.CONTROL_WHILE,
+      "message2": "%1",
+      "lastDummyAlign2": "RIGHT",
+      "args0": [
+        {
+          "type": "input_dummy"
+        },
+        {
+          "type": "input_statement",
+          "name": "SUBSTACK"
+        }
+      ],
+      "args1": [
+        {
+          "type": "input_value",
+          "name": "CONDITION",
+          "check": "Boolean"
+        }
+      ],
+      "args2": [
+        {
+          "type": "field_image",
+          "src": Blockly.mainWorkspace.options.pathToMedia + "repeat.svg",
+          "width": 24,
+          "height": 24,
+          "alt": "*",
+          "flip_rtl": true
+        }
+      ],
+      "blockText": "#000000",
+      "category": Blockly.Categories.pen,
+      "output": null,
+      "outputShape": 7,
+      "extensions": ["colours_more", "shape_case"]
+    });
+  }
+};
