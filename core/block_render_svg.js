@@ -697,6 +697,8 @@ Blockly.BlockSvg.prototype.updateColour = function() {
 
   // Render block stroke
   this.svgPath_.setAttribute('stroke', strokeColour);
+  if (this.canDragDuplicate()) this.svgPath_.setAttribute('stroke-dasharray', '4px 4px')
+  else this.svgPath_.removeAttribute('stroke-dasharray');
 
   // Render block fill
   if (this.isGlowingBlock_ || renderShadowed) {
