@@ -197,6 +197,13 @@ Blockly.Msg.LOOKS_NEXTBACKDROP = 'next backdrop';
 Blockly.Msg.LOOKS_PREVIOUSBACKDROP = 'previous backdrop';
 Blockly.Msg.LOOKS_RANDOMBACKDROP = 'random backdrop';
 
+Blockly.Msg.PM_LOOKS_BLENDMODE = 'set blend mode to %1';
+Blockly.Msg.PM_LOOKS_BLENDMODE_ADDITIVE = 'additive';
+Blockly.Msg.PM_LOOKS_BLENDMODE_DIFFERENCE = 'difference';
+Blockly.Msg.PM_LOOKS_BLENDMODE_MULTIPLICATIVE = 'multiplicative';
+Blockly.Msg.PM_LOOKS_BLENDMODE_NORMAL = 'normal';
+Blockly.Msg.PM_LOOKS_BLENDMODE_SCREEN = 'screen';
+Blockly.Msg.PM_LOOKS_BLENDMODE_SUBTRACTIVE = 'subtractive';
 Blockly.Msg.PM_LOOKS_CHANGESTRETCH = 'change stretch by x: %1 y: %2';
 Blockly.Msg.PM_LOOKS_CHANGEVISIBILITYOFSPRITEHIDE = 'hide %1';
 Blockly.Msg.PM_LOOKS_CHANGEVISIBILITYOFSPRITESHOW = 'show %1';

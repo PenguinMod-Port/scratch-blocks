@@ -1083,3 +1083,27 @@ Blockly.Blocks["looks_getEffectValue"] = {
     });
   }
 };
+
+Blockly.Blocks["looks_set_blend_mode"] = {
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_LOOKS_BLENDMODE,
+      "args0": [
+        {
+          "type": "field_dropdown",
+          "name": "BLENDMODE",
+          "options": [
+            [Blockly.Msg.PM_LOOKS_BLENDMODE_NORMAL, 'NORMAL'],
+            [Blockly.Msg.PM_LOOKS_BLENDMODE_ADDITIVE, 'ADDITIVE'],
+            [Blockly.Msg.PM_LOOKS_BLENDMODE_MULTIPLICATIVE, 'MULTIPLICATIVE'],
+            [Blockly.Msg.PM_LOOKS_BLENDMODE_SUBTRACTIVE, 'SUBTRACTIVE'],
+            [Blockly.Msg.PM_LOOKS_BLENDMODE_SCREEN, 'SCREEN'],
+            [Blockly.Msg.PM_LOOKS_BLENDMODE_DIFFERENCE, 'DIFFERENCE'],
+          ]
+        }
+      ],
+      "category": Blockly.Categories.looks,
+      "extensions": ["colours_looks", "shape_statement"]
+    });
+  }
+};
