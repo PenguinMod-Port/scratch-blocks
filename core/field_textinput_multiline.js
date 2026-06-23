@@ -196,7 +196,7 @@ Blockly.FieldTextInputMultiline.prototype.render_ = function() {
     // Replace the text.
     this.textElement_.textContent = this.getDisplayText_();
     const old = this.textElement_.innerHTML;
-    this.textElement_.innerHTML = this.textElement_.innerHTML.split('\n').map((v, i) => `<tspan x="0" dy="${i === 0 ? '-0.125em' : '1.2em'}">${v || Blockly.Field.NBSP}</tspan>`).join("");
+    this.textElement_.innerHTML = this.textElement_.innerHTML.split('\n').map((v, i) => `<tspan x="0" dy="${i === 0 ? '-0.05em' : '1.2em'}">${v || Blockly.Field.NBSP}</tspan>`).join("");
     this.updateHeight();
     this.updateWidth();
 
@@ -208,7 +208,7 @@ Blockly.FieldTextInputMultiline.prototype.render_ = function() {
       }
     }
 
-    this.textElement_.innerHTML = old.split('\n').map((v, i) => `<tspan x="${offset - Blockly.BlockSvg.GRID_UNIT}" dy="${i === 0 ? '-0.125em' : '1.2em'}">${v || Blockly.Field.NBSP}</tspan>`).join("");
+    this.textElement_.innerHTML = old.split('\n').map((v, i) => `<tspan x="${offset - Blockly.BlockSvg.GRID_UNIT}" dy="${i === 0 ? '-0.05em' : '1.2em'}">${v || Blockly.Field.NBSP}</tspan>`).join("");
   }
 
   // Update any drawn box to the correct width and height.
