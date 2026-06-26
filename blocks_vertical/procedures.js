@@ -38,7 +38,6 @@ Blockly.ScratchBlocks.ProcedureUtils.REARRANGEABLE_INPUTS = true;
 
 Blockly.ScratchBlocks.ProcedureUtils.parseReturnMutation = function(xmlElement) {
   if (xmlElement.hasAttribute('return')) {
-    console.log(xmlElement.getAttribute('return'));
     try {
       let x = JSON.parse(xmlElement.getAttribute('return'));
       if (x instanceof Array) return x
