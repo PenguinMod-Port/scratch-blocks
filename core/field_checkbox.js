@@ -33,10 +33,10 @@ goog.require('Blockly.Field');
 const updateCheckColor = (field) => {
   const srcBlock = field.sourceBlock_;
   if (!srcBlock) return;
-  else if (field.checkBackground_) field.checkBackground_.setAttribute('fill', field.state_ == "TRUE" ? Blockly.Colours.checkboxFieldBackground : srcBlock.getColourQuaternary());
+  else if (field.checkBackground_) field.checkBackground_.setAttribute('fill', field.state_ == "TRUE" ? Blockly.Colours.checkboxFieldBackground : srcBlock.getColourTertiary());
   if (field.state_ == "TRUE") srcBlock.setShadowColour(Blockly.Colours.checkboxFieldBackground);
   else if (srcBlock.parentBlock_) {
-    srcBlock.shadowColour_ = srcBlock.parentBlock_.getColourQuaternary();
+    srcBlock.shadowColour_ = srcBlock.parentBlock_.getColourTertiary();
     srcBlock.updateColour();
     if (srcBlock.svgPath_ && srcBlock.isShadow()) srcBlock.svgPath_.setAttribute("stroke", "#00000000");
   }
