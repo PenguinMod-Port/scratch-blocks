@@ -5,12 +5,38 @@ Blockly.Swatches.swatchList = [
     // motion
     [
         {
+            opcode: "motion_turnleft"
+        },
+        {
+            opcode: "motion_turnright"
+        }
+    ],
+    [
+        {
             opcode: "motion_gotoxy",
             remapInputs: {X: ["DX"], Y: ["DY"]}
         },
         {
             opcode: "motion_changebyxy",
             remapInputs: {DX: ["X"], DY: ["Y"]}
+        }
+    ],
+    [
+        {
+            opcode: "motion_changexby",
+            remapInputs: {DX: ["X", "DY", "Y"]}
+        },
+        {
+            opcode: "motion_setx",
+            remapInputs: {X: ["DX", "DY", "Y"]}
+        },
+        {
+            opcode: "motion_changeyby",
+            remapInputs: {DY: ["DX", "X", "Y"]}
+        },
+        {
+            opcode: "motion_sety",
+            remapInputs: {Y: ["DX", "X", "DY"]}
         }
     ],
 
