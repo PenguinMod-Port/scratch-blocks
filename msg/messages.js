@@ -501,18 +501,18 @@ Blockly.Msg.SOUND_SETVOLUMETO = 'set volume to %1%';
 Blockly.Msg.SOUND_VOLUME = 'volume';
 Blockly.Msg.SOUND_RECORD = 'record...';
 
-Blockly.Msg.PM_SOUND_STOP = 'stop sound %1';
+Blockly.Msg.PM_SOUND_GETEFFECTVALUE = '%1 effect';
+Blockly.Msg.PM_SOUND_GETLENGTH = 'length of %1';
+Blockly.Msg.PM_SOUND_GETSOUNDVOLUME = 'current volume of %1';
+Blockly.Msg.PM_SOUND_GETTIMEPOSITION = 'current time position of %1';
+Blockly.Msg.PM_SOUND_ISSOUNDPLAYING = 'is %1 playing?';
 Blockly.Msg.PM_SOUND_PAUSE = 'pause sound %1';
-Blockly.Msg.PM_SOUND_SET_STOP_FADEOUT_TO = 'set fade out to %1 seconds on %2';
-Blockly.Msg.PM_SOUND_PLAY_AT_SECONDS = 'start sound %1 at %2 seconds';
-Blockly.Msg.PM_SOUND_PLAY_AT_SECONDS_UNTIL_DONE = 'play sound %1 starting at %2 seconds until done';
 Blockly.Msg.PM_SOUND_PAUSEALLSOUNDS = 'pause all sounds';
 Blockly.Msg.PM_SOUND_PLAYALLSOUNDS = 'play all sounds';
-Blockly.Msg.PM_SOUND_GETEFFECTVALUE = '%1 effect';
-Blockly.Msg.PM_SOUND_ISSOUNDPLAYING = 'is %1 playing?';
-Blockly.Msg.PM_SOUND_GETLENGTH = 'length of %1';
-Blockly.Msg.PM_SOUND_GETTIMEPOSITION = 'current time position of %1';
-Blockly.Msg.PM_SOUND_GETSOUNDVOLUME = 'current volume of %1';
+Blockly.Msg.PM_SOUND_PLAY_AT_SECONDS = 'start sound %1 at %2 seconds';
+Blockly.Msg.PM_SOUND_PLAY_AT_SECONDS_UNTIL_DONE = 'play sound %1 starting at %2 seconds until done';
+Blockly.Msg.PM_SOUND_SET_STOP_FADEOUT_TO = 'set fade out to %1 seconds on %2';
+Blockly.Msg.PM_SOUND_STOP = 'stop sound %1';
 
 
 // Category labels
