@@ -162,14 +162,32 @@ Blockly.ScratchBlocks.ProcedureUtils.updateDisplay_ = function() {
   this.createAllInputs_(connectionMap);
   this.deleteShadows_(connectionMap);
 
-  if (!wasRendered && this.getReturn) {
-    this.setInputsInline(true);
+  if (this.getReturn) {
     if (this.getReturn()[1] === Blockly.PROCEDURES_CALL_TYPE_STATEMENT) {
-      this.setPreviousStatement(true, "normal");
-      this.setNextStatement(!this.isTerminal_, "normal");
+      if (this.outputConnection) {
+        this.setOutput(true, null)
+        this.setOutputShape(Blockly.OUTPUT_SHAPE_ROUND)
+      } else {
+        if (this.isTerminal_ && this.nextConnection && this.nextConnection.targetConnection) this.nextConnection.disconnect();
+        this.setPreviousStatement(true, "normal");
+        this.setNextStatement(!this.isTerminal_, "normal");
+      }
     } else {
-      this.setOutput(true, this.getReturn()[0])
-      this.setOutputShape(this.getReturn()[1])
+      if (this.previousConnection) {
+        if (this.isTerminal_ && this.nextConnection && this.nextConnection.targetConnection) this.nextConnection.disconnect();
+        this.setPreviousStatement(true, "normal");
+        this.setNextStatement(!this.isTerminal_, "normal");
+      } else {
+        let output = this.getReturn()[0];
+        if (this.outputConnection && this.outputConnection.targetConnection && output !== null) {
+          let check = this.outputConnection.targetConnection.check_;
+          if (check !== null && !check.some(v => output.includes(v))) {
+            output = this.outputConnection.check_;
+          }
+        }
+        this.setOutput(true, output)
+        this.setOutputShape(this.getReturn()[1])
+      }
     }
   }
 
