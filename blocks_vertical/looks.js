@@ -1107,3 +1107,36 @@ Blockly.Blocks["looks_set_blend_mode"] = {
     });
   }
 };
+
+Blockly.Blocks["looks_getSpriteVisible"] = {
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_LOOKS_VISIBLE,
+      "checkboxInFlyout": true,
+      "category": Blockly.Categories.looks,
+      "extensions": ["output_boolean", "colours_looks"]
+    });
+  }
+};
+
+Blockly.Blocks["looks_sayHeight"] = {
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_LOOKS_BUBBLEHEIGHT,
+      "checkboxInFlyout": true,
+      "category": Blockly.Categories.looks,
+      "extensions": ["output_number", "colours_looks"]
+    });
+  }
+};
+
+Blockly.Blocks["looks_sayWidth"] = {
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_LOOKS_BUBBLEWIDTH,
+      "checkboxInFlyout": true,
+      "category": Blockly.Categories.looks,
+      "extensions": ["output_number", "colours_looks"]
+    });
+  }
+};

@@ -381,6 +381,9 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
     '<block type="looks_layersGetLayer" />' +
     '<block type="looks_getEffectValue" />' +
     '<block type="looks_set_blend_mode" />' +
+    '<block type="looks_getSpriteVisible" />' +
+    '<block type="looks_sayHeight" />' +
+    '<block type="looks_sayWidth" />' +
   '</category>' +
   '<category name="%{BKY_CATEGORY_SOUND}" id="sound" colour="#D65CD6" secondaryColour="#BD42BD">' +
     '<block type="sound_play" id="sound_play">' +

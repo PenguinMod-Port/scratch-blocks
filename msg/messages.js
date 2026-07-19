@@ -204,6 +204,8 @@ Blockly.Msg.PM_LOOKS_BLENDMODE_MULTIPLICATIVE = 'multiplicative';
 Blockly.Msg.PM_LOOKS_BLENDMODE_NORMAL = 'normal';
 Blockly.Msg.PM_LOOKS_BLENDMODE_SCREEN = 'screen';
 Blockly.Msg.PM_LOOKS_BLENDMODE_SUBTRACTIVE = 'subtractive';
+Blockly.Msg.PM_LOOKS_BUBBLEHEIGHT = 'bubble height';
+Blockly.Msg.PM_LOOKS_BUBBLEWIDTH = 'bubble width';
 Blockly.Msg.PM_LOOKS_CHANGESTRETCH = 'change stretch by x: %1 y: %2';
 Blockly.Msg.PM_LOOKS_CHANGEVISIBILITYOFSPRITEHIDE = 'hide %1';
 Blockly.Msg.PM_LOOKS_CHANGEVISIBILITYOFSPRITESHOW = 'show %1';
@@ -233,6 +235,7 @@ Blockly.Msg.PM_LOOKS_STOPTALKING = 'stop speaking';
 Blockly.Msg.PM_LOOKS_STRETCHX = 'stretch x';
 Blockly.Msg.PM_LOOKS_STRETCHY = 'stretch y';
 Blockly.Msg.PM_LOOKS_TINTCOLOR = 'tint color';
+Blockly.Msg.PM_LOOKS_VISIBLE = 'visible?';
 
 // Motion blocks
 Blockly.Msg.MOTION_MOVESTEPS = 'move %1 steps';
