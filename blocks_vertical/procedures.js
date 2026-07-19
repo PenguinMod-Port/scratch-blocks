@@ -62,6 +62,7 @@ Blockly.ScratchBlocks.ProcedureUtils.callerMutationToDom = function() {
     container.setAttribute('return', JSON.stringify(this.return_));
   }
   container.setAttribute('terminal', JSON.stringify(this.isTerminal_));
+  container.setAttribute('colour', this.procColour_);
   return container;
 };
 
@@ -78,7 +79,7 @@ Blockly.ScratchBlocks.ProcedureUtils.callerDomToMutation = function(xmlElement) 
   this.argumentIds_ = JSON.parse(xmlElement.getAttribute('argumentids'));
   this.warp_ = JSON.parse(xmlElement.getAttribute('warp'));
   this.return_ = Blockly.ScratchBlocks.ProcedureUtils.parseReturnMutation(xmlElement);
-  this.isTerminal_ = JSON.parse(xmlElement.getAttribute('terminal'));
+  this.procColour_ = xmlElement.getAttribute('colour') ?? "more";
   this.updateDisplay_();
 };
 
@@ -105,6 +106,7 @@ Blockly.ScratchBlocks.ProcedureUtils.definitionMutationToDom = function(
   container.setAttribute('warp', JSON.stringify(this.warp_));
   container.setAttribute('forceoutput', this.forceOutput_);
   container.setAttribute('terminal', JSON.stringify(this.isTerminal_));
+  container.setAttribute('colour', this.procColour_);
   return container;
 };
 
@@ -126,6 +128,7 @@ Blockly.ScratchBlocks.ProcedureUtils.definitionDomToMutation = function(xmlEleme
   this.argumentDefaults_ = JSON.parse(xmlElement.getAttribute('argumentdefaults'));
   if (xmlElement.hasAttribute('forceoutput')) this.forceOutput_ = parseInt(xmlElement.getAttribute('forceoutput'));
   this.isTerminal_ = JSON.parse(xmlElement.getAttribute('terminal'));
+  this.procColour_ = xmlElement.getAttribute('colour') ?? "more";
   this.updateDisplay_();
   if (this.updateArgumentReporterNames_) {
     this.updateArgumentReporterNames_(prevArgIds, prevDisplayNames);
@@ -190,6 +193,7 @@ Blockly.ScratchBlocks.ProcedureUtils.updateDisplay_ = function() {
       }
     }
   }
+  if (this.updateProcColour) this.updateProcColour();
 
   this.rendered = wasRendered;
   if (wasRendered && !this.isInsertionMarker()) {
@@ -977,6 +981,14 @@ Blockly.ScratchBlocks.ProcedureUtils.getForceOutput = function() {
   return this.forceOutput_;
 }
 
+Blockly.ScratchBlocks.ProcedureUtils.updateProcColour = function() {
+  if (Blockly.Extensions.ALL_[`colours_${this.procColour_}`]) {
+    Blockly.Extensions.ALL_[`colours_${this.procColour_}`].call(this);
+  } else if (this.procColour_ !== null) {
+    this.setColour(this.procColour_);
+  }
+}
+
 Blockly.Blocks['procedures_definition'] = {
   /**
    * Block for defining a procedure with no return value.
@@ -1010,6 +1022,7 @@ Blockly.Blocks['procedures_call'] = {
     this.warp_ = false;
     this.return_ = [[], Blockly.PROCEDURES_CALL_TYPE_STATEMENT];
     this.isTerminal_ = false;
+    this.procColour_ = "more";
   },
   // Shared.
   getProcCode: Blockly.ScratchBlocks.ProcedureUtils.getProcCode,
@@ -1018,6 +1031,7 @@ Blockly.Blocks['procedures_call'] = {
   deleteShadows_: Blockly.ScratchBlocks.ProcedureUtils.deleteShadows_,
   createAllInputs_: Blockly.ScratchBlocks.ProcedureUtils.createAllInputs_,
   updateDisplay_: Blockly.ScratchBlocks.ProcedureUtils.updateDisplay_,
+  updateProcColour: Blockly.ScratchBlocks.ProcedureUtils.updateProcColour,
   getReturn: Blockly.ScratchBlocks.ProcedureUtils.getReturn,
 
   // Exist on all three blocks, but have different implementations.
@@ -1050,6 +1064,7 @@ Blockly.Blocks['procedures_prototype'] = {
     this.warp_ = false;
     this.forceOutput_ = 0;
     this.isTerminal_ = false;
+    this.procColour_ = "more";
   },
   // Shared.
   getProcCode: Blockly.ScratchBlocks.ProcedureUtils.getProcCode,
@@ -1058,6 +1073,7 @@ Blockly.Blocks['procedures_prototype'] = {
   deleteShadows_: Blockly.ScratchBlocks.ProcedureUtils.deleteShadows_,
   createAllInputs_: Blockly.ScratchBlocks.ProcedureUtils.createAllInputs_,
   updateDisplay_: Blockly.ScratchBlocks.ProcedureUtils.updateDisplay_,
+  updateProcColour: Blockly.ScratchBlocks.ProcedureUtils.updateProcColour,
 
   // Exist on all three blocks, but have different implementations.
   mutationToDom: Blockly.ScratchBlocks.ProcedureUtils.definitionMutationToDom,
@@ -1091,6 +1107,7 @@ Blockly.Blocks['procedures_declaration'] = {
     this.warp_ = false;
     this.forceOutput_ = 0;
     this.isTerminal_ = false;
+    this.procColour_ = "more";
   },
   // Shared.
   getProcCode: Blockly.ScratchBlocks.ProcedureUtils.getProcCode,
@@ -1099,6 +1116,7 @@ Blockly.Blocks['procedures_declaration'] = {
   deleteShadows_: Blockly.ScratchBlocks.ProcedureUtils.deleteShadows_,
   createAllInputs_: Blockly.ScratchBlocks.ProcedureUtils.createAllInputs_,
   updateDisplay_: Blockly.ScratchBlocks.ProcedureUtils.updateDisplay_,
+  updateProcColour: Blockly.ScratchBlocks.ProcedureUtils.updateProcColour,
 
   // Exist on all three blocks, but have different implementations.
   mutationToDom: Blockly.ScratchBlocks.ProcedureUtils.definitionMutationToDom,
