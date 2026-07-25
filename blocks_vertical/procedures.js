@@ -1205,11 +1205,7 @@ Blockly.Blocks['argument_editor_boolean'] = {
           "text": "foo"
         }
       ],
-      "colour": Blockly.Colours.textField,
-      "colourSecondary": Blockly.Colours.textField,
-      "colourTertiary": Blockly.Colours.textField,
-      "colourQuaternary": Blockly.Colours.textField,
-      "extensions": ["output_boolean"]
+      "extensions": ["colours_textfield", "output_boolean"]
     });
   },
   // Exist on declaration and arguments editors, with different implementations.
@@ -1227,11 +1223,7 @@ Blockly.Blocks['argument_editor_string_number'] = {
           "text": "foo"
         }
       ],
-      "colour": Blockly.Colours.textField,
-      "colourSecondary": Blockly.Colours.textField,
-      "colourTertiary": Blockly.Colours.textField,
-      "colourQuaternary": Blockly.Colours.textField,
-      "extensions": ["output_number", "output_string"]
+      "extensions": ["colours_textfield", "output_number", "output_string"]
     });
   },
   // Exist on declaration and arguments editors, with different implementations.
@@ -1249,9 +1241,6 @@ Blockly.Blocks['argument_editor_command'] = {
           "text": "foo"
         }
       ],
-      "colour": Blockly.Colours.textField,
-      "colourSecondary": Blockly.Colours.textField,
-      "colourTertiary": Blockly.Colours.textField,
       "extensions": ["colours_more", "shape_statement"],
     });
   },
