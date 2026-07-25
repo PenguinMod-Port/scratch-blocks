@@ -344,7 +344,7 @@ Blockly.BlockSvg.prototype.setParent = function(newParent) {
     this.moveConnections_(newXY.x - oldXY.x, newXY.y - oldXY.y);
     // If we are a shadow block, inherit tertiary colour.
     if (this.isShadow()) {
-      this.setColour(this.getColour());
+      //this.setColour(this.getColour());
     }
   }
   // If we are losing a parent, we want to move our DOM element to the

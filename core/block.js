@@ -1359,9 +1359,13 @@ Blockly.Block.prototype.jsonInit = function(json) {
   // Set basic properties of block.
   if (json['colour'] !== undefined) {
     this.setColourFromJson_(json);
+  } else {
+    this.setColour("#ff0000");
   }
   if (json['blockText'] !== undefined) {
     this.setTextColour(json['blockText']);
+  } else {
+    this.setTextColour(Blockly.Colours.text);
   }
 
   // Interpolate the message blocks.

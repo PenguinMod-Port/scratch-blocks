@@ -209,6 +209,11 @@ Blockly.FieldTextInputMultiline.prototype.render_ = function() {
     }
 
     this.textElement_.innerHTML = old.split('\n').map((v, i) => `<tspan x="${offset - Blockly.BlockSvg.GRID_UNIT}" dy="${i === 0 ? '-0.05em' : '1.2em'}">${v || Blockly.Field.NBSP}</tspan>`).join("");
+
+    // pm: text colour
+    if (this.sourceBlock_.textColour) {
+      this.textElement_.style.setProperty('fill', this.sourceBlock_.textColour, "important");
+    }
   }
 
   // Update any drawn box to the correct width and height.
