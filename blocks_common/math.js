@@ -31,6 +31,7 @@ goog.require('Blockly.Blocks');
 goog.require('Blockly.Colours');
 
 goog.require('Blockly.constants');
+goog.require('Blockly.ScratchBlocks.VerticalExtensions');
 
 Blockly.Blocks['math_number'] = {
   /**
@@ -49,10 +50,7 @@ Blockly.Blocks['math_number'] = {
       ],
       "output": null,
       "outputShape": Blockly.OUTPUT_SHAPE_ROUND,
-      "colour": Blockly.Colours.textField,
-      "colourSecondary": Blockly.Colours.textField,
-      "colourTertiary": Blockly.Colours.textField,
-      "colourQuaternary": Blockly.Colours.textField
+      "extensions": ["colours_textfield"]
     });
   }
 };
@@ -74,10 +72,7 @@ Blockly.Blocks['math_integer'] = {
       ],
       "output": null,
       "outputShape": Blockly.OUTPUT_SHAPE_ROUND,
-      "colour": Blockly.Colours.textField,
-      "colourSecondary": Blockly.Colours.textField,
-      "colourTertiary": Blockly.Colours.textField,
-      "colourQuaternary": Blockly.Colours.textField
+      "extensions": ["colours_textfield"]
     });
   }
 };
@@ -100,10 +95,7 @@ Blockly.Blocks['math_whole_number'] = {
       ],
       "output": null,
       "outputShape": Blockly.OUTPUT_SHAPE_ROUND,
-      "colour": Blockly.Colours.textField,
-      "colourSecondary": Blockly.Colours.textField,
-      "colourTertiary": Blockly.Colours.textField,
-      "colourQuaternary": Blockly.Colours.textField
+      "extensions": ["colours_textfield"]
     });
   }
 };
@@ -125,10 +117,7 @@ Blockly.Blocks['math_positive_number'] = {
       ],
       "output": null,
       "outputShape": Blockly.OUTPUT_SHAPE_ROUND,
-      "colour": Blockly.Colours.textField,
-      "colourSecondary": Blockly.Colours.textField,
-      "colourTertiary": Blockly.Colours.textField,
-      "colourQuaternary": Blockly.Colours.textField
+      "extensions": ["colours_textfield"]
     });
   }
 };
@@ -150,10 +139,7 @@ Blockly.Blocks['math_angle'] = {
       ],
       "output": null,
       "outputShape": Blockly.OUTPUT_SHAPE_ROUND,
-      "colour": Blockly.Colours.textField,
-      "colourSecondary": Blockly.Colours.textField,
-      "colourTertiary": Blockly.Colours.textField,
-      "colourQuaternary": Blockly.Colours.textField
+      "extensions": ["colours_textfield"]
     });
   }
 };

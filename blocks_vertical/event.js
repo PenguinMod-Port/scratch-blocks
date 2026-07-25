@@ -258,11 +258,7 @@ Blockly.Blocks['event_broadcast_menu'] = {
           "variable": Blockly.Msg.DEFAULT_BROADCAST_MESSAGE_NAME
         }
       ],
-      "colour": Blockly.Colours.event.secondary,
-      "colourSecondary": Blockly.Colours.event.secondary,
-      "colourTertiary": Blockly.Colours.event.tertiary,
-      "colourQuaternary": Blockly.Colours.event.quaternary,
-      "extensions": ["output_string"]
+      "extensions": ["colours_event", "output_string"]
     });
   }
 };

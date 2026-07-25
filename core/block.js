@@ -901,45 +901,63 @@ Blockly.Block.prototype.makeColour_ = function(colour) {
 /**
  * Change the colour of a block, and optional secondary/teriarty colours.
  * @param {number|string} colour HSV hue value, or #RRGGBB string.
- * @param {number|string} colourSecondary HSV hue value, or #RRGGBB string.
- * @param {number|string} colourTertiary HSV hue value, or #RRGGBB string.
- * @param {number|string} colourQuaternary HSV hue value, or #RRGGBB string.
  */
-Blockly.Block.prototype.setColour = function(colour, colourSecondary, colourTertiary,
-    colourQuaternary) {
-  this.colour_ = this.makeColour_(colour);
-  if (colourSecondary !== undefined) {
-    this.colourSecondary_ = this.makeColour_(colourSecondary);
-  } else {
-    this.colourSecondary_ = goog.color.rgbArrayToHex(
-        goog.color.darken(goog.color.hexToRgb(this.colour_), 0.1));
-  }
-  if (colourTertiary !== undefined) {
-    this.colourTertiary_ = this.makeColour_(colourTertiary);
-  } else {
-    this.colourTertiary_ = goog.color.rgbArrayToHex(
-        goog.color.darken(goog.color.hexToRgb(this.colour_), 0.2));
-  }
-  if (colourQuaternary !== undefined) {
-    this.colourQuaternary_ = this.makeColour_(colourQuaternary);
-  } else {
-    this.colourQuaternary_ = this.colourTertiary_;
-  }
+Blockly.Block.prototype.setColour = function(colour) {
+  const baseColour = this.makeColour_(colour);
+  const colours = Blockly.Block.colourModifier(baseColour);
+  this.colour_ = colours[0];
+  this.colourSecondary_ = colours[1];
+  this.colourTertiary_ = colours[2];
+  this.colourQuaternary_ = colours[3];
   if (this.rendered) {
     this.updateColour();
   }
 };
 
 /**
+ * to be overriden by gui
+ * @param {string} colour
+ * @returns {[string, string, string, string]}
+ */
+Blockly.Block.colourModifier = function(colour) {
+  const contrast = (c, amt) => {
+    const hsl = goog.color.hexToHsl(c);
+    hsl[2] /= amt;
+
+    // stupid purple color fixes
+    const diff = Math.max(30 - Math.abs(240 - hsl[0]), 0) / 30;
+    hsl[1] /= 1 + diff * amt;
+
+    return goog.color.hslToHex(hsl[0], hsl[1], hsl[2]);
+  };
+
+  return [
+    colour,
+    contrast(colour, 1.1),
+    contrast(colour, 1.2),
+    contrast(colour, 1.2),
+  ];
+}
+
+/**
  * Change the colour of the text in a block
  * @param {number|string} colour HSV hue value, or #RRGGBB string.
  */
 Blockly.Block.prototype.setTextColour = function(colour) {
-  this.textColour = this.makeColour_(colour);
+  this.textColour = Blockly.Block.textColourModifier(this.makeColour_(colour));
   if (this.rendered) {
     this.updateColour();
   }
 };
+
+/**
+ * to be overriden by gui
+ * @param {string} colour
+ * @returns {string}
+ */
+Blockly.Block.textColourModifier = function(colour) {
+  return colour;
+}
 
 /**
  * Sets a callback function to use whenever the block's parent workspace
@@ -1455,16 +1473,7 @@ Blockly.Block.prototype.mixin = function(mixinObj, opt_disableCheck) {
  */
 Blockly.Block.prototype.setColourFromRawValues_ = function(primary, secondary,
     tertiary, quaternary) {
-  primary = goog.isString(primary) ?
-      Blockly.utils.replaceMessageReferences(primary) : primary;
-  secondary = goog.isString(secondary) ?
-      Blockly.utils.replaceMessageReferences(secondary) : secondary;
-  tertiary = goog.isString(tertiary) ?
-      Blockly.utils.replaceMessageReferences(tertiary) : tertiary;
-  quaternary = goog.isString(quaternary) ?
-      Blockly.utils.replaceMessageReferences(quaternary) : quaternary;
-
-  this.setColour(primary, secondary, tertiary, quaternary);
+  this.setColour(goog.isString(primary) ? Blockly.utils.replaceMessageReferences(primary) : primary);
 };
 
 /**
@@ -1474,8 +1483,7 @@ Blockly.Block.prototype.setColourFromRawValues_ = function(primary, secondary,
  * @private
  */
 Blockly.Block.prototype.setColourFromJson_ = function(json) {
-  this.setColourFromRawValues_(json['colour'], json['colourSecondary'],
-      json['colourTertiary'], json['colourQuaternary']);
+  this.setColourFromRawValues_(json['colour']);
 };
 
 /**

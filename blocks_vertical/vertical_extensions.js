@@ -42,19 +42,8 @@ goog.require('Blockly.constants');
  *     category.
  */
 Blockly.ScratchBlocks.VerticalExtensions.colourHelper = function(category) {
-  var colours = Blockly.Colours[category];
-  if (!(colours && colours.primary && colours.secondary && colours.tertiary &&
-    colours.quaternary)) {
-    throw new Error('Could not find colours for category "' + category + '"');
-  }
-  /**
-   * Set the primary, secondary, tertiary, and quaternary colours on this block for
-   * the given category.
-   * @this {Blockly.Block}
-   */
   return function() {
-    this.setColourFromRawValues_(colours.primary, colours.secondary,
-        colours.tertiary, colours.quaternary);
+    this.setColourFromRawValues_(Blockly.Colours[category]);
   };
 };
 
@@ -62,9 +51,8 @@ Blockly.ScratchBlocks.VerticalExtensions.colourHelper = function(category) {
  * Extension to set the colours of a text field, which are all the same.
  */
 Blockly.ScratchBlocks.VerticalExtensions.COLOUR_TEXTFIELD = function() {
-  this.setColourFromRawValues_(Blockly.Colours.textField,
-      Blockly.Colours.textField, Blockly.Colours.textField,
-      Blockly.Colours.textField);
+  this.setColourFromRawValues_(Blockly.Colours.textField);
+  this.setShadowColour(Blockly.Colours.textField);
 };
 
 /**

@@ -31,6 +31,7 @@ goog.require('Blockly.Blocks');
 goog.require('Blockly.Colours');
 
 goog.require('Blockly.constants');
+goog.require('Blockly.ScratchBlocks.VerticalExtensions');
 
 Blockly.Blocks['text'] = {
   /**
@@ -48,10 +49,7 @@ Blockly.Blocks['text'] = {
       ],
       "output": null,
       "outputShape": Blockly.OUTPUT_SHAPE_ROUND,
-      "colour": Blockly.Colours.textField,
-      "colourSecondary": Blockly.Colours.textField,
-      "colourTertiary": Blockly.Colours.textField,
-      "colourQuaternary": Blockly.Colours.textField
+      "extensions": ["colours_textfield"]
     });
   }
 };

@@ -31,6 +31,7 @@ goog.require('Blockly.Blocks');
 goog.require('Blockly.Colours');
 
 goog.require('Blockly.constants');
+goog.require('Blockly.ScratchBlocks.VerticalExtensions');
 
 Blockly.Blocks['note'] = {
   /**
@@ -47,12 +48,9 @@ Blockly.Blocks['note'] = {
           "value": 60
         }
       ],
-      "outputShape": Blockly.OUTPUT_SHAPE_ROUND,
       "output": null,
-      "colour": Blockly.Colours.textField,
-      "colourSecondary": Blockly.Colours.textField,
-      "colourTertiary": Blockly.Colours.textField,
-      "colourQuaternary": Blockly.Colours.textField
+      "outputShape": Blockly.OUTPUT_SHAPE_ROUND,
+      "extensions": ["colours_textfield"]
     });
   }
 };

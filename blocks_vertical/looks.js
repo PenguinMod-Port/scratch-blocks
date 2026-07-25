@@ -378,11 +378,7 @@ Blockly.Blocks['looks_costume'] = {
           ]
         }
       ],
-      "colour": Blockly.Colours.looks.secondary,
-      "colourSecondary": Blockly.Colours.looks.secondary,
-      "colourTertiary": Blockly.Colours.looks.tertiary,
-      "colourQuaternary": Blockly.Colours.looks.quaternary,
-      "extensions": ["output_string"]
+      "extensions": ["colours_looks", "output_string"]
     });
   }
 };
@@ -459,11 +455,7 @@ Blockly.Blocks['looks_backdrops'] = {
           ]
         }
       ],
-      "colour": Blockly.Colours.looks.secondary,
-      "colourSecondary": Blockly.Colours.looks.secondary,
-      "colourTertiary": Blockly.Colours.looks.tertiary,
-      "colourQuaternary": Blockly.Colours.looks.quaternary,
-      "extensions": ["output_string"]
+      "extensions": ["colours_looks", "output_string"]
     });
   }
 };

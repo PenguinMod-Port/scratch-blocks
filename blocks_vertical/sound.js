@@ -56,11 +56,7 @@ Blockly.Blocks['sound_sounds_menu'] = {
           ]
         }
       ],
-      "colour": Blockly.Colours.sounds.secondary,
-      "colourSecondary": Blockly.Colours.sounds.secondary,
-      "colourTertiary": Blockly.Colours.sounds.tertiary,
-      "colourQuaternary": Blockly.Colours.sounds.quaternary,
-      "extensions": ["output_string"]
+      "extensions": ["colours_sounds", "output_string"]
     });
   }
 };
@@ -260,11 +256,7 @@ Blockly.Blocks['sound_sounds_menu'] = {
           ]
         }
       ],
-      "colour": Blockly.Colours.sounds.secondary,
-      "colourSecondary": Blockly.Colours.sounds.secondary,
-      "colourTertiary": Blockly.Colours.sounds.tertiary,
-      "colourQuaternary": Blockly.Colours.sounds.quaternary,
-      "extensions": ["output_string"]
+      "extensions": ["colours_sounds", "output_string"]
     });
   }
 };

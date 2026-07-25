@@ -344,8 +344,7 @@ Blockly.BlockSvg.prototype.setParent = function(newParent) {
     this.moveConnections_(newXY.x - oldXY.x, newXY.y - oldXY.y);
     // If we are a shadow block, inherit tertiary colour.
     if (this.isShadow()) {
-      this.setColour(this.getColour(), this.getColourSecondary(),
-          newParent.getColourTertiary(), this.getColourQuaternary());
+      this.setColour(this.getColour());
     }
   }
   // If we are losing a parent, we want to move our DOM element to the
@@ -1121,10 +1120,8 @@ Blockly.BlockSvg.prototype.setDeleteStyle = function(enable) {
  * @param {number|string} colourQuaternary Quaternary HSV hue value, or #RRGGBB
  *    string.
  */
-Blockly.BlockSvg.prototype.setColour = function(colour, colourSecondary,
-    colourTertiary, colourQuaternary) {
-  Blockly.BlockSvg.superClass_.setColour.call(this, colour, colourSecondary,
-      colourTertiary, colourQuaternary);
+Blockly.BlockSvg.prototype.setColour = function(colour) {
+  Blockly.BlockSvg.superClass_.setColour.call(this, colour);
 
   if (this.rendered) {
     this.updateColour();
