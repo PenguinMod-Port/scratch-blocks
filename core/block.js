@@ -924,9 +924,8 @@ Blockly.Block.colourModifier = function(colour) {
     const hsl = goog.color.hexToHsl(c);
     hsl[2] /= amt;
 
-    // stupid purple color fixes
-    const diff = Math.max(30 - Math.abs(240 - hsl[0]), 0) / 30;
-    hsl[1] /= 1 + diff * amt;
+    // stupid thing that makes pink colors not bad
+    hsl[1] /= (1 - Math.max(30 - Math.abs(330 - hsl[0]), 0) / 30) * (amt - 1) * 2 + 1;
 
     return goog.color.hslToHex(hsl[0], hsl[1], hsl[2]);
   };

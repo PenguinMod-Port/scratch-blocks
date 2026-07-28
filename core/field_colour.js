@@ -125,7 +125,7 @@ Blockly.FieldColour.prototype.setValue = function(colour) {
   if (this.sourceBlock_) {
     // Set the primary, secondary, tertiary, and quaternary colour to this value.
     // The renderer expects to be able to use the secondary color as the fill for a shadow.
-    this.sourceBlock_.setColour(colour, colour, colour, colour);
+    this.sourceBlock_.setShadowColour(colour);
   }
 };
 
