@@ -80,7 +80,7 @@ Blockly.FieldExpandable.prototype.init = function() {
       'width': this.size_.height,
       'height': this.size_.height,
       'fill': "#00000000",
-      'stroke': "#00000035",
+      'stroke': this.sourceBlock_.getColourTertiary(),
       'cursor': this.CURSOR
     }, addGroup);
     Blockly.utils.createSvgElement('image', {
@@ -103,7 +103,7 @@ Blockly.FieldExpandable.prototype.init = function() {
       'width': this.size_.height,
       'height': this.size_.height,
       'fill': "#00000000",
-      'stroke': "#00000035",
+      'stroke': this.sourceBlock_.getColourTertiary(),
       'cursor': this.CURSOR
     }, removeGroup);
     Blockly.utils.createSvgElement('image', {
