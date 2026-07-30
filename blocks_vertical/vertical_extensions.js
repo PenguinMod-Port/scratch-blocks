@@ -264,7 +264,75 @@ Blockly.ScratchBlocks.VerticalExtensions.PROCEDURE_CALL_CONTEXTMENU = {
 };
 
 Blockly.ScratchBlocks.VerticalExtensions.PROCEDURE_CUSTOM_COLOR = function() {
-  // WIP, defined to avoid errors.
+  if (this.isInsertionMarker()) return;
+
+  const isProcedureBlock = (block) => {
+    const type = block.type;
+    return (
+      (type.startsWith("procedures_") && type !== "procedures_call") ||
+      type.startsWith("argument_reporter_")
+    );
+  };
+
+  const resetColor = (block) => {
+    Blockly.Extensions.apply("colours_more", block);
+
+    // Fix inner shadow blocks not reseting their color
+    for (const child of block.childBlocks_) {
+      if (child.isShadow()) {
+        Blockly.Extensions.apply("colours_textfield", child);
+      } else if (isProcedureBlock(child)) {
+        resetColor(child);
+      }
+    }
+  };
+
+  const setColor = (block, target, ignoreChildren) => {
+    if (Blockly.Extensions.ALL_[`colours_${target.procColour_}`]) {
+      Blockly.Extensions.apply(`colours_${target.procColour_}`, block);
+    } else if (target.procColour_ !== null) {
+      block.setColour(target.procColour_);
+    }
+
+    // Fix inner shadow blocks using the default color
+    for (const child of block.childBlocks_) {
+      if (child.isShadow()) {
+        child.setColour(
+          child.colour_,
+          child.colourSecondary_,
+          target.colour_,
+        );
+      } else if (!ignoreChildren) {
+        // Shallow change the color to children
+        updateInProcedureStack(child);
+      }
+    }
+  };
+
+  const updateInProcedureStack = (block) => {
+    if (block.type === "procedures_definition") {
+      const proto = block.childBlocks_[0];
+      if (proto) setColor(block, proto, true);
+    } else if (isProcedureBlock(block)) {
+      let topBlock = block;
+      while (topBlock !== null) {
+        const parent = topBlock.getParent();
+        if (parent === null) break;
+
+        topBlock = parent;
+      }
+
+      if (topBlock && topBlock.type === "procedures_definition") {
+        const proto = topBlock.childBlocks_[0];
+        if (proto) setColor(block, proto);
+      } else {
+        resetColor(block);
+      }
+    }
+  };
+
+  this._onDrop = () => updateInProcedureStack(this);
+  queueMicrotask(() => updateInProcedureStack(this));
 };
 
 Blockly.ScratchBlocks.VerticalExtensions.FROM_EXTENSION = function() {
