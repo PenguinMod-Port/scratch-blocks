@@ -1003,7 +1003,12 @@ Blockly.Blocks['procedures_definition'] = {
           "name": "custom_block"
         }
       ],
-      "extensions": ["colours_more", "shape_hat", "procedure_def_contextmenu"]
+      "extensions": [
+        "colours_more",
+        "shape_hat",
+        "procedure_def_contextmenu",
+        "procedure_custom_color"
+      ]
     });
   }
 };
@@ -1015,7 +1020,7 @@ Blockly.Blocks['procedures_call'] = {
    */
   init: function() {
     this.jsonInit({
-      "extensions": ["colours_more", "procedure_call_contextmenu"]
+      "extensions": ["colours_more", "procedure_call_contextmenu", "procedure_custom_color"]
     });
     this.procCode_ = '';
     this.argumentIds_ = [];
@@ -1155,7 +1160,7 @@ Blockly.Blocks['argument_reporter_boolean'] = {
         }
       ],
       "canDragDuplicate": true,
-      "extensions": ["colours_more", "output_boolean"]
+      "extensions": ["colours_more", "output_boolean", "procedure_custom_color"]
     });
   }
 };
@@ -1171,7 +1176,7 @@ Blockly.Blocks['argument_reporter_string_number'] = {
         }
       ],
       "canDragDuplicate": true,
-      "extensions": ["colours_more", "output_number", "output_any"]
+      "extensions": ["colours_more", "output_number", "output_any", "procedure_custom_color"]
     });
   }
 };
@@ -1187,7 +1192,7 @@ Blockly.Blocks['argument_reporter_command'] = {
         }
       ],
       "canDragDuplicate": true,
-      "extensions": ["colours_more", "shape_statement"],
+      "extensions": ["colours_more", "shape_statement", "procedure_custom_color"],
     });
   },
   updateDisplay_: Blockly.ScratchBlocks.ProcedureUtils.argumentReporterUpdateDisplay,
@@ -1274,7 +1279,7 @@ Blockly.Blocks['procedures_set'] = {
           "name": "VALUE"
         }
       ],
-      "extensions": ["colours_more", "shape_statement"]
+      "extensions": ["colours_more", "shape_statement", "procedure_custom_color"]
     });
   }
 };
@@ -1289,7 +1294,7 @@ Blockly.Blocks['procedures_reevaluate'] = {
           "name": "PARAM"
         }
       ],
-      "extensions": ["colours_more", "shape_statement"]
+      "extensions": ["colours_more", "shape_statement", "procedure_custom_color"]
     });
   }
 };
@@ -1304,7 +1309,7 @@ Blockly.Blocks['procedures_return'] = {
           "name": "VALUE"
         }
       ],
-      "extensions": ["colours_more", "shape_end"]
+      "extensions": ["colours_more", "shape_end", "procedure_custom_color"]
     });
     this.workspace.enableProcedureReturns();
   }
