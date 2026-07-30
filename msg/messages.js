@@ -78,6 +78,7 @@ Blockly.Msg.PM_CONTROL_REPEATFORSECONDS = 'repeat for %1 seconds';
 Blockly.Msg.PM_CONTROL_RESTARTPROJECT = 'restart project';
 Blockly.Msg.PM_CONTROL_RUNAS = 'as %1 do';
 Blockly.Msg.PM_CONTROL_RUNFLAG = 'run %1';
+Blockly.Msg.PM_CONTROL_RUNWITHOUTSCREENREFRESH = 'run without screen refresh %1';
 Blockly.Msg.PM_CONTROL_SETCOUNTER = 'set counter to %1';
 Blockly.Msg.PM_CONTROL_STOPSPRITE = 'stop %1';
 Blockly.Msg.PM_CONTROL_TRYCATCH_1 = 'try to do';
