@@ -298,6 +298,10 @@ Blockly.BlockDragger.prototype.endBlockDrag = function(e, currentDragDeltaXY) {
       ws.refreshToolboxSelection_();
     });
   }
+
+  if (typeof this.draggingBlock_._onDrop === "function") {
+    this.draggingBlock_._onDrop();
+  }
 };
 
 /**
