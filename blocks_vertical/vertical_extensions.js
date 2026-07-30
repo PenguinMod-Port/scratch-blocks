@@ -322,6 +322,7 @@ Blockly.ScratchBlocks.VerticalExtensions.PROCEDURE_CUSTOM_COLOR = function() {
         if (parent === null) break;
         if (type === "procedures_return" && topBlock.outputShape_ !== null) {
           // This return block is part of some inline-reporter... abort!
+          resetColor(block);
           return;
         }
 
