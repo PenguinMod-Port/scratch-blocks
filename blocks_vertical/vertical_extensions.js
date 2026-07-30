@@ -263,6 +263,10 @@ Blockly.ScratchBlocks.VerticalExtensions.PROCEDURE_CALL_CONTEXTMENU = {
   }
 };
 
+Blockly.ScratchBlocks.VerticalExtensions.PROCEDURE_CUSTOM_COLOR = function() {
+  // WIP, defined to avoid errors.
+};
+
 Blockly.ScratchBlocks.VerticalExtensions.FROM_EXTENSION = function() {
   this.isFromExtension = true;
 };
@@ -324,6 +328,10 @@ Blockly.ScratchBlocks.VerticalExtensions.registerAll = function() {
   Blockly.Extensions.registerMixin('procedure_call_contextmenu',
       Blockly.ScratchBlocks.VerticalExtensions.PROCEDURE_CALL_CONTEXTMENU);
 
+  // Given to procedure blocks to follow their custom colors.
+  Blockly.Extensions.register('procedure_custom_color',
+      Blockly.ScratchBlocks.VerticalExtensions.PROCEDURE_CUSTOM_COLOR);
+  
   // Given to all blocks from an extension.
   Blockly.Extensions.register('from_extension',
       Blockly.ScratchBlocks.VerticalExtensions.FROM_EXTENSION);
