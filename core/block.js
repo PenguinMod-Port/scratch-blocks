@@ -172,6 +172,9 @@ Blockly.Block = function(workspace, prototypeName, opt_id) {
   /** @type {boolean} */
   this.canDragDuplicate_ = false;
 
+  /** @type {function} */
+  this._onDrop = null;
+
   // Copy the type-specific functions and data from the prototype.
   if (prototypeName) {
     /** @type {string} */
