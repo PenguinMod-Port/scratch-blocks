@@ -310,7 +310,9 @@ Blockly.ScratchBlocks.VerticalExtensions.PROCEDURE_CUSTOM_COLOR = function() {
   };
 
   const updateInProcedureStack = (block) => {
-    if (block.type === "procedures_definition") {
+    const type = block.type;
+
+    if (type === "procedures_definition") {
       const proto = block.childBlocks_[0];
       if (proto) setColor(block, proto, true);
     } else if (isProcedureBlock(block)) {
@@ -318,6 +320,10 @@ Blockly.ScratchBlocks.VerticalExtensions.PROCEDURE_CUSTOM_COLOR = function() {
       while (topBlock !== null) {
         const parent = topBlock.getParent();
         if (parent === null) break;
+        if (type === "procedures_return" && topBlock.outputShape_ !== null) {
+          // This return block is part of some inline-reporter... abort!
+          return;
+        }
 
         topBlock = parent;
       }
