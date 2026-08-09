@@ -991,9 +991,14 @@ Blockly.BlockSvg.prototype.renderCompute_ = function(iconWidth) {
     // See github.com/LLK/scratch-blocks/issues/1658
     // In all other cases, statement and value inputs catch all preceding dummy
     // inputs, and cause a line break before following inputs.
-    if ((!this.inputsInline && (!inputList[i - 1] || inputList[i - 1].type !== Blockly.DUMMY_INPUT)) || (!isSecondInputOnProcedure &&
-        (!lastType || lastType == Blockly.NEXT_STATEMENT ||
-        input.type == Blockly.NEXT_STATEMENT))) {
+    var previousInput = inputList[i - 1];
+    if (
+      (!this.inputsInline && (
+        !previousInput ||
+        previousInput.type !== Blockly.DUMMY_INPUT && (!previousInput.connection.targetConnection || !previousInput.connection.targetBlock().canDragDuplicate())
+      )) ||
+      (!isSecondInputOnProcedure && (!lastType || lastType == Blockly.NEXT_STATEMENT || input.type == Blockly.NEXT_STATEMENT))
+    ) {
       lastType = input.type;
       row = this.createRowForInput_(input);
       inputRows.push(row);
