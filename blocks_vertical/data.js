@@ -800,6 +800,14 @@ Blockly.Blocks['data_filterlist'] = {
           "name": "ITEM"
         },
         {
+          "type": "field_image",
+          "src": Blockly.mainWorkspace.options.pathToMedia + "arrow.svg",
+          "width": 24,
+          "height": 24,
+          "alt": ">",
+          "flip_rtl": true
+        },
+        {
           "type": "input_value",
           "name": "BOOL",
           "check": "Boolean"
