@@ -1531,6 +1531,10 @@ Blockly.Block.prototype.interpolate_ = function(message, args, lastDummyAlign) {
     }
     elements.push(dummyInput);
   }
+  this.interpolateElements_(elements);
+};
+
+Blockly.Block.prototype.interpolateElements_ = function(elements) {
   // Lookup of alignment constants.
   var alignmentLookup = {
     'LEFT': Blockly.ALIGN_LEFT,
