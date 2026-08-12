@@ -1521,6 +1521,12 @@ Blockly.Block.prototype.interpolate_ = function(message, args, lastDummyAlign) {
     throw new Error('Block "' + this.type + '": ' +
         'Message does not reference all ' + args.length + ' arg(s).');
   }
+  this.interpolateElements_(elements, lastDummyAlign);
+};
+
+Blockly.Block.prototype.interpolateElements_ = function(elements, lastDummyAlign, attachShadows) {
+  var inputs = [];
+
   // Add last dummy input if needed.
   if (elements.length && (typeof elements[elements.length - 1] == 'string' ||
       goog.string.startsWith(
@@ -1531,16 +1537,14 @@ Blockly.Block.prototype.interpolate_ = function(message, args, lastDummyAlign) {
     }
     elements.push(dummyInput);
   }
-  this.interpolateElements_(elements);
-};
 
-Blockly.Block.prototype.interpolateElements_ = function(elements) {
   // Lookup of alignment constants.
   var alignmentLookup = {
     'LEFT': Blockly.ALIGN_LEFT,
     'RIGHT': Blockly.ALIGN_RIGHT,
     'CENTRE': Blockly.ALIGN_CENTRE
   };
+
   // Populate block with inputs and fields.
   var fieldStack = [];
   for (var i = 0; i < elements.length; i++) {
@@ -1560,6 +1564,10 @@ Blockly.Block.prototype.interpolateElements_ = function(elements) {
               input = this.appendValueInput(element['name']);
               if (element['shape']) {
                 input.connection.setOutputShape(element['shape']);
+              }
+              if (element['shadow'] && attachShadows) {
+                let shadow = Blockly.Xml.domToBlock(Blockly.Xml.textToDom('<xml>' + element['shadow'] + '</xml>').firstChild, this.workspace);
+                input.connection.connect(shadow.outputConnection);
               }
               break;
             case 'input_statement':
@@ -1598,10 +1606,13 @@ Blockly.Block.prototype.interpolateElements_ = function(elements) {
         for (var j = 0; j < fieldStack.length; j++) {
           input.appendField(fieldStack[j][0], fieldStack[j][1]);
         }
+        inputs.push(input);
         fieldStack.length = 0;
       }
     }
   }
+
+  return inputs;
 };
 
 /**
@@ -1638,22 +1649,57 @@ Blockly.Block.prototype.moveInputBefore = function(name, refName) {
   var inputIndex = -1;
   var refIndex = refName ? -1 : this.inputList.length;
   for (var i = 0, input; input = this.inputList[i]; i++) {
-    if (input.name == name) {
+    if (input.name == name || input == name) {
       inputIndex = i;
       if (refIndex != -1) {
         break;
       }
-    } else if (refName && input.name == refName) {
+    } else if (refName && (input.name == refName || input == refName)) {
       refIndex = i;
       if (inputIndex != -1) {
         break;
       }
     }
   }
-  goog.asserts.assert(inputIndex != -1, 'Named input "%s" not found.', name);
+  goog.asserts.assert(inputIndex != -1, 'Named input not found.');
   goog.asserts.assert(
-      refIndex != -1, 'Reference input "%s" not found.', refName);
+      refIndex != -1, 'Reference input not found.');
   this.moveNumberedInputBefore(inputIndex, refIndex);
+};
+
+Blockly.Block.prototype.moveInputAfter = function(name, refName) {
+  if (name == refName) {
+    return;
+  }
+  // Find both inputs.
+  var inputIndex = -1;
+  var refIndex = refName ? -1 : this.inputList.length;
+  for (var i = 0, input; input = this.inputList[i]; i++) {
+    if (input.name == name || input == name) {
+      inputIndex = i;
+      if (refIndex != -1) {
+        break;
+      }
+    } else if (refName && (input.name == refName || input == refName)) {
+      refIndex = i;
+      if (inputIndex != -1) {
+        break;
+      }
+    }
+  }
+  goog.asserts.assert(inputIndex != -1, 'Named input not found.');
+  goog.asserts.assert(
+      refIndex != -1, 'Reference input not found.');
+
+  refIndex++;
+  if (inputIndex == refIndex) return;
+  
+  input = this.inputList[inputIndex];
+  this.inputList.splice(inputIndex, 1);
+  if (inputIndex < refIndex) {
+    refIndex--;
+  }
+  this.inputList.splice(refIndex, 0, input);
 };
 
 /**
