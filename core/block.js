@@ -1566,8 +1566,10 @@ Blockly.Block.prototype.interpolateElements_ = function(elements, lastDummyAlign
                 input.connection.setOutputShape(element['shape']);
               }
               if (element['shadow'] && attachShadows) {
-                let shadow = Blockly.Xml.domToBlock(Blockly.Xml.textToDom('<xml>' + element['shadow'] + '</xml>').firstChild, this.workspace);
-                input.connection.connect(shadow.outputConnection);
+                let shadow = Blockly.Xml.domToBlockHeadless_(Blockly.Xml.textToDom('<xml>' + element['shadow'] + '</xml>').firstChild, this.workspace);
+                shadow.initSvg();
+                shadow.render();
+                shadow.outputConnection.connect(input.connection);
               }
               break;
             case 'input_statement':

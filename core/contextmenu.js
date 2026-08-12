@@ -254,7 +254,7 @@ Blockly.ContextMenu.blockSwatchesOptions = function(block) {
 }
 
 Blockly.ContextMenu.blockExpandableOptions = function(block) {
-  let expandable = block.inputList.map(v => v.fieldRow).flat().find(v => v instanceof Blockly.FieldExpandable);
+  let expandable = block.inputList.map(v => v.fieldRow).flat().find(v => v instanceof Blockly.FieldExpandable || v instanceof Blockly.FieldExpandableJSON);
   let value = Number(expandable.getValue());
   return [
     {

@@ -72,13 +72,14 @@ Blockly.FieldExpandableJSON.prototype.setValue = function(value, firstRun = fals
       let previousInput;
       for (let i = oldValue; i < newValue; i++) {
         let nameIndex = i + 1;
-        let inputs = this.sourceBlock_.interpolateElements_(this.json_, null, createShadows);
+        let inputs = this.sourceBlock_.interpolateElements_(this.json_.map(v => {
+          if (typeof v !== "object") return v;
+          let newV = {...v};
+          if (v.name) newV.name = `${this.name}.${nameIndex}.${v.name}`;
+          return newV;
+        }), null, createShadows);
         let previousInput = (nameIndex - 1) == 0 ? parentInput : this.sourceBlock_.getInput(`${this.name}.${nameIndex-1}.${inputs[inputs.length-1].name}`);
         inputs.forEach(input => {
-          input.name = `${this.name}.${nameIndex}.${input.name}`;
-          input.fieldRow.forEach(field => {
-            field.name = `${this.name}.${nameIndex}.${field.name}`;
-          });
           this.sourceBlock_.moveInputAfter(input, previousInput);
           previousInput = input;
         })
