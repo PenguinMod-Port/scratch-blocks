@@ -13,7 +13,7 @@ goog.require('Blockly.BlockSvg.render');
  * @extends {Blockly.Field}
  * @constructor
  */
-Blockly.FieldExpandableJSON = function(value, json = [], opt_min = 1, opt_max = Infinity) {
+Blockly.FieldExpandableJSON = function(value, sep, json = [], opt_min = 1, opt_max = Infinity) {
   this.size_ = new goog.math.Size(
     Blockly.BlockSvg.FIELD_WIDTH,
     Blockly.BlockSvg.FIELD_HEIGHT);
@@ -26,6 +26,7 @@ Blockly.FieldExpandableJSON = function(value, json = [], opt_min = 1, opt_max = 
   this.max = opt_max;
 
   this.json_ = json;
+  this.sep_ = sep;
   this.tempValue_ = value;
 };
 goog.inherits(Blockly.FieldExpandableJSON, Blockly.FieldExpandable);
@@ -38,7 +39,7 @@ goog.inherits(Blockly.FieldExpandableJSON, Blockly.FieldExpandable);
  * @nocollapse
  */
 Blockly.FieldExpandableJSON.fromJson = function(options) {
-  return new Blockly.FieldExpandableJSON(options['value'], options['args'], options['min'], options['max']);
+  return new Blockly.FieldExpandableJSON(options['value'], options['sep'], options['args'], options['min'], options['max']);
 };
 
 Blockly.FieldExpandableJSON.prototype.setValue = function(value, firstRun = false) {
@@ -72,7 +73,7 @@ Blockly.FieldExpandableJSON.prototype.setValue = function(value, firstRun = fals
       let previousInput;
       for (let i = oldValue; i < newValue; i++) {
         let nameIndex = i + 1;
-        let inputs = this.sourceBlock_.interpolateElements_(this.json_.map(v => {
+        let inputs = this.sourceBlock_.interpolateElements_(((nameIndex > 1 && this.sep_) ? [{type: 'field_label', text: this.sep_}, ...this.json_] : this.json_).map(v => {
           if (typeof v !== "object") return v;
           let newV = {...v};
           if (v.name) newV.name = `${this.name}.${nameIndex}.${v.name}`;
