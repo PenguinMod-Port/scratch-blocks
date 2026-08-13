@@ -231,6 +231,7 @@ Blockly.Msg.PM_LOOKS_SETFONT = 'set font to %1 with size %2';
 Blockly.Msg.PM_LOOKS_SETSHAPE = 'set text bubble %1 to %2';
 Blockly.Msg.PM_LOOKS_SETSTRETCH = 'set stretch to x: %1 y: %2';
 Blockly.Msg.PM_LOOKS_SETTINTCOLOR = 'set tint color to %1';
+Blockly.Msg.PM_LOOKS_SETVISIBLE = 'set visibility to %1';
 Blockly.Msg.PM_LOOKS_STOPTALKING = 'stop speaking';
 Blockly.Msg.PM_LOOKS_STOPTALKING = 'stop speaking';
 Blockly.Msg.PM_LOOKS_STRETCHX = 'stretch x';

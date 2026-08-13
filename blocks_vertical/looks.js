@@ -1140,3 +1140,20 @@ Blockly.Blocks["looks_sayWidth"] = {
     });
   }
 };
+
+Blockly.Blocks["looks_setSpriteVisible"] = {
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_LOOKS_SETVISIBLE,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "VISIBILITY",
+          "check": "Boolean"
+        }
+      ],
+      "category": Blockly.Categories.looks,
+      "extensions": ["colours_looks", "shape_statement"]
+    })
+  }
+}

@@ -384,6 +384,11 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
     '<block type="looks_getSpriteVisible" />' +
     '<block type="looks_sayHeight" />' +
     '<block type="looks_sayWidth" />' +
+    '<block type="looks_setSpriteVisible">' +
+      '<value name="VISIBILITY">' +
+        '<shadow type="checkbox" />' +
+      '</value>' +
+    '</block>' +
   '</category>' +
   '<category name="%{BKY_CATEGORY_SOUND}" id="sound" colour="#D65CD6" secondaryColour="#BD42BD">' +
     '<block type="sound_play" id="sound_play">' +
