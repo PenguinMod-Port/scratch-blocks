@@ -79,7 +79,7 @@ Blockly.FieldExpandableJSON.prototype.setValue = function(value, firstRun = fals
           if (v.name) newV.name = `${this.name}.${nameIndex}.${v.name}`;
           return newV;
         }), null, createShadows);
-        let previousInput = (nameIndex - 1) == 0 ? parentInput : this.sourceBlock_.getInput(`${this.name}.${nameIndex-1}.${inputs[inputs.length-1].name}`);
+        let previousInput = (nameIndex - 1) == 0 ? parentInput : this.sourceBlock_.getInput(`${this.name}.${nameIndex-1}.${inputs[inputs.length-1].name.split(".").pop()}`);
         inputs.forEach(input => {
           this.sourceBlock_.moveInputAfter(input, previousInput);
           previousInput = input;
