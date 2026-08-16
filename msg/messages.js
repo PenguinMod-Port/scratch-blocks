@@ -236,6 +236,7 @@ Blockly.Msg.PM_LOOKS_STOPTALKING = 'stop speaking';
 Blockly.Msg.PM_LOOKS_STOPTALKING = 'stop speaking';
 Blockly.Msg.PM_LOOKS_STRETCHX = 'stretch x';
 Blockly.Msg.PM_LOOKS_STRETCHY = 'stretch y';
+Blockly.Msg.PM_LOOKS_THIS = 'this sprite';
 Blockly.Msg.PM_LOOKS_TINTCOLOR = 'tint color';
 Blockly.Msg.PM_LOOKS_VISIBLE = 'visible?';
 
