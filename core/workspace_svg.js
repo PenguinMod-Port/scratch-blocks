@@ -750,11 +750,12 @@ Blockly.WorkspaceSvg.prototype.processProcedureReturnsChanged_ = function() {
     ) continue;
 
     var actualReturnType = finalTypes[procCode];
+    var getReturnOutput = block.getReturn();
     if (
-      block.getReturn() !== actualReturnType &&
+      (getReturnOutput[0] !== actualReturnType[0] || getReturnOutput[1] !== actualReturnType[1]) &&
       // If user is allowed to override call block shape, only update the shape if the definition's
       // shape has actually changed.
-      (!Blockly.Procedures.USER_CAN_CHANGE_CALL_TYPE || initialTypes[procCode] !== actualReturnType)
+      (!Blockly.Procedures.USER_CAN_CHANGE_CALL_TYPE || initialTypes[procCode][0] !== actualReturnType[0] || initialTypes[procCode][1] !== actualReturnType[1])
     ) {
       Blockly.Procedures.changeReturnType(block, actualReturnType);
     }
