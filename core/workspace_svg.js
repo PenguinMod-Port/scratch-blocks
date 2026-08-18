@@ -769,7 +769,7 @@ Blockly.WorkspaceSvg.prototype.processProcedureReturnsChanged_ = function() {
     // If a new procedure was created, the toolbox is already updated elsewhere.
     if (
       Object.prototype.hasOwnProperty.call(initialTypes, procCode) &&
-      initialTypes[procCode] !== finalTypes[procCode]
+      (initialTypes[procCode][0] !== finalTypes[procCode][0] || initialTypes[procCode][1] !== finalTypes[procCode][1])
     ) {
       toolboxOutdated = true;
       break;
