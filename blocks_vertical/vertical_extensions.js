@@ -296,7 +296,10 @@ Blockly.ScratchBlocks.VerticalExtensions.PROCEDURE_CUSTOM_COLOR = function() {
 
     // Fix inner shadow blocks using the default color
     for (const child of block.childBlocks_) {
-      if (!isProcedureBlock(child) && child.isShadow()) {
+      if (
+        child.isShadow() &&
+        (child.type === "procedures_prototype" ? true : !isProcedureBlock(child))
+      ) {
         child.setColour(
           child.colour_,
           child.colourSecondary_,
