@@ -80,6 +80,7 @@ Blockly.ScratchBlocks.ProcedureUtils.callerDomToMutation = function(xmlElement) 
   this.warp_ = JSON.parse(xmlElement.getAttribute('warp'));
   this.return_ = Blockly.ScratchBlocks.ProcedureUtils.parseReturnMutation(xmlElement);
   this.procColour_ = xmlElement.getAttribute('colour') ?? "more";
+  this.isTerminal_ = JSON.parse(xmlElement.getAttribute('terminal'));
   this.updateDisplay_();
 };
 
