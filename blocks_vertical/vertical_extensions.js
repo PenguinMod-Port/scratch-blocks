@@ -296,7 +296,7 @@ Blockly.ScratchBlocks.VerticalExtensions.PROCEDURE_CUSTOM_COLOR = function() {
 
     // Fix inner shadow blocks using the default color
     for (const child of block.childBlocks_) {
-      if (child.isShadow()) {
+      if (!isProcedureBlock(child) && child.isShadow()) {
         child.setColour(
           child.colour_,
           child.colourSecondary_,
@@ -314,7 +314,8 @@ Blockly.ScratchBlocks.VerticalExtensions.PROCEDURE_CUSTOM_COLOR = function() {
 
     if (type === "procedures_definition") {
       const proto = block.childBlocks_[0];
-      if (proto) setColor(block, proto, true);
+      if (proto) setColor(block, proto, block._updateStackColorTick ? false : true);
+      delete block._updateStackColorTick;
     } else if (isProcedureBlock(block)) {
       let topBlock = block;
       while (topBlock !== null) {
