@@ -370,6 +370,10 @@ Blockly.Procedures.mutateCallersAndPrototype = function(name, ws, mutation) {
             caller, 'mutation', null, oldMutation, newMutation));
       }
     }
+
+    // Force update the block color
+    Blockly.Extensions.ALL_["procedure_custom_color"].call(defineBlock);
+
     Blockly.Events.setGroup(false);
   } else {
     alert('No define block on workspace'); // TODO decide what to do about this.
