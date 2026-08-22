@@ -372,7 +372,9 @@ Blockly.Procedures.mutateCallersAndPrototype = function(name, ws, mutation) {
     }
 
     // Force update the block color
-    Blockly.Extensions.ALL_["procedure_custom_color"].call(defineBlock);
+    defineBlock._updateStackColorTick = true;
+    Blockly.Extensions.apply("procedure_custom_color", defineBlock);
+    Blockly.Extensions.apply("procedure_custom_color", prototypeBlock);
 
     Blockly.Events.setGroup(false);
   } else {
