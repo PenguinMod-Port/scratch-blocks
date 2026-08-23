@@ -672,6 +672,11 @@ Blockly.Procedures.deleteProcedureDefCallback = function(procCode,
 };
 
 /**
+ * If true, all procedure blocks in a stack will follow the custom color defined by the prototype.
+ */
+Blockly.Procedures.COLOR_EXTENSION_ENABLED = true;
+
+/**
  * If true, the user will be able to manually override the shape of procedure call blocks.
  */
 Blockly.Procedures.USER_CAN_CHANGE_CALL_TYPE = true;
