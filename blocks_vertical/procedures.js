@@ -289,7 +289,7 @@ Blockly.ScratchBlocks.ProcedureUtils.createAllInputs_ = function(connectionMap) 
       labelText = component.substring(2).trim();
       
       if (argumentType == 'c') {
-        var input = this.appendStatementInput(id).setCheck(this.type == 'procedures_prototype' ? "argumentReporterCommand" : "normal");
+        var input = this.appendStatementInput(id).setCheck("normal");
       } else {
         var input = this.appendValueInput(id);
       }
