@@ -164,73 +164,8 @@ Blockly.ScratchBlocks.ProcedureUtils.updateDisplay_ = function() {
   var connectionMap = this.disconnectOldBlocks_();
   this.removeAllInputs_();
 
-  if (!this.getReturn) {
-    // This is a prototype block.
-    if (this.previousConnection) {
-      this.setNextStatement(!this.isTerminal_, "normal");
-    }
-
-    var parent = this.getParent();
-    var wasForceOutput = this.previousConnection === null;
-    var isStatement = this.forceOutput_ === 0;
-    if (parent) {
-      // For forced returns, we must re-connect and change the outer connections
-      // before calling 'createAllInputs_'. This fixes shadow and block placement.
-      if (
-        (!wasForceOutput && !isStatement) ||
-        (wasForceOutput && isStatement)
-      ) {
-        // Only update if we switch between reporter or block, not switch reporter types.
-        var parentInput = parent.getInput("custom_block");
-
-        parentInput.connection.setShadowDom();
-        if (this.previousConnection) {
-          this.previousConnection.disconnect();
-          this.previousConnection.dispose();
-          this.previousConnection = null;
-        } else {
-          parentInput.connection.disconnect();
-          parentInput.connection.dispose();
-        }
-
-        parentInput.connection = parent.makeConnection_(
-          isStatement ? Blockly.NEXT_STATEMENT : Blockly.INPUT_VALUE
-        );
-
-        if (isStatement) {
-          this.previousConnection = this.makeConnection_(Blockly.OPPOSITE_TYPE[Blockly.NEXT_STATEMENT]);
-        } else {
-          this.outputConnection = this.makeConnection_(Blockly.OPPOSITE_TYPE[Blockly.INPUT_VALUE]);
-        }
-
-        if (isStatement) {
-          parentInput.connection.connect(this.previousConnection);
-          this.previousConnection.connect(parentInput.connection);
-        } else {
-          parentInput.connection.connect(this.outputConnection);
-          this.outputConnection.connect(parentInput.connection);
-        }
-      }
-
-      this.setNextStatement(isStatement ? !this.isTerminal_ : false, "normal");
-      this.setPreviousStatement(isStatement, "normal");
-
-      this.setOutput(!isStatement, this.forceOutput_);
-      this.setOutputShape(isStatement ? Blockly.OUTPUT_SHAPE_SQUARE : this.forceOutput_);
-
-      if (!isStatement) {
-        postRenderCallback = () => {
-          // Manually translate the prototype reporter into the define block.
-          // This issue for this is related to the fact that the define input type is
-          // statement-based, yet changing it to an input breaks the padding.
-          // Keeping it as a statement maintains the correct padding, but incorect position.
-          // Yes, this is a terrible handler, I know ~SharkPool-SP
-          var matrix = this.svgGroup_.transform.baseVal[0].matrix;
-          matrix.e = 60;
-          matrix.f += this.height / 2 + Blockly.BlockSvg.INLINE_PADDING_Y / 2;
-        }
-      }
-    }
+  if (!this.getReturn && this.type === 'procedures_prototype') {
+    postRenderCallback = this.updateProtoShape_();
   }
 
   this.createAllInputs_(connectionMap);
@@ -1048,6 +983,81 @@ Blockly.ScratchBlocks.ProcedureUtils.updateArgumentReporterNames_ = function(pre
   }
 };
 
+/**
+ * Updates a prototype's output shape based on its mutation.
+ * @this Blockly.Block
+ * @returns {Function} Callback to run after the block renders.
+ */
+Blockly.ScratchBlocks.ProcedureUtils.updateProtoShape_ = function() {
+  if (this.previousConnection) {
+    this.setNextStatement(!this.isTerminal_, "normal");
+  }
+
+  var parent = this.getParent();
+  var wasForceOutput = this.previousConnection === null;
+  var isStatement = this.forceOutput_ === 0;
+  if (parent) {
+    // For forced returns, we must re-connect and change the outer connections
+    // before calling 'createAllInputs_'. This fixes shadow and block placement.
+    if (
+      (!wasForceOutput && !isStatement) ||
+      (wasForceOutput && isStatement)
+    ) {
+      // Only update if we switch between reporter or block, not switch reporter types.
+      var parentInput = parent.getInput("custom_block");
+
+      parentInput.connection.setShadowDom();
+      if (this.previousConnection) {
+        this.previousConnection.disconnect();
+        this.previousConnection.dispose();
+        this.previousConnection = null;
+      } else {
+        parentInput.connection.disconnect();
+        parentInput.connection.dispose();
+      }
+
+      parentInput.connection = parent.makeConnection_(
+        isStatement ? Blockly.NEXT_STATEMENT : Blockly.INPUT_VALUE
+      );
+
+      if (isStatement) {
+        this.previousConnection = this.makeConnection_(Blockly.OPPOSITE_TYPE[Blockly.NEXT_STATEMENT]);
+      } else {
+        this.outputConnection = this.makeConnection_(Blockly.OPPOSITE_TYPE[Blockly.INPUT_VALUE]);
+      }
+
+      if (isStatement) {
+        parentInput.connection.connect(this.previousConnection);
+        this.previousConnection.connect(parentInput.connection);
+      } else {
+        parentInput.connection.connect(this.outputConnection);
+        this.outputConnection.connect(parentInput.connection);
+      }
+    }
+
+    this.setNextStatement(isStatement ? !this.isTerminal_ : false, "normal");
+    this.setPreviousStatement(isStatement, "normal");
+
+    this.setOutput(!isStatement, this.forceOutput_);
+    this.setOutputShape(isStatement ? Blockly.OUTPUT_SHAPE_SQUARE : this.forceOutput_);
+
+    if (!isStatement) {
+      return () => {
+        // Manually translate the prototype reporter into the define block.
+        // This issue for this is related to the fact that the define input type is
+        // statement-based, yet changing it to an input breaks the padding.
+        // Keeping it as a statement maintains the correct padding, but incorect position.
+        // Yes, this is a terrible handler, I know ~SharkPool-SP
+        var matrix = this.svgGroup_.transform.baseVal[0].matrix;
+        matrix.e = 60;
+        matrix.f += this.height / 2 + Blockly.BlockSvg.INLINE_PADDING_Y / 2;
+      }
+    }
+  }
+
+  return null;
+}
+
 Blockly.ScratchBlocks.ProcedureUtils.setForceOutput = function(forceOutput) {
   this.forceOutput_ = forceOutput;
 }
@@ -1085,6 +1095,11 @@ Blockly.Blocks['procedures_definition'] = {
         "procedure_custom_color"
       ]
     });
+
+    this._onDrop = () => {
+      const proto = this.getInput("custom_block").connection.targetBlock();
+      proto.updateDisplay_();
+    }
   }
 };
 
@@ -1145,6 +1160,10 @@ Blockly.Blocks['procedures_prototype'] = {
     this.forceOutput_ = 0;
     this.isTerminal_ = false;
     this.procColour_ = "more";
+
+    setTimeout(() => {
+      (this.updateProtoShape_())();
+    });
   },
   // Shared.
   getProcCode: Blockly.ScratchBlocks.ProcedureUtils.getProcCode,
@@ -1164,6 +1183,7 @@ Blockly.Blocks['procedures_prototype'] = {
   // Only exists on procedures_prototype.
   createArgumentReporter_: Blockly.ScratchBlocks.ProcedureUtils.createArgumentReporter_,
   updateArgumentReporterNames_: Blockly.ScratchBlocks.ProcedureUtils.updateArgumentReporterNames_,
+  updateProtoShape_: Blockly.ScratchBlocks.ProcedureUtils.updateProtoShape_,
 
   //pm
   getForceOutput: Blockly.ScratchBlocks.ProcedureUtils.getForceOutput,
