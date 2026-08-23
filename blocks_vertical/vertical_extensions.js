@@ -264,6 +264,7 @@ Blockly.ScratchBlocks.VerticalExtensions.PROCEDURE_CALL_CONTEXTMENU = {
 };
 
 Blockly.ScratchBlocks.VerticalExtensions.PROCEDURE_CUSTOM_COLOR = function() {
+  if (!Blockly.Procedures.COLOR_EXTENSION_ENABLED) return;
   if (this.isInsertionMarker()) return;
 
   const isProcedureBlock = (block) => {
