@@ -1097,7 +1097,9 @@ Blockly.Blocks['procedures_definition'] = {
     });
 
     this._onDrop = () => {
-      const proto = this.getInput("custom_block").connection.targetBlock();
+      var protoInput = this.getInput("custom_block");
+      if (!protoInput) return;
+      var proto = protoInput.connection.targetBlock();
       proto.updateDisplay_();
     }
   }
