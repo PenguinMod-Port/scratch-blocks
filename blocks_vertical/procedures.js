@@ -134,6 +134,12 @@ Blockly.ScratchBlocks.ProcedureUtils.definitionDomToMutation = function(xmlEleme
   if (this.updateArgumentReporterNames_) {
     this.updateArgumentReporterNames_(prevArgIds, prevDisplayNames);
   }
+
+  if (this.type === "procedures_declaration" && this.procColour_ !== "more") {
+    // For declaration editors, we will call 'updateDisplay_' again, after rendering, to
+    // fix shadow outline colors and other weird quirks with custom colors.
+    queueMicrotask(() => this.updateDisplay_());
+  }
 };
 
 // End of serialization and deserialization.
