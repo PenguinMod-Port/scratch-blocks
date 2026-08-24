@@ -607,6 +607,14 @@ Blockly.ScratchBlocks.ProcedureUtils.populateArgumentOnDeclaration_ = function(
     var argumentEditor = this.createArgumentEditor_(type, displayName);
   }
 
+  if (
+    oldBlock && oldBlock.type === 'argument_editor_command' &&
+    oldBlock.id !== argumentEditor?.id
+  ) {
+    // Always scrap the old branch
+    oldBlock.dispose();
+  }
+
   // Attach the block.
   input.connection.connect(argumentEditor.outputConnection || argumentEditor.previousConnection);
 };
@@ -664,7 +672,16 @@ Blockly.ScratchBlocks.ProcedureUtils.createArgumentEditor_ = function(
         var newBlock = this.workspace.newBlock('argument_editor_command')
     }
     newBlock.setFieldValue(displayName, 'TEXT');
-    newBlock.setShadow(true);
+
+    if (argumentType === 'c') {
+      newBlock.setShadow(false);
+      newBlock.setMovable(false);
+      newBlock.setTextColour("#ffffff");
+      newBlock.setColour(this.colour_, this.colourSecondary_, this.colourTertiary_);
+    } else {
+      newBlock.setShadow(true);
+    }
+
     if (!this.isInsertionMarker()) {
       newBlock.initSvg();
       newBlock.render(false);
@@ -844,6 +861,16 @@ Blockly.ScratchBlocks.ProcedureUtils.removeFieldCallback = function(field) {
   }
   if (inputNameToRemove) {
     Blockly.WidgetDiv.hide(true);
+
+    // Since the command editor is not a shadow, we must manually remove it.
+    var inputToRemove = this.getInput(inputNameToRemove);
+    if (inputToRemove) {
+      var inputBlock = inputToRemove.connection.targetBlock();
+      if (inputBlock && inputBlock.type === 'argument_editor_command') {
+        inputBlock.dispose();
+      }
+    }
+
     this.removeInput(inputNameToRemove);
     this.onChangeFn(true);
     this.updateDisplay_();
@@ -1163,8 +1190,10 @@ Blockly.Blocks['procedures_prototype'] = {
     this.isTerminal_ = false;
     this.procColour_ = "more";
 
-    setTimeout(() => {
-      (this.updateProtoShape_())();
+    queueMicrotask(() => {
+      // 'updateProtoShape_' might not exist yet, call the factory function.
+      const postRenderCallback = Blockly.ScratchBlocks.ProcedureUtils.updateProtoShape_.call(this);
+      if (postRenderCallback) postRenderCallback();
     });
   },
   // Shared.
