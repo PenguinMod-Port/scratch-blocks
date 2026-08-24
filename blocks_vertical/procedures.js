@@ -1392,6 +1392,7 @@ Blockly.Blocks['argument_editor_command'] = {
       "colour": Blockly.Colours.textField,
       "colourSecondary": Blockly.Colours.textField,
       "colourTertiary": Blockly.Colours.textField,
+      "enableContextMenu": false,
       "extensions": ["colours_more", "shape_statement"],
     });
   },
