@@ -253,7 +253,6 @@ Blockly.Blocks['data_listindexrandom'] = {
           "min": 1,
           "precision": 1,
           "options": [
-            ["1", "1"],
             [Blockly.Msg.DATA_INDEX_LAST, "last"],
             [Blockly.Msg.DATA_INDEX_RANDOM, "random"]
           ]
