@@ -684,7 +684,7 @@ Blockly.ScratchBlocks.ProcedureUtils.createArgumentEditor_ = function(
       newBlock.setMovable(false);
       newBlock.setDeletable(false);
       newBlock.setTextColour("#ffffff");
-      newBlock.setColour(this.colour_, this.colourSecondary_, this.colourTertiary_);
+      newBlock.setColour(this.colour_);
     } else {
       newBlock.setShadow(true);
     }

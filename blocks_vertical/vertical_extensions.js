@@ -290,11 +290,7 @@ Blockly.ScratchBlocks.VerticalExtensions.PROCEDURE_CUSTOM_COLOR = function() {
         child.isShadow() &&
         (child.type === "procedures_prototype" ? true : !isProcedureBlock(child))
       ) {
-        child.setColour(
-          child.colour_,
-          child.colourSecondary_,
-          target.colour_,
-        );
+        child.setColour(child.colour_);
       } else if (!ignoreChildren) {
         // Shallow change the color to children
         updateInProcedureStack(child);

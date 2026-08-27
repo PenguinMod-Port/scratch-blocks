@@ -1469,16 +1469,9 @@ Blockly.Block.prototype.mixin = function(mixinObj, opt_disableCheck) {
  * Set the colour of the block from strings or string table references.
  * @param {string|?} primary Primary colour, which may be a string that contains
  *     string table references.
- * @param {string|?} secondary Secondary colour, which may be a string that
- *     contains string table references.
- * @param {string|?} tertiary Tertiary colour, which may be a string that
- *     contains string table references.
- * @param {string|?} quaternary Quaternary colour, which may be a string that
- *     contains string table references.
  * @private
  */
-Blockly.Block.prototype.setColourFromRawValues_ = function(primary, secondary,
-    tertiary, quaternary) {
+Blockly.Block.prototype.setColourFromRawValues_ = function(primary) {
   this.setColour(goog.isString(primary) ? Blockly.utils.replaceMessageReferences(primary) : primary);
 };
 
