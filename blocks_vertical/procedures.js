@@ -88,7 +88,7 @@ Blockly.ScratchBlocks.ProcedureUtils.ARGUMENTS = {
     displayName: 'empty',
     procCodeId: ' %e',
     argumentIdKey: ''
-  }
+  },
   "branch": {
     getDefault: () => '',
     displayName: 'branch',
