@@ -78,6 +78,7 @@ Blockly.Msg.PM_CONTROL_REPEATFORSECONDS = 'repeat for %1 seconds';
 Blockly.Msg.PM_CONTROL_RESTARTPROJECT = 'restart project';
 Blockly.Msg.PM_CONTROL_RUNAS = 'as %1 do';
 Blockly.Msg.PM_CONTROL_RUNFLAG = 'run %1';
+Blockly.Msg.PM_CONTROL_RUNWITHOUTSCREENREFRESH = 'run without screen refresh %1';
 Blockly.Msg.PM_CONTROL_SETCOUNTER = 'set counter to %1';
 Blockly.Msg.PM_CONTROL_STOPSPRITE = 'stop %1';
 Blockly.Msg.PM_CONTROL_TRYCATCH_1 = 'try to do';
@@ -114,7 +115,7 @@ Blockly.Msg.DATA_INDEX_RANDOM = 'random';
 
 // pm list blocks
 Blockly.Msg.PM_DATA_AMOUNTINLIST = 'amount of %1 in %2';
-Blockly.Msg.PM_DATA_FILTERLIST = 'filter %1 by %2 %3 %4';
+Blockly.Msg.PM_DATA_FILTERLIST = 'filter %1 %2 %3 %4 %5';
 Blockly.Msg.PM_DATA_FOREACH = 'for %1 %2 of %3';
 Blockly.Msg.PM_DATA_FOREACH_INDEX = 'for each index: %2 in %1';
 Blockly.Msg.PM_DATA_FOREACH_VALUE = 'for each value: %2 in %1';
@@ -230,10 +231,12 @@ Blockly.Msg.PM_LOOKS_SETFONT = 'set font to %1 with size %2';
 Blockly.Msg.PM_LOOKS_SETSHAPE = 'set text bubble %1 to %2';
 Blockly.Msg.PM_LOOKS_SETSTRETCH = 'set stretch to x: %1 y: %2';
 Blockly.Msg.PM_LOOKS_SETTINTCOLOR = 'set tint color to %1';
+Blockly.Msg.PM_LOOKS_SETVISIBLE = 'set visibility to %1';
 Blockly.Msg.PM_LOOKS_STOPTALKING = 'stop speaking';
 Blockly.Msg.PM_LOOKS_STOPTALKING = 'stop speaking';
 Blockly.Msg.PM_LOOKS_STRETCHX = 'stretch x';
 Blockly.Msg.PM_LOOKS_STRETCHY = 'stretch y';
+Blockly.Msg.PM_LOOKS_THIS = 'this sprite';
 Blockly.Msg.PM_LOOKS_TINTCOLOR = 'tint color';
 Blockly.Msg.PM_LOOKS_VISIBLE = 'visible?';
 

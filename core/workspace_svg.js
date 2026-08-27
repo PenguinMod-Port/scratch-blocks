@@ -750,11 +750,12 @@ Blockly.WorkspaceSvg.prototype.processProcedureReturnsChanged_ = function() {
     ) continue;
 
     var actualReturnType = finalTypes[procCode];
+    var getReturnOutput = block.getReturn();
     if (
-      block.getReturn() !== actualReturnType &&
+      !this.returnTypesEqual_(block.getReturn(), actualReturnType) &&
       // If user is allowed to override call block shape, only update the shape if the definition's
       // shape has actually changed.
-      (!Blockly.Procedures.USER_CAN_CHANGE_CALL_TYPE || initialTypes[procCode] !== actualReturnType)
+      (!Blockly.Procedures.USER_CAN_CHANGE_CALL_TYPE || this.returnTypesEqual_(initialTypes[procCode], actualReturnType))
     ) {
       Blockly.Procedures.changeReturnType(block, actualReturnType);
     }
@@ -768,7 +769,7 @@ Blockly.WorkspaceSvg.prototype.processProcedureReturnsChanged_ = function() {
     // If a new procedure was created, the toolbox is already updated elsewhere.
     if (
       Object.prototype.hasOwnProperty.call(initialTypes, procCode) &&
-      initialTypes[procCode] !== finalTypes[procCode]
+      !this.returnTypesEqual_(initialTypes[procCode], finalTypes[procCode])
     ) {
       toolboxOutdated = true;
       break;
@@ -777,6 +778,14 @@ Blockly.WorkspaceSvg.prototype.processProcedureReturnsChanged_ = function() {
   if (toolboxOutdated) {
     this.refreshToolboxSelection_();
   }
+};
+
+Blockly.WorkspaceSvg.prototype.returnTypesEqual_ = function(a, b) {
+  if (a[1] !== b[1]) return false;
+  if (a[0] === null && b[0] === null) return true;
+  if (a[0] === null || b[0] === null) return false;
+
+  return goog.array.equals(a[0], b[0]);
 };
 
 /**

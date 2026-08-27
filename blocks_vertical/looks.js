@@ -774,7 +774,29 @@ Blockly.Blocks['looks_getinputofcostume'] = {
       ],
       "category": Blockly.Categories.looks,
       "inputsInline": true,
-      "extensions": ["colours_looks", "output_number"]
+      "extensions": ["colours_looks", "output_number", "output_string"]
+    });
+  }
+};
+
+// duplicate to fix width and height bug
+Blockly.Blocks['looks_getinputofcostumenew'] = {
+  init: function () {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_LOOKS_GETINPUTOFCOSTUME,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "INPUT"
+        },
+        {
+          "type": "input_value",
+          "name": "COSTUME"
+        }
+      ],
+      "category": Blockly.Categories.looks,
+      "inputsInline": true,
+      "extensions": ["colours_looks", "output_number", "output_string"]
     });
   }
 };
@@ -1132,3 +1154,20 @@ Blockly.Blocks["looks_sayWidth"] = {
     });
   }
 };
+
+Blockly.Blocks["looks_setSpriteVisible"] = {
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_LOOKS_SETVISIBLE,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "VISIBILITY",
+          "check": "Boolean"
+        }
+      ],
+      "category": Blockly.Categories.looks,
+      "extensions": ["colours_looks", "shape_statement"]
+    })
+  }
+}

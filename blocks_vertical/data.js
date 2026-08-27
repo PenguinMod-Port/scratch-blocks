@@ -253,7 +253,6 @@ Blockly.Blocks['data_listindexrandom'] = {
           "min": 1,
           "precision": 1,
           "options": [
-            ["1", "1"],
             [Blockly.Msg.DATA_INDEX_LAST, "last"],
             [Blockly.Msg.DATA_INDEX_RANDOM, "random"]
           ]
@@ -798,6 +797,14 @@ Blockly.Blocks['data_filterlist'] = {
         {
           "type": "input_value",
           "name": "ITEM"
+        },
+        {
+          "type": "field_image",
+          "src": Blockly.mainWorkspace.options.pathToMedia + "arrow.svg",
+          "width": 24,
+          "height": 24,
+          "alt": ">",
+          "flip_rtl": true
         },
         {
           "type": "input_value",

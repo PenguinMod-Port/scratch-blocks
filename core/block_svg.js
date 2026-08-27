@@ -722,7 +722,7 @@ Blockly.BlockSvg.prototype.showContextMenu_ = function(e) {
     }
     menuOptions.push(Blockly.ContextMenu.blockDeleteOption(block));
 
-    if (Blockly.BlockSvg.HIDE_EXPANDABLES && !this.isCollapsed() && this.inputList.map(v => v.fieldRow).flat().some(v => v instanceof Blockly.FieldExpandable)) {
+    if (Blockly.BlockSvg.HIDE_EXPANDABLES && !this.isCollapsed() && this.inputList.map(v => v.fieldRow).flat().some(v => v instanceof Blockly.FieldExpandable || v instanceof Blockly.FieldExpandableJSON)) {
       menuOptions.push(Blockly.ContextMenu.separator());
       menuOptions = menuOptions.concat(Blockly.ContextMenu.blockExpandableOptions(block));
     }

@@ -370,6 +370,12 @@ Blockly.Procedures.mutateCallersAndPrototype = function(name, ws, mutation) {
             caller, 'mutation', null, oldMutation, newMutation));
       }
     }
+
+    // Force update the block color
+    defineBlock._updateStackColorTick = true;
+    Blockly.Extensions.apply("procedure_custom_color", defineBlock);
+    Blockly.Extensions.apply("procedure_custom_color", prototypeBlock);
+
     Blockly.Events.setGroup(false);
   } else {
     alert('No define block on workspace'); // TODO decide what to do about this.
@@ -664,6 +670,11 @@ Blockly.Procedures.deleteProcedureDefCallback = function(procCode,
 
   return true;
 };
+
+/**
+ * If true, all procedure blocks in a stack will follow the custom color defined by the prototype.
+ */
+Blockly.Procedures.COLOR_EXTENSION_ENABLED = true;
 
 /**
  * If true, the user will be able to manually override the shape of procedure call blocks.

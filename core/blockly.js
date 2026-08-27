@@ -43,6 +43,7 @@ goog.require('Blockly.FieldCustom');
 //goog.require('Blockly.FieldDate');
 goog.require('Blockly.FieldDropdown');
 goog.require('Blockly.FieldExpandable');
+goog.require('Blockly.FieldExpandableJSON');
 goog.require('Blockly.FieldIconMenu');
 goog.require('Blockly.FieldImage');
 goog.require('Blockly.FieldNote');

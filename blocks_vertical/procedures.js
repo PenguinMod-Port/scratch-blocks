@@ -80,6 +80,7 @@ Blockly.ScratchBlocks.ProcedureUtils.callerDomToMutation = function(xmlElement) 
   this.warp_ = JSON.parse(xmlElement.getAttribute('warp'));
   this.return_ = Blockly.ScratchBlocks.ProcedureUtils.parseReturnMutation(xmlElement);
   this.procColour_ = xmlElement.getAttribute('colour') ?? "more";
+  this.isTerminal_ = JSON.parse(xmlElement.getAttribute('terminal'));
   this.updateDisplay_();
 };
 
@@ -133,6 +134,12 @@ Blockly.ScratchBlocks.ProcedureUtils.definitionDomToMutation = function(xmlEleme
   if (this.updateArgumentReporterNames_) {
     this.updateArgumentReporterNames_(prevArgIds, prevDisplayNames);
   }
+
+  if (this.type === "procedures_declaration" && this.procColour_ !== "more") {
+    // For declaration editors, we will call 'updateDisplay_' again, after rendering, to
+    // fix shadow outline colors and other weird quirks with custom colors.
+    queueMicrotask(() => this.updateDisplay_());
+  }
 };
 
 // End of serialization and deserialization.
@@ -156,16 +163,22 @@ Blockly.ScratchBlocks.ProcedureUtils.getProcCode = function() {
  * @this Blockly.Block
  */
 Blockly.ScratchBlocks.ProcedureUtils.updateDisplay_ = function() {
+  var postRenderCallback = null;
   var wasRendered = this.rendered;
   this.rendered = false;
 
   var connectionMap = this.disconnectOldBlocks_();
   this.removeAllInputs_();
 
+  if (!this.getReturn && this.type === 'procedures_prototype') {
+    postRenderCallback = this.updateProtoShape_();
+  }
+
   this.createAllInputs_(connectionMap);
   this.deleteShadows_(connectionMap);
 
   if (this.getReturn) {
+    // This is a caller block.
     if (this.getReturn()[1] === Blockly.PROCEDURES_CALL_TYPE_STATEMENT) {
       if (this.outputConnection) {
         this.setOutput(true, null)
@@ -193,12 +206,15 @@ Blockly.ScratchBlocks.ProcedureUtils.updateDisplay_ = function() {
       }
     }
   }
+
   if (this.updateProcColour) this.updateProcColour();
 
   this.rendered = wasRendered;
   if (wasRendered && !this.isInsertionMarker()) {
     this.initSvg();
     this.render();
+
+    if (postRenderCallback) postRenderCallback();
   }
 };
 
@@ -279,7 +295,7 @@ Blockly.ScratchBlocks.ProcedureUtils.createAllInputs_ = function(connectionMap) 
       labelText = component.substring(2).trim();
       
       if (argumentType == 'c') {
-        var input = this.appendStatementInput(id).setCheck(this.type == 'procedures_prototype' ? "argumentReporterCommand" : "normal");
+        var input = this.appendStatementInput(id).setCheck("normal");
       } else {
         var input = this.appendValueInput(id);
       }
@@ -597,6 +613,14 @@ Blockly.ScratchBlocks.ProcedureUtils.populateArgumentOnDeclaration_ = function(
     var argumentEditor = this.createArgumentEditor_(type, displayName);
   }
 
+  if (
+    oldBlock && oldBlock.type === 'argument_editor_command' &&
+    oldBlock.id !== argumentEditor?.id
+  ) {
+    // Always scrap the old branch
+    oldBlock.dispose();
+  }
+
   // Attach the block.
   input.connection.connect(argumentEditor.outputConnection || argumentEditor.previousConnection);
 };
@@ -654,7 +678,17 @@ Blockly.ScratchBlocks.ProcedureUtils.createArgumentEditor_ = function(
         var newBlock = this.workspace.newBlock('argument_editor_command')
     }
     newBlock.setFieldValue(displayName, 'TEXT');
-    newBlock.setShadow(true);
+
+    if (argumentType === 'c') {
+      newBlock.setShadow(false);
+      newBlock.setMovable(false);
+      newBlock.setDeletable(false);
+      newBlock.setTextColour("#ffffff");
+      newBlock.setColour(this.colour_, this.colourSecondary_, this.colourTertiary_);
+    } else {
+      newBlock.setShadow(true);
+    }
+
     if (!this.isInsertionMarker()) {
       newBlock.initSvg();
       newBlock.render(false);
@@ -720,7 +754,10 @@ Blockly.ScratchBlocks.ProcedureUtils.focusLastEditor_ = function() {
     var newInput = this.inputList[this.inputList.length - 1];
     if (newInput.type == Blockly.DUMMY_INPUT) {
       if (newInput.fieldRow[0]) newInput.fieldRow[0].showEditor_();
-    } else if (newInput.type == Blockly.INPUT_VALUE) {
+    } else if (
+      newInput.type == Blockly.INPUT_VALUE ||
+      newInput.type == Blockly.NEXT_STATEMENT
+    ) {
       // Inspect the argument editor.
       var target = newInput.connection.targetBlock();
       target.getField('TEXT').showEditor_();
@@ -834,6 +871,16 @@ Blockly.ScratchBlocks.ProcedureUtils.removeFieldCallback = function(field) {
   }
   if (inputNameToRemove) {
     Blockly.WidgetDiv.hide(true);
+
+    // Since the command editor is not a shadow, we must manually remove it.
+    var inputToRemove = this.getInput(inputNameToRemove);
+    if (inputToRemove) {
+      var inputBlock = inputToRemove.connection.targetBlock();
+      if (inputBlock && inputBlock.type === 'argument_editor_command') {
+        inputBlock.dispose();
+      }
+    }
+
     this.removeInput(inputNameToRemove);
     this.onChangeFn(true);
     this.updateDisplay_();
@@ -973,6 +1020,81 @@ Blockly.ScratchBlocks.ProcedureUtils.updateArgumentReporterNames_ = function(pre
   }
 };
 
+/**
+ * Updates a prototype's output shape based on its mutation.
+ * @this Blockly.Block
+ * @returns {Function} Callback to run after the block renders.
+ */
+Blockly.ScratchBlocks.ProcedureUtils.updateProtoShape_ = function() {
+  if (this.previousConnection) {
+    this.setNextStatement(!this.isTerminal_, "normal");
+  }
+
+  var parent = this.getParent();
+  var wasForceOutput = this.previousConnection === null;
+  var isStatement = this.forceOutput_ === 0;
+  if (parent) {
+    // For forced returns, we must re-connect and change the outer connections
+    // before calling 'createAllInputs_'. This fixes shadow and block placement.
+    if (
+      (!wasForceOutput && !isStatement) ||
+      (wasForceOutput && isStatement)
+    ) {
+      // Only update if we switch between reporter or block, not switch reporter types.
+      var parentInput = parent.getInput("custom_block");
+
+      parentInput.connection.setShadowDom();
+      if (this.previousConnection) {
+        this.previousConnection.disconnect();
+        this.previousConnection.dispose();
+        this.previousConnection = null;
+      } else {
+        parentInput.connection.disconnect();
+        parentInput.connection.dispose();
+      }
+
+      parentInput.connection = parent.makeConnection_(
+        isStatement ? Blockly.NEXT_STATEMENT : Blockly.INPUT_VALUE
+      );
+
+      if (isStatement) {
+        this.previousConnection = this.makeConnection_(Blockly.OPPOSITE_TYPE[Blockly.NEXT_STATEMENT]);
+      } else {
+        this.outputConnection = this.makeConnection_(Blockly.OPPOSITE_TYPE[Blockly.INPUT_VALUE]);
+      }
+
+      if (isStatement) {
+        parentInput.connection.connect(this.previousConnection);
+        this.previousConnection.connect(parentInput.connection);
+      } else {
+        parentInput.connection.connect(this.outputConnection);
+        this.outputConnection.connect(parentInput.connection);
+      }
+    }
+
+    this.setNextStatement(isStatement ? !this.isTerminal_ : false, "normal");
+    this.setPreviousStatement(isStatement, "normal");
+
+    this.setOutput(!isStatement, this.forceOutput_);
+    this.setOutputShape(isStatement ? Blockly.OUTPUT_SHAPE_SQUARE : this.forceOutput_);
+
+    if (!isStatement) {
+      return () => {
+        // Manually translate the prototype reporter into the define block.
+        // This issue for this is related to the fact that the define input type is
+        // statement-based, yet changing it to an input breaks the padding.
+        // Keeping it as a statement maintains the correct padding, but incorect position.
+        // Yes, this is a terrible handler, I know ~SharkPool-SP
+        var matrix = this.svgGroup_.transform.baseVal[0].matrix;
+        matrix.e = 60;
+        matrix.f += this.height / 2 + Blockly.BlockSvg.INLINE_PADDING_Y / 2;
+      }
+    }
+  }
+
+  return null;
+}
+
 Blockly.ScratchBlocks.ProcedureUtils.setForceOutput = function(forceOutput) {
   this.forceOutput_ = forceOutput;
 }
@@ -1003,8 +1125,20 @@ Blockly.Blocks['procedures_definition'] = {
           "name": "custom_block"
         }
       ],
-      "extensions": ["colours_more", "shape_hat", "procedure_def_contextmenu"]
+      "extensions": [
+        "colours_more",
+        "shape_hat",
+        "procedure_def_contextmenu",
+        "procedure_custom_color"
+      ]
     });
+
+    this._onDrop = () => {
+      var protoInput = this.getInput("custom_block");
+      if (!protoInput) return;
+      var proto = protoInput.connection.targetBlock();
+      proto.updateDisplay_();
+    }
   }
 };
 
@@ -1015,7 +1149,7 @@ Blockly.Blocks['procedures_call'] = {
    */
   init: function() {
     this.jsonInit({
-      "extensions": ["colours_more", "procedure_call_contextmenu"]
+      "extensions": ["colours_more", "procedure_call_contextmenu", "procedure_custom_color"]
     });
     this.procCode_ = '';
     this.argumentIds_ = [];
@@ -1065,6 +1199,12 @@ Blockly.Blocks['procedures_prototype'] = {
     this.forceOutput_ = 0;
     this.isTerminal_ = false;
     this.procColour_ = "more";
+
+    queueMicrotask(() => {
+      // 'updateProtoShape_' might not exist yet, call the factory function.
+      const postRenderCallback = Blockly.ScratchBlocks.ProcedureUtils.updateProtoShape_.call(this);
+      if (postRenderCallback) postRenderCallback();
+    });
   },
   // Shared.
   getProcCode: Blockly.ScratchBlocks.ProcedureUtils.getProcCode,
@@ -1084,6 +1224,7 @@ Blockly.Blocks['procedures_prototype'] = {
   // Only exists on procedures_prototype.
   createArgumentReporter_: Blockly.ScratchBlocks.ProcedureUtils.createArgumentReporter_,
   updateArgumentReporterNames_: Blockly.ScratchBlocks.ProcedureUtils.updateArgumentReporterNames_,
+  updateProtoShape_: Blockly.ScratchBlocks.ProcedureUtils.updateProtoShape_,
 
   //pm
   getForceOutput: Blockly.ScratchBlocks.ProcedureUtils.getForceOutput,
@@ -1155,7 +1296,7 @@ Blockly.Blocks['argument_reporter_boolean'] = {
         }
       ],
       "canDragDuplicate": true,
-      "extensions": ["colours_more", "output_boolean"]
+      "extensions": ["colours_more", "output_boolean", "procedure_custom_color"]
     });
   }
 };
@@ -1171,7 +1312,7 @@ Blockly.Blocks['argument_reporter_string_number'] = {
         }
       ],
       "canDragDuplicate": true,
-      "extensions": ["colours_more", "output_number", "output_any"]
+      "extensions": ["colours_more", "output_number", "output_any", "procedure_custom_color"]
     });
   }
 };
@@ -1187,7 +1328,7 @@ Blockly.Blocks['argument_reporter_command'] = {
         }
       ],
       "canDragDuplicate": true,
-      "extensions": ["colours_more", "shape_statement"],
+      "extensions": ["colours_more", "shape_statement", "procedure_custom_color"],
     });
   },
   updateDisplay_: Blockly.ScratchBlocks.ProcedureUtils.argumentReporterUpdateDisplay,
@@ -1241,6 +1382,8 @@ Blockly.Blocks['argument_editor_command'] = {
           "text": "foo"
         }
       ],
+      "colour": Blockly.Colours.textField,
+      "enableContextMenu": false,
       "extensions": ["colours_more", "shape_statement"],
     });
   },
@@ -1263,7 +1406,7 @@ Blockly.Blocks['procedures_set'] = {
           "name": "VALUE"
         }
       ],
-      "extensions": ["colours_more", "shape_statement"]
+      "extensions": ["colours_more", "shape_statement", "procedure_custom_color"]
     });
   }
 };
@@ -1278,7 +1421,7 @@ Blockly.Blocks['procedures_reevaluate'] = {
           "name": "PARAM"
         }
       ],
-      "extensions": ["colours_more", "shape_statement"]
+      "extensions": ["colours_more", "shape_statement", "procedure_custom_color"]
     });
   }
 };
@@ -1293,7 +1436,7 @@ Blockly.Blocks['procedures_return'] = {
           "name": "VALUE"
         }
       ],
-      "extensions": ["colours_more", "shape_end"]
+      "extensions": ["colours_more", "shape_end", "procedure_custom_color"]
     });
     this.workspace.enableProcedureReturns();
   }

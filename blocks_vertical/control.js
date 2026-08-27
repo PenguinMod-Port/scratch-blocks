@@ -1252,3 +1252,27 @@ Blockly.Blocks['control_dualblock'] = {
     });
   }
 };
+
+Blockly.Blocks['control_runwithoutscreenrefresh'] = {
+  init: function () {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_CONTROL_RUNWITHOUTSCREENREFRESH,
+      "message1": '%1',
+      "args0": [
+        {
+          "type": "field_checkbox",
+          "name": "CHECKBOX",
+          "checked": true
+        }
+      ],
+      "args1": [
+        {
+          "type": "input_statement",
+          "name": "SUBSTACK"
+        }
+      ],
+      "category": Blockly.Categories.control,
+      "extensions": ["colours_control", "shape_statement"]
+    })
+  }
+}

@@ -384,6 +384,11 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
     '<block type="looks_getSpriteVisible" />' +
     '<block type="looks_sayHeight" />' +
     '<block type="looks_sayWidth" />' +
+    '<block type="looks_setSpriteVisible">' +
+      '<value name="VISIBILITY">' +
+        '<shadow type="checkbox" />' +
+      '</value>' +
+    '</block>' +
   '</category>' +
   '<category name="%{BKY_CATEGORY_SOUND}" id="sound" colour="#D65CD6" secondaryColour="#BD42BD">' +
     '<block type="sound_play" id="sound_play">' +
@@ -689,6 +694,7 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
       '</value>' +
     '</block>' +
     '<block type="control_dualblock" />' +
+    '<block type="control_runwithoutscreenrefresh" />' +
   '</category>' +
   '<category name="%{BKY_CATEGORY_SENSING}" id="sensing" colour="#4CBFE6" secondaryColour="#2E8EB8">' +
     '<block type="sensing_touchingobject" id="sensing_touchingobject">' +
