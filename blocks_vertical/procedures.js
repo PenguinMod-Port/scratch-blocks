@@ -769,6 +769,7 @@ Blockly.ScratchBlocks.ProcedureUtils.createArgumentEditor_ = function(
       case 'p':
       case 's':
         var newBlock = this.workspace.newBlock('argument_editor_string_number');
+        newBlock._argType = "%" + argumentType;
         break;
       case 'b':
         var newBlock = this.workspace.newBlock('argument_editor_boolean');
@@ -828,9 +829,7 @@ Blockly.ScratchBlocks.ProcedureUtils.updateDeclarationProcCode_ = function(prefi
       this.argumentIds_.push(input.name);
       switch (target.type) {
         case 'argument_editor_string_number':
-          // TODO fix this for other arguments
-          console.log("Running 'updateDeclarationProcCode_': ", target);
-          this.procCode_ += '%s';
+          this.procCode_ += target._argType ?? '%s';
           break;
         case 'argument_editor_boolean':
           this.procCode_ += '%b';
