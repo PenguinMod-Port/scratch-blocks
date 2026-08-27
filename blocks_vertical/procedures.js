@@ -34,7 +34,7 @@ goog.require('Blockly.ScratchBlocks.VerticalExtensions');
 
 Blockly.ScratchBlocks.ProcedureUtils.REARRANGEABLE_INPUTS = true;
 
-Blockly.ScratchBlocks.ProcedureUtils.VALID_ARGUMENTS = ['n', 's', 'a', 'C', 'p', 'c', 'b'];
+Blockly.ScratchBlocks.ProcedureUtils.VALID_ARGUMENTS = ['n', 's', 'a', 'C', 'p', 'c', 'b', 'e'];
 
 Blockly.ScratchBlocks.ProcedureUtils.ARGUMENT_BLOCK_MAPPINGS =  {
   n: 'math_number',
@@ -42,7 +42,8 @@ Blockly.ScratchBlocks.ProcedureUtils.ARGUMENT_BLOCK_MAPPINGS =  {
   a: 'math_angle',
   C: 'colour_picker',
   p: 'note',
-  b: 'checkbox'
+  b: 'checkbox',
+  e: null
 };
 
 Blockly.ScratchBlocks.ProcedureUtils.ARGUMENTS = {
@@ -82,6 +83,12 @@ Blockly.ScratchBlocks.ProcedureUtils.ARGUMENTS = {
     procCodeId: ' %p',
     argumentIdKey: ''
   },
+  "empty": {
+    getDefault: () => '',
+    displayName: 'empty',
+    procCodeId: ' %e',
+    argumentIdKey: ''
+  }
   "branch": {
     getDefault: () => '',
     displayName: 'branch',
@@ -337,7 +344,7 @@ Blockly.ScratchBlocks.ProcedureUtils.createAllInputs_ = function(connectionMap) 
   const VALID_ARGS = Blockly.ScratchBlocks.ProcedureUtils.VALID_ARGUMENTS;
 
   // Split the proc into components, by %n, %b, and %s (ignoring escaped)
-  var procComponents = this.procCode_.split(REARRANGEABLE_INPUTS ? /(?=[^\\]%[bsnaCpcl])/ : /(?=[^\\]%[bsnaCpcl])/);
+  var procComponents = this.procCode_.split(REARRANGEABLE_INPUTS ? /(?=[^\\]%[bsnaCpcel])/ : /(?=[^\\]%[bsnaCpcel])/);
   procComponents = procComponents.map(function(c) {
     return c.trim(); // Strip whitespace.
   });
@@ -446,6 +453,8 @@ Blockly.ScratchBlocks.ProcedureUtils.addLabelEditor_ = function(text) {
  * @this Blockly.Block
  */
 Blockly.ScratchBlocks.ProcedureUtils.buildShadowDom_ = function(type) {
+  if (type === 'e') return;
+
   var ARGUMENTS = Blockly.ScratchBlocks.ProcedureUtils.ARGUMENTS;
   var shadowDom = goog.dom.createDom('shadow');
   switch (type) {
@@ -555,6 +564,7 @@ Blockly.ScratchBlocks.ProcedureUtils.createArgumentReporter_ = function(
     case 'a':
     case 'C':
     case 'p':
+    case 'e':
     case 's':
       var blockType = 'argument_reporter_string_number';
       break;
@@ -721,7 +731,7 @@ Blockly.ScratchBlocks.ProcedureUtils.populateArgumentOnDeclaration_ = function(
  * Check whether the type of the old block corresponds to the given argument
  * type.
  * @param {Blockly.BlockSvg} oldBlock The old block to check.
- * @param {string} type The argument type.  One of 'n', 'n', or 's'.
+ * @param {string} type The argument type. Blockly.ScratchBlocks.ProcedureUtils.VALID_ARGUMENTS.
  * @return {boolean} True if the type matches, false otherwise.
  */
 Blockly.ScratchBlocks.ProcedureUtils.checkOldTypeMatches_ = function(oldBlock,
@@ -732,7 +742,7 @@ Blockly.ScratchBlocks.ProcedureUtils.checkOldTypeMatches_ = function(oldBlock,
   if (
     (
       type == 'n' || type == 's' || type == 'a' ||
-      type == 'C' || type == 'p'
+      type == 'C' || type == 'p' || type == 'e'
     ) &&
     oldBlock.type == 'argument_reporter_string_number'
   ) {
@@ -767,6 +777,7 @@ Blockly.ScratchBlocks.ProcedureUtils.createArgumentEditor_ = function(
       case 'a':
       case 'C':
       case 'p':
+      case 'e':
       case 's':
         var newBlock = this.workspace.newBlock('argument_editor_string_number');
         newBlock._argType = "%" + argumentType;
