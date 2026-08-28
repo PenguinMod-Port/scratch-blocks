@@ -58,7 +58,7 @@ Blockly.Blocks['control_forever'] = {
         }
       ],
       "category": Blockly.Categories.control,
-      "extensions": ["colours_control"]
+      "extensions": ["colours_control", "shape_statement"]
     });
   }
 };
