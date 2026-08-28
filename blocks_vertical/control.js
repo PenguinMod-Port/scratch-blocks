@@ -232,7 +232,7 @@ Blockly.Blocks['control_stop'] = {
       return [
         [Blockly.Msg.CONTROL_STOP_ALL, ALL_SCRIPTS],
         [Blockly.Msg.CONTROL_STOP_THIS, THIS_SCRIPT],
-        [Blockly.Msg.CONTROL_STOP_THREAD, THIS_THREAD],
+        [Blockly.Msg.PM_CONTROL_STOP_THREAD, THIS_THREAD],
         [Blockly.Msg.CONTROL_STOP_OTHER, OTHER_SCRIPTS]
       ];
     }, function(option) {
