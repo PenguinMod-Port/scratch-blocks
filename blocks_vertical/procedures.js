@@ -121,6 +121,7 @@ Blockly.ScratchBlocks.ProcedureUtils.callerMutationToDom = function() {
   container.setAttribute('proccode', this.procCode_);
   container.setAttribute('argumentids', JSON.stringify(this.argumentIds_));
   container.setAttribute('warp', JSON.stringify(this.warp_));
+  container.setAttribute('global', JSON.stringify(this.global_));
   if (this.return_[1] !== Blockly.PROCEDURES_CALL_TYPE_STATEMENT) {
     container.setAttribute('return', JSON.stringify(this.return_));
   }
@@ -141,6 +142,7 @@ Blockly.ScratchBlocks.ProcedureUtils.callerDomToMutation = function(xmlElement) 
       JSON.parse(xmlElement.getAttribute('generateshadows'));
   this.argumentIds_ = JSON.parse(xmlElement.getAttribute('argumentids'));
   this.warp_ = JSON.parse(xmlElement.getAttribute('warp'));
+  this.global_ = JSON.parse(xmlElement.getAttribute('global'));
   this.return_ = Blockly.ScratchBlocks.ProcedureUtils.parseReturnMutation(xmlElement);
   this.procColour_ = xmlElement.getAttribute('colour') ?? "more";
   this.isTerminal_ = JSON.parse(xmlElement.getAttribute('terminal'));
@@ -162,12 +164,14 @@ Blockly.ScratchBlocks.ProcedureUtils.definitionMutationToDom = function(
   if (opt_generateShadows) {
     container.setAttribute('generateshadows', true);
   }
+
   container.setAttribute('proccode', this.procCode_);
   container.setAttribute('argumentids', JSON.stringify(this.argumentIds_));
   container.setAttribute('argumentnames', JSON.stringify(this.displayNames_));
   container.setAttribute('argumentdefaults',
       JSON.stringify(this.argumentDefaults_));
   container.setAttribute('warp', JSON.stringify(this.warp_));
+  container.setAttribute('global', JSON.stringify(this.global_));
   container.setAttribute('forceoutput', this.forceOutput_);
   container.setAttribute('terminal', JSON.stringify(this.isTerminal_));
   container.setAttribute('colour', this.procColour_);
@@ -183,6 +187,14 @@ Blockly.ScratchBlocks.ProcedureUtils.definitionMutationToDom = function(
 Blockly.ScratchBlocks.ProcedureUtils.definitionDomToMutation = function(xmlElement) {
   this.procCode_ = xmlElement.getAttribute('proccode');
   this.warp_ = JSON.parse(xmlElement.getAttribute('warp'));
+  this.global_ = JSON.parse(xmlElement.getAttribute('global'));
+  if (this.global_) {
+    Blockly.Procedures.GLOBAL_BLOCKS.set(this.procCode_, xmlElement);
+  } else {
+    if (Blockly.Procedures.GLOBAL_BLOCKS.has(this.procCode_)) {
+      Blockly.Procedures.GLOBAL_BLOCKS.delete(this.procCode_);
+    }
+  }
 
   var prevArgIds = this.argumentIds_;
   var prevDisplayNames = this.displayNames_;
@@ -190,7 +202,9 @@ Blockly.ScratchBlocks.ProcedureUtils.definitionDomToMutation = function(xmlEleme
   this.argumentIds_ = JSON.parse(xmlElement.getAttribute('argumentids'));
   this.displayNames_ = JSON.parse(xmlElement.getAttribute('argumentnames'));
   this.argumentDefaults_ = JSON.parse(xmlElement.getAttribute('argumentdefaults'));
-  if (xmlElement.hasAttribute('forceoutput')) this.forceOutput_ = parseInt(xmlElement.getAttribute('forceoutput'));
+  if (xmlElement.hasAttribute('forceoutput')) {
+    this.forceOutput_ = parseInt(xmlElement.getAttribute('forceoutput'));
+  }
   this.isTerminal_ = JSON.parse(xmlElement.getAttribute('terminal'));
   this.procColour_ = xmlElement.getAttribute('colour') ?? "more";
   this.updateDisplay_();
@@ -949,6 +963,24 @@ Blockly.ScratchBlocks.ProcedureUtils.setWarp = function(warp) {
 };
 
 /**
+ * Externally-visible function to get the global on procedure declaration.
+ * @return {boolean} The value of the global_ property.
+ * @public
+ */
+Blockly.ScratchBlocks.ProcedureUtils.getGlobal = function() {
+  return this.global_;
+};
+
+/**
+ * Externally-visible function to set the global on procedure declaration.
+ * @param {boolean} global The value of the global_ property.
+ * @public
+ */
+Blockly.ScratchBlocks.ProcedureUtils.setGlobal = function(global) {
+  this.global_ = global;
+};
+
+/**
  * @this {BlockSvg}
  * @returns {[Array<string>, number]} types & shape
  */
@@ -1268,6 +1300,7 @@ Blockly.Blocks['procedures_call'] = {
     this.procCode_ = '';
     this.argumentIds_ = [];
     this.warp_ = false;
+    this.global_ = false;
     this.return_ = [[], Blockly.PROCEDURES_CALL_TYPE_STATEMENT];
     this.isTerminal_ = false;
     this.procColour_ = "more";
@@ -1310,6 +1343,7 @@ Blockly.Blocks['procedures_prototype'] = {
     this.argumentIds_ = [];
     this.argumentDefaults_ = [];
     this.warp_ = false;
+    this.global_ = false;
     this.forceOutput_ = 0;
     this.isTerminal_ = false;
     this.procColour_ = "more";
@@ -1360,6 +1394,7 @@ Blockly.Blocks['procedures_declaration'] = {
     this.argumentIds_ = [];
     this.argumentDefaults_ = [];
     this.warp_ = false;
+    this.global_ = false;
     this.forceOutput_ = 0;
     this.isTerminal_ = false;
     this.procColour_ = "more";
@@ -1388,6 +1423,8 @@ Blockly.Blocks['procedures_declaration'] = {
   focusLastEditor_: Blockly.ScratchBlocks.ProcedureUtils.focusLastEditor_,
   getWarp: Blockly.ScratchBlocks.ProcedureUtils.getWarp,
   setWarp: Blockly.ScratchBlocks.ProcedureUtils.setWarp,
+  getGlobal: Blockly.ScratchBlocks.ProcedureUtils.getGlobal,
+  setGlobal: Blockly.ScratchBlocks.ProcedureUtils.setGlobal,
   addLabelExternal: Blockly.ScratchBlocks.ProcedureUtils.addLabelExternal,
   addBooleanExternal: Blockly.ScratchBlocks.ProcedureUtils.addBooleanExternal,
   addCommandExternal: Blockly.ScratchBlocks.ProcedureUtils.addCommandExternal,

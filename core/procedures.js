@@ -46,6 +46,14 @@ goog.require('Blockly.Workspace');
 Blockly.Procedures.NAME_TYPE = Blockly.PROCEDURE_CATEGORY_NAME;
 
 /**
+ * All global blocks.
+ * @type {Map<proccode, mutation>}
+ */
+Blockly.Procedures.GLOBAL_BLOCKS = new Map();
+
+/**
+ * CURRENTLY UNUSED
+ * 
  * Find all user-created procedure definitions in a workspace.
  * @param {!Blockly.Workspace} root Root workspace.
  * @return {!Array.<!Array.<!Array>>} Pair of arrays, the
@@ -69,6 +77,7 @@ Blockly.Procedures.allProcedures = function(root) {
       }
     }
   }
+
   proceduresNoReturn.sort(Blockly.Procedures.procTupleComparator_);
   proceduresReturn.sort(Blockly.Procedures.procTupleComparator_);
   return [proceduresNoReturn, proceduresReturn];
@@ -91,6 +100,21 @@ Blockly.Procedures.allProcedureMutations = function(root) {
       }
     }
   }
+
+  var globalMutationIterator = Blockly.Procedures.GLOBAL_BLOCKS.values();
+  var item = globalMutationIterator.next();
+  while (!item.done) {
+    var mutation = item.value;
+    var proccode = mutation.getAttribute("proccode");
+
+    var exists = mutations.find((m) => m.getAttribute("proccode") === proccode);
+    if (!exists) {
+      mutations.push(mutation);
+    }
+
+    item = globalMutationIterator.next();
+  }
+
   return mutations;
 };
 
@@ -261,6 +285,39 @@ Blockly.Procedures.flyoutCategory = function(workspace) {
   }
 
   // Create call blocks for each procedure defined in the workspace
+  if (Blockly.Procedures.GLOBAL_BLOCKS.size) {
+    // If there are global blocks, render them separately.
+    var globalLabel = ScratchBlocks.goog.dom.createDom('label');
+    globalLabel.setAttribute('text', Blockly.Msg.PM_PROCEDURE_GLOBAL_LABEL);
+    xmlList.push(globalLabel);
+
+    for (var i = mutations.length - 1; i >= 0; i--) {
+      var isGlobal = mutations[i].getAttribute('global');
+      if (isGlobal !== 'true') continue;
+
+      var mutation = mutations[i].cloneNode(false);
+      var procCode = mutation.getAttribute('proccode');
+      var returnType = Blockly.Procedures.getProcedureReturnType(procCode, workspace);
+      if (returnType !== Blockly.PROCEDURES_CALL_TYPE_STATEMENT) {
+        mutation.setAttribute('return', JSON.stringify(returnType));
+      }
+      // <block type="procedures_call">
+      //   <mutation ...></mutation>
+      // </block>
+      var block = goog.dom.createDom('block');
+      block.setAttribute('type', 'procedures_call');
+      block.setAttribute('gap', 12);
+      block.appendChild(mutation);
+
+      xmlList.push(block);
+      mutations.splice(i, 1); // Remove this entry so it doesnt show in the 'local' section
+    }
+
+    var privateLabel = ScratchBlocks.goog.dom.createDom('label');
+    privateLabel.setAttribute('text', Blockly.Msg.PM_PROCEDURE_PRIVATE_LABEL);
+    xmlList.push(privateLabel);
+  }
+
   for (var i = 0; i < mutations.length; i++) {
     var mutation = mutations[i].cloneNode(false);
     var procCode = mutation.getAttribute('proccode');
