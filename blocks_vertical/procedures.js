@@ -99,13 +99,30 @@ Blockly.ScratchBlocks.ProcedureUtils.ARGUMENTS = {
 
 // Serialization and deserialization.
 
-Blockly.ScratchBlocks.ProcedureUtils.parseReturnMutation = function(xmlElement) {
+/**
+ * Parses the return type of a mutation.
+ * @param {!Element} xmlElement XML storage element.
+ * @param {Blockly.Block} block If provided, will check extra block properties for return data
+ * @returns Return info array
+ */
+Blockly.ScratchBlocks.ProcedureUtils.parseReturnMutation = function(xmlElement, block) {
+  var x;
+  if (block.isInFlyout && xmlElement.hasAttribute('forceoutput')) {
+    try {
+      x = JSON.parse(xmlElement.getAttribute('forceoutput'));
+
+      if (x instanceof Array) return x;
+      else if (x !== null) return [null, typeof x === 'number' ? x : Blockly.OUTPUT_SHAPE_ROUND];
+    } catch {}
+  }
+
   if (xmlElement.hasAttribute('return')) {
     try {
-      let x = JSON.parse(xmlElement.getAttribute('return'));
-      if (x instanceof Array) return x
-      else if (x !== null) return [null, x instanceof Number ? x : Blockly.OUTPUT_SHAPE_ROUND]
-    } catch (e) {}
+      x = JSON.parse(xmlElement.getAttribute('return'));
+
+      if (x instanceof Array) return x;
+      else if (x !== null) return [null, x instanceof Number ? x : Blockly.OUTPUT_SHAPE_ROUND];
+    } catch {}
   }
   return [[], Blockly.PROCEDURES_CALL_TYPE_STATEMENT];
 };
@@ -138,14 +155,19 @@ Blockly.ScratchBlocks.ProcedureUtils.callerMutationToDom = function() {
  */
 Blockly.ScratchBlocks.ProcedureUtils.callerDomToMutation = function(xmlElement) {
   this.procCode_ = xmlElement.getAttribute('proccode');
-  this.generateShadows_ =
-      JSON.parse(xmlElement.getAttribute('generateshadows'));
   this.argumentIds_ = JSON.parse(xmlElement.getAttribute('argumentids'));
   this.warp_ = JSON.parse(xmlElement.getAttribute('warp'));
   this.global_ = JSON.parse(xmlElement.getAttribute('global'));
-  this.return_ = Blockly.ScratchBlocks.ProcedureUtils.parseReturnMutation(xmlElement);
-  this.procColour_ = xmlElement.getAttribute('colour') ?? "more";
   this.isTerminal_ = JSON.parse(xmlElement.getAttribute('terminal'));
+  this.generateShadows_ = this.global_ && this.isInFlyout
+    ? true
+    : JSON.parse(xmlElement.getAttribute('generateshadows'));
+
+  this.return_ = Blockly.ScratchBlocks.ProcedureUtils.parseReturnMutation(
+    xmlElement,
+    this
+  );
+  this.procColour_ = xmlElement.getAttribute('colour') ?? "more";
   this.updateDisplay_();
 };
 

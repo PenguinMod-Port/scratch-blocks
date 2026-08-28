@@ -729,6 +729,12 @@ Blockly.Procedures.deleteProcedureDefCallback = function(procCode,
   definitionRoot.dispose();
   Blockly.Events.setGroup(false);
 
+  // Remove this procedure from the global block list,
+  // even if it isnt global.
+  if (Blockly.Procedures.GLOBAL_BLOCKS.has(procCode)) {
+    Blockly.Procedures.GLOBAL_BLOCKS.delete(procCode);
+  }
+
   // TODO (#1354) Update this function when '_' is removed
   // Refresh toolbox, so caller doesn't appear there anymore
   workspace.refreshToolboxSelection_();
