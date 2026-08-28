@@ -107,7 +107,7 @@ Blockly.ScratchBlocks.ProcedureUtils.ARGUMENTS = {
  */
 Blockly.ScratchBlocks.ProcedureUtils.parseReturnMutation = function(xmlElement, block) {
   var x;
-  if (block.isInFlyout && xmlElement.hasAttribute('forceoutput')) {
+  if (xmlElement.hasAttribute('forceoutput')) {
     try {
       x = JSON.parse(xmlElement.getAttribute('forceoutput'));
 
