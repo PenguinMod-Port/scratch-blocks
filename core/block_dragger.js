@@ -286,6 +286,7 @@ Blockly.BlockDragger.prototype.endBlockDrag = function(e, currentDragDeltaXY) {
         var block = allBlocks[i];
         if (block.type == Blockly.PROCEDURES_CALL_BLOCK_TYPE) {
           var procCode = block.getProcCode();
+
           // Check for call blocks with no associated define block.
           if (procCode === procCodeBeingDeleted) {
             alert(Blockly.Msg.PROCEDURE_USED);
@@ -294,6 +295,13 @@ Blockly.BlockDragger.prototype.endBlockDrag = function(e, currentDragDeltaXY) {
           }
         }
       }
+
+      // Remove this procedure from the global block list,
+      // even if it isnt global.
+      if (Blockly.Procedures.GLOBAL_BLOCKS.has(procCodeBeingDeleted)) {
+        Blockly.Procedures.GLOBAL_BLOCKS.delete(procCodeBeingDeleted);
+      }
+
       // The proc deletion was valid, update the toolbox.
       ws.refreshToolboxSelection_();
     });
