@@ -287,6 +287,8 @@ Blockly.Procedures.flyoutCategory = function(workspace) {
   // Create call blocks for each procedure defined in the workspace
   if (Blockly.Procedures.GLOBAL_BLOCKS.size) {
     // If there are global blocks, render them separately.
+    xmlList.splice(xmlList.length - 1, 1); // Remove the last unnecessary separator.
+
     var globalLabel = ScratchBlocks.goog.dom.createDom('label');
     globalLabel.setAttribute('text', Blockly.Msg.PM_PROCEDURE_GLOBAL_LABEL);
     xmlList.push(globalLabel);
@@ -426,6 +428,12 @@ Blockly.Procedures.mutateCallersAndPrototype = function(name, ws, mutation) {
         Blockly.Events.fire(new Blockly.Events.BlockChange(
             caller, 'mutation', null, oldMutation, newMutation));
       }
+    }
+
+    // Remove this item from the global block list (even if it isnt a global)
+    // in case The proccode was changed.
+    if (name !== mutation.getAttribute('proccode')) {
+      Blockly.Procedures.GLOBAL_BLOCKS.delete(name);
     }
 
     // Force update the block color
