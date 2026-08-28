@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+  <title>Colour Playground</title>
+
+  <script src="../blockly_uncompressed_vertical.js"></script>
+  <script src="../msg/messages.js"></script>
+  <script src="../msg/scratch_msgs.js"></script>
+  <script src="../blocks_vertical/vertical_extensions.js"></script>
+
+  <script src="../blocks_vertical/extensions.js"></script>
+
+  <script>
+    'use strict';
+
+    window.ScratchBlocks = Blockly;
+
+    var workspace = null;
+    var colours = [
+      "motion", "looks", "sounds",
+      "control", "event", "sensing",
+      "operators", "data", "data_lists",
+      "more", "pen", "addons",
+      "#ff0000", "#00ff00", "#0000ff",
+      "#00ffff", "#ff00ff", "#ffff00"
+    ];
+
+    function start() {
+      // Create main workspace.
+      workspace = Blockly.inject('blocklyDiv', {
+        media: '../media/',
+        noToolbox: true,
+        readOnly: true,
+        scrollbars: true,
+        zoom: {
+          controls: true,
+          wheel: true,
+          startScale: 2,
+          maxScale: 4,
+          minScale: 0.25,
+          scaleSpeed: 1.1
+        },
+      });
+
+      makeBlocks();
+    }
+
+    function makeBlocks() {
+      workspace.clear();
+
+      for (let i in colours) {
+        let colour = colours[i];
+        let block = workspace.newBlock('extension_single_label');
+        block.setColour(Blockly.Colours[colour] ?? colour);
+        block.initSvg();
+        block.render();
+
+        let shadow = workspace.newBlock('extension_single_label');
+        shadow.setShadow(true);
+        shadow.setColour(Blockly.Colours[colour] ?? colour);
+        shadow.initSvg();
+        shadow.render();
+        block.appendValueInput("INPUT").connection.connect(shadow.outputConnection);
+
+        block.moveBy((i % 3) * 120 + 50, Math.floor(i / 3) * 60 + 50);
+      }
+    }
+
+    function update() {
+      eval(document.getElementById("importExport").value);
+
+      makeBlocks();
+    }
+  </script>
+
+  <style>
+    html,
+    body {
+      height: 100%;
+    }
+
+    body {
+      background-color: #fff;
+      font-family: sans-serif;
+      overflow: hidden;
+    }
+
+    h1 {
+      font-weight: normal;
+      font-size: 140%;
+    }
+
+    #blocklyDiv {
+      float: right;
+      height: 95%;
+      width: 70%;
+    }
+
+    #importExport {
+      font-family: monospace;
+      tab-size: 2;
+    }
+  </style>
+</head>
+
+<body onload="start()">
+  <div id="blocklyDiv"></div>
+
+  <!-- Sidebar -->
+  <h1>Colour Playground</h1>
+  <textarea id="importExport" style="width: 26%; height: 24em;">Blockly.Block.colourModifier = function(colour) {
+    const contrast = (c, amt) => {
+        const hsl = goog.color.hexToHsl(c);
+        hsl[2] /= amt;
+
+        // stupid thing that makes pink colors not bad
+        hsl[1] /= (1 - Math.max(30 - Math.abs(330 - hsl[0]), 0) / 30) * (amt - 1) * 2 + 1;
+
+        return goog.color.hslToHex(hsl[0], hsl[1], hsl[2]);
+    };
+
+    return [
+        colour,
+        contrast(colour, 1.1),
+        contrast(colour, 1.2),
+        contrast(colour, 1.2),
+    ];
+}
+
+Blockly.Block.textColourModifier = function(colour) {
+  return colour;
+}</textarea>
+  <button onclick="update()">Update colours</button>
+
+</html>
