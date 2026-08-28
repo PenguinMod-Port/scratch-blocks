@@ -1042,7 +1042,7 @@ Blockly.ScratchBlocks.ProcedureUtils.removeFieldCallback = function(field) {
 
     // Since the command editor is not a shadow, we must manually remove it.
     var inputToRemove = this.getInput(inputNameToRemove);
-    if (inputToRemove) {
+    if (inputToRemove && inputToRemove.connection) {
       var inputBlock = inputToRemove.connection.targetBlock();
       if (inputBlock && inputBlock.type === 'argument_editor_command') {
         inputBlock.dispose();
