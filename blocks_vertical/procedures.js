@@ -395,7 +395,7 @@ Blockly.ScratchBlocks.ProcedureUtils.createAllInputs_ = function(connectionMap) 
       labelText = component.substring(2).trim();
       
       if (argumentType == 'c') {
-        var input = this.appendStatementInput(id).setCheck("normal");
+        var input = this.appendStatementInput(id).setCheck("argumentReporterCommand");
       } else {
         var input = this.appendValueInput(id);
       }
