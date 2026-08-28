@@ -395,12 +395,17 @@ Blockly.ScratchBlocks.ProcedureUtils.createAllInputs_ = function(connectionMap) 
       labelText = component.substring(2).trim();
       
       if (argumentType == 'c') {
-        var input = this.appendStatementInput(id).setCheck("argumentReporterCommand");
+        var input = this.appendStatementInput(id);
       } else {
         var input = this.appendValueInput(id);
       }
       if (argumentType == 'b') {
         input.setCheck('Boolean');
+      }
+      if (argumentType == 'c') {
+        if (this.type !== 'procedures_call') {
+          input.setCheck("argumentReporterCommand");
+        }
       }
 
       this.populateArgument_(
@@ -621,8 +626,8 @@ Blockly.ScratchBlocks.ProcedureUtils.createArgumentReporter_ = function(
       newBlock.render(false);
     }
     if (argumentType === 'c') {
-      newBlock.setPreviousStatement(true, 'argumentReporterCommand')
-      newBlock.setNextStatement(true, 'argumentReporterCommand')
+      newBlock.setPreviousStatement(true, 'argumentReporterCommand');
+      newBlock.setNextStatement(true, 'argumentReporterCommand');
     }
   } finally {
     Blockly.Events.enable();
@@ -665,7 +670,6 @@ Blockly.ScratchBlocks.ProcedureUtils.populateArgumentOnCaller_ = function(type,
     }
     if (type != 'c' && this.generateShadows_) {
       var shadowDom = oldShadow || this.buildShadowDom_(type);
-      console.log("setting shadow dom: " + shadowDom);
       input.connection.setShadowDom(shadowDom);
     }
   } else if (this.generateShadows_) {
@@ -1503,6 +1507,8 @@ Blockly.Blocks['argument_reporter_command'] = {
       "canDragDuplicate": true,
       "extensions": ["colours_more", "shape_statement", "procedure_custom_color"],
     });
+
+    this.previousConnection.setCheck('argumentReporterCommand');
   },
   updateDisplay_: Blockly.ScratchBlocks.ProcedureUtils.argumentReporterUpdateDisplay,
   mutationToDom: Blockly.ScratchBlocks.ProcedureUtils.argumentReporterMutationToDom,
@@ -1559,6 +1565,8 @@ Blockly.Blocks['argument_editor_command'] = {
       "enableContextMenu": false,
       "extensions": ["colours_more", "shape_statement"],
     });
+
+    this.previousConnection.setCheck('argumentReporterCommand');
   },
   // Exist on declaration and arguments editors, with different implementations.
   removeFieldCallback: Blockly.ScratchBlocks.ProcedureUtils.removeArgumentCallback_,
@@ -1595,6 +1603,15 @@ Blockly.Blocks['procedures_reevaluate'] = {
         }
       ],
       "extensions": ["colours_more", "shape_statement", "procedure_custom_color"]
+    });
+  }
+};
+
+Blockly.Blocks['procedures_stopCaller'] = {
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_PROCEDURES_STOP_CALLER,
+      "extensions": ["colours_more", "shape_end", "procedure_custom_color"]
     });
   }
 };

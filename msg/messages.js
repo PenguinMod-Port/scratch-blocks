@@ -411,6 +411,7 @@ Blockly.Msg.PROCEDURES_DOCS = 'How to use return';
 
 Blockly.Msg.PM_PROCEDURES_REEVALUATE = 'reevaluate %1';
 Blockly.Msg.PM_PROCEDURES_SET = 'set %1 to %2';
+Blockly.Msg.PM_PROCEDURES_STOP_CALLER = 'stop caller script';
 
 // Sensing blocks
 Blockly.Msg.SENSING_TOUCHINGOBJECT = 'touching %1?';

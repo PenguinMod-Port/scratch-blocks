@@ -278,6 +278,10 @@ Blockly.Procedures.flyoutCategory = function(workspace) {
     var reevaluateBlock = goog.dom.createDom('block');
     reevaluateBlock.setAttribute('type', 'procedures_reevaluate');
     xmlList.push(reevaluateBlock);
+  
+    var stopCallerBlock = goog.dom.createDom('block');
+    stopCallerBlock.setAttribute('type', 'procedures_stopCaller');
+    xmlList.push(stopCallerBlock);
 
     var seperator = goog.dom.createDom('sep');
     seperator.setAttribute('gap', 36);
