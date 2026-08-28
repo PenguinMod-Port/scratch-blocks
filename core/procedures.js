@@ -615,6 +615,14 @@ Blockly.Procedures.externalProcedureDefCallback = function(/** mutator, callback
 };
 
 /**
+ * Callback to perform extra tasks before editing a procedure.
+ * @public
+ */
+Blockly.Procedures.beforeEditCallback = function(/** block */) {
+  alert('Editor must be override Blockly.Procedures.beforeEditCallback');
+}
+
+/**
  * Make a context menu option for editing a custom procedure.
  * This appears in the context menu for procedure definitions and procedure
  * calls.
@@ -627,6 +635,9 @@ Blockly.Procedures.makeEditOption = function(block) {
     enabled: true,
     text: Blockly.Msg.EDIT_PROCEDURE,
     callback: function() {
+      var override = Blockly.Procedures.beforeEditCallback(block);
+      if (override) block = override;
+
       Blockly.Procedures.editProcedureCallback_(block);
     }
   };
