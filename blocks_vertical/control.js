@@ -58,7 +58,7 @@ Blockly.Blocks['control_forever'] = {
         }
       ],
       "category": Blockly.Categories.control,
-      "extensions": ["colours_control", "shape_end"]
+      "extensions": ["colours_control"]
     });
   }
 };
@@ -219,6 +219,7 @@ Blockly.Blocks['control_stop'] = {
   init: function() {
     var ALL_SCRIPTS = 'all';
     var THIS_SCRIPT = 'this script';
+    var THIS_THREAD = 'this thread';
     var OTHER_SCRIPTS = 'other scripts in sprite';
     var stopDropdown = new Blockly.FieldDropdown(function() {
       if (this.sourceBlock_ &&
@@ -228,8 +229,10 @@ Blockly.Blocks['control_stop'] = {
           [Blockly.Msg.CONTROL_STOP_OTHER, OTHER_SCRIPTS]
         ];
       }
-      return [[Blockly.Msg.CONTROL_STOP_ALL, ALL_SCRIPTS],
+      return [
+        [Blockly.Msg.CONTROL_STOP_ALL, ALL_SCRIPTS],
         [Blockly.Msg.CONTROL_STOP_THIS, THIS_SCRIPT],
+        [Blockly.Msg.CONTROL_STOP_THREAD, THIS_THREAD],
         [Blockly.Msg.CONTROL_STOP_OTHER, OTHER_SCRIPTS]
       ];
     }, function(option) {

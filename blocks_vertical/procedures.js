@@ -1607,15 +1607,6 @@ Blockly.Blocks['procedures_reevaluate'] = {
   }
 };
 
-Blockly.Blocks['procedures_stopCaller'] = {
-  init: function() {
-    this.jsonInit({
-      "message0": Blockly.Msg.PM_PROCEDURES_STOP_CALLER,
-      "extensions": ["colours_more", "shape_end", "procedure_custom_color"]
-    });
-  }
-};
-
 Blockly.Blocks['procedures_return'] = {
   init: function() {
     this.jsonInit({

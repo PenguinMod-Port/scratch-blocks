@@ -41,6 +41,7 @@ Blockly.Msg.CONTROL_ELSE = 'else';
 Blockly.Msg.CONTROL_STOP = 'stop';
 Blockly.Msg.CONTROL_STOP_ALL = 'all';
 Blockly.Msg.CONTROL_STOP_THIS = 'this script';
+Blockly.Msg.CONTROL_STOP_THREAD = 'this thread';
 Blockly.Msg.CONTROL_STOP_OTHER = 'other scripts in sprite';
 Blockly.Msg.CONTROL_WAIT = 'wait %1 seconds';
 Blockly.Msg.CONTROL_WAITUNTIL = 'wait until %1';
@@ -411,7 +412,6 @@ Blockly.Msg.PROCEDURES_DOCS = 'How to use return';
 
 Blockly.Msg.PM_PROCEDURES_REEVALUATE = 'reevaluate %1';
 Blockly.Msg.PM_PROCEDURES_SET = 'set %1 to %2';
-Blockly.Msg.PM_PROCEDURES_STOP_CALLER = 'stop caller script';
 
 // Sensing blocks
 Blockly.Msg.SENSING_TOUCHINGOBJECT = 'touching %1?';
