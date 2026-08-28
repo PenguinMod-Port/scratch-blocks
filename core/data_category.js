@@ -511,6 +511,9 @@ Blockly.DataCategory.createValue = function(valueName, type, value) {
     case 'INDEX':
       fieldName = 'INDEX';
       break;
+    case 'VISIBILITY':
+      fieldName = 'CHECKBOX';
+      break;
     case 'VALUE':
       if (type === 'math_number') {
         fieldName = 'NUM';
