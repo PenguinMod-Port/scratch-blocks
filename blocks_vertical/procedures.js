@@ -143,6 +143,7 @@ Blockly.ScratchBlocks.ProcedureUtils.callerMutationToDom = function() {
     container.setAttribute('return', JSON.stringify(this.return_));
   }
   container.setAttribute('terminal', JSON.stringify(this.isTerminal_));
+  container.setAttribute('dualBlock', JSON.stringify(this.isDualBlock_));
   container.setAttribute('colour', this.procColour_);
   return container;
 };
@@ -159,6 +160,7 @@ Blockly.ScratchBlocks.ProcedureUtils.callerDomToMutation = function(xmlElement) 
   this.warp_ = JSON.parse(xmlElement.getAttribute('warp'));
   this.global_ = JSON.parse(xmlElement.getAttribute('global'));
   this.isTerminal_ = JSON.parse(xmlElement.getAttribute('terminal'));
+  this.isDualBlock_ = JSON.parse(xmlElement.getAttribute('dualBlock'));
   this.generateShadows_ = this.global_ && this.isInFlyout
     ? true
     : JSON.parse(xmlElement.getAttribute('generateshadows'));
@@ -196,6 +198,7 @@ Blockly.ScratchBlocks.ProcedureUtils.definitionMutationToDom = function(
   container.setAttribute('global', JSON.stringify(this.global_));
   container.setAttribute('forceoutput', this.forceOutput_);
   container.setAttribute('terminal', JSON.stringify(this.isTerminal_));
+  container.setAttribute('dualBlock', JSON.stringify(this.isDualBlock_));
   container.setAttribute('colour', this.procColour_);
   return container;
 };
@@ -228,6 +231,7 @@ Blockly.ScratchBlocks.ProcedureUtils.definitionDomToMutation = function(xmlEleme
     this.forceOutput_ = parseInt(xmlElement.getAttribute('forceoutput'));
   }
   this.isTerminal_ = JSON.parse(xmlElement.getAttribute('terminal'));
+  this.isDualBlock_ = JSON.parse(xmlElement.getAttribute('dualBlock'));
   this.procColour_ = xmlElement.getAttribute('colour') ?? "more";
   this.updateDisplay_();
   if (this.updateArgumentReporterNames_) {
@@ -282,17 +286,19 @@ Blockly.ScratchBlocks.ProcedureUtils.updateDisplay_ = function() {
       if (this.outputConnection) {
         this.setOutput(true, null)
         this.setOutputShape(Blockly.OUTPUT_SHAPE_ROUND)
-      } else {
+      }
+      if (this.isDualBlock_ || !this.outputConnection) {
         if (this.isTerminal_ && this.nextConnection && this.nextConnection.targetConnection) this.nextConnection.disconnect();
         this.setPreviousStatement(true, "normal");
         this.setNextStatement(!this.isTerminal_, "normal");
       }
     } else {
-      if (this.previousConnection) {
+      if (this.isDualBlock_ || this.previousConnection) {
         if (this.isTerminal_ && this.nextConnection && this.nextConnection.targetConnection) this.nextConnection.disconnect();
         this.setPreviousStatement(true, "normal");
         this.setNextStatement(!this.isTerminal_, "normal");
-      } else {
+      } 
+      if (!this.previousConnection) {
         let output = this.getReturn()[0];
         if (this.outputConnection && this.outputConnection.targetConnection && output !== null) {
           let check = this.outputConnection.targetConnection.check_;
@@ -1201,12 +1207,13 @@ Blockly.ScratchBlocks.ProcedureUtils.updateProtoShape_ = function() {
   var parent = this.getParent();
   var wasForceOutput = this.previousConnection === null;
   var isStatement = this.forceOutput_ === 0;
+  var isDualBlock = this.isDualBlock_;
   if (parent) {
     // For forced returns, we must re-connect and change the outer connections
     // before calling 'createAllInputs_'. This fixes shadow and block placement.
     if (
-      (!wasForceOutput && !isStatement) ||
-      (wasForceOutput && isStatement)
+      (!wasForceOutput && !(isStatement || isDualBlock)) ||
+      (wasForceOutput && (isStatement || isDualBlock))
     ) {
       // Only update if we switch between reporter or block, not switch reporter types.
       var parentInput = parent.getInput("custom_block");
@@ -1240,8 +1247,8 @@ Blockly.ScratchBlocks.ProcedureUtils.updateProtoShape_ = function() {
       }
     }
 
-    this.setNextStatement(isStatement ? !this.isTerminal_ : false, "normal");
-    this.setPreviousStatement(isStatement, "normal");
+    this.setNextStatement(isStatement || isDualBlock ? !this.isTerminal_ : false, "normal");
+    this.setPreviousStatement(isStatement || isDualBlock, "normal");
 
     this.setOutput(!isStatement, this.forceOutput_);
     this.setOutputShape(isStatement ? Blockly.OUTPUT_SHAPE_SQUARE : this.forceOutput_);
@@ -1325,6 +1332,7 @@ Blockly.Blocks['procedures_call'] = {
     this.global_ = false;
     this.return_ = [[], Blockly.PROCEDURES_CALL_TYPE_STATEMENT];
     this.isTerminal_ = false;
+    this.isDualBlock_ = false;
     this.procColour_ = "more";
   },
   // Shared.
@@ -1368,6 +1376,7 @@ Blockly.Blocks['procedures_prototype'] = {
     this.global_ = false;
     this.forceOutput_ = 0;
     this.isTerminal_ = false;
+    this.isDualBlock_ = false;
     this.procColour_ = "more";
 
     queueMicrotask(() => {
@@ -1419,6 +1428,7 @@ Blockly.Blocks['procedures_declaration'] = {
     this.global_ = false;
     this.forceOutput_ = 0;
     this.isTerminal_ = false;
+    this.isDualBlock_ = false;
     this.procColour_ = "more";
   },
   // Shared.
