@@ -461,6 +461,12 @@ Blockly.Procedures.getDefineBlock = function(procCode, workspace) {
     if (blocks[i].type == Blockly.PROCEDURES_DEFINITION_BLOCK_TYPE) {
       var prototypeBlock = blocks[i].getInput('custom_block').connection.targetBlock();
       if (prototypeBlock.getProcCode && prototypeBlock.getProcCode() == procCode) {
+        // Secretly force a mutation update in the prototype for global procedures.
+        if (prototypeBlock.global_) {
+          prototypeBlock.return_ = Blockly.Procedures.getBlockReturnType(blocks[i]);
+          Blockly.Procedures.GLOBAL_BLOCKS.set(procCode, prototypeBlock.mutationToDom());
+        }
+
         return blocks[i];
       }
     }
@@ -780,12 +786,13 @@ Blockly.Procedures.DEFAULT_ENABLE_RETURNS = true;
  * @returns {[Array<string>, number]} types & shape
  */
 Blockly.Procedures.getProcedureReturnType = function(procCode, workspace, force = false) {
-  if (force && Blockly.Procedures.GLOBAL_BLOCKS.has(procCode)) {
+  if (Blockly.Procedures.GLOBAL_BLOCKS.has(procCode)) {
     var globalMutation = Blockly.Procedures.GLOBAL_BLOCKS.get(procCode);
     var globalOutput = globalMutation.getAttribute('forceoutput');
+    var globalReturn = JSON.parse(globalMutation.getAttribute('return'));
 
-    if (globalOutput === '0') return [null, Blockly.OUTPUT_SHAPE_ROUND];
-    else return [null, Number(globalOutput)];
+    if (globalOutput !== '0') return [null, Number(globalOutput)];
+    else if (globalReturn) return globalReturn;
   }
 
   var defineBlock = Blockly.Procedures.getDefineBlock(procCode, workspace);

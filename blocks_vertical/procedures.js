@@ -110,9 +110,10 @@ Blockly.ScratchBlocks.ProcedureUtils.parseReturnMutation = function(xmlElement, 
   if (xmlElement.hasAttribute('forceoutput')) {
     try {
       x = JSON.parse(xmlElement.getAttribute('forceoutput'));
-
-      if (x instanceof Array) return x;
-      else if (x !== null) return [null, typeof x === 'number' ? x : Blockly.OUTPUT_SHAPE_ROUND];
+      if (x !== 0) {
+        if (x instanceof Array) return x;
+        else if (x !== null) return [null, typeof x === 'number' ? x : Blockly.OUTPUT_SHAPE_ROUND];
+      }
     } catch {}
   }
 
@@ -124,6 +125,7 @@ Blockly.ScratchBlocks.ProcedureUtils.parseReturnMutation = function(xmlElement, 
       else if (x !== null) return [null, x instanceof Number ? x : Blockly.OUTPUT_SHAPE_ROUND];
     } catch {}
   }
+
   return [[], Blockly.PROCEDURES_CALL_TYPE_STATEMENT];
 };
 
@@ -187,6 +189,10 @@ Blockly.ScratchBlocks.ProcedureUtils.definitionMutationToDom = function(
     container.setAttribute('generateshadows', true);
   }
 
+  if (this.return_[1] !== Blockly.PROCEDURES_CALL_TYPE_STATEMENT) {
+    container.setAttribute('return', JSON.stringify(this.return_));
+  }
+
   container.setAttribute('proccode', this.procCode_);
   container.setAttribute('argumentids', JSON.stringify(this.argumentIds_));
   container.setAttribute('argumentnames', JSON.stringify(this.displayNames_));
@@ -210,13 +216,6 @@ Blockly.ScratchBlocks.ProcedureUtils.definitionDomToMutation = function(xmlEleme
   this.procCode_ = xmlElement.getAttribute('proccode');
   this.warp_ = JSON.parse(xmlElement.getAttribute('warp'));
   this.global_ = JSON.parse(xmlElement.getAttribute('global'));
-  if (this.global_) {
-    Blockly.Procedures.GLOBAL_BLOCKS.set(this.procCode_, xmlElement);
-  } else {
-    if (Blockly.Procedures.GLOBAL_BLOCKS.has(this.procCode_)) {
-      Blockly.Procedures.GLOBAL_BLOCKS.delete(this.procCode_);
-    }
-  }
 
   var prevArgIds = this.argumentIds_;
   var prevDisplayNames = this.displayNames_;
@@ -224,6 +223,10 @@ Blockly.ScratchBlocks.ProcedureUtils.definitionDomToMutation = function(xmlEleme
   this.argumentIds_ = JSON.parse(xmlElement.getAttribute('argumentids'));
   this.displayNames_ = JSON.parse(xmlElement.getAttribute('argumentnames'));
   this.argumentDefaults_ = JSON.parse(xmlElement.getAttribute('argumentdefaults'));
+  this.return_ = Blockly.ScratchBlocks.ProcedureUtils.parseReturnMutation(
+    xmlElement,
+    this
+  );
   if (xmlElement.hasAttribute('forceoutput')) {
     this.forceOutput_ = parseInt(xmlElement.getAttribute('forceoutput'));
   }
@@ -232,6 +235,15 @@ Blockly.ScratchBlocks.ProcedureUtils.definitionDomToMutation = function(xmlEleme
   this.updateDisplay_();
   if (this.updateArgumentReporterNames_) {
     this.updateArgumentReporterNames_(prevArgIds, prevDisplayNames);
+  }
+
+  // Publish the global block.
+  if (this.global_) {
+    Blockly.Procedures.GLOBAL_BLOCKS.set(this.procCode_, xmlElement);
+  } else {
+    if (Blockly.Procedures.GLOBAL_BLOCKS.has(this.procCode_)) {
+      Blockly.Procedures.GLOBAL_BLOCKS.delete(this.procCode_);
+    }
   }
 
   if (this.type === "procedures_declaration" && this.procColour_ !== "more") {
@@ -1371,6 +1383,7 @@ Blockly.Blocks['procedures_prototype'] = {
     this.warp_ = false;
     this.global_ = false;
     this.forceOutput_ = 0;
+    this.return_ = [[], Blockly.PROCEDURES_CALL_TYPE_STATEMENT];
     this.isTerminal_ = false;
     this.procColour_ = "more";
 
@@ -1421,6 +1434,7 @@ Blockly.Blocks['procedures_declaration'] = {
     this.argumentDefaults_ = [];
     this.warp_ = false;
     this.global_ = false;
+    this.return_ = [[], Blockly.PROCEDURES_CALL_TYPE_STATEMENT];
     this.forceOutput_ = 0;
     this.isTerminal_ = false;
     this.procColour_ = "more";
