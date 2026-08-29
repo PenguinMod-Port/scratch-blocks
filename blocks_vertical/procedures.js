@@ -1507,8 +1507,6 @@ Blockly.Blocks['argument_reporter_command'] = {
       "canDragDuplicate": true,
       "extensions": ["colours_more", "shape_statement", "procedure_custom_color"],
     });
-
-    this.previousConnection.setCheck('argumentReporterCommand');
   },
   updateDisplay_: Blockly.ScratchBlocks.ProcedureUtils.argumentReporterUpdateDisplay,
   mutationToDom: Blockly.ScratchBlocks.ProcedureUtils.argumentReporterMutationToDom,

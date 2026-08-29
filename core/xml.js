@@ -769,6 +769,13 @@ Blockly.Xml.domToBlockHeadless_ = function(xmlBlock, workspace) {
           if (input.type == Blockly.INPUT_VALUE) {
             input.connection.connect(blockChild.outputConnection);
           } else if (input.type == Blockly.NEXT_STATEMENT) {
+            if (blockChild.type === 'argument_reporter_command') {
+              // Hard code procedure command blocks to use this check.
+              if (input.sourceBlock_.type === 'procedures_prototype') {
+                blockChild.previousConnection.setCheck('argumentReporterCommand');
+              }
+            }
+
             input.connection.connect(blockChild.previousConnection);
           } else {
             goog.asserts.fail(
