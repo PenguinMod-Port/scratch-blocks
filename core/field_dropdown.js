@@ -181,7 +181,7 @@ Blockly.FieldDropdown.prototype.init = function() {
 Blockly.FieldDropdown.prototype.render_ = function() {
   Blockly.FieldDropdown.superClass_.render_.call(this);
   // pm: text colour
-  if (this.sourceBlock_.textColour) {
+  if (this.sourceBlock_.textColour && this.arrow_) {
     this.arrow_.style.filter = recolorFilter(this.sourceBlock_.textColour);
   }
 };
