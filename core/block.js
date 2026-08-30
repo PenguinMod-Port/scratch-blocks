@@ -1419,6 +1419,34 @@ Blockly.Block.prototype.jsonInit = function(json) {
     Blockly.Extensions.apply(json['mutator'], this, true);
   }
 
+  if (json['mutations']) {
+    const handler = json['mutations'];
+    this.mutationToDom = function () {
+      // Save mutations
+      const serializer = Object.create(null);
+      handler.serialize(this, serializer);
+      const xmlElement = document.createElementNS(null, "mutation");
+      for (const [name, value] of Object.entries(serializer)) {
+        xmlElement.setAttribute(lowercaseName, value);
+      }
+
+      return xmlElement;
+    }
+    
+    this.domToMutation = function(xmlElement) {
+      // Load mutations
+      const deserialized = {};
+      for (const attr of xmlElement.attributes) {
+        deserialized[attr.name] = attr.value;
+      }
+
+      handler.deserialize(this, deserialized);
+    }
+
+    // Optional mutation handler.
+    if (handler.init) handler.init(this);
+  }
+
   if (Array.isArray(json['extensions'])) {
     var extensionNames = json['extensions'];
     for (var i = 0; i < extensionNames.length; ++i) {
