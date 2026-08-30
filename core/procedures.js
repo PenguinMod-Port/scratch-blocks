@@ -528,6 +528,14 @@ Blockly.Procedures.createProcedureDefCallback_ = function(workspace) {
 Blockly.Procedures.createProcedureCallbackFactory_ = function(workspace) {
   return function(mutation) {
     if (mutation) {
+      var usedProccodes = Blockly.Procedures.allProcedureMutations(workspace)
+        .map((m) => m.getAttribute("proccode"));
+      var proccodeInUse = usedProccodes.includes(mutation.getAttribute("proccode"));
+      if (proccodeInUse) {
+        alert(Blockly.Msg.PM_PROCCODE_USED);
+        return;
+      }
+
       var blockText = '<xml>' +
           '<block type="procedures_definition">' +
           '<statement name="custom_block">' +
@@ -552,6 +560,7 @@ Blockly.Procedures.createProcedureCallbackFactory_ = function(workspace) {
       block.moveBy(posX / scale, (-workspace.scrollY + 30) / scale);
       block.scheduleSnapAndBump();
       Blockly.Events.setGroup(false);
+      workspace.markFocused();
     }
   };
 };
@@ -590,6 +599,7 @@ Blockly.Procedures.editProcedureCallback_ = function(block) {
     block = Blockly.Procedures.getPrototypeBlock(
         block.getProcCode(), workspaceToSearch);
   }
+
   // Block now refers to the procedure prototype block, it is safe to proceed.
   Blockly.Procedures.externalProcedureDefCallback(
       block.mutationToDom(),
@@ -606,6 +616,14 @@ Blockly.Procedures.editProcedureCallback_ = function(block) {
 Blockly.Procedures.editProcedureCallbackFactory_ = function(block) {
   return function(mutation) {
     if (mutation) {
+      var usedProccodes = Blockly.Procedures.allProcedureMutations(block.workspace)
+        .map((m) => m.getAttribute("proccode"));
+      var proccodeInUse = usedProccodes.includes(mutation.getAttribute("proccode"));
+      if (proccodeInUse) {
+        alert(Blockly.Msg.PM_PROCCODE_USED);
+        return;
+      }
+
       Blockly.Procedures.mutateCallersAndPrototype(block.getProcCode(),
           block.workspace, mutation);
     }

@@ -578,6 +578,7 @@ Blockly.Msg.PROCEDURE_ALREADY_EXISTS = 'A procedure named "%1" already exists.';
 Blockly.Msg.PROCEDURE_DEFAULT_NAME = 'block name';
 Blockly.Msg.PROCEDURE_USED = 'To delete a block definition, first remove all uses of the block';
 
+Blockly.Msg.PM_PROCCODE_USED = 'Custom block name is already in use!';
 Blockly.Msg.PM_PROCEDURE_GLOBAL_LABEL = 'Global Blocks';
 Blockly.Msg.PM_PROCEDURE_PRIVATE_LABEL = 'Local Blocks';
 
