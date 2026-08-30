@@ -626,6 +626,7 @@ Blockly.Procedures.editProcedureCallbackFactory_ = function(block) {
 
       Blockly.Procedures.mutateCallersAndPrototype(block.getProcCode(),
           block.workspace, mutation);
+      block.workspace.markFocused();
     }
   };
 };
