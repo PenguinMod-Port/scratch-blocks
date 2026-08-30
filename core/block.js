@@ -1427,7 +1427,7 @@ Blockly.Block.prototype.jsonInit = function(json) {
       handler.serialize(this, serializer);
       const xmlElement = document.createElementNS(null, "mutation");
       for (const [name, value] of Object.entries(serializer)) {
-        xmlElement.setAttribute(lowercaseName, value);
+        xmlElement.setAttribute(name, value);
       }
 
       return xmlElement;
