@@ -33,6 +33,7 @@ Blockly.Colours = {
   "sensing": "#5CB1D6",
   "pen": "#0FBD8C",
   "operators": "#59C059",
+  "operators_strings": "#47c18a",
   "data": "#FF8C1A",
   "data_lists": "#FF661A",
   "more": "#FF6680",

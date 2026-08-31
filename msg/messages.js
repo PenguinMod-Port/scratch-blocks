@@ -534,6 +534,7 @@ Blockly.Msg.CATEGORY_VARIABLES = 'Variables';
 Blockly.Msg.CATEGORY_MYBLOCKS = 'My Blocks';
 
 Blockly.Msg.PM_CATEGORY_LISTS = 'Lists';
+Blockly.Msg.PM_CATEGORY_STRINGS = 'Strings';
 
 // Context menus
 Blockly.Msg.DUPLICATE = 'Duplicate';

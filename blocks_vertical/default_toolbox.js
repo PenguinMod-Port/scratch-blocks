@@ -938,49 +938,6 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
     '<block type="operator_nand"></block>' +
     '<block type="operator_nor"></block>' +
     '<block type="operator_not" id="operator_not"></block>' +
-    '<block type="operator_join" id="operator_join">' +
-      '<value name="STRING1">' +
-        '<shadow type="text">' +
-          '<field name="TEXT">hello</field>' +
-        '</shadow>' +
-      '</value>' +
-      '<value name="STRING2">' +
-        '<shadow type="text">' +
-          '<field name="TEXT">world</field>' +
-        '</shadow>' +
-      '</value>' +
-    '</block>' +
-    '<block type="operator_letter_of" id="operator_letter_of">' +
-      '<value name="LETTER">' +
-        '<shadow type="math_whole_number">' +
-          '<field name="NUM">1</field>' +
-        '</shadow>' +
-      '</value>' +
-      '<value name="STRING">' +
-        '<shadow type="text">' +
-          '<field name="TEXT">world</field>' +
-        '</shadow>' +
-      '</value>' +
-    '</block>' +
-    '<block type="operator_length" id="operator_length">' +
-      '<value name="STRING">' +
-        '<shadow type="text">' +
-          '<field name="TEXT">world</field>' +
-        '</shadow>' +
-      '</value>' +
-    '</block>' +
-    '<block type="operator_contains" id="operator_contains">' +
-      '<value name="STRING1">' +
-        '<shadow type="text">' +
-          '<field name="TEXT">hello</field>' +
-        '</shadow>' +
-      '</value>' +
-      '<value name="STRING2">' +
-        '<shadow type="text">' +
-          '<field name="TEXT">world</field>' +
-        '</shadow>' +
-      '</value>' +
-    '</block>' +
     '<block type="operator_mod" id="operator_mod">' +
       '<value name="NUM1">' +
         '<shadow type="math_number">' +
@@ -1060,23 +1017,6 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
         '<shadow type="math_number" />' +
       '</value>' +
     '</block>' +
-    '<block type="operator_join3">' +
-      '<value name="STRING1">' +
-        '<shadow type="text">' +
-          '<field name="TEXT">apple </field>' +
-        '</shadow>' +
-      '</value>' +
-      '<value name="STRING2">' +
-        '<shadow type="text">' +
-          '<field name="TEXT">banana </field>' +
-        '</shadow>' +
-      '</value>' +
-      '<value name="STRING3">' +
-        '<shadow type="text">' +
-          '<field name="TEXT">pear</field>' +
-        '</shadow>' +
-      '</value>' +
-    '</block>' +
     '<block type="operator_gtorequal">' +
       '<value name="OPERAND1">' +
         '<shadow type="text">' +
@@ -1114,21 +1054,6 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
       '</value>' +
     '</block>' +
     '<block type="operator_null" />' +
-    '<block type="operator_newLine" />' +
-    '<block type="operator_tabCharacter" />' +
-    '<block type="operator_expandablejoininputs">' +
-      '<field name="EXPANDABLE">2</field>' +
-      '<value name="INPUT1">' +
-        '<shadow type="text">' +
-          '<field name="TEXT">apple</field>' +
-        '</shadow>' +
-      '</value>' +
-      '<value name="INPUT2">' +
-        '<shadow type="text">' +
-          '<field name="TEXT">banana</field>' +
-        '</shadow>' +
-      '</value>' +
-    '</block>' +
     '<block type="operator_range_expandable" />' +
     '<block type="operator_expandableMath">' +
       '<field name="EXPANDABLE">2</field>' +
@@ -1141,11 +1066,6 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
         '<shadow type="math_number">' +
           '<field name="NUM">2</field>' +
         '</shadow>' +
-      '</value>' +
-    '</block>' +
-    '<block type="operator_toUpperLowerCase">' +
-      '<value name="TEXT">' +
-        '<shadow type="text" />' +
       '</value>' +
     '</block>' +
     '<block type="operator_expandableBool">' +
@@ -1200,6 +1120,88 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
     '</block>' +
     '<block type="operator_javascript_boolean">' +
       '<value name="JS">' +
+        '<shadow type="text" />' +
+      '</value>' +
+    '</block>' +
+  '</category>' +
+  '<category name="%{BKY_PM_CATEGORY_STRINGS}" id="strings" colour="#47c18a" secondaryColour="#479572">' +
+    '<block type="operator_join" id="operator_join">' +
+      '<value name="STRING1">' +
+        '<shadow type="text">' +
+          '<field name="TEXT">hello</field>' +
+        '</shadow>' +
+      '</value>' +
+      '<value name="STRING2">' +
+        '<shadow type="text">' +
+          '<field name="TEXT">world</field>' +
+        '</shadow>' +
+      '</value>' +
+    '</block>' +
+    '<block type="operator_letter_of" id="operator_letter_of">' +
+      '<value name="LETTER">' +
+        '<shadow type="math_whole_number">' +
+          '<field name="NUM">1</field>' +
+        '</shadow>' +
+      '</value>' +
+      '<value name="STRING">' +
+        '<shadow type="text">' +
+          '<field name="TEXT">world</field>' +
+        '</shadow>' +
+      '</value>' +
+    '</block>' +
+    '<block type="operator_length" id="operator_length">' +
+      '<value name="STRING">' +
+        '<shadow type="text">' +
+          '<field name="TEXT">world</field>' +
+        '</shadow>' +
+      '</value>' +
+    '</block>' +
+    '<block type="operator_contains" id="operator_contains">' +
+      '<value name="STRING1">' +
+        '<shadow type="text">' +
+          '<field name="TEXT">hello</field>' +
+        '</shadow>' +
+      '</value>' +
+      '<value name="STRING2">' +
+        '<shadow type="text">' +
+          '<field name="TEXT">world</field>' +
+        '</shadow>' +
+      '</value>' +
+    '</block>' +
+    '<block type="operator_join3">' +
+      '<value name="STRING1">' +
+        '<shadow type="text">' +
+          '<field name="TEXT">apple </field>' +
+        '</shadow>' +
+      '</value>' +
+      '<value name="STRING2">' +
+        '<shadow type="text">' +
+          '<field name="TEXT">banana </field>' +
+        '</shadow>' +
+      '</value>' +
+      '<value name="STRING3">' +
+        '<shadow type="text">' +
+          '<field name="TEXT">pear</field>' +
+        '</shadow>' +
+      '</value>' +
+    '</block>' +
+    '<block type="operator_newLine" />' +
+    '<block type="operator_tabCharacter" />' +
+    '<block type="operator_expandablejoininputs">' +
+      '<field name="EXPANDABLE">2</field>' +
+      '<value name="INPUT1">' +
+        '<shadow type="text">' +
+          '<field name="TEXT">apple</field>' +
+        '</shadow>' +
+      '</value>' +
+      '<value name="INPUT2">' +
+        '<shadow type="text">' +
+          '<field name="TEXT">banana</field>' +
+        '</shadow>' +
+      '</value>' +
+    '</block>' +
+    '<block type="operator_toUpperLowerCase">' +
+      '<value name="TEXT">' +
         '<shadow type="text" />' +
       '</value>' +
     '</block>' +
