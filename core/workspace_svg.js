@@ -1168,7 +1168,7 @@ Blockly.WorkspaceSvg.prototype.sanitizeUnknownValue = function(value, applyStrin
             entries[i][1],
             true,
           );
-          if (i < value.length - 1) result += ', ';
+          if (i < entries.length - 1) result += ', ';
         }
         result += '}';
       }
