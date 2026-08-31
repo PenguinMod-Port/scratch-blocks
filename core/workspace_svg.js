@@ -123,8 +123,12 @@ Blockly.WorkspaceSvg = function(options, opt_blockDragSurface, opt_wsDragSurface
 };
 goog.inherits(Blockly.WorkspaceSvg, Blockly.Workspace);
 
-// settings
+// Settings
+/** If true, block output values can be copied. */
 Blockly.WorkspaceSvg.VALUE_REPORT_COPY = true;
+
+/** If true, block output values will be colored by their JS type, if applicable. */
+Blockly.WorkspaceSvg.VALUE_REPORT_COLORS = true;
 
 /**
  * A wrapper function called when a resize event occurs.
@@ -1091,6 +1095,100 @@ Blockly.WorkspaceSvg.prototype.glowStack = function(id, isGlowingStack) {
 };
 
 /**
+ * Resolves circular dependencies in an object or array.
+ * @param {Object|Array} obj Object or array to resolve.
+ * @returns {Object|Array} Circular dependency resolved object.
+ */
+Blockly.WorkspaceSvg.prototype.resolveCircular = function(obj) {
+  var seen = new WeakSet();
+  var hasOwn = (obj, prop) => Object.prototype.hasOwnProperty.call(obj, prop);
+  var detect = (val, parent, key) => {
+    if (val && typeof val === "object") {
+      if (seen.has(val)) {
+        parent[key] = Array.isArray(val) ? "[...]" : "{...}";
+        return;
+      }
+
+      seen.add(val);
+      for (let k in val) {
+        if (hasOwn(val, k)) detect(val[k], val, k);
+      }
+    }
+  }
+
+  detect(obj);
+  return obj;
+}
+
+/**
+ * Sanitizes a value to the correct type and color to be ready to report.
+ * @param {*} value Value to visually report.
+ * @param {boolean} applyStringColor If true will apply string escaping and a custom string color.
+ * @returns {string} String representation of the html to display.
+ */
+Blockly.WorkspaceSvg.prototype.sanitizeUnknownValue = function(value, applyStringColor) {
+  var type = Blockly.WorkspaceSvg.VALUE_REPORT_COLORS ? typeof value : 'string';
+  var color = 'inherit';
+  var result = value;
+
+  switch (type) {
+    case 'boolean':
+      color = "#ff8c1a";
+      break;
+    case 'bigint':
+    case 'number':
+      color = "#9966ff";
+      if (Object.is(value, -0)) {
+        result = '-0';
+      }
+    break;
+    case 'object':
+      if (value === null || value === undefined) {
+        color = 'inherit; font-style: italic;';
+        result = 'null';
+        break;
+      }
+
+      value = Blockly.WorkspaceSvg.prototype.resolveCircular(value);
+      if (Array.isArray(value)) {
+        const items = value.map((item) => 
+          Blockly.WorkspaceSvg.prototype.sanitizeUnknownValue(item, true)
+        );
+        result = '[' + items.join(', ') + ']';
+      } else {
+        var entries = Object.entries(value);
+        result = '{';
+        for (let i = 0; i < entries.length; i++) {
+          result += Blockly.WorkspaceSvg.prototype.sanitizeUnknownValue(
+            '' + entries[i][0],
+            true,
+          );
+          result += ': ';
+          result += Blockly.WorkspaceSvg.prototype.sanitizeUnknownValue(
+            entries[i][1],
+            true,
+          );
+          if (i < value.length - 1) result += ', ';
+        }
+        result += '}';
+      }
+      break;
+    case 'symbol':
+    case 'function':
+    case 'string':
+      if (applyStringColor) {
+        color = "#36cb7a";
+        result = `"${('' + result).replaceAll('"', '\"')}"`;
+      }
+      break;
+    default:
+      break;
+  }
+
+  return `<span style="color: ${color}">${result}</span>`;
+}
+
+/**
  * Visually report a value associated with a block.
  * In Scratch, appears as a pop-up next to the block when a reporter block is clicked.
  * @param {?string} id ID of block to report associated value.
@@ -1102,6 +1200,7 @@ Blockly.WorkspaceSvg.prototype.reportValue = function(id, value, isError = false
   if (!block) {
     throw 'Tried to report value on block that does not exist.';
   }
+
   Blockly.DropDownDiv.hideWithoutAnimation();
   Blockly.DropDownDiv.clearContent();
   var contentDiv = Blockly.DropDownDiv.getContentDiv();
@@ -1113,13 +1212,7 @@ Blockly.WorkspaceSvg.prototype.reportValue = function(id, value, isError = false
   } else if (typeof value.toReporterContent == 'function') {
     valueReportBox.append(value.toReporterContent());
   } else {
-    var valueAsString;
-    if (Object.is(value, -0)) {
-      valueAsString = '-0';
-    } else {
-      valueAsString = '' + value;
-    }
-    valueReportBox.textContent = valueAsString;
+    valueReportBox.innerHTML = Blockly.WorkspaceSvg.prototype.sanitizeUnknownValue(value);
   }
 
   if (isError) valueReportBox.classList.add('errorReportBox')
@@ -1138,7 +1231,11 @@ Blockly.WorkspaceSvg.prototype.reportValue = function(id, value, isError = false
       } else if (Object.is(value, -0)) {
         text = '-0'
       } else {
-        text = '' + value;
+        if (typeof value === 'object') {
+          text = JSON.stringify(Blockly.WorkspaceSvg.prototype.resolveCircular(value));
+        } else {
+          text = '' + value;
+        }
       }
       navigator.clipboard.writeText(text);
     });
