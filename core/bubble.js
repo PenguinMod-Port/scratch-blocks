@@ -325,9 +325,11 @@ Blockly.Bubble.prototype.isDeletable = function() {
 /**
  * Handle a mouse-down on bubble's resize corner.
  * @param {!Event} e Mouse down event.
+ * @param {!Number} [minWidth] optional minimum width
+ * @param {!Number} [minHeight] optional minimum height
  * @private
  */
-Blockly.Bubble.prototype.resizeMouseDown_ = function(e) {
+Blockly.Bubble.prototype.resizeMouseDown_ = function(e, minWidth = 1, minHeight = 1) {
   this.promote_();
   Blockly.Bubble.unbindDragEvents_();
   if (Blockly.utils.isRightButton(e)) {
@@ -339,6 +341,8 @@ Blockly.Bubble.prototype.resizeMouseDown_ = function(e) {
   this.workspace_.startDrag(e, new goog.math.Coordinate(
       this.workspace_.RTL ? -this.width_ : this.width_, this.height_));
 
+  this.resizeMinWidth = minWidth;
+  this.resizeMinHeight = minHeight;
   Blockly.Bubble.onMouseUpWrapper_ = Blockly.bindEventWithChecks_(document,
       'mouseup', this, Blockly.Bubble.bubbleMouseUp_);
   Blockly.Bubble.onMouseMoveWrapper_ = Blockly.bindEventWithChecks_(document,
@@ -356,7 +360,10 @@ Blockly.Bubble.prototype.resizeMouseDown_ = function(e) {
 Blockly.Bubble.prototype.resizeMouseMove_ = function(e) {
   this.autoLayout_ = false;
   var newXY = this.workspace_.moveDrag(e);
-  this.setBubbleSize(this.workspace_.RTL ? -newXY.x : newXY.x, newXY.y);
+  this.setBubbleSize(
+    Math.max(this.resizeMinWidth, newXY.x) * (this.workspace_.RTL ? -1 * 1),
+    Math.max(this.resizeMinHeight, newXY.y)
+  );
   if (this.workspace_.RTL) {
     // RTL requires the bubble to move its left edge.
     this.positionBubble_();

@@ -65,6 +65,18 @@ Blockly.WorkspaceCommentSvg.TOP_BAR_HEIGHT = 32;
 Blockly.WorkspaceCommentSvg.MINIMIZE_ICON_SIZE = 32;
 
 /**
+ * The size of the color icon in the comment top bar.
+ * @private
+ */
+Blockly.WorkspaceCommentSvg.COLOR_ICON_SIZE = 32;
+
+/**
+ * The size of the font icon in the comment top bar.
+ * @private
+ */
+Blockly.WorkspaceCommentSvg.FONT_ICON_SIZE = 32;
+
+/**
  * The size of the delete icon in the comment top bar.
  * @private
  */
@@ -158,6 +170,21 @@ Blockly.WorkspaceCommentSvg.prototype.render = function() {
       this.minimizeArrow_, 'mouseout', this, this.minimizeArrowMouseOut_, true);
   Blockly.bindEventWithChecks_(
       this.minimizeArrow_, 'mouseup', this, this.minimizeArrowMouseUp_, true);
+
+  Blockly.bindEventWithChecks_(
+      this.colorIcon_, 'mousedown', this, this.colorMouseDown_, true);
+  Blockly.bindEventWithChecks_(
+      this.colorIcon_, 'mouseout', this, this.colorMouseOut_, true);
+  Blockly.bindEventWithChecks_(
+      this.colorIcon_, 'mouseup', this, this.colorMouseUp_, true);
+
+  Blockly.bindEventWithChecks_(
+      this.fontIcon_, 'mousedown', this, this.fontMouseDown_, true);
+  Blockly.bindEventWithChecks_(
+      this.fontIcon_, 'mouseout', this, this.fontMouseOut_, true);
+  Blockly.bindEventWithChecks_(
+      this.fontIcon_, 'mouseup', this, this.fontMouseUp_, true);
+
   Blockly.bindEventWithChecks_(
       this.deleteIcon_, 'mousedown', this, this.deleteMouseDown_, true);
   Blockly.bindEventWithChecks_(
@@ -306,6 +333,34 @@ Blockly.WorkspaceCommentSvg.prototype.createTopBarIcons_ = function() {
         'height': Blockly.WorkspaceCommentSvg.MINIMIZE_ICON_SIZE
       }, this.svgGroup_);
 
+  // Color Icon in Comment Top Bar
+  this.colorIcon_ = Blockly.utils.createSvgElement('image', {
+    'x': xInset,
+    'y': topBarMiddleY - Blockly.WorkspaceCommentSvg.COLOR_ICON_SIZE / 2,
+    'width': Blockly.WorkspaceCommentSvg.COLOR_ICON_SIZE,
+    'height': Blockly.WorkspaceCommentSvg.COLOR_ICON_SIZE,
+    'transform': `translate(${Blockly.WorkspaceCommentSvg.COLOR_ICON_SIZE}, 0)`,
+  }, this.bubbleGroup_);
+  this.colorIcon_.setAttributeNS(
+    'http://www.w3.org/1999/xlink',
+    'xlink:href',
+    Blockly.mainWorkspace.options.pathToMedia + 'comment-color.svg'
+  );
+
+  // Font Icon in Comment Top Bar
+  this.fontIcon_ = Blockly.utils.createSvgElement('image', {
+    'x': xInset,
+    'y': topBarMiddleY - Blockly.WorkspaceCommentSvg.FONT_ICON_SIZE / 2,
+    'width': Blockly.WorkspaceCommentSvg.FONT_ICON_SIZE,
+    'height': Blockly.WorkspaceCommentSvg.FONT_ICON_SIZE,
+    'transform': `translate(${Blockly.WorkspaceCommentSvg.COLOR_ICON_SIZE + Blockly.WorkspaceCommentSvg.FONT_ICON_SIZE}, 0)`,
+  }, this.bubbleGroup_);
+  this.fontIcon_.setAttributeNS(
+    'http://www.w3.org/1999/xlink',
+    'xlink:href',
+    Blockly.mainWorkspace.options.pathToMedia + 'comment-font.svg'
+  );
+
   // Delete Icon in Comment Top Bar
   this.deleteIcon_ = Blockly.utils.createSvgElement('image',
       {
@@ -353,6 +408,80 @@ Blockly.WorkspaceCommentSvg.prototype.minimizeArrowMouseUp_ = function(e) {
   if (this.shouldToggleMinimize_) {
     this.shouldToggleMinimize = false;
     this.toggleMinimize_();
+  }
+  e.stopPropagation();
+};
+
+/**
+ * Handle a mouse-down on bubble's color icon.
+ * @param {!Event} e Mouse up event.
+ * @private
+ */
+Blockly.WorkspaceCommentSvg.prototype.colorMouseDown_ = function(e) {
+  this.shouldOpenColorEditor_ = true;
+  e.stopPropagation();
+};
+
+/**
+ * Handle a mouse-out on bubble's color icon.
+ * @param {!Event} _e Mouse out event.
+ * @private
+ */
+Blockly.WorkspaceCommentSvg.prototype.colorMouseOut_ = function(_e) {
+  // If the mouse has left the delete icon, the shouldOpenColorEditor_ property
+  // should get reset to false.
+  this.shouldOpenColorEditor_ = false;
+};
+
+/**
+ * Handle a mouse-up on bubble's color icon.
+ * @param {!Event} e Mouse up event.
+ * @private
+ */
+Blockly.WorkspaceCommentSvg.prototype.colorMouseUp_ = function(e) {
+  // First check that this is actually the same icon that had a mouse down event
+  // on it and that the mouse never left the icon
+  if (this.shouldOpenColorEditor_) {
+    this.shouldOpenColorEditor_ = false;
+
+    Blockly.ScratchBubble.editCommentColorCallback(this);
+  }
+  e.stopPropagation();
+};
+
+/**
+ * Handle a mouse-down on bubble's font icon.
+ * @param {!Event} e Mouse up event.
+ * @private
+ */
+Blockly.WorkspaceCommentSvg.prototype.fontMouseDown_ = function(e) {
+  this.shouldOpenFontEditor_ = true;
+  e.stopPropagation();
+};
+
+/**
+ * Handle a mouse-out on bubble's font icon.
+ * @param {!Event} _e Mouse out event.
+ * @private
+ */
+Blockly.WorkspaceCommentSvg.prototype.fontMouseOut_ = function(_e) {
+  // If the mouse has left the delete icon, the shouldOpenFontEditor_ property
+  // should get reset to false.
+  this.shouldOpenFontEditor_ = false;
+};
+
+/**
+ * Handle a mouse-up on bubble's font icon.
+ * @param {!Event} e Mouse up event.
+ * @private
+ */
+Blockly.WorkspaceCommentSvg.prototype.fontMouseUp_ = function(e) {
+  // First check that this is actually the same icon that had a mouse down event
+  // on it and that the mouse never left the icon
+  if (this.shouldOpenFontEditor_) {
+    this.shouldOpenFontEditor_ = false;
+
+    Blockly.ScratchBubble.editCommentFontCallback(this);
   }
   e.stopPropagation();
 };
@@ -440,6 +569,9 @@ Blockly.WorkspaceCommentSvg.prototype.setRenderedMinimizeState_ = function(minim
         'xlink:href', Blockly.mainWorkspace.options.pathToMedia + 'comment-arrow-up.svg');
     // Hide text area
     this.commentEditor_.setAttribute('display', 'none');
+    // Hide color and font buttons
+    this.resizeGroup_.setAttribute('display', 'none');
+    this.colorIcon_.setAttribute('display', 'none');
     // Hide resize handle if it exists
     if (this.resizeGroup_) {
       this.resizeGroup_.setAttribute('display', 'none');
@@ -458,6 +590,9 @@ Blockly.WorkspaceCommentSvg.prototype.setRenderedMinimizeState_ = function(minim
     this.topBarLabel_.setAttribute('display', 'none');
     // Show text area
     Blockly.utils.removeAttribute(this.commentEditor_, 'display');
+    // Show color and font buttons
+    Blockly.utils.removeAttribute(this.resizeGroup_, 'display');
+    Blockly.utils.removeAttribute(this.colorIcon_, 'display');
     // Display resize handle if it exists
     if (this.resizeGroup_) {
       Blockly.utils.removeAttribute(this.resizeGroup_, 'display');
