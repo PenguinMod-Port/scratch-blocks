@@ -340,7 +340,7 @@ Blockly.WorkspaceCommentSvg.prototype.createTopBarIcons_ = function() {
     'width': Blockly.WorkspaceCommentSvg.COLOR_ICON_SIZE,
     'height': Blockly.WorkspaceCommentSvg.COLOR_ICON_SIZE,
     'transform': `translate(${Blockly.WorkspaceCommentSvg.COLOR_ICON_SIZE}, 0)`,
-  }, this.bubbleGroup_);
+  }, this.svgGroup_);
   this.colorIcon_.setAttributeNS(
     'http://www.w3.org/1999/xlink',
     'xlink:href',
@@ -354,7 +354,7 @@ Blockly.WorkspaceCommentSvg.prototype.createTopBarIcons_ = function() {
     'width': Blockly.WorkspaceCommentSvg.FONT_ICON_SIZE,
     'height': Blockly.WorkspaceCommentSvg.FONT_ICON_SIZE,
     'transform': `translate(${Blockly.WorkspaceCommentSvg.COLOR_ICON_SIZE + Blockly.WorkspaceCommentSvg.FONT_ICON_SIZE}, 0)`,
-  }, this.bubbleGroup_);
+  }, this.svgGroup_);
   this.fontIcon_.setAttributeNS(
     'http://www.w3.org/1999/xlink',
     'xlink:href',
