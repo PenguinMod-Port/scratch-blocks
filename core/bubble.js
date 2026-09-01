@@ -361,7 +361,7 @@ Blockly.Bubble.prototype.resizeMouseMove_ = function(e) {
   this.autoLayout_ = false;
   var newXY = this.workspace_.moveDrag(e);
   this.setBubbleSize(
-    Math.max(this.resizeMinWidth, newXY.x) * (this.workspace_.RTL ? -1 * 1),
+    Math.max(this.resizeMinWidth, newXY.x) * (this.workspace_.RTL ? -1 : 1),
     Math.max(this.resizeMinHeight, newXY.y)
   );
   if (this.workspace_.RTL) {
