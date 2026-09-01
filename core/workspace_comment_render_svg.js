@@ -598,8 +598,8 @@ Blockly.WorkspaceCommentSvg.prototype.setRenderedMinimizeState_ = function(minim
     // Hide text area
     this.commentEditor_.setAttribute('display', 'none');
     // Hide color and font buttons
-    this.resizeGroup_.setAttribute('display', 'none');
     this.colorIcon_.setAttribute('display', 'none');
+    this.fontIcon_.setAttribute('display', 'none');
     // Hide resize handle if it exists
     if (this.resizeGroup_) {
       this.resizeGroup_.setAttribute('display', 'none');
@@ -618,7 +618,7 @@ Blockly.WorkspaceCommentSvg.prototype.setRenderedMinimizeState_ = function(minim
     // Show text area
     Blockly.utils.removeAttribute(this.commentEditor_, 'display');
     // Show color and font buttons
-    Blockly.utils.removeAttribute(this.resizeGroup_, 'display');
+    Blockly.utils.removeAttribute(this.fontIcon_, 'display');
     Blockly.utils.removeAttribute(this.colorIcon_, 'display');
     // Display resize handle if it exists
     if (this.resizeGroup_) {
