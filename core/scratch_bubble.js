@@ -69,7 +69,7 @@ Blockly.ScratchBubble = function(comment, workspace, content, anchorXY,
   this.x = bubbleX;
   this.y = bubbleY;
   this.isMinimized_ = minimized || false;
-  this.data = this.setData(data, true);
+  this.setData(data, true);
 
   var canvas = workspace.getBubbleCanvas();
   canvas.appendChild(this.createDom_(content, !!(bubbleWidth && bubbleHeight),
@@ -230,8 +230,11 @@ Blockly.ScratchBubble.editCommentFontCallback = function(/** bubble */) {
  */
 Blockly.ScratchBubble.prototype.createDom_ = function(content, hasResize, minimized) {
   this.bubbleGroup_ = Blockly.utils.createSvgElement('g', {}, null);
-  this.bubbleArrow_ = Blockly.utils.createSvgElement('line',
-      {'stroke-linecap': 'round'},
+  this.bubbleArrow_ = Blockly.utils.createSvgElement('path',
+      {
+        'stroke-linecap': 'round',
+        'fill': 'none'
+      },
       this.bubbleGroup_);
   this.bubbleBack_ = Blockly.utils.createSvgElement('rect',
       {
@@ -424,19 +427,46 @@ Blockly.ScratchBubble.prototype.showContextMenu_ = function(e) {
 };
 
 /**
+ * Updates a comment's visuals based of the stored visual data.
+ */
+Blockly.ScratchBubble.prototype.updateCommentVisuals = function() {
+  var textarea = this.commentEditor_.querySelector("textarea");
+  if (this.data.color) {
+    var rgb = goog.color.hexToRgb(this.data.color);
+    var topRgb = goog.color.darken(rgb, 0.02);
+    rgb.push(this.data.opacity / 100);
+    topRgb.push(rgb[3]);
+    this.commentEditor_.firstElementChild.style.background= `rgba(${rgb.join(',')})`;
+    this.bubbleBack_.setAttribute('style', `fill: rgba(${topRgb.join(',')})`);
+    this.bubbleBack_.setAttribute('stroke', `rgba(${rgb.join(',')})`);
+    this.bubbleArrow_.setAttribute('stroke', `rgba(${rgb.join(',')})`);
+  }
+
+  if (this.data.txtColor) {
+    textarea.style.color = this.data.txtColor;
+    this.topBarLabel_.setAttribute('fill', this.data.txtColor);
+  }
+
+  textarea.style.textAlign = this.data.textAlign;
+  textarea.style.fontFamily = this.data.font;
+  textarea.style.fontSize = this.data.fontSize + 'px';
+  textarea.style.fontWeight = this.data.bold ? 'bold' : 'normal';
+  textarea.style.fontStyle = this.data.italic ? 'italic' : 'normal';
+};
+
+/**
  * Sets the data of this comment.
  * @param {!Object} data Comment visual data (color, font, etc.)
  * @param {!Boolean} [opt_noEvents] If true, will not run any events
  */
 Blockly.ScratchBubble.prototype.setData = function(data, opt_noEvents) {
   const oldData = this.data;
-  this.data = data && typeof data === 'object' ? data : {
+  this.data = data !== null && typeof data === 'object' ? data : {
     color: null, // use default
-    color2: null, // use default
-    opacity: 100,
     txtColor: null, // use default
-    font: "Arial",
-    textAlign: "left",
+    opacity: 100,
+    font: 'Arial',
+    textAlign: 'left',
     fontSize: 16,
     bold: false,
     italic: false
@@ -446,6 +476,8 @@ Blockly.ScratchBubble.prototype.setData = function(data, opt_noEvents) {
     Blockly.Events.fire(new Blockly.Events.CommentChange(
       this.comment, { data: oldData }, { data: this.data }
     ));
+
+    this.updateCommentVisuals();
   }
 };
 
@@ -740,6 +772,7 @@ Blockly.ScratchBubble.prototype.setAnchorLocation = function(xy) {
 Blockly.ScratchBubble.prototype.moveTo = function(x, y) {
   Blockly.ScratchBubble.superClass_.moveTo.call(this, x, y);
   this.updatePosition_(x, y);
+  this.updateCommentVisuals();
 };
 
 /**
@@ -817,13 +850,19 @@ Blockly.ScratchBubble.prototype.renderArrow_ = function() {
       run -= this.width_;
     }
 
-    var baseX1 = relBubbleX;
-    var baseY1 = relBubbleY;
+    var startX = relBubbleX;
+    var startY = relBubbleY;
+    var endX = startX + run;
+    var endY = startY + rise;
 
-    this.bubbleArrow_.setAttribute('x1', baseX1);
-    this.bubbleArrow_.setAttribute('y1', baseY1);
-    this.bubbleArrow_.setAttribute('x2', baseX1 + run);
-    this.bubbleArrow_.setAttribute('y2', baseY1 + rise);
+    var cp1x = startX + run * 0.5;
+    var cp1y = startY;
+    var cp2x = startX + run * 0.5;
+    var cp2y = endY;
+
+    var pathString = 'M ' + startX + ' ' + startY + 
+                     ' C ' + cp1x + ' ' + cp1y + ', ' + cp2x + ' ' + cp2y + ', ' + endX + ' ' + endY;
+    this.bubbleArrow_.setAttribute('d', pathString);
     this.bubbleArrow_.setAttribute('stroke-width', Blockly.ScratchBubble.LINE_THICKNESS);
   }
 };
@@ -834,8 +873,10 @@ Blockly.ScratchBubble.prototype.renderArrow_ = function() {
  * @package
  */
 Blockly.ScratchBubble.prototype.setColour = function(hexColour) {
-  this.bubbleBack_.setAttribute('stroke', hexColour);
-  this.bubbleArrow_.setAttribute('stroke', hexColour);
+  //if (!this.data.color) {
+    this.bubbleBack_.setAttribute('stroke', hexColour);
+    this.bubbleArrow_.setAttribute('stroke', hexColour);
+  //}
 };
 
 /**

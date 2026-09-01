@@ -374,6 +374,34 @@ Blockly.WorkspaceCommentSvg.prototype.createTopBarIcons_ = function() {
 };
 
 /**
+ * Updates a comment's visuals based of the stored visual data.
+ */
+Blockly.WorkspaceComment.prototype.updateCommentVisuals = function() {
+  var textarea = this.commentEditor_.querySelector("textarea");
+  if (this.data.color) {
+    var rgb = goog.color.hexToRgb(this.data.color);
+    var topRgb = goog.color.darken(rgb, 0.02);
+    rgb.push(this.data.opacity / 100);
+    topRgb.push(rgb[3]);
+    this.commentEditor_.firstElementChild.style.background= `rgba(${rgb.join(',')})`;
+    this.bubbleBack_.setAttribute('style', `fill: rgba(${topRgb.join(',')})`);
+    this.bubbleBack_.setAttribute('stroke', `rgba(${rgb.join(',')})`);
+    this.bubbleArrow_.setAttribute('stroke', `rgba(${rgb.join(',')})`);
+  }
+
+  if (this.data.txtColor) {
+    textarea.style.color = this.data.txtColor;
+    this.topBarLabel_.setAttribute('fill', this.data.txtColor);
+  }
+
+  textarea.style.textAlign = this.data.textAlign;
+  textarea.style.fontFamily = this.data.font;
+  textarea.style.fontSize = this.data.fontSize + 'px';
+  textarea.style.fontWeight = this.data.bold ? 'bold' : 'normal';
+  textarea.style.fontStyle = this.data.italic ? 'italic' : 'normal';
+};
+
+/**
  * Handle a mouse-down on bubble's minimize icon.
  * @param {!Event} e Mouse down event.
  * @private
@@ -578,7 +606,6 @@ Blockly.WorkspaceCommentSvg.prototype.setRenderedMinimizeState_ = function(minim
     }
     if (labelText && this.labelText_ != labelText) {
       // Update label and display
-      // TODO is there a better way to do this?
       this.topBarLabel_.textContent = labelText;
     }
     Blockly.utils.removeAttribute(this.topBarLabel_, 'display');
@@ -655,7 +682,7 @@ Blockly.WorkspaceCommentSvg.prototype.resizeMouseMove_ = function(e) {
     Blockly.Events.disable();
     disabled = true;
   }
-  this.setSize(this.RTL ? -newXY.x : newXY.x, newXY.y);
+  this.setSize(Math.max(115, newXY.x) * (this.workspace_.RTL ? -1 : 1), newXY.y);
   if (disabled) {
     Blockly.Events.enable();
   }
