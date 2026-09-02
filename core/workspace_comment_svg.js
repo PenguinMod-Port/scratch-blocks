@@ -595,9 +595,8 @@ Blockly.WorkspaceCommentSvg.prototype.updateCommentVisuals = function() {
     rgb.push(this.data.opacity / 100);
     topRgb.push(rgb[3]);
     this.commentEditor_.firstElementChild.style.background= `rgba(${rgb.join(',')})`;
-    this.bubbleBack_.setAttribute('style', `fill: rgba(${topRgb.join(',')})`);
-    this.bubbleBack_.setAttribute('stroke', `rgba(${rgb.join(',')})`);
-    this.bubbleArrow_.setAttribute('stroke', `rgba(${rgb.join(',')})`);
+    this.svgRect_.setAttribute('style', `fill: rgba(${topRgb.join(',')})`);
+    this.svgRect_.setAttribute('stroke', `rgba(${rgb.join(',')})`);
   }
 
   if (this.data.txtColor) {
