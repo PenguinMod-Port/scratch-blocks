@@ -590,13 +590,11 @@ Blockly.WorkspaceComment.prototype.setData = function(data, opt_noEvents) {
 Blockly.WorkspaceCommentSvg.prototype.updateCommentVisuals = function() {
   var textarea = this.commentEditor_.querySelector("textarea");
   if (this.data.color) {
-    var rgb = goog.color.hexToRgb(this.data.color);
-    var topRgb = goog.color.darken(rgb, 0.02);
+    var rgb = ScratchBlocks.goog.color.hexToRgb(this.data.color);
     rgb.push(this.data.opacity / 100);
-    topRgb.push(rgb[3]);
+
     this.commentEditor_.firstElementChild.style.background= `rgba(${rgb.join(',')})`;
-    this.svgRect_.setAttribute('style', `fill: rgba(${topRgb.join(',')})`);
-    this.svgRect_.setAttribute('stroke', `rgba(${rgb.join(',')})`);
+    this.svgRect_.setAttribute('style', `fill: rgba(${rgb.join(',')}); stroke: rgba(${rgb.join(',')})`);
   }
 
   if (this.data.txtColor) {
