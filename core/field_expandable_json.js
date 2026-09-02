@@ -82,6 +82,12 @@ Blockly.FieldExpandableJSON.prototype.setValue = function(value, firstRun = fals
         let previousInput = (nameIndex - 1) == 0 ? parentInput : this.sourceBlock_.getInput(`${this.name}.${nameIndex-1}.${inputs[inputs.length-1].name.split(".").pop()}`);
         inputs.forEach(input => {
           this.sourceBlock_.moveInputAfter(input, previousInput);
+
+          if (input.connection) {
+            var block = input.connection.targetBlock();
+            if (block) block.updateColour();
+          }
+
           previousInput = input;
         })
       }

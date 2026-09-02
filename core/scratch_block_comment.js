@@ -46,10 +46,11 @@ goog.require('goog.userAgent');
  * @param {number=} y Initial y position for comment, in workspace coordinates.
  * @param {boolean=} minimized Whether or not this comment is minimized
  *     (only the top bar displays), defaults to false.
+ * @param {object=} data Visual data of this comment
  * @extends {Blockly.Comment}
  * @constructor
  */
-Blockly.ScratchBlockComment = function(block, text, id, x, y, minimized) {
+Blockly.ScratchBlockComment = function(block, text, id, x, y, minimized, data) {
   Blockly.ScratchBlockComment.superClass_.constructor.call(this, block);
   /**
    * The text content of this comment.
@@ -113,6 +114,12 @@ Blockly.ScratchBlockComment = function(block, text, id, x, y, minimized) {
    */
   this.blockId = block.id;
 
+  /**
+   * Visual data of the comment, like color, font, etc.
+   * @type {object}
+   * @package
+   */
+  this.data_ = data;
   if (!block.rendered) {
     Blockly.ScratchBlockComment.fireCreateEvent(this);
   }
@@ -350,7 +357,7 @@ Blockly.ScratchBlockComment.prototype.setVisible = function(visible) {
     this.bubble_ = new Blockly.ScratchBubble(
         this, /** @type {!Blockly.WorkspaceSvg} */ (this.block_.workspace),
         this.createEditor_(), this.iconXY_, this.width_, this.height_,
-        this.x_, this.y_, this.isMinimized_);
+        this.x_, this.y_, this.isMinimized_, this.data_);
     this.bubble_.setAutoLayout(false);
     this.bubble_.registerResizeEvent(this.resizeBubble_.bind(this));
     this.bubble_.registerMinimizeToggleEvent(this.toggleMinimize_.bind(this));

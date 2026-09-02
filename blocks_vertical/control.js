@@ -26,6 +26,7 @@ goog.require('Blockly.Blocks');
 goog.require('Blockly.Colours');
 goog.require('Blockly.constants');
 goog.require('Blockly.ScratchBlocks.VerticalExtensions');
+goog.require('Blockly.scratchBlocksUtils');
 
 
 Blockly.Blocks['control_forever'] = {
@@ -1065,24 +1066,21 @@ Blockly.Blocks['control_expandableIf'] = {
 
           let substackExists = false
           if (this.getInput('SUBSTACK' + stackIndex)) {
-            //previous else stack
+            // previous else stack
             substackExists = true
             this.moveInputBefore(dummyName, 'SUBSTACK' + stackIndex);
           } else this.moveInputBefore(dummyName, 'EXPANDABLE');
 
-          let inputName = 'BOOL' + stackIndex;
-          let input = this.appendValueInput(inputName);
-          input.setCheck('Boolean');
-          input.appendField(Blockly.Msg.PM_CONTROL_IFEXPANDABLE_IF);
-          this.moveInputBefore(inputName, dummyName);
-
-          if (createShadows) {
-            let shadow = this.workspace.newBlock('checkbox');
-            shadow.setShadow(true);
-            shadow.initSvg();
-            shadow.render();
-            shadow.outputConnection.connect(input.connection);
-          }
+          var inputName = 'BOOL' + stackIndex;
+          var type = createShadows ? 'checkbox' : null;
+          Blockly.scratchBlocksUtils.newBlockParam(
+            this, inputName, type, undefined,
+            (input) => {
+              input.setCheck('Boolean');
+              input.appendField(Blockly.Msg.PM_CONTROL_IFEXPANDABLE_IF);
+              this.moveInputBefore(inputName, dummyName);
+            }
+          );
 
           if (!substackExists) {
             let substackName = 'SUBSTACK' + stackIndex;

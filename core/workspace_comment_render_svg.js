@@ -65,16 +65,10 @@ Blockly.WorkspaceCommentSvg.TOP_BAR_HEIGHT = 32;
 Blockly.WorkspaceCommentSvg.MINIMIZE_ICON_SIZE = 32;
 
 /**
- * The size of the color icon in the comment top bar.
+ * The size of the edit icon in the comment top bar.
  * @private
  */
-Blockly.WorkspaceCommentSvg.COLOR_ICON_SIZE = 32;
-
-/**
- * The size of the font icon in the comment top bar.
- * @private
- */
-Blockly.WorkspaceCommentSvg.FONT_ICON_SIZE = 32;
+Blockly.WorkspaceCommentSvg.EDIT_ICON_SIZE = 32;
 
 /**
  * The size of the delete icon in the comment top bar.
@@ -172,18 +166,11 @@ Blockly.WorkspaceCommentSvg.prototype.render = function() {
       this.minimizeArrow_, 'mouseup', this, this.minimizeArrowMouseUp_, true);
 
   Blockly.bindEventWithChecks_(
-      this.colorIcon_, 'mousedown', this, this.colorMouseDown_, true);
+      this.editIcon_, 'mousedown', this, this.editMouseDown_, true);
   Blockly.bindEventWithChecks_(
-      this.colorIcon_, 'mouseout', this, this.colorMouseOut_, true);
+      this.editIcon_, 'mouseout', this, this.editMouseOut_, true);
   Blockly.bindEventWithChecks_(
-      this.colorIcon_, 'mouseup', this, this.colorMouseUp_, true);
-
-  Blockly.bindEventWithChecks_(
-      this.fontIcon_, 'mousedown', this, this.fontMouseDown_, true);
-  Blockly.bindEventWithChecks_(
-      this.fontIcon_, 'mouseout', this, this.fontMouseOut_, true);
-  Blockly.bindEventWithChecks_(
-      this.fontIcon_, 'mouseup', this, this.fontMouseUp_, true);
+      this.editIcon_, 'mouseup', this, this.editMouseUp_, true);
 
   Blockly.bindEventWithChecks_(
       this.deleteIcon_, 'mousedown', this, this.deleteMouseDown_, true);
@@ -333,32 +320,18 @@ Blockly.WorkspaceCommentSvg.prototype.createTopBarIcons_ = function() {
         'height': Blockly.WorkspaceCommentSvg.MINIMIZE_ICON_SIZE
       }, this.svgGroup_);
 
-  // Color Icon in Comment Top Bar
-  this.colorIcon_ = Blockly.utils.createSvgElement('image', {
+  // Edit Icon in Comment Top Bar
+  this.editIcon_ = Blockly.utils.createSvgElement('image', {
     'x': xInset,
-    'y': topBarMiddleY - Blockly.WorkspaceCommentSvg.COLOR_ICON_SIZE / 2,
-    'width': Blockly.WorkspaceCommentSvg.COLOR_ICON_SIZE,
-    'height': Blockly.WorkspaceCommentSvg.COLOR_ICON_SIZE,
-    'transform': `translate(${Blockly.WorkspaceCommentSvg.COLOR_ICON_SIZE}, 0)`,
+    'y': topBarMiddleY - Blockly.WorkspaceCommentSvg.EDIT_ICON_SIZE / 2,
+    'width': Blockly.WorkspaceCommentSvg.EDIT_ICON_SIZE,
+    'height': Blockly.WorkspaceCommentSvg.EDIT_ICON_SIZE,
+    'transform': `translate(${Blockly.WorkspaceCommentSvg.EDIT_ICON_SIZE}, 0)`,
   }, this.svgGroup_);
-  this.colorIcon_.setAttributeNS(
+  this.editIcon_.setAttributeNS(
     'http://www.w3.org/1999/xlink',
     'xlink:href',
     Blockly.mainWorkspace.options.pathToMedia + 'comment-color.svg'
-  );
-
-  // Font Icon in Comment Top Bar
-  this.fontIcon_ = Blockly.utils.createSvgElement('image', {
-    'x': xInset,
-    'y': topBarMiddleY - Blockly.WorkspaceCommentSvg.FONT_ICON_SIZE / 2,
-    'width': Blockly.WorkspaceCommentSvg.FONT_ICON_SIZE,
-    'height': Blockly.WorkspaceCommentSvg.FONT_ICON_SIZE,
-    'transform': `translate(${Blockly.WorkspaceCommentSvg.COLOR_ICON_SIZE + Blockly.WorkspaceCommentSvg.FONT_ICON_SIZE}, 0)`,
-  }, this.svgGroup_);
-  this.fontIcon_.setAttributeNS(
-    'http://www.w3.org/1999/xlink',
-    'xlink:href',
-    Blockly.mainWorkspace.options.pathToMedia + 'comment-font.svg'
   );
 
   // Delete Icon in Comment Top Bar
@@ -441,75 +414,39 @@ Blockly.WorkspaceCommentSvg.prototype.minimizeArrowMouseUp_ = function(e) {
 };
 
 /**
- * Handle a mouse-down on bubble's color icon.
+ * Handle a mouse-down on bubble's edit icon.
  * @param {!Event} e Mouse up event.
  * @private
  */
-Blockly.WorkspaceCommentSvg.prototype.colorMouseDown_ = function(e) {
-  this.shouldOpenColorEditor_ = true;
+Blockly.WorkspaceCommentSvg.prototype.editMouseDown_ = function(e) {
+  this.shouldOpenEditor_ = true;
   e.stopPropagation();
 };
 
 /**
- * Handle a mouse-out on bubble's color icon.
+ * Handle a mouse-out on bubble's edit icon.
  * @param {!Event} _e Mouse out event.
  * @private
  */
-Blockly.WorkspaceCommentSvg.prototype.colorMouseOut_ = function(_e) {
-  // If the mouse has left the delete icon, the shouldOpenColorEditor_ property
+Blockly.WorkspaceCommentSvg.prototype.editMouseOut_ = function(_e) {
+  // If the mouse has left the delete icon, the shouldOpenEditor_ property
   // should get reset to false.
-  this.shouldOpenColorEditor_ = false;
+  this.shouldOpenEditor_ = false;
 };
 
 /**
- * Handle a mouse-up on bubble's color icon.
+ * Handle a mouse-up on bubble's edit icon.
  * @param {!Event} e Mouse up event.
  * @private
  */
-Blockly.WorkspaceCommentSvg.prototype.colorMouseUp_ = function(e) {
+Blockly.WorkspaceCommentSvg.prototype.editMouseUp_ = function(e) {
   // First check that this is actually the same icon that had a mouse down event
   // on it and that the mouse never left the icon
-  if (this.shouldOpenColorEditor_) {
-    this.shouldOpenColorEditor_ = false;
+  if (this.shouldOpenEditor_) {
+    this.shouldOpenEditor_ = false;
 
-    Blockly.ScratchBubble.editCommentColorCallback(this);
-  }
-  e.stopPropagation();
-};
-
-/**
- * Handle a mouse-down on bubble's font icon.
- * @param {!Event} e Mouse up event.
- * @private
- */
-Blockly.WorkspaceCommentSvg.prototype.fontMouseDown_ = function(e) {
-  this.shouldOpenFontEditor_ = true;
-  e.stopPropagation();
-};
-
-/**
- * Handle a mouse-out on bubble's font icon.
- * @param {!Event} _e Mouse out event.
- * @private
- */
-Blockly.WorkspaceCommentSvg.prototype.fontMouseOut_ = function(_e) {
-  // If the mouse has left the delete icon, the shouldOpenFontEditor_ property
-  // should get reset to false.
-  this.shouldOpenFontEditor_ = false;
-};
-
-/**
- * Handle a mouse-up on bubble's font icon.
- * @param {!Event} e Mouse up event.
- * @private
- */
-Blockly.WorkspaceCommentSvg.prototype.fontMouseUp_ = function(e) {
-  // First check that this is actually the same icon that had a mouse down event
-  // on it and that the mouse never left the icon
-  if (this.shouldOpenFontEditor_) {
-    this.shouldOpenFontEditor_ = false;
-
-    Blockly.ScratchBubble.editCommentFontCallback(this);
+    console.log(this);
+    //Blockly.ScratchBubble.editCommentCallback(this); // TOODO
   }
   e.stopPropagation();
 };
@@ -597,9 +534,8 @@ Blockly.WorkspaceCommentSvg.prototype.setRenderedMinimizeState_ = function(minim
         'xlink:href', Blockly.mainWorkspace.options.pathToMedia + 'comment-arrow-up.svg');
     // Hide text area
     this.commentEditor_.setAttribute('display', 'none');
-    // Hide color and font buttons
-    this.colorIcon_.setAttribute('display', 'none');
-    this.fontIcon_.setAttribute('display', 'none');
+    // Hide edit button
+    this.editIcon_.setAttribute('display', 'none');
     // Hide resize handle if it exists
     if (this.resizeGroup_) {
       this.resizeGroup_.setAttribute('display', 'none');
@@ -617,9 +553,8 @@ Blockly.WorkspaceCommentSvg.prototype.setRenderedMinimizeState_ = function(minim
     this.topBarLabel_.setAttribute('display', 'none');
     // Show text area
     Blockly.utils.removeAttribute(this.commentEditor_, 'display');
-    // Show color and font buttons
-    Blockly.utils.removeAttribute(this.fontIcon_, 'display');
-    Blockly.utils.removeAttribute(this.colorIcon_, 'display');
+    // Show edit button
+    Blockly.utils.removeAttribute(this.editIcon_, 'display');
     // Display resize handle if it exists
     if (this.resizeGroup_) {
       Blockly.utils.removeAttribute(this.resizeGroup_, 'display');
@@ -682,7 +617,10 @@ Blockly.WorkspaceCommentSvg.prototype.resizeMouseMove_ = function(e) {
     Blockly.Events.disable();
     disabled = true;
   }
-  this.setSize(Math.max(115, newXY.x) * (this.workspace_.RTL ? -1 : 1), newXY.y);
+  this.setSize(
+    Math.max(Blockly.ScratchBubble.MIN_COMMENT_WIDTH, newXY.x) * (this.workspace.RTL ? -1 : 1),
+    newXY.y
+  );
   if (disabled) {
     Blockly.Events.enable();
   }

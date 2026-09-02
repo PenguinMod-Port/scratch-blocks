@@ -26,6 +26,7 @@ goog.require('Blockly.Blocks');
 goog.require('Blockly.Colours');
 goog.require('Blockly.constants');
 goog.require('Blockly.ScratchBlocks.VerticalExtensions');
+goog.require('Blockly.scratchBlocksUtils');
 
 
 Blockly.Blocks['operator_add'] = {
@@ -1046,17 +1047,12 @@ Blockly.Blocks['operator_expandablejoininputs'] = {
   expandableCallback(field, oldValue, newValue, createShadows) {
     if (oldValue < newValue) {
       for (let i = oldValue; i < newValue; i++) {
-        let input = this.appendValueInput('INPUT' + (i + 1));
-        input.setAlign(Blockly.ALIGN_RIGHT);
-        
-        if (createShadows) {
-          let shadow = this.workspace.newBlock('text');
-          shadow.setShadow(true);
-          shadow.setFieldValue(this.possibleStrings[i] || "...", 'TEXT');
-          shadow.initSvg();
-          shadow.render();
-          shadow.outputConnection.connect(input.connection);
-        }
+        var type = createShadows ? 'text' : null;
+        Blockly.scratchBlocksUtils.newBlockParam(
+          this, 'INPUT' + (i + 1), type,
+          ['TEXT', this.possibleStrings[i] || "..."],
+          (input) => input.setAlign(Blockly.ALIGN_RIGHT)
+        );
       }
     } else {
       for (let i = newValue; i < oldValue; i++) {
@@ -1098,16 +1094,8 @@ Blockly.Blocks['operator_range_expandable'] = {
   expandableCallback(field, oldValue, newValue, createShadows) {
     if (oldValue < newValue) {
       for (let i = oldValue; i < newValue; i++) {
-        let input = this.appendValueInput('INPUT' + (i + 1));
-
-        if (createShadows) {
-          let shadow = this.workspace.newBlock('math_number');
-          shadow.setShadow(true);
-          shadow.setFieldValue(i + 1, 'NUM');
-          shadow.initSvg();
-          shadow.render();
-          shadow.outputConnection.connect(input.connection);
-        }
+        var type = createShadows ? 'math_number' : null;
+        Blockly.scratchBlocksUtils.newBlockParam(this, 'INPUT' + (i + 1), type, ['NUM', i + 1]);
       }
     } else {
       for (let i = newValue; i < oldValue; i++) {
@@ -1143,16 +1131,8 @@ Blockly.Blocks['operator_expandableMath'] = {
   expandableCallback(field, oldValue, newValue, createShadows) {
     if (oldValue < newValue) {
       for (let i = oldValue; i < newValue; i++) {
-        let input = this.appendValueInput('NUM' + (i + 1));
-
-        if (createShadows) {
-          let shadow = this.workspace.newBlock('math_number');
-          shadow.setShadow(true);
-          shadow.setFieldValue(i + 1, 'NUM');
-          shadow.initSvg();
-          shadow.render();
-          shadow.outputConnection.connect(input.connection);
-        }
+        var type = createShadows ? 'math_number' : null;
+        var { input, shadow } = Blockly.scratchBlocksUtils.newBlockParam(this, 'NUM' + (i + 1), type, ['NUM', i + 1]);
 
         if (i > 0) {
           input.appendField(new Blockly.FieldDropdown([
@@ -1223,16 +1203,12 @@ Blockly.Blocks['operator_expandableBool'] = {
   expandableCallback(field, oldValue, newValue, createShadows) {
     if (oldValue < newValue) {
       for (let i = oldValue; i < newValue; i++) {
-        let input = this.appendValueInput('BOOL' + (i + 1));
-        input.setCheck('Boolean');
-
-        if (createShadows) {
-          let shadow = this.workspace.newBlock('checkbox');
-          shadow.setShadow(true);
-          shadow.initSvg();
-          shadow.render();
-          shadow.outputConnection.connect(input.connection);
-        }
+        var type = createShadows ? 'checkbox' : null;
+        var { input, shadow } = Blockly.scratchBlocksUtils.newBlockParam(
+          this, 'BOOL' + (i + 1), type,
+          undefined,
+          (input) => input.setCheck('Boolean')
+        );
 
         if (i > 0) {
           input.appendField(new Blockly.FieldDropdown([
@@ -1280,15 +1256,8 @@ Blockly.Blocks['operator_expandableCompare'] = {
   expandableCallback(field, oldValue, newValue, createShadows) {
     if (oldValue < newValue) {
       for (let i = oldValue; i < newValue; i++) {
-        let input = this.appendValueInput('INPUT' + (i + 1));
-
-        if (createShadows) {
-          let shadow = this.workspace.newBlock('text');
-          shadow.setShadow(true);
-          shadow.initSvg();
-          shadow.render();
-          shadow.outputConnection.connect(input.connection);
-        }
+        var type = createShadows ? 'text' : null;
+        var { input, shadow } = Blockly.scratchBlocksUtils.newBlockParam(this, 'INPUT' + (i + 1), type);
 
         if (i > 0) {
           input.appendField(new Blockly.FieldDropdown([
@@ -1312,8 +1281,6 @@ Blockly.Blocks['operator_expandableCompare'] = {
     if (this.rendered) this.render();
   }
 };
-
-
 
 Blockly.Blocks["operator_advMath"] = {
   init: function() {

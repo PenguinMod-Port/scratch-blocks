@@ -124,7 +124,8 @@ Blockly.WorkspaceComment = function(workspace, content, height, width, minimized
    */
   this.isComment = true;
 
-  this.updateCommentVisuals = null
+  this.updateCommentVisuals = null;
+
   Blockly.WorkspaceComment.fireCreateEvent(this);
 };
 
@@ -224,6 +225,7 @@ Blockly.WorkspaceComment.prototype.moveBy = function(dx, dy) {
   event.recordNew();
   Blockly.Events.fire(event);
 
+  console.log("MOVE", this.data); // TOODO
   this.updateCommentVisuals();
 };
 
@@ -370,6 +372,7 @@ Blockly.WorkspaceComment.prototype.toXml = function(opt_noId) {
   if (this.isMinimized_) {
     commentElement.setAttribute('minimized', true);
   }
+  console.log("SAVE", this.data); // TOODO
   if (this.data) {
     commentElement.setAttribute('data', JSON.stringify(this.data));
   }

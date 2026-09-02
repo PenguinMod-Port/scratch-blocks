@@ -244,3 +244,34 @@ Blockly.scratchBlocksUtils.duplicateAndDragCallback = function(oldBlock, event) 
     }, 0);
   };
 };
+
+/**
+ * Creates a new shadow parameter with a specified type and value on a given block.
+ * @param {Blockly.Block} block The block that gets the new argument.
+ * @param {string} inputName Name of the input for the new argument.
+ * @param {string} shadowType Block type (shadow) of argument, if not provided, no shadow will be made.
+ * @param {Array<string,*>} [opt_fieldValue] Sets the preset value of the argument. It must be an array containing
+ *                                           the field name as the first item, and field value as the second.
+ * @param {function} [opt_inputCreateCallback] Optional callback that runs after the input was created
+ * @return {object} Object containing the newly created input and shadow.
+ */
+Blockly.scratchBlocksUtils.newBlockParam = function(block, inputName, shadowType, opt_fieldValue, opt_inputCreateCallback) {
+  var input = block.appendValueInput(inputName);
+  if (opt_inputCreateCallback) {
+    opt_inputCreateCallback(input);
+  }
+
+  if (shadowType !== null) {
+    var shadow = block.workspace.newBlock(shadowType);
+    shadow.setShadow(true);
+    if (opt_fieldValue) {
+      shadow.setFieldValue(opt_fieldValue[1], opt_fieldValue[0]);
+    }
+
+    shadow.outputConnection.connect(input.connection);
+    shadow.initSvg();
+    shadow.render();
+  }
+
+  return { input, shadow };
+};
