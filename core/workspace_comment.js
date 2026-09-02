@@ -116,7 +116,7 @@ Blockly.WorkspaceComment = function(workspace, content, height, width, minimized
    * @protected
    * @type {!object}
    */
-  this.data = this.setData(data, true);
+  this.setData(data, true);
 
   /**
    * @package
