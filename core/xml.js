@@ -292,6 +292,7 @@ Blockly.Xml.scratchCommentToDom_ = function(block, element) {
           xy.x));
       commentElement.setAttribute('y', xy.y);
       commentElement.setAttribute('minimized', block.comment.isMinimized());
+      commentElement.setAttribute('data', block.comment.bubble_.data);
 
     }
     element.appendChild(commentElement);
@@ -716,11 +717,13 @@ Blockly.Xml.domToBlockHeadless_ = function(xmlBlock, workspace) {
         var bubbleX = parseInt(xmlChild.getAttribute('x'), 10);
         var bubbleY = parseInt(xmlChild.getAttribute('y'), 10);
         var minimized = xmlChild.getAttribute('minimized') || false;
+        var data = JSON.parse(xmlChild.getAttribute('data') || '{}');
 
         // Note bubbleX and bubbleY can be NaN, but the ScratchBlockComment
         // constructor will handle that.
         block.setCommentText(xmlChild.textContent, commentId, bubbleX, bubbleY,
             minimized == 'true');
+        block.comment.data_ = data;
 
         var visible = xmlChild.getAttribute('pinned');
         if (visible && !block.isInFlyout) {

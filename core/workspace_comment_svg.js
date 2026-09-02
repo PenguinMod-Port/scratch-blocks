@@ -577,7 +577,7 @@ Blockly.WorkspaceComment.prototype.setData = function(data, opt_noEvents) {
 
   if (!opt_noEvents) {
     Blockly.Events.fire(new Blockly.Events.CommentChange(
-      this.comment, { data: oldData }, { data: this.data }
+      this, { data: oldData }, { data: this.data }
     ));
 
     this.updateCommentVisuals();
