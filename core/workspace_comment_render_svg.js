@@ -349,7 +349,7 @@ Blockly.WorkspaceCommentSvg.prototype.createTopBarIcons_ = function() {
 /**
  * Updates a comment's visuals based of the stored visual data.
  */
-Blockly.WorkspaceComment.prototype.updateCommentVisuals = function() {
+Blockly.WorkspaceCommentSvg.prototype.updateCommentVisuals = function() {
   var textarea = this.commentEditor_.querySelector("textarea");
   if (this.data.color) {
     var rgb = goog.color.hexToRgb(this.data.color);
@@ -446,6 +446,7 @@ Blockly.WorkspaceCommentSvg.prototype.editMouseUp_ = function(e) {
     this.shouldOpenEditor_ = false;
 
     console.log(this);
+    window.test = this;
     //Blockly.ScratchBubble.editCommentCallback(this); // TOODO
   }
   e.stopPropagation();
