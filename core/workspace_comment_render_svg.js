@@ -205,7 +205,7 @@ Blockly.WorkspaceCommentSvg.prototype.createEditor_ = function() {
   textarea.setAttribute('placeholder', Blockly.Msg.WORKSPACE_COMMENT_DEFAULT_TEXT);
 
   var markdown = document.createElementNS(Blockly.HTML_NS, 'pre');
-  markdown.className = 'scratchCommentTextarea scratchCommentText';
+  markdown.className = 'scratchCommentTextarea scratchCommentText scratchCommentMarkdown';
   markdown.setAttribute('dir', this.RTL ? 'RTL' : 'LTR');
 
   body.append(textarea, markdown);
@@ -217,6 +217,7 @@ Blockly.WorkspaceCommentSvg.prototype.createEditor_ = function() {
   this.foreignObject_.appendChild(body);
   Blockly.bindEventWithChecks_(textarea, 'mousedown', this, function(e) {
     e.stopPropagation(); // Propagation causes preventDefault from workspace handler
+    this.displayEditor();
   }, true, true);
 
   // Don't zoom with mousewheel.
@@ -224,6 +225,10 @@ Blockly.WorkspaceCommentSvg.prototype.createEditor_ = function() {
     if (!e.ctrlKey && textarea.clientHeight !== textarea.scrollHeight) {
       e.stopPropagation();
     }
+
+    // Scroll the markdown editor too since its not interactable
+    var scalar = markdown.scrollHeight / textarea.scrollHeight;
+    markdown.scrollTop = textarea.scrollTop * scalar;
   });
   Blockly.bindEventWithChecks_(textarea, 'change', this, function(_e) {
     if (this.text_ != textarea.value) {
@@ -231,7 +236,6 @@ Blockly.WorkspaceCommentSvg.prototype.createEditor_ = function() {
     }
   });
   Blockly.bindEventWithChecks_(textarea, 'blur', this, this.displayMarkdown);
-  Blockly.bindEventWithChecks_(textarea, 'click', this, this.displayEditor);
 
   this.labelText_ = this.getLabelText();
 
@@ -769,22 +773,7 @@ Blockly.WorkspaceCommentSvg.prototype.displayMarkdown = function() {
   this.textarea_.style.color = 'transparent';
   this.textarea_.style.caretColor = 'black';
   this.textarea_.style.background = 'transparent';
-  this.textarea_.style.textAlign = 'inherit';
-  this.textarea_.style.fontFamily = 'inherit';
-  this.textarea_.style.fontSize = 'inherit';
-  this.textarea_.style.fontWeight = 'inherit';
-  this.textarea_.style.fontStyle = 'inherit';
 
-  this.markdown_.style.textWrapMode = 'wrap';
-  this.markdown_.style.position = 'absolute';
-  this.markdown_.style.top = '0';
-  this.markdown_.style.pointerEvents = 'none';
-  this.markdown_.style.color = 'inherit';
-  this.markdown_.style.textAlign = 'inherit';
-  this.markdown_.style.fontFamily = 'inherit';
-  this.markdown_.style.fontSize = 'inherit';
-  this.markdown_.style.fontWeight = 'inherit';
-  this.markdown_.style.fontStyle = 'inherit';
   this.markdown_.style.opacity = '1';
 
   this.markdown_.innerHTML =
@@ -802,7 +791,6 @@ Blockly.WorkspaceCommentSvg.prototype.displayEditor = function() {
   this.textarea_.style.background = '';
 
   this.markdown_.style.opacity = '0';
-  this.markdown_.style.pointerEvents = 'none';
 };
 
 /**
