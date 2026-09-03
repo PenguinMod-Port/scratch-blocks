@@ -588,25 +588,25 @@ Blockly.WorkspaceComment.prototype.setData = function(data, opt_noEvents) {
  * Updates a comment's visuals based of the stored visual data.
  */
 Blockly.WorkspaceCommentSvg.prototype.updateCommentVisuals = function() {
-  var textarea = this.commentEditor_.querySelector("textarea");
+  var body = this.commentEditor_.firstElementChild;
   if (this.data.color) {
     var rgb = ScratchBlocks.goog.color.hexToRgb(this.data.color);
     rgb.push(this.data.opacity / 100);
 
-    this.commentEditor_.firstElementChild.style.background= `rgba(${rgb.join(',')})`;
+    body.style.background = `rgba(${rgb.join(',')})`;
     this.svgRect_.setAttribute('style', `fill: rgba(${rgb.join(',')}); stroke: rgba(${rgb.join(',')})`);
   }
 
   if (this.data.txtColor) {
-    textarea.style.color = this.data.txtColor;
+    body.style.color = this.data.txtColor;
     this.topBarLabel_.setAttribute('fill', this.data.txtColor);
   }
 
-  textarea.style.textAlign = this.data.textAlign;
-  textarea.style.fontFamily = this.data.font;
-  textarea.style.fontSize = this.data.fontSize + 'px';
-  textarea.style.fontWeight = this.data.bold ? 'bold' : 'normal';
-  textarea.style.fontStyle = this.data.italic ? 'italic' : 'normal';
+  body.style.textAlign = this.data.textAlign;
+  body.style.fontFamily = this.data.font;
+  body.style.fontSize = this.data.fontSize + 'px';
+  body.style.fontWeight = this.data.bold ? 'bold' : 'normal';
+  body.style.fontStyle = this.data.italic ? 'italic' : 'normal';
 };
 
 /**

@@ -292,7 +292,7 @@ Blockly.Xml.scratchCommentToDom_ = function(block, element) {
           xy.x));
       commentElement.setAttribute('y', xy.y);
       commentElement.setAttribute('minimized', block.comment.isMinimized());
-      commentElement.setAttribute('data', block.comment.bubble_.data);
+      commentElement.setAttribute('data', block.comment.data_);
 
     }
     element.appendChild(commentElement);

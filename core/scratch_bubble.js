@@ -417,28 +417,28 @@ Blockly.ScratchBubble.prototype.showContextMenu_ = function(e) {
  * Updates a comment's visuals based of the stored visual data.
  */
 Blockly.ScratchBubble.prototype.updateCommentVisuals = function() {
-  var textarea = this.commentEditor_.querySelector("textarea");
+  var body = this.commentEditor_.firstElementChild;
   if (this.data.color) {
     var rgb = goog.color.hexToRgb(this.data.color);
     var topRgb = goog.color.darken(rgb, 0.02);
     rgb.push(this.data.opacity / 100);
     topRgb.push(rgb[3]);
-    this.commentEditor_.firstElementChild.style.background= `rgba(${rgb.join(',')})`;
+    body.style.background= `rgba(${rgb.join(',')})`;
     this.bubbleBack_.setAttribute('style', `fill: rgba(${topRgb.join(',')})`);
     this.bubbleBack_.setAttribute('stroke', `rgba(${rgb.join(',')})`);
     this.bubbleArrow_.setAttribute('stroke', `rgba(${rgb.join(',')})`);
   }
 
   if (this.data.txtColor) {
-    textarea.style.color = this.data.txtColor;
+    body.style.color = this.data.txtColor;
     this.topBarLabel_.setAttribute('fill', this.data.txtColor);
   }
 
-  textarea.style.textAlign = this.data.textAlign;
-  textarea.style.fontFamily = this.data.font;
-  textarea.style.fontSize = this.data.fontSize + 'px';
-  textarea.style.fontWeight = this.data.bold ? 'bold' : 'normal';
-  textarea.style.fontStyle = this.data.italic ? 'italic' : 'normal';
+  body.style.textAlign = this.data.textAlign;
+  body.style.fontFamily = this.data.font;
+  body.style.fontSize = this.data.fontSize + 'px';
+  body.style.fontWeight = this.data.bold ? 'bold' : 'normal';
+  body.style.fontStyle = this.data.italic ? 'italic' : 'normal';
 };
 
 /**
