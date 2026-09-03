@@ -220,19 +220,35 @@ Blockly.ScratchBlockComment.prototype.createEditor_ = function() {
   var body = document.createElementNS(Blockly.HTML_NS, 'body');
   body.setAttribute('xmlns', Blockly.HTML_NS);
   body.className = 'blocklyMinimalBody scratchCommentBody';
+
   var textarea = document.createElementNS(Blockly.HTML_NS, 'textarea');
   textarea.className = 'scratchCommentTextarea scratchCommentText';
   textarea.setAttribute('dir', this.block_.RTL ? 'RTL' : 'LTR');
   textarea.setAttribute('placeholder', Blockly.Msg.WORKSPACE_COMMENT_DEFAULT_TEXT);
-  body.appendChild(textarea);
+
+  var markdown = document.createElementNS(Blockly.HTML_NS, 'pre');
+  markdown.className = 'scratchCommentTextarea scratchCommentText';
+  markdown.setAttribute('dir', this.block_.RTL ? 'RTL' : 'LTR');
+
+  body.append(textarea, markdown);
   this.textarea_ = textarea;
+  this.markdown_ = markdown;
   this.textarea_.style.margin = (Blockly.ScratchBlockComment.TEXTAREA_OFFSET) + 'px';
+  this.markdown_.style.margin = this.textarea_.style.margin;
+
   this.foreignObject_.appendChild(body);
+  // noCapture and do not prevent default
   Blockly.bindEventWithChecks_(textarea, 'mousedown', this,
       this.textareaFocus_, true, true); // noCapture and do not prevent default
+
   // Don't zoom with mousewheel.
   Blockly.bindEventWithChecks_(textarea, 'wheel', this, function(e) {
     if (!e.ctrlKey && textarea.clientHeight !== textarea.scrollHeight) {
+      e.stopPropagation();
+    }
+  });
+  Blockly.bindEventWithChecks_(markdown, 'wheel', this, function(e) {
+    if (!e.ctrlKey && markdown.clientHeight !== markdown.scrollHeight) {
       e.stopPropagation();
     }
   });
@@ -241,8 +257,11 @@ Blockly.ScratchBlockComment.prototype.createEditor_ = function() {
       Blockly.Events.fire(new Blockly.Events.CommentChange(
           this, {text: this.text_}, {text: textarea.value}));
       this.text_ = textarea.value;
+
+      this.displayMarkdown();
     }
   });
+  Blockly.bindEventWithChecks_(textarea, 'blur', this, this.displayMarkdown);
 
   // Label for comment top bar when comment is minimized
   this.label_ = this.getLabelText();
@@ -260,6 +279,7 @@ Blockly.ScratchBlockComment.prototype.createEditor_ = function() {
  */
 Blockly.ScratchBlockComment.prototype.textareaFocus_ = function(e) {
   // Stop event from propagating to the workspace to make sure preventDefault _is not called_.
+  this.displayEditor();
   e.stopPropagation();
 };
 
@@ -279,6 +299,8 @@ Blockly.ScratchBlockComment.prototype.resizeBubble_ = function() {
     this.textarea_.style.width = (size.width - textOffset) + 'px';
     this.textarea_.style.height = (size.height - doubleBorderWidth -
        Blockly.ScratchBubble.TOP_BAR_HEIGHT - textOffset) + 'px';
+    this.markdown_.style.width = this.textarea_.style.width;
+    this.markdown_.style.height = this.textarea_.style.height;
 
     // Actually set the size!
     this.width_ = size.width;
@@ -369,6 +391,7 @@ Blockly.ScratchBlockComment.prototype.setVisible = function(visible) {
     this.bubble_.dispose();
     this.bubble_ = null;
     this.textarea_ = null;
+    this.markdown_ = null;
     this.foreignObject_ = null;
     this.label_ = null;
   }
@@ -458,6 +481,40 @@ Blockly.ScratchBlockComment.prototype.setSize = function(width, height) {
 };
 
 /**
+ * Displays the comment text in markdown view
+ * @package
+ */
+Blockly.ScratchBlockComment.prototype.displayMarkdown = function() {
+  this.textarea_.style.opacity = '0';
+  this.textarea_.style.color = 'transparent';
+  this.textarea_.style.caretColor = 'black';
+  this.textarea_.style.background = 'transparent';
+
+  this.markdown_.style.textWrapMode = 'wrap';
+  this.markdown_.style.position = 'absolute';
+  this.markdown_.style.top = '0';
+  this.markdown_.style.pointerEvents = 'none';
+  this.markdown_.style.opacity = '1';
+
+  this.markdown_.innerHTML =
+      Blockly.scratchBlocksUtils.parseCommentMarkdown(this.text_);
+};
+
+/**
+ * Displays the comment text area.
+ * @package
+ */
+Blockly.ScratchBlockComment.prototype.displayEditor = function() {
+  this.textarea_.style.opacity = '1';
+  this.textarea_.style.color = '';
+  this.textarea_.style.caretColor = '';
+  this.textarea_.style.background = '';
+
+  this.markdown_.style.opacity = '0';
+  this.markdown_.style.pointerEvents = 'none';
+};
+
+/**
  * Get the truncated text for this comment to display in the minimized
  * top bar.
  * @return {string} The truncated comment text
@@ -487,6 +544,7 @@ Blockly.ScratchBlockComment.prototype.setText = function(text) {
   }
   if (this.textarea_) {
     this.textarea_.value = text;
+    this.displayMarkdown();
   }
 };
 
@@ -645,5 +703,6 @@ Blockly.ScratchBlockComment.prototype.dispose = function() {
  * Focus this comments textarea.
  */
 Blockly.ScratchBlockComment.prototype.focus = function() {
+  this.displayEditor();
   this.textarea_.focus();
 };

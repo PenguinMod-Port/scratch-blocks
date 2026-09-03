@@ -197,17 +197,27 @@ Blockly.WorkspaceCommentSvg.prototype.createEditor_ = function() {
   var body = document.createElementNS(Blockly.HTML_NS, 'body');
   body.setAttribute('xmlns', Blockly.HTML_NS);
   body.className = 'blocklyMinimalBody scratchCommentBody';
+
   var textarea = document.createElementNS(Blockly.HTML_NS, 'textarea');
   textarea.className = 'scratchCommentTextarea scratchCommentText';
   textarea.setAttribute('dir', this.RTL ? 'RTL' : 'LTR');
   textarea.setAttribute('placeholder', Blockly.Msg.WORKSPACE_COMMENT_DEFAULT_TEXT);
-  body.appendChild(textarea);
+
+  var markdown = document.createElementNS(Blockly.HTML_NS, 'pre');
+  markdown.className = 'scratchCommentTextarea scratchCommentText';
+  markdown.setAttribute('dir', this.RTL ? 'RTL' : 'LTR');
+
+  body.append(textarea, markdown);
   this.textarea_ = textarea;
+  this.markdown_ = markdown;
   this.textarea_.style.margin = (Blockly.WorkspaceCommentSvg.TEXTAREA_OFFSET) + 'px';
+  this.markdown_.style.margin = this.textarea_.style.margin;
+
   this.foreignObject_.appendChild(body);
   Blockly.bindEventWithChecks_(textarea, 'mousedown', this, function(e) {
     e.stopPropagation(); // Propagation causes preventDefault from workspace handler
   }, true, true);
+
   // Don't zoom with mousewheel.
   Blockly.bindEventWithChecks_(textarea, 'wheel', this, function(e) {
     if (!e.ctrlKey && textarea.clientHeight !== textarea.scrollHeight) {
@@ -219,6 +229,8 @@ Blockly.WorkspaceCommentSvg.prototype.createEditor_ = function() {
       this.setText(textarea.value);
     }
   });
+  Blockly.bindEventWithChecks_(textarea, 'blur', this, this.displayMarkdown);
+  Blockly.bindEventWithChecks_(textarea, 'click', this, this.displayEditor);
 
   this.labelText_ = this.getLabelText();
 
@@ -619,6 +631,8 @@ Blockly.WorkspaceCommentSvg.prototype.resizeComment_ = function() {
       (this.width_ - textOffset) + 'px';
   this.textarea_.style.height =
       (this.height_ - doubleBorderWidth - textOffset - topOffset) + 'px';
+  this.markdown_.style.width = this.textarea_.style.width;
+  this.markdown_.style.height = this.textarea_.style.height;
 };
 
 /**
@@ -727,6 +741,7 @@ Blockly.WorkspaceComment.prototype.setMinimized = function(minimize) {
       this.setRenderedMinimizeState_(false);
     }
     this.setText(this.content_);
+    this.displayMarkdown();
     this.setSize(this.width_, this.height_);
   }
 };
@@ -737,9 +752,45 @@ Blockly.WorkspaceComment.prototype.setMinimized = function(minimize) {
  */
 Blockly.WorkspaceCommentSvg.prototype.disposeInternal_ = function() {
   this.textarea_ = null;
+  this.markdown_ = null;
   this.foreignObject_ = null;
   this.svgRect_ = null;
   this.svgHandleTarget_ = null;
+};
+
+
+/**
+ * Displays the comment text in markdown view
+ * @package
+ */
+Blockly.WorkspaceCommentSvg.prototype.displayMarkdown = function() {
+  this.textarea_.style.opacity = '0';
+  this.textarea_.style.color = 'transparent';
+  this.textarea_.style.caretColor = 'black';
+  this.textarea_.style.background = 'transparent';
+
+  this.markdown_.style.textWrapMode = 'wrap';
+  this.markdown_.style.position = 'absolute';
+  this.markdown_.style.top = '0';
+  this.markdown_.style.pointerEvents = 'none';
+  this.markdown_.style.opacity = '1';
+
+  this.markdown_.innerHTML =
+      Blockly.scratchBlocksUtils.parseCommentMarkdown(this.getText());
+};
+
+/**
+ * Displays the comment text area.
+ * @package
+ */
+Blockly.WorkspaceCommentSvg.prototype.displayEditor = function() {
+  this.textarea_.style.opacity = '1';
+  this.textarea_.style.color = '';
+  this.textarea_.style.caretColor = '';
+  this.textarea_.style.background = '';
+
+  this.markdown_.style.opacity = '0';
+  this.markdown_.style.pointerEvents = 'none';
 };
 
 /**
@@ -752,6 +803,7 @@ Blockly.WorkspaceCommentSvg.prototype.setFocus = function() {
   comment.textarea_.focus();
   // Defer CSS changes.
   setTimeout(function() {
+    comment.displayEditor();
     comment.addFocus();
     Blockly.utils.addClass(
         comment.svgHandleTarget_, 'scratchCommentHandleTargetFocused');
@@ -770,6 +822,7 @@ Blockly.WorkspaceCommentSvg.prototype.blurFocus = function() {
   setTimeout(function() {
     if (comment.svgGroup_) { // Could have been deleted in the meantime
       comment.removeFocus();
+      comment.displayMarkdown();
       Blockly.utils.removeClass(
           comment.svgHandleTarget_, 'scratchCommentHandleTargetFocused');
     }

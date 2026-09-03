@@ -197,6 +197,24 @@ Blockly.ScratchBubble.RESIZE_CORNER_PAD = 4;
 Blockly.ScratchBubble.RESIZE_OUTER_PAD = 8;
 
 /**
+ * Default comment color.
+ * @public
+ */
+Blockly.ScratchBubble.DEFAULT_COMMENT_COLOR = '#fef49c';
+
+/**
+ * Default comment text color.
+ * @public
+ */
+Blockly.ScratchBubble.DEFAULT_COMMENT_TEXT_COLOR = '#000000';
+
+/**
+ * If true, block comments will use their parent block colors.
+ * @public
+ */
+Blockly.ScratchBubble.COMMENT_USE_PARENT = false;
+
+/**
  * Callback to open the comment editor.
  * @public
  */
@@ -429,10 +447,16 @@ Blockly.ScratchBubble.prototype.updateCommentVisuals = function() {
  * @param {!Boolean} [opt_noEvents] If true, will not run any events
  */
 Blockly.ScratchBubble.prototype.setData = function(data, opt_noEvents) {
-  const oldData = this.data;
+  var color = Blockly.ScratchBubble.COMMENT_USE_PARENT
+    ? this.comment.block_.colour_
+    : Blockly.ScratchBubble.DEFAULT_COMMENT_COLOR;
+  var textColor = Blockly.ScratchBubble.COMMENT_USE_PARENT
+    ? this.comment.block_.textColour
+    : Blockly.ScratchBubble.DEFAULT_COMMENT_TEXT_COLOR
+  var oldData = this.data;
   this.data = data !== null && typeof data === 'object' ? data : {
-    color: null, // use default
-    txtColor: null, // use default
+    color: color,
+    txtColor: textColor,
     opacity: 100,
     font: 'Arial',
     textAlign: 'left',

@@ -563,10 +563,10 @@ Blockly.WorkspaceCommentSvg.prototype.setAutoLayout = function() {
  * @param {!Boolean} [opt_noEvents] If true, will not run any events
  */
 Blockly.WorkspaceComment.prototype.setData = function(data, opt_noEvents) {
-  const oldData = this.data;
+  var oldData = this.data;
   this.data = data && typeof data === 'object' ? data : {
-    color: null, // use default
-    txtColor: null, // use default
+    color: Blockly.ScratchBubble.DEFAULT_COMMENT_COLOR,
+    txtColor: Blockly.ScratchBubble.DEFAULT_COMMENT_TEXT_COLOR,
     opacity: 100,
     font: 'Arial',
     textAlign: 'left',
