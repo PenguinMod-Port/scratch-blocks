@@ -827,10 +827,8 @@ Blockly.ScratchBubble.prototype.renderArrow_ = function() {
  * @package
  */
 Blockly.ScratchBubble.prototype.setColour = function(hexColour) {
-  //if (!this.data.color) {
-    this.bubbleBack_.setAttribute('stroke', hexColour);
-    this.bubbleArrow_.setAttribute('stroke', hexColour);
-  //}
+  this.bubbleBack_.setAttribute('stroke', hexColour);
+  this.bubbleArrow_.setAttribute('stroke', hexColour);
 };
 
 /**

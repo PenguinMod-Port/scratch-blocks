@@ -292,8 +292,9 @@ Blockly.Xml.scratchCommentToDom_ = function(block, element) {
           xy.x));
       commentElement.setAttribute('y', xy.y);
       commentElement.setAttribute('minimized', block.comment.isMinimized());
-      commentElement.setAttribute('data', block.comment.data_);
-
+      if (block.comment.data_) {
+        commentElement.setAttribute('data', JSON.stringify(block.comment.data_));
+      }
     }
     element.appendChild(commentElement);
   }
@@ -732,6 +733,7 @@ Blockly.Xml.domToBlockHeadless_ = function(xmlBlock, workspace) {
           setTimeout(function() {
             if (block.comment && block.comment.setVisible) {
               block.comment.setVisible(visible == 'true');
+              block.comment.bubble_.setData(data);
             }
           }, 1);
         }
