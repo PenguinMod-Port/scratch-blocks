@@ -783,18 +783,13 @@ Blockly.Toolbox.Category.prototype.getContents = function() {
  */
 Blockly.Toolbox.Category.prototype.setColour = function(node) {
   var colour = node.getAttribute('colour');
-  var secondaryColour = node.getAttribute('secondaryColour');
   if (goog.isString(colour)) {
-    if (colour.match(/^#[0-9a-fA-F]{6,8}$/)) {
-      this.colour_ = colour;
-    } else {
-      this.colour_ = Blockly.hueToRgb(colour);
+    if (!colour.match(/^#[0-9a-fA-F]{6,8}$/)) {
+      colour = Blockly.hueToRgb(colour);
     }
-    if (secondaryColour.match(/^#[0-9a-fA-F]{6,8}$/)) {
-      this.secondaryColour_ = secondaryColour;
-    } else {
-      this.secondaryColour_ = Blockly.hueToRgb(secondaryColour);
-    }
+    let colours = Blockly.Block.colourModifier(colour);
+    this.colour_ = colours[0];
+    this.secondaryColour_ = colours[2];
     this.hasColours_ = true;
   } else {
     this.colour_ = '#000000';

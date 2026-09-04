@@ -34,7 +34,7 @@ goog.require('Blockly.Blocks');
  */
 
 Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: none">' +
-  '<category name="%{BKY_CATEGORY_MOTION}" id="motion" colour="#4C97FF" secondaryColour="#3373CC">' +
+  '<category name="%{BKY_CATEGORY_MOTION}" id="motion" colour="#4C97FF">' +
     '<block type="motion_movesteps" id="motion_movesteps">' +
       '<value name="STEPS">' +
         '<shadow type="math_number">' +
@@ -238,7 +238,7 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
     '<block type="motion_yposition" id="motion_yposition"></block>' +
     '<block type="motion_direction" id="motion_direction"></block>' +
   '</category>' +
-  '<category name="%{BKY_CATEGORY_LOOKS}" id="looks" colour="#9966FF" secondaryColour="#774DCB">' +
+  '<category name="%{BKY_CATEGORY_LOOKS}" id="looks" colour="#9966FF">' +
     '<block type="looks_show" id="looks_show"></block>' +
     '<block type="looks_hide" id="looks_hide"></block>' +
     '<block type="looks_changeVisibilityOfSprite">' +
@@ -390,7 +390,7 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
       '</value>' +
     '</block>' +
   '</category>' +
-  '<category name="%{BKY_CATEGORY_SOUND}" id="sound" colour="#D65CD6" secondaryColour="#BD42BD">' +
+  '<category name="%{BKY_CATEGORY_SOUND}" id="sound" colour="#D65CD6">' +
     '<block type="sound_play" id="sound_play">' +
       '<value name="SOUND_MENU">' +
         '<shadow type="sound_sounds_menu"></shadow>' +
@@ -514,7 +514,7 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
     '  </value>' +
     '</block>' +
   '</category>' +
-  '<category name="%{BKY_CATEGORY_EVENTS}" id="events" colour="#FFD500" secondaryColour="#CC9900">' +
+  '<category name="%{BKY_CATEGORY_EVENTS}" id="events" colour="#FFD500">' +
     '<block type="event_whenflagclicked" id="event_whenflagclicked"></block>' +
     '<block type="event_whenkeypressed" id="event_whenkeypressed"></block>' +
     '<block type="event_whenthisspriteclicked" id="event_whenthisspriteclicked"></block>' +
@@ -549,7 +549,7 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
     '<block type="event_whenmousescrolled" />' +
     '<block type="event_whenkeyhit" />' +
   '</category>' +
-  '<category name="%{BKY_CATEGORY_CONTROL}" id="control" colour="#FFAB19" secondaryColour="#CF8B17">' +
+  '<category name="%{BKY_CATEGORY_CONTROL}" id="control" colour="#FFAB19">' +
     '<block type="control_wait" id="control_wait">' +
       '<value name="DURATION">' +
         '<shadow type="math_positive_number">' +
@@ -696,7 +696,7 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
     '<block type="control_dualblock" />' +
     '<block type="control_runwithoutscreenrefresh" />' +
   '</category>' +
-  '<category name="%{BKY_CATEGORY_SENSING}" id="sensing" colour="#4CBFE6" secondaryColour="#2E8EB8">' +
+  '<category name="%{BKY_CATEGORY_SENSING}" id="sensing" colour="#4CBFE6">' +
     '<block type="sensing_touchingobject" id="sensing_touchingobject">' +
       '<value name="TOUCHINGOBJECTMENU">' +
         '<shadow type="sensing_touchingobjectmenu"></shadow>' +
@@ -834,7 +834,7 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
     '<block type="sensing_mouse_button_released" />' +
     '<block type="sensing_mobile" />' +
   '</category>' +
-  '<category name="%{BKY_CATEGORY_OPERATORS}" id="operators" colour="#40BF4A" secondaryColour="#389438">' +
+  '<category name="%{BKY_CATEGORY_OPERATORS}" id="operators" colour="#40BF4A">' +
     '<block type="operator_add" id="operator_add">' +
       '<value name="NUM1">' +
         '<shadow type="math_number">' +
@@ -1124,7 +1124,7 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
       '</value>' +
     '</block>' +
   '</category>' +
-  '<category name="%{BKY_PM_CATEGORY_STRINGS}" id="strings" colour="#47c18a" secondaryColour="#479572">' +
+  '<category name="%{BKY_PM_CATEGORY_STRINGS}" id="strings" colour="#47c18a">' +
     '<block type="operator_join" id="operator_join">' +
       '<value name="STRING1">' +
         '<shadow type="text">' +
@@ -1343,13 +1343,13 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
       '</value>' +
     '</block>' +
   '</category>' +
-  '<category name="%{BKY_CATEGORY_VARIABLES}" id="data" colour="#FF8C1A" secondaryColour="#DB6E00" custom="VARIABLE">' +
+  '<category name="%{BKY_CATEGORY_VARIABLES}" id="data" colour="#FF8C1A" custom="VARIABLE">' +
   '</category>' +
-  '<category name="%{BKY_PM_CATEGORY_LISTS}" id="list" colour="#FF661A" secondaryColour="#FF5500" custom="LIST">' +
+  '<category name="%{BKY_PM_CATEGORY_LISTS}" id="list" colour="#FF661A" custom="LIST">' +
   '</category>' +
-  '<category name="%{BKY_CATEGORY_MYBLOCKS}" id="more" colour="#FF6680" secondaryColour="#FF4D6A" custom="PROCEDURE">' +
+  '<category name="%{BKY_CATEGORY_MYBLOCKS}" id="more" colour="#FF6680" custom="PROCEDURE">' +
   '</category>' +
-  '<category name="Extensions" id="extensions" colour="#FF6680" secondaryColour="#FF4D6A" ' +
+  '<category name="Extensions" id="extensions" colour="#FF6680" ' +
     'iconURI="../media/extensions/wedo2-block-icon.svg" showStatusButton="true">' +
     '<block type="extension_pen_down" id="extension_pen_down"></block>' +
     '<block type="extension_music_drum" id="extension_music_drum">' +
