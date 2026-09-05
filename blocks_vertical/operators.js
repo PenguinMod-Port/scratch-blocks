@@ -1053,7 +1053,13 @@ Blockly.Blocks['operator_expandablejoininputs'] = {
     this.possibleStrings = [
       Blockly.Msg.OPERATORS_JOIN_APPLE,
       Blockly.Msg.OPERATORS_JOIN_BANANA,
-      Blockly.Msg.PM_OPERATORS_JOIN_PEAR
+      Blockly.Msg.PM_OPERATORS_JOIN_PEAR,
+      Blockly.Msg.PM_OPERATORS_JOIN_ORANGE,
+      Blockly.Msg.PM_OPERATORS_JOIN_MANGO,
+      Blockly.Msg.PM_OPERATORS_JOIN_STRAWBERRY,
+      Blockly.Msg.PM_OPERATORS_JOIN_PINEAPPLE,
+      Blockly.Msg.PM_OPERATORS_JOIN_GRAPE,
+      Blockly.Msg.PM_OPERATORS_JOIN_KIWI
     ];
   },
 

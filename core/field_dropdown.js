@@ -225,14 +225,18 @@ Blockly.FieldDropdown.prototype.showEditor_ = function() {
       image.alt = content['alt'] || '';
       content = image;
     }
+
     var menuItem = new goog.ui.MenuItem(content);
     menuItem.setRightToLeft(this.sourceBlock_.RTL);
     menuItem.setValue(value);
     menuItem.setCheckable(true);
     menu.addChild(menuItem, true);
-    if (this.sourceBlock_.textColour) {
-      menuItem.element_.style.color = this.sourceBlock_.textColour;
+
+    var blockColorTarget = this.sourceBlock_.isShadow() ? this.sourceBlock_.getParent() : this.sourceBlock_;
+    if (blockColorTarget.textColour) {
+      menuItem.element_.style.color = blockColorTarget.textColour;
     }
+
     var checked = (value == this.value_);
     menuItem.setChecked(checked);
     if (checked) {
@@ -253,8 +257,10 @@ Blockly.FieldDropdown.prototype.showEditor_ = function() {
 
   var primaryColour = (this.sourceBlock_.isShadow()) ?
     this.sourceBlock_.parentBlock_.getColour() : this.sourceBlock_.getColour();
+  var tertiaryColour = (this.sourceBlock_.isShadow()) ?
+    this.sourceBlock_.parentBlock_.getColourTertiary() : this.sourceBlock_.getColourTertiary();
 
-  Blockly.DropDownDiv.setColour(primaryColour, this.sourceBlock_.getColourTertiary());
+  Blockly.DropDownDiv.setColour(primaryColour, tertiaryColour);
 
   var category = (this.sourceBlock_.isShadow()) ?
     this.sourceBlock_.parentBlock_.getCategory() : this.sourceBlock_.getCategory();

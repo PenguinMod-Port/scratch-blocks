@@ -723,9 +723,12 @@ Blockly.Toolbox.Category.prototype.createDom = function() {
       {'class': 'scratchCategoryMenuItemLabel'},
       Blockly.utils.replaceMessageReferences(this.name_));
   if (Blockly.Toolbox.Category.SHOW_BLOCK_COUNT) {
+    var fallbackColor = Blockly.Block.colourModifier(Blockly.Colours.pen);
+
     this.counter_ = goog.dom.createDom('div', {'class': 'scratchCategoryCounterDiv'});
     this.counterText_ = goog.dom.createDom('span', {'class': 'scratchCategoryCounter'});
-    this.counterText_.style.backgroundColor = this.colour_;
+    this.counterText_.style.backgroundColor = this.colour_ === '#000000' ? fallbackColor[0] : this.colour_;
+    this.counterText_.style.border = `solid 1px ${this.secondaryColour_ === '#000000' ? fallbackColor[2] : this.secondaryColour_}`;
     this.counterText_.style.color = this.textColour_;
     this.counterText_.textContent = this.blockCount_;
     this.counter_.appendChild(this.counterText_);
@@ -764,6 +767,11 @@ Blockly.Toolbox.Category.prototype.setSelected = function(selected) {
  * Updates the block counter value of this category.
  */
 Blockly.Toolbox.Category.prototype.updateCountLabel = function() {
+  if (this.blockCount_ < 0) {
+    // Shouldn't happen.
+    this.blockCount_ = 0;
+  }
+
   this.counterText_.textContent = this.blockCount_;
 }
 
@@ -825,7 +833,14 @@ Blockly.Toolbox.Category.prototype.setColour = function(node) {
 };
 
 /** If true, will display a block counter. */
-Blockly.Toolbox.Category.SHOW_BLOCK_COUNT = false; // TOODO
+Blockly.Toolbox.Category.SHOW_BLOCK_COUNT = true; // TOODO
+
+/**
+ * Map storing 'quirky' blocks whose category/opcode don't directly
+ * point to a toolbox category.
+ * @type {Map<Blockly.Block.id, string}
+*/
+Blockly.Toolbox.Category.QUIRKY_BLOCKS = new Map();
 
 /**
  * Updates the corresponding category block counter
@@ -849,21 +864,25 @@ Blockly.Toolbox.Category.blockCounterDispatcher = function(event, workspace) {
       switch (opcodeOrigin) {
         case 'event':
           opcodeOrigin = 'events';
+          Blockly.Toolbox.Category.QUIRKY_BLOCKS.set(block.id, opcodeOrigin);
           break;
         case 'operator':
-          opcodeOrigin = Blockly.Toolbox.OPERATOR_STRING_MERGE
-            ? 'operators'
-            : block._isStringOperator ? 'strings' : 'operators';
+          if (Blockly.Toolbox.OPERATOR_STRING_MERGE) {
+            opcodeOrigin = 'operators';
+          } else {
+            opcodeOrigin = block._isStringOperator ? 'strings' : 'operators';
+          }
+
+          Blockly.Toolbox.Category.QUIRKY_BLOCKS.set(block.id, opcodeOrigin);
           break;
         case 'data':
-          if (categoryOrigin === 'data') {
-            opcodeOrigin = 'variables';
-          } else {
-            opcodeOrigin = 'lists';
-          }
+          opcodeOrigin = categoryOrigin === 'data' ? 'variables' : 'lists';
+          Blockly.Toolbox.Category.QUIRKY_BLOCKS.set(block.id, opcodeOrigin);
           break;
         case 'procedures':
+        case 'argument':
           opcodeOrigin = 'myBlocks';
+          Blockly.Toolbox.Category.QUIRKY_BLOCKS.set(block.id, opcodeOrigin);
           break;
       }
 
@@ -871,11 +890,26 @@ Blockly.Toolbox.Category.blockCounterDispatcher = function(event, workspace) {
       if (sourceCategory) {
         sourceCategory.blockCount_++;
         sourceCategory.updateCountLabel();
+      }
+    } else if (event.type === Blockly.Events.DELETE) {
+      var categories = workspace.getToolbox().categoryMenu_.categories_;
+
+      var sourceCategoryId;
+      var sourceCategory;
+      var isQuirky = Blockly.Toolbox.Category.QUIRKY_BLOCKS.has(event.blockId);
+      if (isQuirky) {
+        // Block was already deleted from workspace, we must use a cache.
+        sourceCategoryId = Blockly.Toolbox.Category.QUIRKY_BLOCKS.get(event.blockId);
+        Blockly.Toolbox.Category.QUIRKY_BLOCKS.delete(event.blockId);
       } else {
-        console.log(opcodeOrigin, categoryOrigin, categories, sourceCategory);
+        sourceCategoryId = event.oldXml.getAttribute('type').split('_')[0];
+      }
+
+      sourceCategory = categories.find((c) => c.id_ === sourceCategoryId);
+      if (sourceCategory && sourceCategoryId) {
+        sourceCategory.blockCount_--;
+        sourceCategory.updateCountLabel();
       }
     }
   }, 100);
-     // TOODO
-  //event.type === Blockly.Events.DELETE)
 };
