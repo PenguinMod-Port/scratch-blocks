@@ -568,6 +568,9 @@ Blockly.Toolbox.prototype.setSelectedItemFactory = function(item) {
   };
 };
 
+/* If true, string-operator blocks are merged into the operators category. */
+Blockly.Toolbox.OPERATOR_STRING_MERGE = false;
+
 // Category menu
 /**
  * Class for a table of category titles that will control which category is
@@ -758,6 +761,13 @@ Blockly.Toolbox.Category.prototype.setSelected = function(selected) {
 };
 
 /**
+ * Updates the block counter value of this category.
+ */
+Blockly.Toolbox.Category.prototype.updateCountLabel = function() {
+  this.counterText_.textContent = this.blockCount_;
+}
+
+/**
  * Set the contents of this category from DOM.
  * @param {Node} domTree DOM tree of blocks.
  * @constructor
@@ -817,6 +827,55 @@ Blockly.Toolbox.Category.prototype.setColour = function(node) {
 /** If true, will display a block counter. */
 Blockly.Toolbox.Category.SHOW_BLOCK_COUNT = false; // TOODO
 
-Blockly.Toolbox.Category.blockCounterDispatcher = function(event) {
-   // TOODO
+/**
+ * Updates the corresponding category block counter
+ * after a Blockly event.
+ * 
+ * @param {Blockly.Events} event The event emitted by the workspace.
+ * @param {Blockly.Workspace} workspace The workspace this event was trigged in.
+ */
+Blockly.Toolbox.Category.blockCounterDispatcher = function(event, workspace) {
+  setTimeout(() => {
+    if (event.type === Blockly.Events.CREATE) {
+      var block = workspace.getBlockById(event.blockId);
+      if (!block) return;
+
+      var categories = workspace.getToolbox().categoryMenu_.categories_;
+
+      var categoryOrigin = block.category_;
+      var opcodeOrigin = block.type.split("_")[0];
+
+      // Resolve weird category quirks from special blocks.
+      switch (opcodeOrigin) {
+        case 'event':
+          opcodeOrigin = 'events';
+          break;
+        case 'operator':
+          opcodeOrigin = Blockly.Toolbox.OPERATOR_STRING_MERGE
+            ? 'operators'
+            : block._isStringOperator ? 'strings' : 'operators';
+          break;
+        case 'data':
+          if (categoryOrigin === 'data') {
+            opcodeOrigin = 'variables';
+          } else {
+            opcodeOrigin = 'lists';
+          }
+          break;
+        case 'procedures':
+          opcodeOrigin = 'myBlocks';
+          break;
+      }
+
+      var sourceCategory = categories.find((c) => c.id_ === opcodeOrigin);
+      if (sourceCategory) {
+        sourceCategory.blockCount_++;
+        sourceCategory.updateCountLabel();
+      } else {
+        console.log(opcodeOrigin, categoryOrigin, categories, sourceCategory);
+      }
+    }
+  }, 100);
+     // TOODO
+  //event.type === Blockly.Events.DELETE)
 };

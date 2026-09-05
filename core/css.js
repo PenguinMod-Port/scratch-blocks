@@ -670,7 +670,7 @@ Blockly.Css.CONTENT = [
   '.scratchCommentMarkdown {',
     'position: absolute;',
     'top: 0;',
-    'color: inherit;',
+    'color: inherit !important;',
     'pointer-events: none;',
     'overflow-wrap: break-word;',
     'word-wrap: break-word;',
