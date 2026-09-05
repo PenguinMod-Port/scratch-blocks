@@ -672,9 +672,7 @@ Blockly.Toolbox.Category = function(parent, parentHtml, domTree) {
   this.iconURI_ = domTree.getAttribute('iconURI');
   this.showStatusButton_ = domTree.getAttribute('showStatusButton');
   this.contents_ = [];
-  if (Blockly.Toolbox.Category.SHOW_BLOCK_COUNT) {
-    this.blockCount_ = 0;
-  }
+  this.blockCount_ = 0;
   if (!this.custom_) {
     this.parseContents_(domTree);
   }
