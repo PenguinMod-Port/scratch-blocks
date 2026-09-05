@@ -669,6 +669,9 @@ Blockly.Toolbox.Category = function(parent, parentHtml, domTree) {
   this.iconURI_ = domTree.getAttribute('iconURI');
   this.showStatusButton_ = domTree.getAttribute('showStatusButton');
   this.contents_ = [];
+  if (Blockly.Toolbox.Category.SHOW_BLOCK_COUNT) {
+    this.blockCount_ = 0;
+  }
   if (!this.custom_) {
     this.parseContents_(domTree);
   }
@@ -716,6 +719,15 @@ Blockly.Toolbox.Category.prototype.createDom = function() {
   this.label_ = goog.dom.createDom('div',
       {'class': 'scratchCategoryMenuItemLabel'},
       Blockly.utils.replaceMessageReferences(this.name_));
+  if (Blockly.Toolbox.Category.SHOW_BLOCK_COUNT) {
+    this.counter_ = goog.dom.createDom('div', {'class': 'scratchCategoryCounterDiv'});
+    this.counterText_ = goog.dom.createDom('span', {'class': 'scratchCategoryCounter'});
+    this.counterText_.style.backgroundColor = this.colour_;
+    this.counterText_.style.color = this.textColour_;
+    this.counterText_.textContent = this.blockCount_;
+    this.counter_.appendChild(this.counterText_);
+  }
+
   if (this.iconURI_) {
     this.bubble_ = goog.dom.createDom('div',
         {'class': 'scratchCategoryItemIcon'});
@@ -728,6 +740,10 @@ Blockly.Toolbox.Category.prototype.createDom = function() {
   }
   this.item_.appendChild(this.bubble_);
   this.item_.appendChild(this.label_);
+  if (Blockly.Toolbox.Category.SHOW_BLOCK_COUNT) {
+    this.item_.appendChild(this.counter_);
+  }
+
   this.parentHtml_.appendChild(this.item_);
   Blockly.bindEvent_(
       this.item_, 'mouseup', toolbox, toolbox.setSelectedItemFactory(this));
@@ -782,6 +798,8 @@ Blockly.Toolbox.Category.prototype.getContents = function() {
  *     Colours are a hex string or hue on a colour wheel (0-360).
  */
 Blockly.Toolbox.Category.prototype.setColour = function(node) {
+  console.log(node);
+  this.textColour_ = node.getAttribute('textColour') || '#fff';
   var colour = node.getAttribute('colour');
   if (goog.isString(colour)) {
     if (!colour.match(/^#[0-9a-fA-F]{6,8}$/)) {
@@ -795,4 +813,11 @@ Blockly.Toolbox.Category.prototype.setColour = function(node) {
     this.colour_ = '#000000';
     this.secondaryColour_ = '#000000';
   }
+};
+
+/** If true, will display a block counter. */
+Blockly.Toolbox.Category.SHOW_BLOCK_COUNT = false; // TOODO
+
+Blockly.Toolbox.Category.blockCounterDispatcher = function(event) {
+   // TOODO
 };
