@@ -833,7 +833,7 @@ Blockly.Toolbox.Category.prototype.setColour = function(node) {
 };
 
 /** If true, will display a block counter. */
-Blockly.Toolbox.Category.SHOW_BLOCK_COUNT = true; // TOODO
+Blockly.Toolbox.Category.SHOW_BLOCK_COUNT = false;
 
 /**
  * Map storing 'quirky' blocks whose category/opcode don't directly
