@@ -1382,10 +1382,10 @@ Blockly.Css.CONTENT = [
     'margin: 0 auto 0.125rem;',
   '}',
 
-  'scratchCategoryCounterDiv {',
+  '.scratchCategoryCounterDiv {',
     'margin-top: 5px;',
   '}',
-  'scratchCategoryCounter {',
+  '.scratchCategoryCounter {',
     'padding: 1px 5px;',
     'border-radius: 4px;',
   '}',
