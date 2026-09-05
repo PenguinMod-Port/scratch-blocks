@@ -723,15 +723,7 @@ Blockly.Toolbox.Category.prototype.createDom = function() {
       {'class': 'scratchCategoryMenuItemLabel'},
       Blockly.utils.replaceMessageReferences(this.name_));
   if (Blockly.Toolbox.Category.SHOW_BLOCK_COUNT) {
-    var fallbackColor = Blockly.Block.colourModifier(Blockly.Colours.pen);
-
-    this.counter_ = goog.dom.createDom('div', {'class': 'scratchCategoryCounterDiv'});
-    this.counterText_ = goog.dom.createDom('span', {'class': 'scratchCategoryCounter'});
-    this.counterText_.style.backgroundColor = this.colour_ === '#000000' ? fallbackColor[0] : this.colour_;
-    this.counterText_.style.border = `solid 1px ${this.secondaryColour_ === '#000000' ? fallbackColor[2] : this.secondaryColour_}`;
-    this.counterText_.style.color = this.textColour_;
-    this.counterText_.textContent = this.blockCount_;
-    this.counter_.appendChild(this.counterText_);
+    this.createCounter();
   }
 
   if (this.iconURI_) {
@@ -773,7 +765,37 @@ Blockly.Toolbox.Category.prototype.updateCountLabel = function() {
   }
 
   this.counterText_.textContent = this.blockCount_;
-}
+};
+
+/**
+ * Adds a block counter to this category.
+ * @param {Boolean} opt_append If true, will manually append the counter.
+ */
+Blockly.Toolbox.Category.prototype.createCounter = function(opt_append) {
+  var fallbackColor = Blockly.Block.colourModifier(Blockly.Colours.pen);
+
+  this.counter_ = goog.dom.createDom('div', {'class': 'scratchCategoryCounterDiv'});
+  this.counterText_ = goog.dom.createDom('span', {'class': 'scratchCategoryCounter'});
+  this.counterText_.style.backgroundColor = this.colour_ === '#000000' ? fallbackColor[0] : this.colour_;
+  this.counterText_.style.border = `solid 1px ${this.secondaryColour_ === '#000000' ? fallbackColor[2] : this.secondaryColour_}`;
+  this.counterText_.style.color = this.textColour_;
+  this.counterText_.textContent = this.blockCount_;
+  this.counter_.appendChild(this.counterText_);
+
+  if (opt_append) {
+    this.item_.appendChild(this.counter_);
+  }
+};
+
+/**
+ * Removes the block counter of this category.
+ */
+Blockly.Toolbox.Category.prototype.removeCounter = function() {
+  if (this.counter_) {
+    // We dont want to reset blockCount in case its added again.
+    this.counter_.remove();
+  }
+};
 
 /**
  * Set the contents of this category from DOM.
