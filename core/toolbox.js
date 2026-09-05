@@ -836,7 +836,7 @@ Blockly.Toolbox.Category.prototype.getContents = function() {
  *     Colours are a hex string or hue on a colour wheel (0-360).
  */
 Blockly.Toolbox.Category.prototype.setColour = function(node) {
-  this.textColour_ = node.getAttribute('textColour') || '#fff';
+  this.textColour_ = Blockly.Block.textColourModifier(node.getAttribute('textColour') || '#fff');
   var colour = node.getAttribute('colour');
   if (goog.isString(colour)) {
     if (!colour.match(/^#[0-9a-fA-F]{6,8}$/)) {
