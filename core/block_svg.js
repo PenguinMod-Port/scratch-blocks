@@ -147,7 +147,7 @@ Blockly.BlockSvg.toggleBlockPin = function(block, eventType) {
  * Unpins all blocks from the flyout.
  * @param {Blockly.Block} block The block used to access the workspace
  */
-Blockly.BlockSvg.unpinAllBlocks(block) {
+Blockly.BlockSvg.unpinAllBlocks = function(block) {
   Blockly.BlockSvg.PINS = [];
   Blockly.BlockSvg.PIN_CALLBACK();
 };
