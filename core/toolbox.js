@@ -863,72 +863,100 @@ Blockly.Toolbox.Category.SHOW_BLOCK_COUNT = false;
 Blockly.Toolbox.Category.QUIRKY_BLOCKS = new Map();
 
 /**
- * Updates the corresponding category block counter
- * after a Blockly event.
+ * Gets a block's category id. Resolves any weird quirkyness.
+ * @param {Blockly.Block} block Workspace block.
+ * @returns {String} Category Id.
+ */
+Blockly.Toolbox.Category.getBlockCategoryIdQuirky = function (block) {
+  // Resolve weird category quirks from special blocks.
+  var categoryOrigin = block.category_;
+  var opcodeOrigin = block.type.split("_")[0];
+
+  switch (opcodeOrigin) {
+    case 'event':
+      opcodeOrigin = 'events';
+      Blockly.Toolbox.Category.QUIRKY_BLOCKS.set(block.id, opcodeOrigin);
+      break;
+    case 'operator':
+      if (Blockly.Toolbox.OPERATOR_STRING_MERGE) {
+        opcodeOrigin = 'operators';
+      } else {
+        opcodeOrigin = block._isStringOperator ? 'strings' : 'operators';
+      }
+
+      Blockly.Toolbox.Category.QUIRKY_BLOCKS.set(block.id, opcodeOrigin);
+      break;
+    case 'data':
+      opcodeOrigin = categoryOrigin === 'data' ? 'variables' : 'lists';
+      Blockly.Toolbox.Category.QUIRKY_BLOCKS.set(block.id, opcodeOrigin);
+      break;
+    case 'procedures':
+    case 'argument':
+      opcodeOrigin = 'myBlocks';
+      Blockly.Toolbox.Category.QUIRKY_BLOCKS.set(block.id, opcodeOrigin);
+      break;
+  }
+
+  return opcodeOrigin;
+};
+
+/**
+ * Updates the corresponding category block counter after a Blockly event.
  * 
  * @param {Blockly.Events} event The event emitted by the workspace.
  * @param {Blockly.Workspace} workspace The workspace this event was trigged in.
  */
 Blockly.Toolbox.Category.blockCounterDispatcher = function(event, workspace) {
+  // Slight delay as the toolbox could be refreshed
   setTimeout(() => {
     if (event.type === Blockly.Events.CREATE) {
-      var block = workspace.getBlockById(event.blockId);
-      if (!block) return;
-
       var categories = workspace.getToolbox().categoryMenu_.categories_;
 
-      var categoryOrigin = block.category_;
-      var opcodeOrigin = block.type.split("_")[0];
+      for (let i = 0; i < event.ids.length; i++) {
+        var block = workspace.getBlockById(event.ids[i]);
+        if (block && !block.isShadow() && !block.canDragDuplicate()) {
+          var opcodeOrigin = Blockly.Toolbox.Category.getBlockCategoryIdQuirky(block);
+          var sourceCategory = categories.find((c) => c.id_ === opcodeOrigin);
 
-      // Resolve weird category quirks from special blocks.
-      switch (opcodeOrigin) {
-        case 'event':
-          opcodeOrigin = 'events';
-          Blockly.Toolbox.Category.QUIRKY_BLOCKS.set(block.id, opcodeOrigin);
-          break;
-        case 'operator':
-          if (Blockly.Toolbox.OPERATOR_STRING_MERGE) {
-            opcodeOrigin = 'operators';
-          } else {
-            opcodeOrigin = block._isStringOperator ? 'strings' : 'operators';
+          if (sourceCategory) {
+            sourceCategory.blockCount_++;
+            sourceCategory.updateCountLabel();
           }
-
-          Blockly.Toolbox.Category.QUIRKY_BLOCKS.set(block.id, opcodeOrigin);
-          break;
-        case 'data':
-          opcodeOrigin = categoryOrigin === 'data' ? 'variables' : 'lists';
-          Blockly.Toolbox.Category.QUIRKY_BLOCKS.set(block.id, opcodeOrigin);
-          break;
-        case 'procedures':
-        case 'argument':
-          opcodeOrigin = 'myBlocks';
-          Blockly.Toolbox.Category.QUIRKY_BLOCKS.set(block.id, opcodeOrigin);
-          break;
-      }
-
-      var sourceCategory = categories.find((c) => c.id_ === opcodeOrigin);
-      if (sourceCategory) {
-        sourceCategory.blockCount_++;
-        sourceCategory.updateCountLabel();
+        }
       }
     } else if (event.type === Blockly.Events.DELETE) {
       var categories = workspace.getToolbox().categoryMenu_.categories_;
 
-      var sourceCategoryId;
-      var sourceCategory;
-      var isQuirky = Blockly.Toolbox.Category.QUIRKY_BLOCKS.has(event.blockId);
-      if (isQuirky) {
-        // Block was already deleted from workspace, we must use a cache.
-        sourceCategoryId = Blockly.Toolbox.Category.QUIRKY_BLOCKS.get(event.blockId);
-        Blockly.Toolbox.Category.QUIRKY_BLOCKS.delete(event.blockId);
-      } else {
-        sourceCategoryId = event.oldXml.getAttribute('type').split('_')[0];
-      }
+      // We cant reliably get the block info from the workspace as the block
+      // could already be removed from the DB. Sneakily check XML, which also
+      // removes the need to check for quirkiness.
+      var deletedBlocks = [event.oldXml, ...event.oldXml.querySelectorAll("block")];
+      for (let i = 0; i < deletedBlocks.length; i++) {
+        var xml = deletedBlocks[i];
+        var id = xml.getAttribute('id');
 
-      sourceCategory = categories.find((c) => c.id_ === sourceCategoryId);
-      if (sourceCategory && sourceCategoryId) {
-        sourceCategory.blockCount_--;
-        sourceCategory.updateCountLabel();
+        if (xml.nodeName === 'SHADOW') {
+          // This block was moved into an input of another, or
+          // some other weird edge case happened. Either way ignore.
+          continue;
+        }
+
+        var sourceCategoryId;
+        var sourceCategory;
+        var isQuirky = Blockly.Toolbox.Category.QUIRKY_BLOCKS.has(id);
+        if (isQuirky) {
+          // Block was already deleted from workspace, we must use a cache.
+          sourceCategoryId = Blockly.Toolbox.Category.QUIRKY_BLOCKS.get(id);
+          Blockly.Toolbox.Category.QUIRKY_BLOCKS.delete(id);
+        } else {
+          sourceCategoryId = xml.getAttribute('type').split('_')[0];
+        }
+
+        sourceCategory = categories.find((c) => c.id_ === sourceCategoryId);
+        if (sourceCategory && sourceCategoryId) {
+          sourceCategory.blockCount_--;
+          sourceCategory.updateCountLabel();
+        }
       }
     }
   }, 100);
