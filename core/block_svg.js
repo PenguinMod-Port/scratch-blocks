@@ -94,7 +94,7 @@ goog.inherits(Blockly.BlockSvg, Blockly.Block);
 // settings
 Blockly.BlockSvg.HIDE_EXPANDABLES = false;
 Blockly.BlockSvg.SWATCHES = true;
-Blockly.BlockSvg.PINS_ENABLED = true;
+Blockly.BlockSvg.PINS_ENABLED = false;
 Blockly.BlockSvg.PINS = [];
 
 // Callbacks
