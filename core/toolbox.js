@@ -897,7 +897,7 @@ Blockly.Toolbox.Category.prototype.createDom = function() {
   }
   this.item_.appendChild(this.bubble_);
   this.item_.appendChild(this.label_);
-  if (Blockly.Toolbox.Category.SHOW_BLOCK_COUNT) {
+  if (Blockly.Toolbox.Category.SHOW_BLOCK_COUNT && this.id_ !== "pins") {
     this.item_.appendChild(this.counter_);
   }
 
