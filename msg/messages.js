@@ -566,7 +566,7 @@ Blockly.Msg.PM_PIN = 'Pin';
 Blockly.Msg.PM_UNPIN = 'Unpin';
 Blockly.Msg.PM_UNPIN_ALL = 'Unpin All';
 Blockly.Msg.NO_PINS = 'No Pinned Blocks!';
-Blockly.Msh.MISSING_PIN = 'Some Pins could not load!';
+Blockly.Msg.MISSING_PIN = 'Some Pins could not load!';
 
 // Color
 Blockly.Msg.COLOUR_HUE_LABEL = 'Color';
