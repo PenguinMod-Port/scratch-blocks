@@ -107,7 +107,7 @@ Blockly.BlockSvg.PINS = [];
  */
 Blockly.BlockSvg.toggleBlockPin = function(block, eventType) {
   var xml = Blockly.Xml.blockToDom(block).outerHTML;
-  var index = pins.indexOf(xml);
+  var index = Blockly.BlockSvg.PINS.indexOf(xml);
 
   switch (eventType) {
     case 'unpin':

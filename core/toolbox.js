@@ -931,6 +931,8 @@ Blockly.Toolbox.Category.prototype.updateCountLabel = function() {
  * @param {Boolean} opt_append If true, will manually append the counter.
  */
 Blockly.Toolbox.Category.prototype.createCounter = function(opt_append) {
+  if (this.id_ === "pins") return;
+
   var fallbackColor = Blockly.Block.colourModifier(Blockly.Colours.pen);
 
   this.counter_ = goog.dom.createDom('div', {'class': 'scratchCategoryCounterDiv'});
