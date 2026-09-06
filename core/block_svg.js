@@ -140,7 +140,7 @@ Blockly.BlockSvg.toggleBlockPin = function(block, eventType) {
     }
   }
 
-  Blockly.BlockSvg.PIN_CALLBACK();
+  Blockly.BlockSvg.pinCallback();
 };
 
 /**
@@ -149,11 +149,11 @@ Blockly.BlockSvg.toggleBlockPin = function(block, eventType) {
  */
 Blockly.BlockSvg.unpinAllBlocks = function(block) {
   Blockly.BlockSvg.PINS = [];
-  Blockly.BlockSvg.PIN_CALLBACK();
+  Blockly.BlockSvg.pinCallback();
 };
 
-Blockly.BlockSvg.PIN_CALLBACK = function(/** block, event_type */) {
-  alert(`Editor needs to override 'Blockly.BlockSvg.PIN_CALLBACK'`);
+Blockly.BlockSvg.pinCallback = function(/** block, event_type */) {
+  alert(`Editor needs to override 'Blockly.BlockSvg.pinCallback'`);
 }
 
 /**
