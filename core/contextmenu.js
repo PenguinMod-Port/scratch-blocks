@@ -425,12 +425,14 @@ Blockly.ContextMenu.blockCommentOption = function(block) {
  */
 Blockly.ContextMenu.blockPinOption = function(block) {
   var xml = Blockly.Xml.blockToDom(block).outerHTML;
-  var duplicateOption = {
+  var pinOption = {
     text: Blockly.Msg.PM_PIN,
     enabled: !Blockly.BlockSvg.PINS.includes(xml),
-    callback: Blockly.BlockSvg.toggleBlockPin(block, 'bottom')
+    callback: function() {
+      Blockly.BlockSvg.toggleBlockPin(block, 'bottom');
+    }
   };
-  return duplicateOption;
+  return pinOption;
 };
 
 /**
@@ -441,12 +443,14 @@ Blockly.ContextMenu.blockPinOption = function(block) {
  */
 Blockly.ContextMenu.blockUnpinOption = function(block) {
   var xml = Blockly.Xml.blockToDom(block).outerHTML;
-  var duplicateOption = {
+  var pinOption = {
     text: Blockly.Msg.PM_UNPIN,
     enabled: Blockly.BlockSvg.PINS.includes(xml),
-    callback: Blockly.BlockSvg.toggleBlockPin(block, 'unpin')
+    callback: function() {
+      Blockly.BlockSvg.toggleBlockPin(block, 'unpin');
+    }
   };
-  return duplicateOption;
+  return pinOption;
 };
 /**
  * Make a context menu option for unpinning all flyout blocks.
@@ -455,12 +459,14 @@ Blockly.ContextMenu.blockUnpinOption = function(block) {
  * @package
  */
 Blockly.ContextMenu.blockUnpinAllOption = function(block) {
-  var duplicateOption = {
+  var pinOption = {
     text: Blockly.Msg.PM_UNPIN_ALL,
     enabled: Blockly.BlockSvg.PINS.length,
-    callback: Blockly.BlockSvg.unpinAllBlocks()
+    callback: function() {
+      Blockly.BlockSvg.unpinAllBlocks();
+    }
   };
-  return duplicateOption;
+  return pinOption;
 };
 
 /**
@@ -470,12 +476,14 @@ Blockly.ContextMenu.blockUnpinAllOption = function(block) {
  * @package
  */
 Blockly.ContextMenu.movePinTopOption = function(block) {
-  var duplicateOption = {
+  var pinOption = {
     text: Blockly.Msg.PM_MOVE_TO_TOP,
     enabled: true,
-    callback: Blockly.BlockSvg.toggleBlockPin(block, 'top')
+    callback: function() {
+      Blockly.BlockSvg.toggleBlockPin(block, 'top');
+    }
   };
-  return duplicateOption;
+  return pinOption;
 };
 /**
  * Make a context menu option for moving a pinned block to the bottom.
@@ -484,12 +492,14 @@ Blockly.ContextMenu.movePinTopOption = function(block) {
  * @package
  */
 Blockly.ContextMenu.movePinBottomOption = function(block) {
-  var duplicateOption = {
+  var pinOption = {
     text: Blockly.Msg.PM_MOVE_TO_BOTTOM,
     enabled: true,
-    callback: Blockly.BlockSvg.toggleBlockPin(block, 'bottom')
+    callback: function() {
+      Blockly.BlockSvg.toggleBlockPin(block, 'bottom');
+    }
   };
-  return duplicateOption;
+  return pinOption;
 };
 
 /**
@@ -499,12 +509,14 @@ Blockly.ContextMenu.movePinBottomOption = function(block) {
  * @package
  */
 Blockly.ContextMenu.movePinCategoryOption = function(block) {
-  var duplicateOption = {
+  var pinOption = {
     text: Blockly.Msg.PM_MOVE_BY_CATEGORY,
     enabled: true,
-    callback: Blockly.BlockSvg.toggleBlockPin(block, 'category')
+    callback: function() {
+      Blockly.BlockSvg.toggleBlockPin(block, 'category');
+    }
   };
-  return duplicateOption;
+  return pinOption;
 };
 
 /**
