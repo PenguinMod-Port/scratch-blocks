@@ -616,9 +616,13 @@ Blockly.Procedures.editProcedureCallback_ = function(block) {
 Blockly.Procedures.editProcedureCallbackFactory_ = function(block) {
   return function(mutation) {
     if (mutation) {
-      var usedProccodes = Blockly.Procedures.allProcedureMutations(block.workspace)
-        .map((m) => m.getAttribute("proccode"));
-      var proccodeInUse = usedProccodes.includes(mutation.getAttribute("proccode"));
+      var usedProccodes = Blockly.Procedures.allProcedureMutations(block.workspace);
+      var argNames = JSON.parse(mutation.getAttribute("argumentNames"));
+
+      var proccodeInUse = usedProccodes.find((p) => {
+        return p.getAttribute("proccode") === mutation.getAttribute("proccode") &&
+          JSON.parse(p.getAttribute("argumentNames")).every((a) => argNames.includes(a))
+      });
       if (proccodeInUse) {
         alert(Blockly.Msg.PM_PROCCODE_USED);
         return;
