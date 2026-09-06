@@ -558,6 +558,14 @@ Blockly.Msg.EDIT_PROCEDURE = 'Edit';
 Blockly.Msg.SHOW_PROCEDURE_DEFINITION = 'Go to definition';
 Blockly.Msg.WORKSPACE_COMMENT_DEFAULT_TEXT = 'Say something...';
 
+// Pins
+Blockly.Msg.PM_MOVE_TO_TOP = 'Move to Top';
+Blockly.Msg.PM_MOVE_TO_BOTTOM = 'Move to Bottom';
+Blockly.Msg.PM_MOVE_BY_CATEGORY = 'Organize by Category';
+Blockly.Msg.PM_PIN = 'Pin';
+Blockly.Msg.PM_UNPIN = 'Unpin';
+Blockly.Msg.PM_UNPIN_ALL = 'Unpin All';
+
 // Color
 Blockly.Msg.COLOUR_HUE_LABEL = 'Color';
 Blockly.Msg.COLOUR_SATURATION_LABEL = 'Saturation';

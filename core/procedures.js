@@ -528,9 +528,15 @@ Blockly.Procedures.createProcedureDefCallback_ = function(workspace) {
 Blockly.Procedures.createProcedureCallbackFactory_ = function(workspace) {
   return function(mutation) {
     if (mutation) {
-      var usedProccodes = Blockly.Procedures.allProcedureMutations(workspace)
-        .map((m) => m.getAttribute("proccode"));
-      var proccodeInUse = usedProccodes.includes(mutation.getAttribute("proccode"));
+      // Check if the arguments and proccode are being used by another custom block.
+      var proccode = mutation.getAttribute("proccode");
+      var argNames = JSON.parse(mutation.getAttribute("argumentNames"));
+      var usedProccodes = Blockly.Procedures.allProcedureMutations(block.workspace);
+      var proccodeInUse = usedProccodes.find((p) => {
+        return p.getAttribute("proccode") === proccode &&
+          String(block.global_) !== p.getAttribute("global")
+          JSON.parse(p.getAttribute("argumentNames")).every((a) => argNames.includes(a))
+      });
       if (proccodeInUse) {
         alert(Blockly.Msg.PM_PROCCODE_USED);
         return;
@@ -616,16 +622,26 @@ Blockly.Procedures.editProcedureCallback_ = function(block) {
 Blockly.Procedures.editProcedureCallbackFactory_ = function(block) {
   return function(mutation) {
     if (mutation) {
-      var usedProccodes = Blockly.Procedures.allProcedureMutations(block.workspace);
-      var argNames = JSON.parse(mutation.getAttribute("argumentNames"));
+      // If the proccode/argument names were changed, check if
+      // the changes are being used by another custom block.
+      var newProccode = mutation.getAttribute("proccode");
+      var newArgNames = JSON.parse(mutation.getAttribute("argumentNames"));
+      if (
+        block.procCode_ !== newProccode ||
+        block.displayNames_.length !== newArgNames.length ||
+        String(block.global_) !== mutation.getAttribute("global")
+      ) {
+        var usedProccodes = Blockly.Procedures.allProcedureMutations(block.workspace);
+        var proccodeInUse = usedProccodes.find((p) => {
+          return p.getAttribute("proccode") === newProccode &&
+            String(block.global_) !== p.getAttribute("global")
+            JSON.parse(p.getAttribute("argumentNames")).every((a) => newArgNames.includes(a))
+        });
 
-      var proccodeInUse = usedProccodes.find((p) => {
-        return p.getAttribute("proccode") === mutation.getAttribute("proccode") &&
-          JSON.parse(p.getAttribute("argumentNames")).every((a) => argNames.includes(a))
-      });
-      if (proccodeInUse) {
-        alert(Blockly.Msg.PM_PROCCODE_USED);
-        return;
+        if (proccodeInUse) {
+          alert(Blockly.Msg.PM_PROCCODE_USED);
+          return;
+        }
       }
 
       Blockly.Procedures.mutateCallersAndPrototype(block.getProcCode(),

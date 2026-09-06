@@ -418,6 +418,96 @@ Blockly.ContextMenu.blockCommentOption = function(block) {
 };
 
 /**
+ * Make a context menu option for pinning a flyout block.
+ * @param {!Blockly.BlockSvg} block The block where the right-click originated.
+ * @return {!Object} A menu option, containing text, enabled, and a callback.
+ * @package
+ */
+Blockly.ContextMenu.blockPinOption = function(block) {
+  var xml = Blockly.Xml.blockToDom(block).outerHTML;
+  var duplicateOption = {
+    text: Blockly.Msg.PM_PIN,
+    enabled: !Blockly.BlockSvg.PINS.includes(xml),
+    callback: Blockly.BlockSvg.toggleBlockPin(block, 'bottom')
+  };
+  return duplicateOption;
+};
+
+/**
+ * Make a context menu option for unpinning a flyout block.
+ * @param {!Blockly.BlockSvg} block The block where the right-click originated.
+ * @return {!Object} A menu option, containing text, enabled, and a callback.
+ * @package
+ */
+Blockly.ContextMenu.blockUnpinOption = function(block) {
+  var xml = Blockly.Xml.blockToDom(block).outerHTML;
+  var duplicateOption = {
+    text: Blockly.Msg.PM_UNPIN,
+    enabled: Blockly.BlockSvg.PINS.includes(xml),
+    callback: Blockly.BlockSvg.toggleBlockPin(block, 'unpin')
+  };
+  return duplicateOption;
+};
+/**
+ * Make a context menu option for unpinning all flyout blocks.
+ * @param {!Blockly.BlockSvg} block The block where the right-click originated.
+ * @return {!Object} A menu option, containing text, enabled, and a callback.
+ * @package
+ */
+Blockly.ContextMenu.blockUnpinAllOption = function(block) {
+  var duplicateOption = {
+    text: Blockly.Msg.PM_UNPIN_ALL,
+    enabled: Blockly.BlockSvg.PINS.length,
+    callback: Blockly.BlockSvg.unpinAllBlocks()
+  };
+  return duplicateOption;
+};
+
+/**
+ * Make a context menu option for moving a pinned block to the top.
+ * @param {!Blockly.BlockSvg} block The block where the right-click originated.
+ * @return {!Object} A menu option, containing text, enabled, and a callback.
+ * @package
+ */
+Blockly.ContextMenu.movePinTopOption = function(block) {
+  var duplicateOption = {
+    text: Blockly.Msg.PM_MOVE_TO_TOP,
+    enabled: true,
+    callback: Blockly.BlockSvg.toggleBlockPin(block, 'top')
+  };
+  return duplicateOption;
+};
+/**
+ * Make a context menu option for moving a pinned block to the bottom.
+ * @param {!Blockly.BlockSvg} block The block where the right-click originated.
+ * @return {!Object} A menu option, containing text, enabled, and a callback.
+ * @package
+ */
+Blockly.ContextMenu.movePinBottomOption = function(block) {
+  var duplicateOption = {
+    text: Blockly.Msg.PM_MOVE_TO_BOTTOM,
+    enabled: true,
+    callback: Blockly.BlockSvg.toggleBlockPin(block, 'bottom')
+  };
+  return duplicateOption;
+};
+
+/**
+ * Make a context menu option for organizing pins by their category.
+ * @param {!Blockly.BlockSvg} block The block where the right-click originated.
+ * @return {!Object} A menu option, containing text, enabled, and a callback.
+ * @package
+ */
+Blockly.ContextMenu.movePinCategoryOption = function(block) {
+  var duplicateOption = {
+    text: Blockly.Msg.PM_MOVE_BY_CATEGORY,
+    enabled: true,
+    callback: Blockly.BlockSvg.toggleBlockPin(block, 'category')
+  };
+  return duplicateOption;
+};
+
+/**
  * Make a context menu option for undoing the most recent action on the
  * workspace.
  * @param {!Blockly.WorkspaceSvg} ws The workspace where the right-click

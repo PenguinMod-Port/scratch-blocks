@@ -94,6 +94,67 @@ goog.inherits(Blockly.BlockSvg, Blockly.Block);
 // settings
 Blockly.BlockSvg.HIDE_EXPANDABLES = false;
 Blockly.BlockSvg.SWATCHES = true;
+Blockly.BlockSvg.PINS_ENABLED = true;
+Blockly.BlockSvg.PINS = [];
+
+// Callbacks
+
+/**
+ * Toggles a flyout pin. The passed block will either be pinned, unpinned,
+ * or placed in a specified order.
+ * @param {Blockly.Block} block The block to toggle pin
+ * @param {unpin|top|bottom|category} eventType What pin action to do with the block
+ */
+Blockly.BlockSvg.toggleBlockPin(block, eventType) {
+  var xml = Blockly.Xml.blockToDom(block).outerHTML;
+  var index = pins.indexOf(xml);
+
+  switch (eventType) {
+    case 'unpin':
+      if (index > -1) Blockly.BlockSvg.PINS.splice(index, 1);
+      break;
+    case 'top':
+      if (index > -1) Blockly.BlockSvg.PINS.splice(index, 1);
+      Blockly.BlockSvg.PINS = [xml, ...Blockly.BlockSvg.PINS];
+      break;
+    case 'bottom':
+      if (index > -1) Blockly.BlockSvg.PINS.splice(index, 1);
+      Blockly.BlockSvg.PINS.push(xml);
+      break;
+    case 'category': {
+      var flyoutBlocks = Object.values(this.workspace.blockDB_);
+      var blockTypeRegex = /type="([^"]+)"/;
+
+      var ordered = [];
+      for (let i = 0; i < Blockly.BlockSvg.PINS.length; i++) {
+        var xml = Blockly.BlockSvg.PINS[i];
+        var match = xml.match(blockTypeRegex);
+        if (!match) continue;
+
+        var type = match[1];
+        ordered[flyoutBlocks.findLastIndex(type)] = block;
+      }
+
+      Blockly.BlockSvg.PINS = ordered.flat();
+      break;
+    }
+  }
+
+  Blockly.BlockSvg.PIN_CALLBACK();
+};
+
+/**
+ * Unpins all blocks from the flyout.
+ * @param {Blockly.Block} block The block used to access the workspace
+ */
+Blockly.BlockSvg.unpinAllBlocks(block) {
+  Blockly.BlockSvg.PINS = [];
+  Blockly.BlockSvg.PIN_CALLBACK();
+};
+
+Blockly.BlockSvg.PIN_CALLBACK = function(/** block, event_type */) {
+  alert(`Editor needs to override 'Blockly.BlockSvg.PIN_CALLBACK'`);
+}
 
 /**
  * Height of this block, not including any statement blocks above or below.
@@ -708,30 +769,50 @@ Blockly.BlockSvg.prototype.showContextMenu_ = function(e) {
   // Save the current block in a variable for use in closures.
   var block = this;
   var menuOptions = [];
-  if (this.isDeletable() && this.isMovable() && !block.isInFlyout) {
-    menuOptions.push(
-        Blockly.ContextMenu.blockDuplicateOption(block, e));
-    if (this.isEditable() && this.workspace.options.comments) {
-      menuOptions.push(Blockly.ContextMenu.blockCommentOption(block));
-    }
-    if (this.workspace.options.collapse && this.type !== Blockly.PROCEDURES_DEFINITION_BLOCK_TYPE) {
-      menuOptions.push(Blockly.ContextMenu.blockCollapseOption(block));
-    }
-    if (!this.isCollapsed() && this.workspace.options.externalInputs && this.type !== Blockly.PROCEDURES_DEFINITION_BLOCK_TYPE) {
-      menuOptions.push(Blockly.ContextMenu.blockInlineOption(block));
-    }
-    menuOptions.push(Blockly.ContextMenu.blockDeleteOption(block));
+  if (this.isDeletable() && this.isMovable()) {
+    if (Blockly.BlockSvg.PINS_ENABLED && block.isInFlyout) {
+      var xml = Blockly.Xml.blockToDom(block).outerHTML;
 
-    if (Blockly.BlockSvg.HIDE_EXPANDABLES && !this.isCollapsed() && this.inputList.map(v => v.fieldRow).flat().some(v => v instanceof Blockly.FieldExpandable || v instanceof Blockly.FieldExpandableJSON)) {
-      menuOptions.push(Blockly.ContextMenu.separator());
-      menuOptions = menuOptions.concat(Blockly.ContextMenu.blockExpandableOptions(block));
-    }
-
-    if (Blockly.BlockSvg.SWATCHES) {
-      let swatches = Blockly.ContextMenu.blockSwatchesOptions(block);
-      if (swatches.length > 0) {
+      if (Blockly.BlockSvg.PINS.includes(xml)) {
+        menuOptions.push(Blockly.ContextMenu.movePinTopOption(block));
+        menuOptions.push(Blockly.ContextMenu.movePinBottomOption(block));
+        menuOptions.push(Blockly.ContextMenu.movePinCategoryOption(block));
         menuOptions.push(Blockly.ContextMenu.separator());
-        menuOptions = menuOptions.concat(swatches);
+        menuOptions.push(Blockly.ContextMenu.blockPinOption(block));
+        menuOptions.push(Blockly.ContextMenu.blockUnpinOption(block));
+      } else {
+        menuOptions.push(Blockly.ContextMenu.blockPinOption(block));
+        menuOptions.push(Blockly.ContextMenu.blockUnpinOption(block));
+      }
+
+      menuOptions.push(Blockly.ContextMenu.blockUnpinAllOption(block));
+    } else if (!block.isInFlyout) {
+      menuOptions.push(
+        Blockly.ContextMenu.blockDuplicateOption(block, e)
+      );
+
+      if (this.isEditable() && this.workspace.options.comments) {
+        menuOptions.push(Blockly.ContextMenu.blockCommentOption(block));
+      }
+      if (this.workspace.options.collapse && this.type !== Blockly.PROCEDURES_DEFINITION_BLOCK_TYPE) {
+        menuOptions.push(Blockly.ContextMenu.blockCollapseOption(block));
+      }
+      if (!this.isCollapsed() && this.workspace.options.externalInputs && this.type !== Blockly.PROCEDURES_DEFINITION_BLOCK_TYPE) {
+        menuOptions.push(Blockly.ContextMenu.blockInlineOption(block));
+      }
+      menuOptions.push(Blockly.ContextMenu.blockDeleteOption(block));
+
+      if (Blockly.BlockSvg.HIDE_EXPANDABLES && !this.isCollapsed() && this.inputList.map(v => v.fieldRow).flat().some(v => v instanceof Blockly.FieldExpandable || v instanceof Blockly.FieldExpandableJSON)) {
+        menuOptions.push(Blockly.ContextMenu.separator());
+        menuOptions = menuOptions.concat(Blockly.ContextMenu.blockExpandableOptions(block));
+      }
+
+      if (Blockly.BlockSvg.SWATCHES) {
+        let swatches = Blockly.ContextMenu.blockSwatchesOptions(block);
+        if (swatches.length > 0) {
+          menuOptions.push(Blockly.ContextMenu.separator());
+          menuOptions = menuOptions.concat(swatches);
+        }
       }
     }
   } else if (this.parentBlock_ && this.isShadow_) {
