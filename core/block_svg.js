@@ -152,7 +152,7 @@ Blockly.BlockSvg.unpinAllBlocks = function(block) {
   Blockly.BlockSvg.pinCallback();
 };
 
-Blockly.BlockSvg.pinCallback = function(/** block, event_type */) {
+Blockly.BlockSvg.pinCallback = function() {
   alert(`Editor needs to override 'Blockly.BlockSvg.pinCallback'`);
 }
 
