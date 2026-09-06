@@ -105,7 +105,7 @@ Blockly.BlockSvg.PINS = [];
  * @param {Blockly.Block} block The block to toggle pin
  * @param {unpin|top|bottom|category} eventType What pin action to do with the block
  */
-Blockly.BlockSvg.toggleBlockPin(block, eventType) {
+Blockly.BlockSvg.toggleBlockPin = function(block, eventType) {
   var xml = Blockly.Xml.blockToDom(block).outerHTML;
   var index = pins.indexOf(xml);
 
