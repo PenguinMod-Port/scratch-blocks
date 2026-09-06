@@ -122,7 +122,7 @@ Blockly.BlockSvg.toggleBlockPin = function(block, eventType) {
       Blockly.BlockSvg.PINS.push(xml);
       break;
     case 'category': {
-      var flyoutBlocks = Object.values(this.workspace.blockDB_);
+      var flyoutBlocks = Object.values(block.workspace.blockDB_);
       var blockTypeRegex = /type="([^"]+)"/;
 
       var ordered = [];
@@ -132,7 +132,7 @@ Blockly.BlockSvg.toggleBlockPin = function(block, eventType) {
         if (!match) continue;
 
         var type = match[1];
-        ordered[flyoutBlocks.findLastIndex(type)] = block;
+        ordered[flyoutBlocks.findLastIndex((b) => b.type === type)] = xml;
       }
 
       Blockly.BlockSvg.PINS = ordered.flat();
