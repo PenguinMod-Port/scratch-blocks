@@ -1360,7 +1360,24 @@ Blockly.Css.CONTENT = [
   '.scratchCategoryMenuRow {',
   '}',
 
+  '.scratchCategoryMenuRow[data-dragger="true"] > div {',
+    'background: var(--assets-background);',
+    'font-size: 0.65rem;',
+  '}',
+
+  '.scratchCategoryDragItem {',
+    'position: absolute;',
+    'z-index: 99999;',
+    'pointer-events: none;',
+  '}',
+  '.scratchCategoryDragItem:first-child {',
+    'box-shadow: #000 5px 5px 10px;',
+    'border-radius: 6px;',
+    'padding: 10px',
+  '}',
+
   '.scratchCategoryMenuItem {',
+
     'padding: 0.375rem 0px;',
     'cursor: pointer;',
     'text-align: center;',

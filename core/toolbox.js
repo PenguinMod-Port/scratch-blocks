@@ -118,18 +118,31 @@ Blockly.Toolbox.prototype.init = function() {
 
   // Clicking on toolbox closes popups.
   Blockly.bindEventWithChecks_(this.HtmlDiv, 'mousedown', this,
-      function(e) {
-        // Cancel any gestures in progress.
-        this.workspace_.cancelCurrentGesture();
-        if (Blockly.utils.isRightButton(e) || e.target == this.HtmlDiv) {
-          // Close flyout.
-          Blockly.hideChaff(false);
-        } else {
-          // Just close popups.
-          Blockly.hideChaff(true);
+    function(e) {
+      // Cancel any gestures in progress.
+      this.workspace_.cancelCurrentGesture();
+      if (Blockly.utils.isRightButton(e) || e.target == this.HtmlDiv) {
+        // Close flyout.
+        Blockly.hideChaff(false);
+      } else {
+        // Just close popups.
+        Blockly.hideChaff(true);
+
+        if (Blockly.Toolbox.CATEGORY_DRAG_ENABLED) {
+          // Category drag. Only change if the mouse is down long enough.
+          const longPressTimer = setTimeout(() => {
+            this.handleCategoryDrag(e);
+          }, Blockly.Toolbox.CATEGORY_DRAGGER_TIMER);
+          const cancel = () => clearTimeout(longPressTimer);
+
+          // Cleanup.
+          document.addEventListener('mouseup', cancel, { once: true });
+          document.addEventListener('mouseleave', cancel, { once: true });
         }
-        Blockly.Touch.clearTouchIdentifier();  // Don't block future drags.
-      }, /*opt_noCaptureIdentifier*/ false, /*opt_noPreventDefault*/ true);
+      }
+
+      Blockly.Touch.clearTouchIdentifier(); // Don't block future drags.
+    }, /*opt_noCaptureIdentifier*/ false, /*opt_noPreventDefault*/ true);
 
   this.createFlyout_();
   this.categoryMenu_ = new Blockly.Toolbox.CategoryMenu(this, this.HtmlDiv);
@@ -568,6 +581,145 @@ Blockly.Toolbox.prototype.setSelectedItemFactory = function(item) {
   };
 };
 
+/**
+ * Handles a category drag & reorder.
+ * @param {MouseDownEvent} event Mouse down event.
+ */
+Blockly.Toolbox.prototype.handleCategoryDrag = function (event) {
+  var targetCategory = event.target.closest(`div[class="scratchCategoryMenuRow"]`);
+  var targetBlocklyCategory = this.categoryMenu_.categories_.find((c) => c.parentHtml_ === targetCategory);
+  if (!targetCategory || !targetBlocklyCategory) return;
+
+  var DROP_MARGIN = 100;
+  var categoryList = this.HtmlDiv.querySelectorAll(`div[class*="scratchCategoryMenuRow"]`);
+
+  var rect = targetCategory.getBoundingClientRect();
+  var generalHeight = rect.height;
+  var offsetX = event.clientX - rect.left;
+  var offsetY = event.clientY - rect.top;
+
+  var dragger = targetCategory.cloneNode(true);
+  dragger.classList.add('scratchCategoryDragItem');
+  dragger.style.left = rect.left + 'px';
+  dragger.style.top = rect.top + 'px';
+  dragger.dataset.dragger = true;
+  document.body.appendChild(dragger);
+
+  targetCategory.style.opacity = 0.5;
+
+  var dropTarget = null;
+
+  var onMouseMove = (moveEvent) => {
+    /* drag visual */
+    dragger.style.left = `${moveEvent.clientX - offsetX}px`;
+    dragger.style.top = `${moveEvent.clientY - offsetY}px`;
+ 
+    // Auto scroll if dragger is near the top/bottom of the list.
+    var scrollZoneSize = 40;
+    var bounds = this.HtmlDiv.getBoundingClientRect();
+
+    if (moveEvent.clientY < bounds.top + scrollZoneSize) {
+      this.HtmlDiv.scrollTop -= 4;
+    } else if (moveEvent.clientY > bounds.bottom - scrollZoneSize) {
+      this.HtmlDiv.scrollTop += 4;
+    }
+
+    // Check if we are near any category. If so, bump down
+    // every category below the dragger.
+    var target;
+    for (var category of categoryList) {
+      if (category === targetCategory) continue;
+
+      var catRect = category.getBoundingClientRect();
+      var midpointY = catRect.top + catRect.height / 2;
+      var midpointX = catRect.left + catRect.width / 2;
+
+      var xDist = Math.abs(moveEvent.clientX - midpointX);
+      var yCheck = moveEvent.clientY < midpointY;
+      if (yCheck && xDist < DROP_MARGIN) {
+        target = category;
+        break;
+      }
+    }
+
+    for (var category of categoryList) {
+      category.style.transform = '';
+    }
+
+    if (target) {
+      dropTarget = target;
+      var shifter = target;
+      while (shifter) {
+        if (shifter === targetCategory) return;
+
+        shifter.style.transform = `translateY(${generalHeight}px)`;
+        shifter = shifter.nextSibling;
+      }
+    } else {
+      dropTarget = null;
+    }
+  };
+
+  var onMouseUp = () => {
+    /* cleanup */
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('mouseup', onMouseUp);
+
+    for (var category of categoryList) {
+      category.style.transform = '';
+    }
+
+    targetCategory.style.opacity = '';
+    dragger.remove();
+
+    // If the category drag was valid, move the category.
+    if (dropTarget) {
+      targetCategory.parentNode.insertBefore(targetCategory, dropTarget);
+
+      var categories = this.categoryMenu_.categories_
+      var targetCategoryIndex = categories.indexOf(targetBlocklyCategory);
+
+      Blockly.Toolbox.CATEGORY_ORDERING = [];
+      for (const category of this.HtmlDiv.firstElementChild.childNodes) {
+        var blocklyCategory = this.categoryMenu_.categories_.find((c) => c.parentHtml_ === category);
+        if (blocklyCategory) {
+          Blockly.Toolbox.CATEGORY_ORDERING.push(blocklyCategory.id_);
+        }
+      }
+
+      setTimeout(() => {
+        Blockly.Toolbox.categoryReorderCallback();
+
+        // Refresh flyout.
+        this.setSelectedCategoryById(targetBlocklyCategory.id_);
+      }, 100);
+    }
+  };
+
+  document.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('mouseup', onMouseUp);
+};
+
+/**
+ * If true, categories can be dragged and reordered.
+ */
+Blockly.Toolbox.CATEGORY_DRAG_ENABLED = true;
+
+/**
+ * The minimum amount of press time for a category clicked to be considered a drag.
+ */
+Blockly.Toolbox.CATEGORY_DRAGGER_TIMER = 500; // in MS
+
+/**
+ * Overrides the default category ordering with the items in this array.
+ * Each item is a category ID.
+ */
+Blockly.Toolbox.CATEGORY_ORDERING = [];
+
+Blockly.Toolbox.categoryReorderCallback = function () {
+  alert('Editor must be override Blockly.Toolbox.categoryReorderCallback');
+};
+
 /* If true, string-operator blocks are merged into the operators category. */
 Blockly.Toolbox.OPERATOR_STRING_MERGE = false;
 
@@ -616,6 +768,7 @@ Blockly.Toolbox.CategoryMenu.prototype.populate = function(domTree) {
   // Remove old categories
   this.dispose();
   this.createDom();
+
   var categories = [];
   // Find actual categories from the DOM tree.
   for (var i = 0, child; child = domTree.childNodes[i]; i++) {
@@ -623,6 +776,16 @@ Blockly.Toolbox.CategoryMenu.prototype.populate = function(domTree) {
       continue;
     }
     categories.push(child);
+  }
+
+  // Reorder categories if specified ordering is provided.
+  if (Blockly.Toolbox.CATEGORY_ORDERING.length) {
+    categories.sort((a, b) => {
+      const aIndex = Blockly.Toolbox.CATEGORY_ORDERING.indexOf(a.getAttribute('id'));
+      const bIndex = Blockly.Toolbox.CATEGORY_ORDERING.indexOf(b.getAttribute('id'));
+
+      return (aIndex === -1 ? 999 : aIndex) - (bIndex === -1 ? 999 : bIndex);
+    });
   }
 
   // Create a single column of categories
@@ -870,7 +1033,7 @@ Blockly.Toolbox.Category.QUIRKY_BLOCKS = new Map();
 Blockly.Toolbox.Category.getBlockCategoryIdQuirky = function (block) {
   // Resolve weird category quirks from special blocks.
   var categoryOrigin = block.category_;
-  var opcodeOrigin = block.type.split("_")[0];
+  var opcodeOrigin = block.type.split('_')[0];
 
   switch (opcodeOrigin) {
     case 'event':
@@ -930,7 +1093,7 @@ Blockly.Toolbox.Category.blockCounterDispatcher = function(event, workspace) {
       // We cant reliably get the block info from the workspace as the block
       // could already be removed from the DB. Sneakily check XML, which also
       // removes the need to check for quirkiness.
-      var deletedBlocks = [event.oldXml, ...event.oldXml.querySelectorAll("block")];
+      var deletedBlocks = [event.oldXml, ...event.oldXml.querySelectorAll('block')];
       for (let i = 0; i < deletedBlocks.length; i++) {
         var xml = deletedBlocks[i];
         var id = xml.getAttribute('id');
