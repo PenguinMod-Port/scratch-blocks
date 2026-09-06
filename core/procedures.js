@@ -531,10 +531,10 @@ Blockly.Procedures.createProcedureCallbackFactory_ = function(workspace) {
       // Check if the arguments and proccode are being used by another custom block.
       var proccode = mutation.getAttribute("proccode");
       var argNames = JSON.parse(mutation.getAttribute("argumentNames"));
-      var usedProccodes = Blockly.Procedures.allProcedureMutations(block.workspace);
+      var usedProccodes = Blockly.Procedures.allProcedureMutations(workspace);
       var proccodeInUse = usedProccodes.find((p) => {
         return p.getAttribute("proccode") === proccode &&
-          String(block.global_) !== p.getAttribute("global")
+          mutation.getAttribute("global") !== p.getAttribute("global")
           JSON.parse(p.getAttribute("argumentNames")).every((a) => argNames.includes(a))
       });
       if (proccodeInUse) {
