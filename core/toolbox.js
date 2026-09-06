@@ -689,8 +689,6 @@ Blockly.Toolbox.prototype.handleCategoryDrag = function (event) {
 
       setTimeout(() => {
         Blockly.Toolbox.categoryReorderCallback();
-
-        // Refresh flyout.
         this.setSelectedCategoryById(targetBlocklyCategory.id_);
       }, 100);
     }
