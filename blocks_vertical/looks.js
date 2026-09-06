@@ -186,7 +186,9 @@ Blockly.Blocks['looks_changeeffectby'] = {
             [Blockly.Msg.PM_LOOKS_EFFECT_BLUE, 'BLUE'],
             [Blockly.Msg.PM_LOOKS_EFFECT_OPAQUE, 'OPAQUE'],
             [Blockly.Msg.PM_LOOKS_EFFECT_HORIZ_SHEAR, 'HORIZONTAL_SHEAR'],
-            [Blockly.Msg.PM_LOOKS_EFFECT_VERTI_SHEAR, 'VERTICAL_SHEAR']
+            [Blockly.Msg.PM_LOOKS_EFFECT_VERTI_SHEAR, 'VERTICAL_SHEAR'],
+            [Blockly.Msg.PM_LOOKS_EFFECT_REPEAT_X, 'REPEAT_X'],
+            [Blockly.Msg.PM_LOOKS_EFFECT_REPEAT_Y, 'REPEAT_Y']
           ]
         },
         {
@@ -226,7 +228,9 @@ Blockly.Blocks['looks_seteffectto'] = {
             [Blockly.Msg.PM_LOOKS_EFFECT_BLUE, 'BLUE'],
             [Blockly.Msg.PM_LOOKS_EFFECT_OPAQUE, 'OPAQUE'],
             [Blockly.Msg.PM_LOOKS_EFFECT_HORIZ_SHEAR, 'HORIZONTAL_SHEAR'],
-            [Blockly.Msg.PM_LOOKS_EFFECT_VERTI_SHEAR, 'VERTICAL_SHEAR']
+            [Blockly.Msg.PM_LOOKS_EFFECT_VERTI_SHEAR, 'VERTICAL_SHEAR'],
+            [Blockly.Msg.PM_LOOKS_EFFECT_REPEAT_X, 'REPEAT_X'],
+            [Blockly.Msg.PM_LOOKS_EFFECT_REPEAT_Y, 'REPEAT_Y']
           ]
         },
         {
@@ -1088,7 +1092,9 @@ Blockly.Blocks["looks_getEffectValue"] = {
             [Blockly.Msg.PM_LOOKS_EFFECT_BLUE, 'BLUE'],
             [Blockly.Msg.PM_LOOKS_EFFECT_OPAQUE, 'OPAQUE'],
             [Blockly.Msg.PM_LOOKS_EFFECT_HORIZ_SHEAR, 'HORIZONTAL_SHEAR'],
-            [Blockly.Msg.PM_LOOKS_EFFECT_VERTI_SHEAR, 'VERTICAL_SHEAR']
+            [Blockly.Msg.PM_LOOKS_EFFECT_VERTI_SHEAR, 'VERTICAL_SHEAR'],
+            [Blockly.Msg.PM_LOOKS_EFFECT_REPEAT_X, 'REPEAT_X'],
+            [Blockly.Msg.PM_LOOKS_EFFECT_REPEAT_Y, 'REPEAT_Y']
           ]
         }
       ],
