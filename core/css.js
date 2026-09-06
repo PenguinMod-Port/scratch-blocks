@@ -1370,14 +1370,13 @@ Blockly.Css.CONTENT = [
     'z-index: 99999;',
     'pointer-events: none;',
   '}',
-  '.scratchCategoryDragItem:first-child {',
+  '.scratchCategoryDragItem .scratchCategoryMenuItem {',
     'box-shadow: #000 5px 5px 10px;',
     'border-radius: 6px;',
     'padding: 10px',
   '}',
 
   '.scratchCategoryMenuItem {',
-
     'padding: 0.375rem 0px;',
     'cursor: pointer;',
     'text-align: center;',
