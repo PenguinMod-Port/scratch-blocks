@@ -426,8 +426,7 @@ Blockly.ContextMenu.blockCommentOption = function(block) {
 Blockly.ContextMenu.blockPinOption = function(block) {
   var xml = Blockly.Xml.blockToDom(block).outerHTML;
   var isPinned = Blockly.BlockSvg.PINS.find((pinXml) => {
-    var cleansed = pinXml.replace(/pin-builtin="([^"]+)"/, '')
-      .replace(/pin-custom="([^"]+)"/, '');
+    var cleansed = pinXml.replace(/pin-(?:builtin|custom)="[^"]+"/g, '');
     return cleansed === xml;
   });
 
@@ -450,8 +449,7 @@ Blockly.ContextMenu.blockPinOption = function(block) {
 Blockly.ContextMenu.blockUnpinOption = function(block) {
   var xml = Blockly.Xml.blockToDom(block).outerHTML;
   var isPinned = Blockly.BlockSvg.PINS.find((pinXml) => {
-    var cleansed = pinXml.replace(/pin-builtin="([^"]+)"/, '')
-      .replace(/pin-custom="([^"]+)"/, '');
+    var cleansed = pinXml.replace(/pin-(?:builtin|custom)="[^"]+"/g, '');
     return cleansed === xml;
   });
 
