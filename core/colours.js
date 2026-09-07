@@ -125,3 +125,28 @@ Blockly.Colours.overrideColours = function(colours) {
     }
   }
 };
+
+/**
+ * Creates an SVG tint filter.
+ * Stolen from SharkPool, adapted for Blockly... then editted by SharkPool.
+ * @param {String} hex The target color for the tint.
+ * @returns {String} SVG filter string.
+ */
+Blockly.Colours.tintFilter = function (hex) {
+  if (!hex) return 'none';
+
+  var rgb = goog.color.hexToRgb(hex);
+
+  return 'url("data:image/svg+xml,' +
+    '<svg xmlns=\'http://www.w3.org/2000/svg\'>' +
+      '<filter id=\'recolor\'>' +
+        '<feColorMatrix color-interpolation-filters=\'sRGB\' values=\'' +
+          '0 0 0 0 ' + (rgb[0] / 255) +
+          ' 0 0 0 0 ' + (rgb[1] / 255) +
+          ' 0 0 0 0 ' + (rgb[2] / 255) +
+          ' 0 0 0 1 0' +
+        '\'/>' +
+      '</filter>' +
+    '</svg>#recolor' +
+  '")';
+};

@@ -471,7 +471,11 @@ Blockly.Field.prototype.render_ = function() {
 
     // pm: text colour
     if (this.sourceBlock_.textColour) {
-      this.textElement_.style.setProperty('fill', this.sourceBlock_.textColour, "important");
+      if (this.argType_ && this.argType_.includes('textdropdown')) {
+        this.sourceBlock_.setShadowColour(Blockly.Colours.textField);
+      } else {
+        this.textElement_.style.setProperty('fill', this.sourceBlock_.textColour, 'important');
+      }
     }
   }
 

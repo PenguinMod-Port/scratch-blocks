@@ -31,27 +31,6 @@ goog.require('Blockly.FieldDropdown');
 goog.require('Blockly.FieldTextInput');
 goog.require('goog.userAgent');
 
-// here lies some code i stole from sharkpool, adapted for blockly
-function recolorFilter(hex) {
-  if (!hex) return 'none';
-  var r = parseInt(hex.substring(1, 3), 16);
-  var g = parseInt(hex.substring(3, 5), 16);
-  var b = parseInt(hex.substring(5, 7), 16);
-  return 'url("data:image/svg+xml,' +
-    '<svg xmlns=\'http://www.w3.org/2000/svg\'>' +
-      '<filter id=\'recolor\'>' +
-        '<feColorMatrix color-interpolation-filters=\'sRGB\' values=\'' +
-          '0 0 0 0 ' + (r / 255) +
-          ' 0 0 0 0 ' + (g / 255) +
-          ' 0 0 0 0 ' + (b / 255) +
-          ' 0 0 0 1 0' +
-        '\'/>' +
-      '</filter>' +
-    '</svg>#recolor' +
-  '")';
-}
-
-
 /**
  * Class for a combination text + drop-down field.
  * @param {string} text The initial content of the text field.
@@ -115,7 +94,7 @@ Blockly.FieldTextDropdown.prototype.init = function() {
         {
           'height': this.arrowSize_ + 'px',
           'width': this.arrowSize_ + 'px',
-          'filter': recolorFilter(this.sourceBlock_.textColour)
+          'filter': Blockly.Colours.tintFilter(Blockly.Colours.textFieldText)
         });
     this.arrow_.setAttributeNS('http://www.w3.org/1999/xlink',
         'xlink:href', Blockly.mainWorkspace.options.pathToMedia + 'dropdown-arrow.svg');
