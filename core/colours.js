@@ -135,7 +135,7 @@ Blockly.Colours.overrideColours = function(colours) {
 Blockly.Colours.tintFilter = function (hex) {
   if (!hex) return 'none';
 
-  var rgb = goog.color.hexToRgb(hex);
+  var rgb = goog.color.hexToRgb(hex.substring(0, 7));
 
   return 'url("data:image/svg+xml,' +
     '<svg xmlns=\'http://www.w3.org/2000/svg\'>' +
