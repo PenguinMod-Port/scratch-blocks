@@ -800,7 +800,7 @@ Blockly.BlockSvg.prototype.showContextMenu_ = function(e) {
       }
     }
 
-    if (Blockly.BlockSvg.PINS_ENABLED) {
+    if (Blockly.BlockSvg.PINS_ENABLED && block.type !== 'procedures_definition') {
       if (!block.isInFlyout) {
         menuOptions.push(Blockly.ContextMenu.separator());
       }
