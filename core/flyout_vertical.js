@@ -499,6 +499,11 @@ Blockly.VerticalFlyout.prototype.layout_ = function(contents, gaps) {
   var cursorX = margin;
   var cursorY = margin;
 
+  // PM: If we are laying out blocks in the 'Pinned' category,
+  // remove flyout checkboxes.
+  var isPinCategory = false;
+  var hasSeenPins = false;
+
   for (var i = 0, item; item = contents[i]; i++) {
     if (item.type == 'block') {
       var block = item.block;
@@ -518,7 +523,7 @@ Blockly.VerticalFlyout.prototype.layout_ = function(contents, gaps) {
       var newX = flyoutWidth - this.MARGIN;
 
       var moveX = this.RTL ? newX - oldX : margin;
-      if (block.hasCheckboxInFlyout()) {
+      if (!isPinCategory && block.hasCheckboxInFlyout()) {
         this.createCheckbox_(block, cursorX, cursorY, blockHW);
         if (this.RTL) {
           moveX -= (this.CHECKBOX_SIZE + this.CHECKBOX_MARGIN);
@@ -553,6 +558,14 @@ Blockly.VerticalFlyout.prototype.layout_ = function(contents, gaps) {
 
       this.buttons_.push(button);
       cursorY += button.height + gaps[i];
+
+      isPinCategory = false;
+      if (!hasSeenPins) {
+        if (button.getText().toLowerCase() === 'pinned') {
+          hasSeenPins = false;
+          isPinCategory = true;
+        }
+      }
     }
   }
 };

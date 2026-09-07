@@ -771,9 +771,7 @@ Blockly.BlockSvg.prototype.showContextMenu_ = function(e) {
   var menuOptions = [];
   if (this.isDeletable() && this.isMovable()) {
     if (Blockly.BlockSvg.PINS_ENABLED && block.isInFlyout) {
-      var xml = Blockly.Xml.blockToDom(block).outerHTML;
-
-      if (Blockly.BlockSvg.PINS.includes(xml)) {
+      if (Blockly.BlockSvg.PINS.find((b) => b.includes(`type="${block.type}"`))) {
         menuOptions.push(Blockly.ContextMenu.movePinTopOption(block));
         menuOptions.push(Blockly.ContextMenu.movePinBottomOption(block));
         menuOptions.push(Blockly.ContextMenu.movePinCategoryOption(block));

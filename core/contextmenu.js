@@ -427,7 +427,7 @@ Blockly.ContextMenu.blockPinOption = function(block) {
   var xml = Blockly.Xml.blockToDom(block).outerHTML;
   var pinOption = {
     text: Blockly.Msg.PM_PIN,
-    enabled: !Blockly.BlockSvg.PINS.includes(xml),
+    enabled: !Blockly.BlockSvg.PINS.find((b) => b.includes(`type="${block.type}"`)),
     callback: function() {
       Blockly.BlockSvg.toggleBlockPin(block, 'bottom');
     }
@@ -442,10 +442,9 @@ Blockly.ContextMenu.blockPinOption = function(block) {
  * @package
  */
 Blockly.ContextMenu.blockUnpinOption = function(block) {
-  var xml = Blockly.Xml.blockToDom(block).outerHTML;
   var pinOption = {
     text: Blockly.Msg.PM_UNPIN,
-    enabled: Blockly.BlockSvg.PINS.includes(xml),
+    enabled: Blockly.BlockSvg.PINS.find((b) => b.includes(`type="${block.type}"`)),
     callback: function() {
       Blockly.BlockSvg.toggleBlockPin(block, 'unpin');
     }
