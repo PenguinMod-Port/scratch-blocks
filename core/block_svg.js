@@ -770,21 +770,7 @@ Blockly.BlockSvg.prototype.showContextMenu_ = function(e) {
   var block = this;
   var menuOptions = [];
   if (this.isDeletable() && this.isMovable()) {
-    if (Blockly.BlockSvg.PINS_ENABLED && block.isInFlyout) {
-      if (Blockly.BlockSvg.PINS.find((b) => b.includes(`type="${block.type}"`))) {
-        menuOptions.push(Blockly.ContextMenu.movePinTopOption(block));
-        menuOptions.push(Blockly.ContextMenu.movePinBottomOption(block));
-        menuOptions.push(Blockly.ContextMenu.movePinCategoryOption(block));
-        menuOptions.push(Blockly.ContextMenu.separator());
-        menuOptions.push(Blockly.ContextMenu.blockPinOption(block));
-        menuOptions.push(Blockly.ContextMenu.blockUnpinOption(block));
-      } else {
-        menuOptions.push(Blockly.ContextMenu.blockPinOption(block));
-        menuOptions.push(Blockly.ContextMenu.blockUnpinOption(block));
-      }
-
-      menuOptions.push(Blockly.ContextMenu.blockUnpinAllOption(block));
-    } else if (!block.isInFlyout) {
+    if (!block.isInFlyout) {
       menuOptions.push(
         Blockly.ContextMenu.blockDuplicateOption(block, e)
       );
@@ -812,6 +798,32 @@ Blockly.BlockSvg.prototype.showContextMenu_ = function(e) {
           menuOptions = menuOptions.concat(swatches);
         }
       }
+    }
+
+    if (Blockly.BlockSvg.PINS_ENABLED) {
+      if (!block.isInFlyout) {
+        menuOptions.push(Blockly.ContextMenu.separator());
+      }
+
+      var xml = Blockly.Xml.blockToDom(block).outerHTML;
+      var isPinned = Blockly.BlockSvg.PINS.find((pinXml) => {
+        var cleansed = pinXml.replace(/pin-builtin="([^"]+)"/, '')
+          .replace(/pin-custom="([^"]+)"/, '');
+        return cleansed === xml;
+      });
+      if (isPinned) {
+        menuOptions.push(Blockly.ContextMenu.movePinTopOption(block));
+        menuOptions.push(Blockly.ContextMenu.movePinBottomOption(block));
+        menuOptions.push(Blockly.ContextMenu.movePinCategoryOption(block));
+        menuOptions.push(Blockly.ContextMenu.separator());
+        menuOptions.push(Blockly.ContextMenu.blockPinOption(block));
+        menuOptions.push(Blockly.ContextMenu.blockUnpinOption(block));
+      } else {
+        menuOptions.push(Blockly.ContextMenu.blockPinOption(block));
+        menuOptions.push(Blockly.ContextMenu.blockUnpinOption(block));
+      }
+
+      menuOptions.push(Blockly.ContextMenu.blockUnpinAllOption(block));
     }
   } else if (this.parentBlock_ && this.isShadow_) {
     this.parentBlock_.showContextMenu_(e);

@@ -425,9 +425,15 @@ Blockly.ContextMenu.blockCommentOption = function(block) {
  */
 Blockly.ContextMenu.blockPinOption = function(block) {
   var xml = Blockly.Xml.blockToDom(block).outerHTML;
+  var isPinned = Blockly.BlockSvg.PINS.find((pinXml) => {
+    var cleansed = pinXml.replace(/pin-builtin="([^"]+)"/, '')
+      .replace(/pin-custom="([^"]+)"/, '');
+    return cleansed === xml;
+  });
+
   var pinOption = {
     text: Blockly.Msg.PM_PIN,
-    enabled: !Blockly.BlockSvg.PINS.find((b) => b.includes(`type="${block.type}"`)),
+    enabled: !isPinned,
     callback: function() {
       Blockly.BlockSvg.toggleBlockPin(block, 'bottom');
     }
@@ -442,9 +448,16 @@ Blockly.ContextMenu.blockPinOption = function(block) {
  * @package
  */
 Blockly.ContextMenu.blockUnpinOption = function(block) {
+  var xml = Blockly.Xml.blockToDom(block).outerHTML;
+  var isPinned = Blockly.BlockSvg.PINS.find((pinXml) => {
+    var cleansed = pinXml.replace(/pin-builtin="([^"]+)"/, '')
+      .replace(/pin-custom="([^"]+)"/, '');
+    return cleansed === xml;
+  });
+
   var pinOption = {
     text: Blockly.Msg.PM_UNPIN,
-    enabled: Blockly.BlockSvg.PINS.find((b) => b.includes(`type="${block.type}"`)),
+    enabled: isPinned,
     callback: function() {
       Blockly.BlockSvg.toggleBlockPin(block, 'unpin');
     }
