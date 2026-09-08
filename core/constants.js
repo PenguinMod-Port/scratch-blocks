@@ -386,7 +386,7 @@ Blockly.NOTCH_SHAPE_TICKET = 'ticket';
  */
 Blockly.NOTCH_SHAPE_PINCER = 'pincer';
 
- /**
+/**
  * ENUM for notch shape: inverted.
  * @const
  */
