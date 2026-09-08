@@ -256,19 +256,19 @@ Blockly.ScratchBlocks.VerticalExtensions.PROCEDURE_CUSTOM_COLOR = function() {
   if (!Blockly.Procedures.COLOR_EXTENSION_ENABLED) return;
   if (this.isInsertionMarker()) return;
 
-  const isProcedureBlock = (block) => {
-    const type = block.type;
+  var isProcedureBlock = (block) => {
+    var type = block.type;
     return (
       (type.startsWith("procedures_") && type !== "procedures_call") ||
       type.startsWith("argument_reporter_")
     );
   };
 
-  const resetColor = (block) => {
+  var resetColor = (block) => {
     Blockly.Extensions.apply("colours_more", block);
 
     // Fix inner shadow blocks not reseting their color
-    for (const child of block.childBlocks_) {
+    for (var child of block.childBlocks_) {
       if (child.isShadow()) {
         Blockly.Extensions.apply("colours_textfield", child);
       } else if (isProcedureBlock(child)) {
@@ -277,7 +277,7 @@ Blockly.ScratchBlocks.VerticalExtensions.PROCEDURE_CUSTOM_COLOR = function() {
     }
   };
 
-  const setColor = (block, target, ignoreChildren) => {
+  var setColor = (block, target, ignoreChildren) => {
     if (Blockly.Extensions.ALL_[`colours_${target.procColour_}`]) {
       Blockly.Extensions.apply(`colours_${target.procColour_}`, block);
     } else if (target.procColour_ !== null) {
@@ -285,7 +285,7 @@ Blockly.ScratchBlocks.VerticalExtensions.PROCEDURE_CUSTOM_COLOR = function() {
     }
 
     // Fix inner shadow blocks using the default color
-    for (const child of block.childBlocks_) {
+    for (var child of block.childBlocks_) {
       if (
         child.isShadow() &&
         (child.type === "procedures_prototype" ? true : !isProcedureBlock(child))
@@ -298,17 +298,21 @@ Blockly.ScratchBlocks.VerticalExtensions.PROCEDURE_CUSTOM_COLOR = function() {
     }
   };
 
-  const updateInProcedureStack = (block) => {
-    const type = block.type;
+  var updateInProcedureStack = (block) => {
+    var type = block.type;
 
     if (type === "procedures_definition") {
-      const proto = block.getInput("custom_block").connection.targetBlock();
-      if (proto) setColor(block, proto, block._updateStackColorTick ? false : true);
+      var protoInput = block.getInput("custom_block");
+      if (protoInput) {
+        var proto = protoInput.connection.targetBlock();
+        if (proto) setColor(block, proto, block._updateStackColorTick ? false : true);
+      }
+
       delete block._updateStackColorTick;
     } else if (isProcedureBlock(block)) {
       let topBlock = block;
       while (topBlock !== null) {
-        const parent = topBlock.getParent();
+        var parent = topBlock.getParent();
         if (parent === null) break;
         if (type === "procedures_return" && topBlock.outputShape_ !== null) {
           // This return block is part of some inline-reporter... abort!
@@ -320,8 +324,12 @@ Blockly.ScratchBlocks.VerticalExtensions.PROCEDURE_CUSTOM_COLOR = function() {
       }
 
       if (topBlock && topBlock.type === "procedures_definition") {
-        const proto = topBlock.getInput("custom_block").connection.targetBlock();
-        if (proto) setColor(block, proto);
+        var protoInput = block.getInput("custom_block");
+        if (protoInput) {
+          var proto = protoInput.connection.targetBlock();
+          if (proto) setColor(block, proto);
+        }
+
       } else {
         resetColor(block);
       }

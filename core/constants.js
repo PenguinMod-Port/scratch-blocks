@@ -309,6 +309,96 @@ Blockly.OUTPUT_SHAPE_TICKET = 11;
 Blockly.OUTPUT_SHAPE_SLANTED = 12;
 
 /**
+ * ENUM for notch shape: switch case (switch case)
+ * @const
+ */
+Blockly.NOTCH_SHAPE_SWITCH_CASE = 'switchCase';
+
+/**
+ * ENUM for notch shape: hexagon (booleans/predicates)
+ * @const
+ */
+Blockly.NOTCH_SHAPE_HEXAGON = 'hexagon';
+
+/**
+ * ENUM for notch shape: rounded (numbers/strings).
+ * @const
+ */
+Blockly.NOTCH_SHAPE_ROUND = 'round';
+
+/**
+ * ENUM for notch shape: square (arrays/array buffers/uint arrays).
+ * @const
+ */
+Blockly.NOTCH_SHAPE_SQUARE = 'square';
+
+/**
+ * ENUM for notch shape: leaf (vectors).
+ * @const
+ */
+Blockly.NOTCH_SHAPE_LEAF = 'leaf';
+
+/**
+ * ENUM for notch shape: plus (objects/classes or class instances).
+ * @const
+ */
+Blockly.NOTCH_SHAPE_PLUS = 'plus';
+
+/**
+ * ENUM for notch shape: octagonal (Scratch targets).
+ * @const
+ */
+Blockly.NOTCH_SHAPE_OCTAGONAL = 'octagonal';
+
+/**
+ * ENUM for notch shape: bumped (BigInt).
+ * @const
+ */
+Blockly.NOTCH_SHAPE_BUMPED = 'bumped';
+
+/**
+ * ENUM for notch shape: indented (Symbols).
+ * @const
+ */
+Blockly.NOTCH_SHAPE_INDENTED = 'indented';
+
+/**
+ * ENUM for notch shape: scrapped (Maps).
+ * @const
+ */
+Blockly.NOTCH_SHAPE_SCRAPPED = 'scrapped';
+
+/**
+ * ENUM for notch shape: arrow (Sets).
+ * @const
+ */
+Blockly.NOTCH_SHAPE_ARROW = 'arrow';
+
+/**
+ * ENUM for notch shape: ticket (Dates).
+ * @const
+ */
+Blockly.NOTCH_SHAPE_TICKET = 'ticket';
+
+/**
+ * ENUM for notch shape: pincer.
+ * @const
+ */
+Blockly.NOTCH_SHAPE_PINCER = 'pincer';
+
+ /**
+ * ENUM for notch shape: inverted.
+ * @const
+ */
+Blockly.NOTCH_SHAPE_INVERTED = 'inverted';
+ 
+/**
+ * ENUM for notch shape: jigsaw.
+ * @const
+ */
+Blockly.NOTCH_SHAPE_JIGSAW = 'jigsaw';
+
+/**
  * ENUM for categories.
  * @const
  */
