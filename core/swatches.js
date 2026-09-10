@@ -40,6 +40,84 @@ Blockly.Swatches.swatchList = [
         }
     ],
 
+    // looks
+    [
+        {
+            opcode: "looks_say"
+        },
+        {
+            opcode: "looks_sayforsecs",
+            fillIn: {SECS: '<shadow type="math_number"><field name="NUM">2</field></shadow>'}
+        },
+        {
+            opcode: "looks_think"
+        },
+        {
+            opcode: "looks_thinkforsecs",
+            fillIn: {SECS: '<shadow type="math_number"><field name="NUM">2</field></shadow>'}
+        }
+    ],
+    [
+        {
+            opcode: "looks_costumenumbername"
+        },
+        {
+            opcode: "looks_backdropnumbername"
+        }
+    ],
+    [
+        {
+            opcode: "looks_setsizeto",
+            remapInputs: {SIZE: ["CHANGE"]}
+        },
+        {
+            opcode: "looks_changesizeby",
+            remapInputs: {CHANGE: ["SIZE"]}
+        }
+    ],
+    [
+        {
+            opcode: "looks_setStretch"
+        },
+        {
+            opcode: "looks_changeStretch"
+        }
+    ],
+    [
+        {
+            opcode: "looks_stretchGetX"
+        },
+        {
+            opcode: "looks_stretchGetY"
+        }
+    ],
+    [
+        {
+            opcode: "looks_seteffectto",
+            remapInputs: {VALUE: ["CHANGE"]}
+        },
+        {
+            opcode: "looks_changeeffectby",
+            remapInputs: {CHANGE: ["VALUE"]}
+        }
+    ],
+    [
+        {
+            opcode: "looks_show"
+        },
+        {
+            opcode: "looks_hide"
+        }
+    ],
+    [
+        {
+            opcode: "looks_changeVisibilityOfSpriteShow"
+        },
+        {
+            opcode: "looks_changeVisibilityOfSpriteHide"
+        }
+    ],
+
     // event
     [
         {
@@ -106,9 +184,7 @@ Blockly.Swatches.swatchList = [
                 FROM: '<shadow type="math_integer"><field name="NUM">1</field></shadow>',
                 TO: '<shadow type="math_integer"><field name="NUM">10</field></shadow>'
             },
-            remapInputs: {
-                TO: ["TIMES"]
-            }
+            remapInputs: {TO: ["TIMES"]}
         },
         {
             opcode: "control_forever"
@@ -155,8 +231,10 @@ Blockly.Swatches.swatchList = [
     ]
 ]
 
+Blockly.Swatches.swatchMap = {};
+
 Blockly.Swatches.getSwatches = function(blockId) {
-    return Blockly.Swatches.swatchList.filter(v => v.find(v => v.opcode == blockId)).flat();
+    return (Blockly.Swatches.swatchMap[blockId] ??= Blockly.Swatches.swatchList.filter(v => v.find(v => v.opcode == blockId)).flat());
 }
 
 Blockly.Swatches.applySwatch = function(block, swatch) {
