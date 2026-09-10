@@ -234,7 +234,7 @@ Blockly.Swatches.swatchList = [
 Blockly.Swatches.swatchCache = {};
 
 Blockly.Swatches.getSwatches = function(blockId) {
-    return (Blockly.Swatches.swatchCache[blockId] ??= Blockly.Swatches.swatchList.filter(v => v.find(v => v.opcode == blockId)).flat());
+    return (Blockly.Swatches.swatchCache[blockId] = Blockly.Swatches.swatchCache[blockId] ?? Blockly.Swatches.swatchList.filter(v => v.find(v => v.opcode == blockId)).flat());
 }
 
 Blockly.Swatches.applySwatch = function(block, swatch) {
