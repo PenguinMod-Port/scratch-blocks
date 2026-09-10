@@ -924,9 +924,9 @@ Blockly.Blocks["looks_setColor"] = {
           "type": "field_dropdown",
           "name": "prop",
           "options": [
-            ["border", "BUBBLE_STROKE"],
-            ["fill", "BUBBLE_FILL"],
-            ["text", "TEXT_FILL"]
+            [Blockly.Msg.PM_LOOKS_SETCOLOR_BORDER, "BUBBLE_STROKE"],
+            [Blockly.Msg.PM_LOOKS_SETCOLOR_FILL, "BUBBLE_FILL"],
+            [Blockly.Msg.PM_LOOKS_SETCOLOR_TEXT, "TEXT_FILL"]
           ]
         },
         {
@@ -954,14 +954,14 @@ Blockly.Blocks["looks_setShape"] = {
           "type": "field_dropdown",
           "name": "prop",
           "options": [
-            ["minimum width", "MIN_WIDTH"],
-            ["maximum width", "MAX_LINE_WIDTH"],
-            ["border line width", "STROKE_WIDTH"],
-            ["padding size", "PADDING"],
-            ["corner radius", "CORNER_RADIUS"],
-            ["tail height", "TAIL_HEIGHT"],
-            ["font pading percent", "FONT_HEIGHT_RATIO"],
-            ["text length limit", "texlim"]
+            [Blockly.Msg.PM_LOOKS_SETSHAPE_MINWIDTH, "MIN_WIDTH"],
+            [Blockly.Msg.PM_LOOKS_SETSHAPE_MAXWIDTH, "MAX_LINE_WIDTH"],
+            [Blockly.Msg.PM_LOOKS_SETSHAPE_BORDERWIDTH, "STROKE_WIDTH"],
+            [Blockly.Msg.PM_LOOKS_SETSHAPE_PADDING, "PADDING"],
+            [Blockly.Msg.PM_LOOKS_SETSHAPE_CORNERRADIUS, "CORNER_RADIUS"],
+            [Blockly.Msg.PM_LOOKS_SETSHAPE_TAILHEIGHT, "TAIL_HEIGHT"],
+            [Blockly.Msg.PM_LOOKS_SETSHAPE_FONTHEIGHTRATIO, "FONT_HEIGHT_RATIO"],
+            [Blockly.Msg.PM_LOOKS_SETSHAPE_TEXTLIM, "texlim"]
           ]
         },
         {
