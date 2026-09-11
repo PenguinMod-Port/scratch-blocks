@@ -923,7 +923,12 @@ Blockly.Toolbox.Category.prototype.updateCountLabel = function() {
     this.blockCount_ = 0;
   }
 
-  this.counterText_.textContent = this.blockCount_;
+  if (Blockly.Toolbox.Category.SHOW_BLOCK_COUNT) {
+    // Of course we can disable this function entirely if the count feature is off,
+    // but we want to keep a reliable track of blocks in case the feature is ever
+    // turned on midway through a development session
+    this.counterText_.textContent = this.blockCount_;
+  }
 };
 
 /**
