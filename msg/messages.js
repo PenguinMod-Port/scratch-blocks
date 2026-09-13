@@ -242,6 +242,7 @@ Blockly.Msg.PM_LOOKS_SETSHAPE_MAXWIDTH = 'maximum width';
 Blockly.Msg.PM_LOOKS_SETSHAPE_MINWIDTH = 'minimum width';
 Blockly.Msg.PM_LOOKS_SETSHAPE_PADDING = 'padding size';
 Blockly.Msg.PM_LOOKS_SETSHAPE_TAILHEIGHT = 'tail height';
+Blockly.Msg.PM_LOOKS_SETSHAPE_LINEHEIGHT = 'line height';
 Blockly.Msg.PM_LOOKS_SETSHAPE_TEXTLIM = 'character limit';
 Blockly.Msg.PM_LOOKS_SETSTRETCH = 'set stretch to x: %1 y: %2';
 Blockly.Msg.PM_LOOKS_SETTINTCOLOR = 'set tint color to %1';

@@ -961,6 +961,7 @@ Blockly.Blocks["looks_setShape"] = {
             [Blockly.Msg.PM_LOOKS_SETSHAPE_CORNERRADIUS, "CORNER_RADIUS"],
             [Blockly.Msg.PM_LOOKS_SETSHAPE_TAILHEIGHT, "TAIL_HEIGHT"],
             [Blockly.Msg.PM_LOOKS_SETSHAPE_FONTHEIGHTRATIO, "FONT_HEIGHT_RATIO"],
+            [Blockly.Msg.PM_LOOKS_SETSHAPE_LINEHEIGHT, "LINE_HEIGHT"],
             [Blockly.Msg.PM_LOOKS_SETSHAPE_TEXTLIM, "texlim"]
           ]
         },
