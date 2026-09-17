@@ -812,7 +812,6 @@ Blockly.Blocks['sensing_getoperatingsystem'] = {
   init: function () {
     this.jsonInit({
       message0: Blockly.Msg.PM_SENSING_OPERATING_SYSTEM,
-      checkboxInFlyout: true,
       extensions: ['output_string', 'colours_sensing']
     });
   }
@@ -822,7 +821,6 @@ Blockly.Blocks['sensing_getbrowser'] = {
   init: function () {
     this.jsonInit({
       message0: Blockly.Msg.PM_SENSING_BROWSER,
-      checkboxInFlyout: true,
       extensions: ['output_string', 'colours_sensing']
     });
   }
@@ -832,7 +830,6 @@ Blockly.Blocks['sensing_geturl'] = {
   init: function () {
     this.jsonInit({
       message0: Blockly.Msg.PM_SENSING_URL,
-      checkboxInFlyout: true,
       extensions: ['output_string', 'colours_sensing']
     });
   }
