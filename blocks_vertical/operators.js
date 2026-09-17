@@ -1583,3 +1583,53 @@ Blockly.Blocks["operator_readLineInMultilineText"] = {
     });
   }
 };
+
+Blockly.Blocks["operator_encode"] = {
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_OPERATORS_ENCODE,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "TEXT"
+        },
+        {
+          "type": "field_dropdown",
+          "name": "ENCODING",
+          "options": [
+            [Blockly.Msg.PM_OPERATORS_ENCODING_B64, "base64"],
+            [Blockly.Msg.PM_OPERATORS_ENCODING_B64, "base16"],
+            [Blockly.Msg.PM_OPERATORS_ENCODING_URI, "uri"]
+          ]
+        },
+      ],
+      "category": Blockly.Categories.operatorsStrings,
+      "extensions": ["colours_operators_strings", "output_string"]
+    });
+  }
+};
+
+Blockly.Blocks["operator_decode"] = {
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_OPERATORS_DECODE,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "TEXT"
+        },
+        {
+          "type": "field_dropdown",
+          "name": "ENCODING",
+          "options": [
+            [Blockly.Msg.PM_OPERATORS_ENCODING_B64, "base64"],
+            [Blockly.Msg.PM_OPERATORS_ENCODING_B64, "base16"],
+            [Blockly.Msg.PM_OPERATORS_ENCODING_URI, "uri"]
+          ]
+        },
+      ],
+      "category": Blockly.Categories.operatorsStrings,
+      "extensions": ["colours_operators_strings", "output_string"]
+    });
+  }
+};
