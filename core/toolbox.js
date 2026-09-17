@@ -26,6 +26,7 @@
 
 goog.provide('Blockly.Toolbox');
 
+goog.require('Blockly.constants');
 goog.require('Blockly.Events.Ui');
 goog.require('Blockly.HorizontalFlyout');
 goog.require('Blockly.Touch');
@@ -1049,13 +1050,13 @@ Blockly.Toolbox.Category.getBlockCategoryIdQuirky = function (block) {
       if (Blockly.Toolbox.OPERATOR_STRING_MERGE) {
         opcodeOrigin = 'operators';
       } else {
-        opcodeOrigin = block._isStringOperator ? 'strings' : 'operators';
+        opcodeOrigin = categoryOrigin === Blockly.Categories.operatorsStrings ? 'strings' : 'operators';
       }
 
       Blockly.Toolbox.Category.QUIRKY_BLOCKS.set(block.id, opcodeOrigin);
       break;
     case 'data':
-      opcodeOrigin = categoryOrigin === 'data' ? 'variables' : 'lists';
+      opcodeOrigin = categoryOrigin === Blockly.Categories.data ? 'variables' : 'lists';
       Blockly.Toolbox.Category.QUIRKY_BLOCKS.set(block.id, opcodeOrigin);
       break;
     case 'procedures':
