@@ -808,7 +808,7 @@ Blockly.Blocks['sensing_directionTo'] = {
   }
 };
 
-Blockly.Blocks['sensing_operatingsystem'] = {
+Blockly.Blocks['sensing_getoperatingsystem'] = {
   init: function () {
     this.jsonInit({
       message0: Blockly.Msg.PM_SENSING_OPERATING_SYSTEM,
@@ -818,7 +818,7 @@ Blockly.Blocks['sensing_operatingsystem'] = {
   }
 };
 
-Blockly.Blocks['sensing_browser'] = {
+Blockly.Blocks['sensing_getbrowser'] = {
   init: function () {
     this.jsonInit({
       message0: Blockly.Msg.PM_SENSING_BROWSER,
@@ -828,7 +828,7 @@ Blockly.Blocks['sensing_browser'] = {
   }
 };
 
-Blockly.Blocks['sensing_url'] = {
+Blockly.Blocks['sensing_geturl'] = {
   init: function () {
     this.jsonInit({
       message0: Blockly.Msg.PM_SENSING_URL,
