@@ -38,6 +38,7 @@ goog.require('Blockly.Msg');
  * @type {Object}
  */
 Blockly.ScratchMsgs.locales = {};
+Blockly.ScratchMsgs.pmLocales = {};
 
 /**
  * The current locale.
@@ -57,7 +58,7 @@ Blockly.ScratchMsgs.originalMsg = Blockly.Msg;
 Blockly.ScratchMsgs.setLocale = function(locale) {
   if (Object.keys(Blockly.ScratchMsgs.locales).includes(locale)) {
     Blockly.ScratchMsgs.currentLocale_ = locale;
-    Blockly.Msg = Object.assign({}, Blockly.ScratchMsgs.originalMsg, Blockly.ScratchMsgs.locales[locale]);
+    Blockly.Msg = Object.assign({}, Blockly.ScratchMsgs.originalMsg, Blockly.ScratchMsgs.locales[locale], Blockly.ScratchMsgs.pmLocales[locale] ?? {});
   } else {
     // keep current locale
     console.warn('Ignoring unrecognized locale: ' + locale);
