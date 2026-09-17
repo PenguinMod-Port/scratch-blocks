@@ -311,7 +311,7 @@ Blockly.Blocks['operator_join'] = {
           "name": "STRING2"
         }
       ],
-      "category": Blockly.Categories.operators,
+      "category": Blockly.Categories.operatorsStrings,
       "extensions": ["colours_operators_strings", "output_string"]
     });
     this._isStringOperator = true;
@@ -336,7 +336,7 @@ Blockly.Blocks['operator_letter_of'] = {
           "name": "STRING"
         }
       ],
-      "category": Blockly.Categories.operators,
+      "category": Blockly.Categories.operatorsStrings,
       "extensions": ["colours_operators_strings", "output_string"]
     });
     this._isStringOperator = true;
@@ -357,7 +357,7 @@ Blockly.Blocks['operator_length'] = {
           "name": "STRING"
         }
       ],
-      "category": Blockly.Categories.operators,
+      "category": Blockly.Categories.operatorsStrings,
       "extensions": ["colours_operators_strings", "output_string"]
     });
     this._isStringOperator = true;
@@ -382,7 +382,7 @@ Blockly.Blocks['operator_contains'] = {
           "name": "STRING2"
         }
       ],
-      "category": Blockly.Categories.operators,
+      "category": Blockly.Categories.operatorsStrings,
       "extensions": ["colours_operators_strings", "output_boolean"]
     });
     this._isStringOperator = true;
@@ -521,7 +521,7 @@ Blockly.Blocks["operator_character_to_code"] = {
           "name": "ONE"
         }
       ],
-      "category": Blockly.Categories.operators,
+      "category": Blockly.Categories.operatorsStrings,
       "extensions": ["colours_operators_strings", "output_number"]
     });
     this._isStringOperator = true;
@@ -539,7 +539,7 @@ Blockly.Blocks["operator_code_to_character"] = {
           "name": "ONE"
         }
       ],
-      "category": Blockly.Categories.operators,
+      "category": Blockly.Categories.operatorsStrings,
       "extensions": ["colours_operators_strings", "output_string"]
     });
     this._isStringOperator = true;
@@ -717,7 +717,7 @@ Blockly.Blocks["operator_indexOfTextInText"] = {
           "name": "TEXT2"
         }
       ],
-      "category": Blockly.Categories.operator,
+      "category": Blockly.Categories.operatorsStrings,
       "extensions": ["colours_operators_strings", "output_number"]
     });
     this._isStringOperator = true;
@@ -739,7 +739,7 @@ Blockly.Blocks["operator_lastIndexOfTextInText"] = {
           "name": "TEXT2"
         }
       ],
-      "category": Blockly.Categories.operator,
+      "category": Blockly.Categories.operatorsStrings,
       "extensions": ["colours_operators_strings", "output_number"]
     });
     this._isStringOperator = true;
@@ -790,7 +790,7 @@ Blockly.Blocks["operator_countAppearTimes"] = {
           "name": "TEXT2"
         }
       ],
-      "category": Blockly.Categories.operator,
+      "category": Blockly.Categories.operatorsStrings,
       "extensions": ["colours_operators_strings", "output_number"]
     });
     this._isStringOperator = true;
@@ -812,7 +812,7 @@ Blockly.Blocks["operator_textIncludesLetterFrom"] = {
           "name": "TEXT2"
         }
       ],
-      "category": Blockly.Categories.operator,
+      "category": Blockly.Categories.operatorsStrings,
       "extensions": ["colours_operators_strings", "output_boolean"]
     });
     this._isStringOperator = true;
@@ -915,7 +915,7 @@ Blockly.Blocks['operator_join3'] = {
           "name": "STRING3"
         }
       ],
-      "category": Blockly.Categories.operators,
+      "category": Blockly.Categories.operatorsStrings,
       "extensions": ["colours_operators_strings", "output_string"]
     });
     this._isStringOperator = true;
@@ -1012,7 +1012,7 @@ Blockly.Blocks["operator_newLine"] = {
   init: function() {
     this.jsonInit({
       "message0": Blockly.Msg.PM_OPERATORS_CHAR_NEWLINE,
-      "category": Blockly.Categories.operators,
+      "category": Blockly.Categories.operatorsStrings,
       "extensions": ["colours_operators_strings", "output_string"]
     });
     this._isStringOperator = true;
@@ -1023,7 +1023,7 @@ Blockly.Blocks["operator_tabCharacter"] = {
   init: function() {
     this.jsonInit({
       "message0": Blockly.Msg.PM_OPERATORS_CHAR_TAB,
-      "category": Blockly.Categories.operators,
+      "category": Blockly.Categories.operatorsStrings,
       "extensions": ["colours_operators_strings", "output_string"]
     });
     this._isStringOperator = true;
@@ -1045,7 +1045,7 @@ Blockly.Blocks['operator_expandablejoininputs'] = {
           "value": 2
         },
       ],
-      "category": Blockly.Categories.operators,
+      "category": Blockly.Categories.operatorsStrings,
       "extensions": ["colours_operators_strings", "output_string"]
     });
     this._isStringOperator = true;
@@ -1193,7 +1193,7 @@ Blockly.Blocks["operator_toUpperLowerCase"] = {
           ]
         }
       ],
-      "category": Blockly.Categories.operators,
+      "category": Blockly.Categories.operatorsStrings,
       "extensions": ["colours_operators_strings", "output_string"]
     });
     this._isStringOperator = true;
@@ -1438,7 +1438,7 @@ Blockly.Blocks["operator_replaceAll"] = {
           "name": "res"
         }
       ],
-      "category": Blockly.Categories.operators,
+      "category": Blockly.Categories.operatorsStrings,
       "extensions": ["colours_operators_strings", "output_string"]
     });
     this._isStringOperator = true;
@@ -1464,7 +1464,7 @@ Blockly.Blocks["operator_replaceFirst"] = {
           "name": "res"
         }
       ],
-      "category": Blockly.Categories.operators,
+      "category": Blockly.Categories.operatorsStrings,
       "extensions": ["colours_operators_strings", "output_string"]
     });
     this._isStringOperator = true;
@@ -1494,7 +1494,7 @@ Blockly.Blocks["operator_textStartsOrEndsWith"] = {
           "name": "TEXT2"
         }
       ],
-      "category": Blockly.Categories.operator,
+      "category": Blockly.Categories.operatorsStrings,
       "extensions": ["colours_operators_strings", "output_boolean"]
     });
     this._isStringOperator = true;
@@ -1520,7 +1520,7 @@ Blockly.Blocks["operator_regexmatch"] = {
           "name": "regrule"
         }
       ],
-      "category": Blockly.Categories.operators,
+      "category": Blockly.Categories.operatorsStrings,
       "extensions": ["colours_operators_strings", "output_string"]
     });
     this._isStringOperator = true;
@@ -1546,7 +1546,7 @@ Blockly.Blocks["operator_getLettersFromIndexToIndexInText"] = {
           "name": "TEXT"
         }
       ],
-      "category": Blockly.Categories.operators,
+      "category": Blockly.Categories.operatorsStrings,
       "extensions": ["colours_operators_strings", "output_string"]
     });
     this._isStringOperator = true;
@@ -1577,7 +1577,7 @@ Blockly.Blocks["operator_getLettersFromIndexToIndexInTextFixed"] = {
           "name": "TEXT"
         }
       ],
-      "category": Blockly.Categories.operators,
+      "category": Blockly.Categories.operatorsStrings,
       "extensions": ["colours_operators_strings", "output_string"]
     });
     this._isStringOperator = true;
@@ -1599,7 +1599,7 @@ Blockly.Blocks["operator_readLineInMultilineText"] = {
           "name": "TEXT"
         }
       ],
-      "category": Blockly.Categories.operators,
+      "category": Blockly.Categories.operatorsStrings,
       "extensions": ["colours_operators_strings", "output_string"]
     });
     this._isStringOperator = true;
