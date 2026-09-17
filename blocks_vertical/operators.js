@@ -1598,7 +1598,7 @@ Blockly.Blocks["operator_encode"] = {
           "name": "ENCODING",
           "options": [
             [Blockly.Msg.PM_OPERATORS_ENCODING_B64, "base64"],
-            [Blockly.Msg.PM_OPERATORS_ENCODING_B64, "base16"],
+            [Blockly.Msg.PM_OPERATORS_ENCODING_B16, "base16"],
             [Blockly.Msg.PM_OPERATORS_ENCODING_URI, "uri"]
           ]
         },
@@ -1623,7 +1623,7 @@ Blockly.Blocks["operator_decode"] = {
           "name": "ENCODING",
           "options": [
             [Blockly.Msg.PM_OPERATORS_ENCODING_B64, "base64"],
-            [Blockly.Msg.PM_OPERATORS_ENCODING_B64, "base16"],
+            [Blockly.Msg.PM_OPERATORS_ENCODING_B16, "base16"],
             [Blockly.Msg.PM_OPERATORS_ENCODING_URI, "uri"]
           ]
         },
