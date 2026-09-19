@@ -820,9 +820,9 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
     '  <value name="x1"><shadow type="math_number"/></value>' +
     '  <value name="y1"><shadow type="math_number"/></value>' +
     '</block>' +
-    '<block type="sensing_operatingsystem"/>' +
-    '<block type="sensing_browser"/>' +
-    '<block type="sensing_url"/>' +
+    '<block type="sensing_getoperatingsystem"/>' +
+    '<block type="sensing_getbrowser"/>' +
+    '<block type="sensing_geturl"/>' +
     '<block type="sensing_setclipboard">' +
       '<value name="ITEM">' +
         '<shadow type="text" />' +
