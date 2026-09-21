@@ -6,8 +6,6 @@
 
 goog.provide('Blockly.FieldCustom');
 
-const customInputs = new Map();
-
 /**
  * Class for a custom field.
  * @param {object} options Object containing the default value, inputID, etc for the field
@@ -19,7 +17,7 @@ Blockly.FieldCustom = function(options) {
   this.addArgType('text');
 
   /**
-   * input ID used to identify input from 'customInputs'
+   * input ID used to identify input from 'Blockly.FieldCustom.INPUTS'
    * @type {string}
    */
   this.inputID = options.id ? options.id : null;
@@ -30,7 +28,7 @@ Blockly.FieldCustom = function(options) {
    */
   this.value_ = options.value ? options.value : '';
   /**
-   * input parts stored in 'customInputs'
+   * input parts stored in 'Blockly.FieldCustom.INPUTS'
    * @type {object}
    */
   this.inputParts = {};
@@ -44,6 +42,8 @@ Blockly.FieldCustom = function(options) {
   this.mouseDownWrapper_ = null;
 };
 goog.inherits(Blockly.FieldCustom, Blockly.Field);
+
+Blockly.FieldCustom.INPUTS = new Map();
 
 /**
  * Construct a FieldCustom from a JSON arg object.
@@ -77,13 +77,13 @@ Blockly.FieldCustom.registerInput = function(id, templateHTML, onInit, onClick, 
     console.warn('Param 6 must be a function!');
     return;
   }
-  customInputs.set(id, { templateHTML, onInit, onClick, onUpdate, optOnDispose });
+  Blockly.FieldCustom.INPUTS.set(id, { templateHTML, onInit, onClick, onUpdate, optOnDispose });
 };
 Blockly.FieldCustom.unregisterInput = function(id) {
-  customInputs.delete(id);
+  Blockly.FieldCustom.INPUTS.delete(id);
 };
 Blockly.FieldCustom.registeredInputs = function() {
-  return customInputs;
+  return Blockly.FieldCustom.INPUTS;
 };
 
 /**
@@ -96,7 +96,7 @@ Blockly.FieldCustom.prototype.init = function() {
     return;
   }
 
-  this.inputParts = customInputs.get(this.inputID);
+  this.inputParts = Blockly.FieldCustom.INPUTS.get(this.inputID);
   if (!this.inputParts) {
     console.error(`No Custom Input found with ID '${this.inputID}', did you use 'registerInput'?`);
     return;
