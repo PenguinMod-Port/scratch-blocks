@@ -948,3 +948,24 @@ Blockly.Blocks["sensing_mobile"] = {
     });
   }
 };
+
+Blockly.Blocks["sensing_getspritewithattrib"] = {
+  init: function() {
+    this.jsonInit({
+      "inputsInline": true,
+      "message0": Blockly.Msg.PM_SENSING_GET_SPRITE_WITH_ATTRIB,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "var"
+        },
+        {
+          "type": "input_value",
+          "name": "val"
+        }
+      ],
+      "category": Blockly.Categories.sensing,
+      "extensions": ["colours_sensing", "output_string"]
+    });
+  }
+};

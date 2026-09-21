@@ -833,6 +833,14 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
     '<block type="sensing_mouse_button_clicked" />' +
     '<block type="sensing_mouse_button_released" />' +
     '<block type="sensing_mobile" />' +
+    '<block type="sensing_getspritewithattrib">' +
+      '<value name="var">' +
+       '<shadow type="text" />' +
+      '</value>' +
+      '<value name="val">' +
+       '<shadow type="text" />' +
+      '</value>' +
+    '</block>' +
   '</category>' +
   '<category name="%{BKY_CATEGORY_OPERATORS}" id="operators" colour="#40BF4A">' +
     '<block type="operator_add" id="operator_add">' +
