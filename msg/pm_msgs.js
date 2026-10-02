@@ -2,7 +2,7 @@
 
 'use strict';
 
-goog.provide('Blockly.ScratchMsgs.allPmLocales');
+goog.provide('Blockly.ScratchMsgs.pmLocales');
 
 goog.require('Blockly.ScratchMsgs');
 
@@ -236,6 +236,7 @@ Blockly.ScratchMsgs.pmLocales["en"] = {
     "PM_SENSING_OBJECT_TOUCHING_OBJECT": "%1 touching %2?",
     "PM_SENSING_OPERATING_SYSTEM": "operating system",
     "PM_SENSING_REGEX_TEST": "test regex %2 %3 with text %1",
+    "PM_SENSING_SET_OF": "set %1 of %2 of %3",
     "PM_SENSING_URL": "url",
     "PM_SENSING_XY_OF_TOUCHING": "%1 of touching %2 point",
     "PM_SOUND_GETEFFECTVALUE": "%1 effect",
@@ -503,6 +504,7 @@ Blockly.ScratchMsgs.pmLocales["es-419"] = {
     "PM_SENSING_OBJECT_TOUCHING_OBJECT": "%1 touching %2?",
     "PM_SENSING_OPERATING_SYSTEM": "operating system",
     "PM_SENSING_REGEX_TEST": "test regex %2 %3 with text %1",
+    "PM_SENSING_SET_OF": "set %1 of %2 of %3",
     "PM_SENSING_URL": "url",
     "PM_SENSING_XY_OF_TOUCHING": "%1 of touching %2 point",
     "PM_SOUND_GETEFFECTVALUE": "%1 effect",

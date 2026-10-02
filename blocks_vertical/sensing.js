@@ -969,3 +969,139 @@ Blockly.Blocks["sensing_getspritewithattrib"] = {
     });
   }
 };
+
+Blockly.Blocks['sensing_getdragmode'] = {
+  /**
+   * pm: Block to report drag mode.
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_SENSING_DRAGGABLE,
+      "category": Blockly.Categories.sensing,
+      "checkboxInFlyout": true,
+      "extensions": ["colours_sensing", "output_boolean"]
+    });
+  }
+};Blockly.Blocks['sensing_set_of'] = {
+  /**
+   * Block to set properties of sprites.
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_SENSING_SET_OF,
+      "args0": [
+        {
+          "type": "field_dropdown",
+          "name": "PROPERTY",
+          "options": [
+            [Blockly.Msg.SENSING_OF_XPOSITION, 'x position'],
+            [Blockly.Msg.SENSING_OF_YPOSITION, 'y position'],
+            [Blockly.Msg.SENSING_OF_DIRECTION, 'direction'],
+            [Blockly.Msg.SENSING_OF_COSTUMENUMBER, 'costume #'],
+            [Blockly.Msg.SENSING_OF_COSTUMENAME, 'costume name'],
+            [Blockly.Msg.SENSING_OF_SIZE, 'size'],
+            [Blockly.Msg.SENSING_OF_VOLUME, 'volume'],
+            [Blockly.Msg.SENSING_OF_BACKDROPNUMBER, 'backdrop #'],
+            [Blockly.Msg.SENSING_OF_BACKDROPNAME, 'backdrop name']
+          ]
+        },
+        {
+          "type": "input_value",
+          "name": "OBJECT"
+        },
+        {
+          "type": "input_value",
+          "name": "VALUE"
+        }
+      ],
+      "category": Blockly.Categories.sensing,
+      "extensions": ["colours_sensing", "shape_statement"]
+    });
+  }
+};
+
+Blockly.Blocks['sensing_loggedin'] = {
+  /**
+   * pm: Block to report if a user is logged in.
+   * @this Blockly.Block
+   */
+  init: function () {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_SENSING_LOGGED_IN,
+      "category": Blockly.Categories.sensing,
+      "checkboxInFlyout": true,
+      "extensions": ["colours_sensing", "output_boolean"]
+    });
+  }
+};
+
+Blockly.Blocks["sensing_regextest"] = {
+  init: function() {
+    this.jsonInit({
+      "inputsInline": true,
+      "message0": Blockly.Msg.PM_SENSING_REGEX_TEST,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "text"
+        },
+        {
+          "type": "input_value",
+          "name": "reg"
+        },
+        {
+          "type": "input_value",
+          "name": "regrule"
+        }
+      ],
+      "category": Blockly.Categories.sensing,
+      "extensions": ["colours_sensing", "output_boolean"]
+    });
+  }
+};
+
+Blockly.Blocks['sensing_isUpperCase'] = {
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_SENSING_IS_UPPERCASE,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "text"
+        }
+      ],
+      "category": Blockly.Categories.sensing,
+      "extensions": ["colours_sensing", "output_boolean"]
+    });
+  }
+};
+
+Blockly.Blocks['sensing_getxyoftouchingsprite'] = {
+  /**
+   * Block to set drag mode.
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_SENSING_XY_OF_TOUCHING,
+      "args0": [
+        {
+          "type": "field_dropdown",
+          "name": "XY",
+          "options": [
+            ['x', 'x'],
+            ['y', 'y']
+          ]
+        },
+        {
+          "type": "input_value",
+          "name": "SPRITE"
+        }
+      ],
+      "category": Blockly.Categories.sensing,
+      "extensions": ["colours_sensing", "output_number"]
+    });
+  }
+};

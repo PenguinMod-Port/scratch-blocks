@@ -841,6 +841,37 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
        '<shadow type="text" />' +
       '</value>' +
     '</block>' +
+    '<block type="sensing_getdragmode" />' +
+    '<block type="sensing_set_of">' +
+      '<value name="OBJECT">' +
+        '<shadow type="sensing_of_object_menu"></shadow>' +
+      '</value>' +
+      '<value name="VALUE">' +
+        '<shadow type="text" />' +
+      '</value>' +
+    '</block>' +
+    '<block type="sensing_loggedin" />' +
+    '<block type="sensing_regextest">' +
+      '<value name="text">' +
+        '<shadow type="text" />' +
+      '</value>' +
+      '<value name="reg">' +
+        '<shadow type="text" />' +
+      '</value>' +
+      '<value name="regrule">' +
+        '<shadow type="text" />' +
+      '</value>' +
+    '</block>' +
+    '<block type="sensing_isUpperCase">' +
+      '<value name="text">' +
+        '<shadow type="text" />' +
+      '</value>' +
+    '</block>' +
+    '<block type="sensing_getxyoftouchingsprite">' +
+      '<value name="SPRITE">' +
+        '<shadow type="sensing_distancetomenu" />' +
+      '</value>' +
+    '</block>' +
   '</category>' +
   '<category name="%{BKY_CATEGORY_OPERATORS}" id="operators" colour="#40BF4A">' +
     '<block type="operator_add" id="operator_add">' +
