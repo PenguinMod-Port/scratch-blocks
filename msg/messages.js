@@ -372,6 +372,8 @@ Blockly.Msg.PM_OPERATORS_CONSTRAIN = 'constrain %1 min %2 max %3';
 Blockly.Msg.PM_OPERATORS_CHAR_NEWLINE = 'new line';
 Blockly.Msg.PM_OPERATORS_CHAR_TAB = 'tab character';
 Blockly.Msg.PM_OPERATORS_DECODE = 'decode %1 with %2';
+Blockly.Msg.PM_OPERATORS_DIRECTION_TO_POINTS = 'direction from %3 %4 to %1 %2';
+Blockly.Msg.PM_OPERATORS_DISTANCE_TO_POINTS = 'distance from %1 %2 to %3 %4';
 Blockly.Msg.PM_OPERATORS_ENCODE = 'encode %1 with %2';
 Blockly.Msg.PM_OPERATORS_ENCODING_B16 = 'base16';
 Blockly.Msg.PM_OPERATORS_ENCODING_B64 = 'base64';
@@ -425,8 +427,6 @@ Blockly.Msg.PM_OPERATORS_TYPE_STRING = 'string';
 Blockly.Msg.PM_OPERATORS_VALID_TYPE = 'is %1 a valid %2?';
 Blockly.Msg.PM_OPERATORS_XNOR = '%1 xnor %2';
 Blockly.Msg.PM_OPERATORS_XOR = '%1 xor %2';
-Blockly.Msg.PM_OPERATORS_DIRECTION_TO_POINTS = 'direction from %3 %4 to %1 %2';
-Blockly.Msg.PM_OPERATORS_DISTANCE_TO_POINTS = 'distance from %1 %2 to %3 %4';
 
 // Procedures blocks
 Blockly.Msg.PROCEDURES_DEFINITION = 'define %1';
