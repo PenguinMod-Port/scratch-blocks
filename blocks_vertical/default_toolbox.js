@@ -808,18 +808,6 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
     '    <shadow type="sensing_fingeroptions"/>' +
     '  </value>' +
     '</block>' +
-    '<block type="sensing_distanceTo">' +
-    '  <value name="x1"><shadow type="math_number"/></value>' +
-    '  <value name="y1"><shadow type="math_number"/></value>' +
-    '  <value name="x2"><shadow type="math_number"/></value>' +
-    '  <value name="y2"><shadow type="math_number"/></value>' +
-    '</block>' +
-    '<block type="sensing_directionTo">' +
-    '  <value name="x2"><shadow type="math_number"/></value>' +
-    '  <value name="y2"><shadow type="math_number"/></value>' +
-    '  <value name="x1"><shadow type="math_number"/></value>' +
-    '  <value name="y1"><shadow type="math_number"/></value>' +
-    '</block>' +
     '<block type="sensing_getoperatingsystem"/>' +
     '<block type="sensing_getbrowser"/>' +
     '<block type="sensing_geturl"/>' +
@@ -1002,6 +990,18 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
           '<field name="NUM"></field>' +
         '</shadow>' +
       '</value>' +
+    '</block>' +
+    '<block type="operator_distanceTo">' +
+    '  <value name="x1"><shadow type="math_number"/></value>' +
+    '  <value name="y1"><shadow type="math_number"/></value>' +
+    '  <value name="x2"><shadow type="math_number"/></value>' +
+    '  <value name="y2"><shadow type="math_number"/></value>' +
+    '</block>' +
+    '<block type="operator_directionTo">' +
+    '  <value name="x2"><shadow type="math_number"/></value>' +
+    '  <value name="y2"><shadow type="math_number"/></value>' +
+    '  <value name="x1"><shadow type="math_number"/></value>' +
+    '  <value name="y1"><shadow type="math_number"/></value>' +
     '</block>' +
     '<block type="operator_stringify" id="operator_stringify">' +
       '<value name="ONE">' +

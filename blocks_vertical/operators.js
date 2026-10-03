@@ -1370,6 +1370,36 @@ Blockly.Blocks['operator_advlog'] = {
   }
 };
 
+Blockly.Blocks['operator_distanceTo'] = {
+  init: function () {
+    this.jsonInit({
+      message0: Blockly.Msg.PM_OPERATORS_DISTANCE_TO_POINTS,
+      args0: [
+        { type: 'input_value', name: 'x1' },
+        { type: 'input_value', name: 'y1' },
+        { type: 'input_value', name: 'x2' },
+        { type: 'input_value', name: 'y2' }
+      ],
+      extensions: ['output_number', 'colours_operators']
+    });
+  }
+};
+
+Blockly.Blocks['operator_directionTo'] = {
+  init: function () {
+    this.jsonInit({
+      message0: Blockly.Msg.PM_OPERATORS_DIRECTION_TO_POINTS,
+      args0: [
+        { type: 'input_value', name: 'x2' },
+        { type: 'input_value', name: 'y2' },
+        { type: 'input_value', name: 'x1' },
+        { type: 'input_value', name: 'y1' }
+      ],
+      extensions: ['output_number', 'colours_operators']
+    });
+  }
+};
+
 Blockly.Blocks["operator_javascript_output"] = {
   init: function () {
     this.jsonInit({

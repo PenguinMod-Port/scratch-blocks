@@ -425,6 +425,8 @@ Blockly.Msg.PM_OPERATORS_TYPE_STRING = 'string';
 Blockly.Msg.PM_OPERATORS_VALID_TYPE = 'is %1 a valid %2?';
 Blockly.Msg.PM_OPERATORS_XNOR = '%1 xnor %2';
 Blockly.Msg.PM_OPERATORS_XOR = '%1 xor %2';
+Blockly.Msg.PM_OPERATORS_DIRECTION_TO_POINTS = 'direction from %3 %4 to %1 %2';
+Blockly.Msg.PM_OPERATORS_DISTANCE_TO_POINTS = 'distance from %1 %2 to %3 %4';
 
 // Procedures blocks
 Blockly.Msg.PROCEDURES_DEFINITION = 'define %1';
@@ -487,8 +489,6 @@ Blockly.Msg.PM_SENSING_BROWSER = 'browser';
 Blockly.Msg.PM_SENSING_CLIPBOARD_SET = 'set clipboard to %1';
 Blockly.Msg.PM_SENSING_CLIPBOARD_GET = 'clipboard';
 Blockly.Msg.PM_SENSING_CURRENT_TIMESTAMP = 'timestamp';
-Blockly.Msg.PM_SENSING_DIRECTION_TO_POINTS = 'direction from %3 %4 to %1 %2';
-Blockly.Msg.PM_SENSING_DISTANCE_TO_POINTS = 'distance from %1 %2 to %3 %4';
 Blockly.Msg.PM_SENSING_DRAGGABLE = 'draggable?';
 Blockly.Msg.PM_SENSING_FINGER_DOWN = 'finger %1 down?';
 Blockly.Msg.PM_SENSING_FINGER_TAPPED = 'finger %1 tapped?';

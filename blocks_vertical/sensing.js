@@ -778,36 +778,6 @@ Blockly.Blocks['sensing_fingery'] = {
   }
 };
 
-Blockly.Blocks['sensing_distanceTo'] = {
-  init: function () {
-    this.jsonInit({
-      message0: Blockly.Msg.PM_SENSING_DISTANCE_TO_POINTS,
-      args0: [
-        { type: 'input_value', name: 'x1' },
-        { type: 'input_value', name: 'y1' },
-        { type: 'input_value', name: 'x2' },
-        { type: 'input_value', name: 'y2' }
-      ],
-      extensions: ['output_number', 'colours_sensing']
-    });
-  }
-};
-
-Blockly.Blocks['sensing_directionTo'] = {
-  init: function () {
-    this.jsonInit({
-      message0: Blockly.Msg.PM_SENSING_DIRECTION_TO_POINTS,
-      args0: [
-        { type: 'input_value', name: 'x2' },
-        { type: 'input_value', name: 'y2' },
-        { type: 'input_value', name: 'x1' },
-        { type: 'input_value', name: 'y1' }
-      ],
-      extensions: ['output_number', 'colours_sensing']
-    });
-  }
-};
-
 Blockly.Blocks['sensing_getoperatingsystem'] = {
   init: function () {
     this.jsonInit({
