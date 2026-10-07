@@ -517,6 +517,8 @@ Blockly.Msg.PM_SENSING_OBJECT_TOUCHING_OBJECT = '%1 touching %2?';
 Blockly.Msg.PM_SENSING_OPERATING_SYSTEM = 'operating system';
 Blockly.Msg.PM_SENSING_REGEX_TEST = 'test regex %2 %3 with text %1';
 Blockly.Msg.PM_SENSING_SET_OF = 'set %1 of %2 of %3';
+Blockly.Msg.PM_SENSING_SET_OF_BACKDROP = 'backdrop';
+Blockly.Msg.PM_SENSING_SET_OF_COSTUME = 'costume';
 Blockly.Msg.PM_SENSING_URL = 'url';
 Blockly.Msg.PM_SENSING_XY_OF_TOUCHING = '%1 of touching %2 point';
 

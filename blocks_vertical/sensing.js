@@ -969,12 +969,10 @@ Blockly.Blocks['sensing_getdragmode'] = {
             [Blockly.Msg.SENSING_OF_XPOSITION, 'x position'],
             [Blockly.Msg.SENSING_OF_YPOSITION, 'y position'],
             [Blockly.Msg.SENSING_OF_DIRECTION, 'direction'],
-            [Blockly.Msg.SENSING_OF_COSTUMENUMBER, 'costume #'],
-            [Blockly.Msg.SENSING_OF_COSTUMENAME, 'costume name'],
+            [Blockly.Msg.PM_SENSING_SET_OF_COSTUME, 'costume'],
             [Blockly.Msg.SENSING_OF_SIZE, 'size'],
             [Blockly.Msg.SENSING_OF_VOLUME, 'volume'],
-            [Blockly.Msg.SENSING_OF_BACKDROPNUMBER, 'backdrop #'],
-            [Blockly.Msg.SENSING_OF_BACKDROPNAME, 'backdrop name']
+            [Blockly.Msg.PM_SENSING_SET_OF_BACKDROP, 'backdrop']
           ]
         },
         {
