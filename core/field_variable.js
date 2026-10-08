@@ -316,8 +316,8 @@ Blockly.FieldVariable.dropdownCreate = function() {
     options[i] = [variableModelList[i].name, variableModelList[i].getId()];
   }
   if (this.defaultType_ == Blockly.BROADCAST_MESSAGE_VARIABLE_TYPE) {
-    options.unshift(
-        [Blockly.Msg.NEW_BROADCAST_MESSAGE, Blockly.NEW_BROADCAST_MESSAGE_ID]);
+    options.push([Blockly.Msg.NEW_BROADCAST_MESSAGE, Blockly.NEW_BROADCAST_MESSAGE_ID]);
+    options.push([Blockly.Msg.PM_RENAME_MESSAGE, Blockly.RENAME_VARIABLE_ID]);
   } else {
     // Scalar variables and lists have the same backing action, but the option
     // text is different.

@@ -639,6 +639,9 @@ Blockly.Msg.NEW_BROADCAST_MESSAGE = 'New message';
 Blockly.Msg.NEW_BROADCAST_MESSAGE_TITLE = 'New message name:';
 Blockly.Msg.BROADCAST_MODAL_TITLE = 'New Message';
 Blockly.Msg.DEFAULT_BROADCAST_MESSAGE_NAME = 'message1';
+Blockly.Msg.PM_RENAME_MESSAGE = 'Rename message';
+Blockly.Msg.PM_RENAME_MESSAGE_MODAL_TITLE = 'Rename Message';
+Blockly.Msg.PM_RENAME_MESSAGE_TITLE = 'Rename all "%1" messages to:';
 
 // extra pm stuff
 Blockly.Msg.PM_COLLAPSE_ALL = 'Collapse All';
