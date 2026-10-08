@@ -228,6 +228,59 @@ Blockly.Swatches.swatchList = [
         {
             opcode: "control_clear_counter"
         }
+    ],
+
+    // sensing
+    [
+        {
+            opcode: "sensing_objecttouchingobject"
+        },
+        {
+            opcode: "sensing_objecttouchingclonesprite"
+        }
+    ],
+    [
+        {
+            opcode: "sensing_keypressed"
+        },
+        {
+            opcode: "sensing_keyhit"
+        }
+    ],
+    [
+        {
+            opcode: "sensing_mouse_button_down"
+        },
+        {
+            opcode: "sensing_mouse_button_clicked"
+        },
+        {
+            opcode: "sensing_mouse_button_released"
+        }
+    ],
+    [
+        {
+            opcode: "sensing_mousex"
+        },
+        {
+            opcode: "sensing_mousey"
+        }
+    ],
+    [
+        {
+            opcode: "sensing_fingerdown"
+        },
+        {
+            opcode: "sensing_fingertapped"
+        }
+    ],
+    [
+        {
+            opcode: "sensing_fingerx"
+        },
+        {
+            opcode: "sensing_fingery"
+        }
     ]
 ]
 
