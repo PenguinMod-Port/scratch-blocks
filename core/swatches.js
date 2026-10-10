@@ -421,6 +421,11 @@ Blockly.Swatches.applySwatch = function(block, swatch) {
         }
     }
 
+    newBlock.moveBy(pos.x, pos.y);
+
+    newBlock.initSvg();
+    newBlock.render(true);
+
     if (previousConnection && newBlock.previousConnection) {
         previousConnection.connect(newBlock.previousConnection);
     }
@@ -428,9 +433,4 @@ Blockly.Swatches.applySwatch = function(block, swatch) {
     if (nextConnection && newBlock.nextConnection) {
         nextConnection.connect(newBlock.nextConnection);
     }
-
-    newBlock.moveBy(pos.x, pos.y);
-
-    newBlock.initSvg();
-    newBlock.render(true);
 }

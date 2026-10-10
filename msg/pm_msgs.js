@@ -2,7 +2,7 @@
 
 'use strict';
 
-goog.provide('Blockly.ScratchMsgs.pmLocales');
+goog.provide('Blockly.ScratchMsgs.allPmLocales');
 
 goog.require('Blockly.ScratchMsgs');
 
