@@ -281,6 +281,72 @@ Blockly.Swatches.swatchList = [
         {
             opcode: "sensing_fingery"
         }
+    ],
+
+    // operators
+    [
+        {
+            opcode: "operator_equals"
+        },
+        {
+            opcode: "operator_gt"
+        },
+        {
+            opcode: "operator_gtorequal"
+        },
+        {
+            opcode: "operator_lt"
+        },
+        {
+            opcode: "operator_ltorequal"
+        }
+    ],
+
+    // strings
+    [
+        {
+            opcode: "operator_letter_of",
+            remapInputs: {LETTER: ["INDEX1"], STRING: ["TEXT"]}
+        },
+        {
+            opcode: "operator_getLettersFromIndexToIndexInTextFixed",
+            fillIn: {INDEX2: '<shadow type="math_integer"><field name="NUM">3</field></shadow>'},
+            remapInputs: {INDEX1: ["LETTER"], TEXT: ["STRING"]}
+        }
+    ],
+    [
+        {
+            opcode: "operator_indexOfTextInText"
+        },
+        {
+            opcode: "operator_lastIndexOfTextInText"
+        }
+    ],
+    [
+        {
+            opcode: "operator_contains",
+            remapInputs: {STRING1: ["TEXT1"], STRING2: ["TEXT2"]}
+        },
+        {
+            opcode: "operator_textStartsOrEndsWith",
+            remapInputs: {TEXT1: ["STRING1"], TEXT2: ["STRING2"]}
+        }
+    ],
+    [
+        {
+            opcode: "operator_replaceFirst"
+        },
+        {
+            opcode: "operator_replaceAll"
+        }
+    ],
+    [
+        {
+            opcode: "operator_encode"
+        },
+        {
+            opcode: "operator_decode"
+        }
     ]
 ]
 
