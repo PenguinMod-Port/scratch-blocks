@@ -2,8 +2,7 @@ name: Rebuild
 on:
   workflow_dispatch:
   push:
-    branches:
-      - develop
+  pull_request:
 
 permissions:
   contents: write
@@ -13,12 +12,12 @@ permissions:
   deployments: write
   
 concurrency:
-  group: "pages"
+  group: "${{ github.workflow }}-${{ github.head_ref || github.ref }}"
+  cancel-in-progress: true
 
 jobs:
   rebuild:
-    concurrency: ci-${{ github.ref }} # Recommended if you intend to make multiple deployments in quick succession.
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
       - name: Setup Node
         uses: actions/setup-node@v6.0.0
@@ -53,20 +52,27 @@ jobs:
         with:
           name: built-media
           path: media
-      
+          
       - name: Clear out things
         run: |
           rm -rf node_modules
 
       - name: Setup Pages
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
         uses: actions/configure-pages@v5
       - name: Upload artifact
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
         uses: actions/upload-pages-artifact@v4.0.0
         with:
           path: './'
       - name: Deploy to GitHub Pages
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
         uses: actions/deploy-pages@v4.0.0
           
+  deploy:
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:          
       - name: Checkout to develop-builds
         uses: actions/checkout@v6-beta
         with:
@@ -94,10 +100,3 @@ jobs:
           message: ${{ github.event.head_commit.message }}
           committer_name: GitHub Actions
           committer_email: actions@github.com
-        
-#      - name: Repository Dispatch
-#        uses: peter-evans/repository-dispatch@v4.0.1
-#        with:
-#          token: ${{ secrets.t }}
-#          event-type: update
-#          repository: PenguinMod-Port/scratch-gui
