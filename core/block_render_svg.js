@@ -1547,7 +1547,7 @@ Blockly.BlockSvg.prototype.renderDrawRight_ = function(steps,
   var connectionX, connectionY;
   for (var y = 0, row; row = inputRows[y]; y++) {
     cursorX = row.paddingStart;
-    if (this.edgeShape_ && (!this.previousConnection || !this.previousConnection.targetConnection || !this.getSurroundParent()) && inputRows.length > 1) cursorX += this.edgeShapeWidth_ + Blockly.BlockSvg.CORNER_RADIUS * 2
+    if (this.edgeShape_ && (!this.previousConnection || !this.previousConnection.targetConnection || !this.getSurroundParent()) && inputRows.length > 1) cursorX += this.edgeShapeWidth_;
     if (y == 0) {
       cursorX += this.RTL ? -iconWidth : iconWidth;
     }
