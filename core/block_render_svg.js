@@ -122,6 +122,12 @@ Blockly.BlockSvg.NOTCH_WIDTH = 8 * Blockly.BlockSvg.GRID_UNIT;
 Blockly.BlockSvg.NOTCH_HEIGHT = 2 * Blockly.BlockSvg.GRID_UNIT;
 
 /**
+ * spacing of notch
+ * @const
+ */
+Blockly.BlockSvg.NOTCH_SPACING = 0; // 4 * Blockly.BlockSvg.GRID_UNIT;
+
+/**
  * Rounded corner radius.
  * @const
  */
@@ -1043,6 +1049,7 @@ Blockly.BlockSvg.prototype.renderCompute_ = function(iconWidth) {
         if (row.statementNotchAtBottom) {
           paddedHeight -= Blockly.BlockSvg.NOTCH_HEIGHT;
         }
+        paddedHeight += Blockly.BlockSvg.NOTCH_SPACING;
       }
       input.renderHeight = Math.max(input.renderHeight, paddedHeight);
       input.renderWidth = Math.max(input.renderWidth, paddedWidth);
@@ -1602,7 +1609,7 @@ Blockly.BlockSvg.prototype.renderDrawRight_ = function(steps,
       fieldY += Blockly.BlockSvg.MIN_STATEMENT_INPUT_HEIGHT;
       this.renderFields_(input.fieldRow, fieldX, fieldY);
       // Move to the start of the notch.
-      cursorX = inputRows.statementEdge + Blockly.BlockSvg.NOTCH_WIDTH;
+      cursorX = inputRows.statementEdge + Blockly.BlockSvg.NOTCH_WIDTH + Blockly.BlockSvg.NOTCH_SPACING;
 
       if (this.type == Blockly.PROCEDURES_DEFINITION_BLOCK_TYPE) {
         this.renderDefineBlock_(steps, inputRows, input, row, cursorY);
@@ -1613,7 +1620,7 @@ Blockly.BlockSvg.prototype.renderDrawRight_ = function(steps,
 
       // Create statement connection.
       connectionX = this.RTL ? -cursorX : cursorX;
-      input.connection.setOffsetInBlock(connectionX, cursorY);
+      input.connection.setOffsetInBlock(connectionX, cursorY + Blockly.BlockSvg.NOTCH_SPACING);
       if (input.connection.isConnected()) {
         this.width = Math.max(this.width, inputRows.statementEdge +
           input.connection.targetBlock().getHeightWidth().width + (!this.isCollapsed() && this.inputList.find(v => v.type == Blockly.NEXT_STATEMENT) ? this.edgeShapeWidth_ : 0));
@@ -1711,9 +1718,9 @@ Blockly.BlockSvg.prototype.renderDrawBottom_ = function(steps, cursorY) {
     var connectionX = Blockly.BlockSvg.NOTCH_WIDTH;
     if (this.edgeShape_ && (!this.previousConnection || !this.previousConnection.targetConnection || !this.getSurroundParent())) connectionX += this.edgeShapeWidth_;
     connectionX *= this.RTL ? -1 : 1;
-    this.nextConnection.setOffsetInBlock(connectionX, cursorY);
+    this.nextConnection.setOffsetInBlock(connectionX, cursorY + Blockly.BlockSvg.NOTCH_SPACING);
     // Include height of notch in block height.
-    this.height += Blockly.BlockSvg.NOTCH_HEIGHT;
+    this.height += Blockly.BlockSvg.NOTCH_HEIGHT + Blockly.BlockSvg.NOTCH_SPACING;
   }
   // Bottom horizontal line
   if (!this.edgeShape_ || !(!this.previousConnection || !this.previousConnection.targetConnection || !this.getSurroundParent())) {
@@ -1832,7 +1839,7 @@ Blockly.BlockSvg.drawStatementInputTop_ = function(steps, cursorX, block, row) {
   if (customNotch) steps.push(customNotch.right);
   else steps.push(Blockly.BlockSvg.NOTCH_PATH_RIGHT);
 
-  steps.push('h', '-' + Blockly.BlockSvg.STATEMENT_INPUT_INNER_SPACE);
+  steps.push('h', -Blockly.BlockSvg.STATEMENT_INPUT_INNER_SPACE - Blockly.BlockSvg.NOTCH_SPACING);
   steps.push(Blockly.BlockSvg.INNER_TOP_LEFT_CORNER);
 };
 
@@ -1850,7 +1857,7 @@ Blockly.BlockSvg.drawStatementInputTop_ = function(steps, cursorX, block, row) {
 Blockly.BlockSvg.drawStatementInputBottom_ = function(steps, rightEdge, row) {
   steps.push(Blockly.BlockSvg.INNER_BOTTOM_LEFT_CORNER);
   if (row.statementNotchAtBottom) {
-    steps.push('h ', Blockly.BlockSvg.STATEMENT_INPUT_INNER_SPACE);
+    steps.push('h ', Blockly.BlockSvg.STATEMENT_INPUT_INNER_SPACE + Blockly.BlockSvg.NOTCH_SPACING);
 
     // if we have a custom check that corresponds to a custom notch, use it
     const checkStatement = (row[0].connection.check_ || []).length === 1 ? row[0].connection.check_[0] : null;
