@@ -1049,7 +1049,9 @@ Blockly.BlockSvg.prototype.renderCompute_ = function(iconWidth) {
         if (row.statementNotchAtBottom) {
           paddedHeight -= Blockly.BlockSvg.NOTCH_HEIGHT;
         }
-        paddedHeight += Blockly.BlockSvg.NOTCH_SPACING;
+        if (input.connection.targetConnection) {
+          paddedHeight += Blockly.BlockSvg.NOTCH_SPACING * 2;
+        }
       }
       input.renderHeight = Math.max(input.renderHeight, paddedHeight);
       input.renderWidth = Math.max(input.renderWidth, paddedWidth);
@@ -1720,7 +1722,8 @@ Blockly.BlockSvg.prototype.renderDrawBottom_ = function(steps, cursorY) {
     connectionX *= this.RTL ? -1 : 1;
     this.nextConnection.setOffsetInBlock(connectionX, cursorY + Blockly.BlockSvg.NOTCH_SPACING);
     // Include height of notch in block height.
-    this.height += Blockly.BlockSvg.NOTCH_HEIGHT + Blockly.BlockSvg.NOTCH_SPACING;
+    this.height += Blockly.BlockSvg.NOTCH_HEIGHT;
+    if (this.nextConnection.targetConnection) this.height += Blockly.BlockSvg.NOTCH_SPACING;
   }
   // Bottom horizontal line
   if (!this.edgeShape_ || !(!this.previousConnection || !this.previousConnection.targetConnection || !this.getSurroundParent())) {
