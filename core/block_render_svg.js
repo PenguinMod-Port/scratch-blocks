@@ -132,7 +132,7 @@ Blockly.BlockSvg.NOTCH_SPACING = 0; //3 * Blockly.BlockSvg.GRID_UNIT;
  * Rounded corner radius.
  * @const
  */
-Blockly.BlockSvg.CORNER_RADIUS = 1 * Blockly.BlockSvg.GRID_UNIT;
+Blockly.BlockSvg.CORNER_RADIUS = 3 * Blockly.BlockSvg.GRID_UNIT;
 
 /**
  * Minimum width of statement input edge on the left, in px.
@@ -1707,7 +1707,7 @@ Blockly.BlockSvg.prototype.renderDrawBottom_ = function(steps, cursorY) {
     var notchStart = (
       Blockly.BlockSvg.NOTCH_WIDTH +
       Blockly.BlockSvg.NOTCH_START_PADDING +
-      Blockly.BlockSvg.CORNER_RADIUS
+      Blockly.BlockSvg.GRID_UNIT // unknown thing
     );
     if (this.edgeShape_ && (!this.previousConnection || !this.previousConnection.targetConnection || !this.getSurroundParent())) notchStart += this.edgeShapeWidth_;
     steps.push('H', notchStart, ' ');
@@ -1837,7 +1837,7 @@ Blockly.BlockSvg.drawStatementInputFromTopRight_ = function(steps, cursorX,
 Blockly.BlockSvg.drawStatementInputTop_ = function(steps, cursorX, block, row) {
   steps.push(Blockly.BlockSvg.BOTTOM_RIGHT_CORNER);
   steps.push('H', cursorX + Blockly.BlockSvg.STATEMENT_INPUT_INNER_SPACE +
-    2 * Blockly.BlockSvg.CORNER_RADIUS + block.edgeShapeWidth_);
+    Blockly.BlockSvg.GRID_UNIT * 2 + block.edgeShapeWidth_);
 
   // if we have a custom check that corresponds to a custom notch, use it
   const checkStatement = (row[0].connection.check_ || []).length === 1 ? row[0].connection.check_[0] : null;
@@ -1846,7 +1846,7 @@ Blockly.BlockSvg.drawStatementInputTop_ = function(steps, cursorX, block, row) {
   if (customNotch) notch = customNotch.right;
   steps.push(Blockly.pathUtils.scale(notch, 1, Blockly.BlockSvg.NOTCH_HEIGHT / (2 * Blockly.BlockSvg.GRID_UNIT)));
 
-  steps.push('h', -Blockly.BlockSvg.STATEMENT_INPUT_INNER_SPACE - Blockly.BlockSvg.NOTCH_SPACING);
+  steps.push('h', -Blockly.BlockSvg.STATEMENT_INPUT_INNER_SPACE - Blockly.BlockSvg.NOTCH_SPACING - Blockly.BlockSvg.GRID_UNIT + Blockly.BlockSvg.CORNER_RADIUS);
   steps.push(Blockly.BlockSvg.INNER_TOP_LEFT_CORNER);
 };
 
@@ -1864,7 +1864,7 @@ Blockly.BlockSvg.drawStatementInputTop_ = function(steps, cursorX, block, row) {
 Blockly.BlockSvg.drawStatementInputBottom_ = function(steps, rightEdge, row) {
   steps.push(Blockly.BlockSvg.INNER_BOTTOM_LEFT_CORNER);
   if (row.statementNotchAtBottom) {
-    steps.push('h ', Blockly.BlockSvg.STATEMENT_INPUT_INNER_SPACE + Blockly.BlockSvg.NOTCH_SPACING);
+    steps.push('h ', Blockly.BlockSvg.STATEMENT_INPUT_INNER_SPACE + Blockly.BlockSvg.NOTCH_SPACING + Blockly.BlockSvg.GRID_UNIT - Blockly.BlockSvg.CORNER_RADIUS);
 
     // if we have a custom check that corresponds to a custom notch, use it
     const checkStatement = (row[0].connection.check_ || []).length === 1 ? row[0].connection.check_[0] : null;
