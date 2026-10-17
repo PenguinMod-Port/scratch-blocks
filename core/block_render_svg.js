@@ -126,13 +126,13 @@ Blockly.BlockSvg.NOTCH_HEIGHT = 2 * Blockly.BlockSvg.GRID_UNIT;
  * spacing of notch
  * @const
  */
-Blockly.BlockSvg.NOTCH_SPACING = 0; //3 * Blockly.BlockSvg.GRID_UNIT;
+Blockly.BlockSvg.NOTCH_SPACING = 0; //5 * Blockly.BlockSvg.GRID_UNIT;
 
 /**
  * Rounded corner radius.
  * @const
  */
-Blockly.BlockSvg.CORNER_RADIUS = 3 * Blockly.BlockSvg.GRID_UNIT;
+Blockly.BlockSvg.CORNER_RADIUS = 1 * Blockly.BlockSvg.GRID_UNIT;
 
 /**
  * Minimum width of statement input edge on the left, in px.
