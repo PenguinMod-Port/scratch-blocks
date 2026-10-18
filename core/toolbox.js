@@ -118,7 +118,7 @@ Blockly.Toolbox.prototype.init = function() {
   svg.parentNode.insertBefore(this.HtmlDiv, svg);
 
   // Clicking on toolbox closes popups.
-  Blockly.bindEventWithChecks_(this.HtmlDiv, 'mousedown', this,
+  Blockly.bindEventWithChecks_(this.HtmlDiv, 'pointerdown', this,
     function(e) {
       // Cancel any gestures in progress.
       this.workspace_.cancelCurrentGesture();
@@ -134,11 +134,17 @@ Blockly.Toolbox.prototype.init = function() {
           const longPressTimer = setTimeout(() => {
             this.handleCategoryDrag(e);
           }, Blockly.Toolbox.CATEGORY_DRAGGER_TIMER);
-          const cancel = () => clearTimeout(longPressTimer);
+          const cancel = () => {
+            clearTimeout(longPressTimer);
+            document.removeEventListener('pointerup', cancel);
+            document.removeEventListener('pointercancel', cancel);
+            document.removeEventListener('pointerleave', cancel);
+          };
 
           // Cleanup.
-          document.addEventListener('mouseup', cancel, { once: true });
-          document.addEventListener('mouseleave', cancel, { once: true });
+          document.addEventListener('pointerup', cancel, { once: true });
+          document.addEventListener('pointercancel', cancel, { once: true });
+          document.addEventListener('pointerleave', cancel, { once: true });
         }
       }
 
@@ -587,11 +593,12 @@ Blockly.Toolbox.prototype.setSelectedItemFactory = function(item) {
  * @param {MouseDownEvent} event Mouse down event.
  */
 Blockly.Toolbox.prototype.handleCategoryDrag = function (event) {
+  var DROP_MARGIN = 100;
+
   var targetCategory = event.target.closest(`div[class="scratchCategoryMenuRow"]`);
   var targetBlocklyCategory = this.categoryMenu_.categories_.find((c) => c.parentHtml_ === targetCategory);
   if (!targetCategory || !targetBlocklyCategory) return;
 
-  var DROP_MARGIN = 100;
   var categoryList = this.HtmlDiv.querySelectorAll(`div[class*="scratchCategoryMenuRow"]`);
 
   var rect = targetCategory.getBoundingClientRect();
