@@ -755,11 +755,7 @@ Blockly.VerticalFlyout.prototype.getClientRect = function() {
   var width = flyoutRect.width;
   var height = flyoutRect.height;
 
-  if (this.toolboxPosition_ == Blockly.TOOLBOX_AT_LEFT) {
-    return new goog.math.Rect(x - BIG_NUM, y, BIG_NUM + width, height);
-  } else {  // Right
-    return new goog.math.Rect(x, y, BIG_NUM + width, height);
-  }
+  return new goog.math.Rect(x, y, width, height);
 };
 
 /**
