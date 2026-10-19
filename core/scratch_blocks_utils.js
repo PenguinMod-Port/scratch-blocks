@@ -322,12 +322,19 @@ Blockly.scratchBlocksUtils.CommentMarkdownConstants = {
 /**
  * Parses comment text as markdown.
  * @param {string} text The text to parse as markdown.
+ * @param {boolean} isCallback If true, will avoid double xmlEscape on the text.
  * @return {string} Markdown as HTML text.
  */
-Blockly.scratchBlocksUtils.parseCommentMarkdown = function(text) {
+Blockly.scratchBlocksUtils.parseCommentMarkdown = function(text, isCallback) {
+  if (!text || text.length === 0) {
+    return '<i style="color: #00000080;">' + Blockly.Msg.WORKSPACE_COMMENT_DEFAULT_TEXT + '</i>';
+  }
+
   var utils = Blockly.scratchBlocksUtils.CommentMarkdownConstants;
 
-  text = utils.xmlEscape(text);
+  if (!isCallback) {
+      text = utils.xmlEscape(text);
+  }
 
   var md = '';
   var i = 0;
@@ -422,7 +429,7 @@ Blockly.scratchBlocksUtils.parseCommentMarkdown = function(text) {
 
     /* Normal markdown command. */
     md += utils.handlers[code](
-      Blockly.scratchBlocksUtils.parseCommentMarkdown(innerText)
+      Blockly.scratchBlocksUtils.parseCommentMarkdown(innerText, true)
     );
 
     i = closeIndex + requiredCloseCode.length;
