@@ -1195,9 +1195,17 @@ Blockly.WorkspaceSvg.prototype.sanitizeUnknownValue = function(value, applyStrin
     case 'symbol':
     case 'function':
     case 'string':
+      result = '' + result;
+      result = result
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+        
       if (applyStringColor) {
         color = "#36cb7a";
-        result = `"${('' + result).replaceAll('"', '\"')}"`;
+        result = `"${result.replaceAll('"', '\\"')}"`;
       }
       break;
     default:
