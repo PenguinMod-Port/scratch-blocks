@@ -1162,6 +1162,7 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
         '<shadow type="text" />' +
       '</value>' +
     '</block>' +
+    '<block type="operator_constant" />' +
   '</category>' +
   '<category name="%{BKY_PM_CATEGORY_STRINGS}" id="strings" colour="#47c18a">' +
     '<block type="operator_join" id="operator_join">' +

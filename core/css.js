@@ -513,6 +513,10 @@ Blockly.Css.CONTENT = [
   '.blocklyEditableText>text {',
     'fill: $colour_textFieldText;',
   '}',
+  '.blocklyNonEditableText,',
+  '.blocklyEditableText {',
+    'background: #0000;', // dumb thing to make cursor work with no background
+  '}',
 
   '.blocklyEditableText>.blocklyEditableLabel {',
     'fill: #fff;',
