@@ -149,7 +149,7 @@ Blockly.FieldDropdown.prototype.init = function() {
       'fill': this.sourceBlock_.getColour(),
       'class': 'blocklyBlockBackground',
       'fill-opacity': 1,
-      'opacity': this.sourceBlock_.inputList.length === 1 && this.sourceBlock_.inputList[0].fieldRow.length === 1 ? 0 : 1
+      'opacity': this.sourceBlock_.inputList.length === 1 && !this.sourceBlock_.inputList[0].connection && this.sourceBlock_.inputList[0].fieldRow.length === 1 ? 0 : 1
     }, null);
     this.fieldGroup_.insertBefore(this.box_, this.textElement_);
   }
@@ -444,7 +444,7 @@ Blockly.FieldDropdown.prototype.positionArrow = function(x) {
     this.arrowX_ = x + Blockly.BlockSvg.DROPDOWN_ARROW_PADDING / 2;
     addedWidth = this.arrowSize_ + Blockly.BlockSvg.DROPDOWN_ARROW_PADDING;
   }
-  if (this.box_ && !(this.sourceBlock_.inputList.length === 1 && this.sourceBlock_.inputList[0].fieldRow.length === 1)) {
+  if (this.box_ && !(this.sourceBlock_.inputList.length === 1 && !this.sourceBlock_.inputList[0].connection && this.sourceBlock_.inputList[0].fieldRow.length === 1)) {
     // Bump positioning to the right for a box-type drop-down.
     this.arrowX_ += Blockly.BlockSvg.BOX_FIELD_PADDING;
   }
@@ -459,7 +459,7 @@ Blockly.FieldDropdown.prototype.updateWidth = function() {
   var width = this.size_.width;
 
   // remove padding
-  if (this.box_ && this.sourceBlock_.inputList.length === 1 && this.sourceBlock_.inputList[0].fieldRow.length === 1) {
+  if (this.box_ && this.sourceBlock_.inputList.length === 1 && !this.sourceBlock_.inputList[0].connection && this.sourceBlock_.inputList[0].fieldRow.length === 1) {
     width -= 2 * Blockly.BlockSvg.BOX_FIELD_PADDING;
   }
 
