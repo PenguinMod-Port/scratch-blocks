@@ -1663,3 +1663,24 @@ Blockly.Blocks["operator_decode"] = {
     });
   }
 };
+
+Blockly.Blocks["operator_constant"] = {
+  init: function() {
+    this.jsonInit({
+      "message0": "%1",
+      "args0": [
+        {
+          "type": "field_dropdown",
+          "name": "CONSTANT",
+          "options": [
+            ["π", "pi"],
+            ["e", "euler"],
+            ["φ", "goldenratio"]
+          ]
+        },
+      ],
+      "category": Blockly.Categories.operators,
+      "extensions": ["colours_operators", "output_number"]
+    });
+  }
+};

@@ -1109,3 +1109,27 @@ Blockly.Blocks['sensing_getxyoftouchingsprite'] = {
     });
   }
 };
+
+Blockly.Blocks['sensing_sprites'] = {
+  /**
+   * Block to set drag mode.
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.jsonInit({
+      "message0": "%1",
+      "args0": [
+        {
+          "type": "field_dropdown",
+          "name": "SPRITE",
+          "options": [
+            ['Sprite1', 'Sprite1'],
+            ['Sprite2', 'Sprite2']
+          ]
+        }
+      ],
+      "category": Blockly.Categories.sensing,
+      "extensions": ["colours_sensing", "output_string"]
+    });
+  }
+};
