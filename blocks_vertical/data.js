@@ -40,10 +40,9 @@ Blockly.Blocks['data_variable'] = {
       "lastDummyAlign0": "CENTRE",
       "args0": [
         {
-          "type": "field_variable_getter",
-          "text": "",
+          "type": "field_variable",
           "name": "VARIABLE",
-          "variableType": ""
+          "variableType": [""]
         }
       ],
       "category": Blockly.Categories.data,
@@ -196,10 +195,9 @@ Blockly.Blocks['data_listcontents'] = {
       "message0": "%1",
       "args0": [
         {
-          "type": "field_variable_getter",
-          "text": "",
+          "type": "field_variable",
           "name": "LIST",
-          "variableType": Blockly.LIST_VARIABLE_TYPE
+          "variableTypes": [Blockly.LIST_VARIABLE_TYPE]
         }
       ],
       "category": Blockly.Categories.dataLists,
@@ -929,24 +927,7 @@ Blockly.Constants.Data.CUSTOM_CONTEXT_MENU_GET_VARIABLE_MIXIN = {
       return;
     }
     var currentVarName = this.getField(fieldName).text_;
-    if (!this.isInFlyout) {
-      var variablesList = this.workspace.getVariablesOfType('');
-      variablesList.sort(function(a, b) {
-        return Blockly.scratchBlocksUtils.compareStrings(a.name, b.name);
-      });
-      for (var i = 0; i < variablesList.length; i++) {
-        var varName = variablesList[i].name;
-        if (varName == currentVarName) continue;
-
-        var option = {enabled: true};
-        option.text = varName;
-
-        option.callback =
-            Blockly.Constants.Data.VARIABLE_OPTION_CALLBACK_FACTORY(this,
-                variablesList[i].getId(), fieldName);
-        options.push(option);
-      }
-    } else {
+    if (this.isInFlyout) {
       var renameOption = {
         text: Blockly.Msg.RENAME_VARIABLE,
         enabled: true,
@@ -988,24 +969,7 @@ Blockly.Constants.Data.CUSTOM_CONTEXT_MENU_GET_LIST_MIXIN = {
       return;
     }
     var currentVarName = this.getField(fieldName).text_;
-    if (!this.isInFlyout) {
-      var variablesList = this.workspace.getVariablesOfType('list');
-      variablesList.sort(function(a, b) {
-        return Blockly.scratchBlocksUtils.compareStrings(a.name, b.name);
-      });
-      for (var i = 0; i < variablesList.length; i++) {
-        var varName = variablesList[i].name;
-        if (varName == currentVarName) continue;
-
-        var option = {enabled: true};
-        option.text = varName;
-
-        option.callback =
-            Blockly.Constants.Data.VARIABLE_OPTION_CALLBACK_FACTORY(this,
-                variablesList[i].getId(), fieldName);
-        options.push(option);
-      }
-    } else {
+    if (this.isInFlyout) {
       var renameOption = {
         text: Blockly.Msg.RENAME_LIST,
         enabled: true,
