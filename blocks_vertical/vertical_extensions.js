@@ -288,7 +288,7 @@ Blockly.ScratchBlocks.VerticalExtensions.PROCEDURE_CUSTOM_COLOR = function() {
     for (var child of block.childBlocks_) {
       if (
         child.isShadow() &&
-        (child.type === "procedures_prototype" ? true : !isProcedureBlock(child))
+        (child.type === "procedures_prototype" || !isProcedureBlock(child))
       ) {
         child.setColour(child.colour_);
       } else if (!ignoreChildren) {
@@ -305,7 +305,9 @@ Blockly.ScratchBlocks.VerticalExtensions.PROCEDURE_CUSTOM_COLOR = function() {
       var protoInput = block.getInput("custom_block");
       if (protoInput) {
         var proto = protoInput.connection.targetBlock();
-        if (proto) setColor(block, proto, block._updateStackColorTick ? false : true);
+        if (proto) {
+          setColor(block, proto, !block._updateStackColorTick);
+        }
       }
 
       delete block._updateStackColorTick;
@@ -324,7 +326,7 @@ Blockly.ScratchBlocks.VerticalExtensions.PROCEDURE_CUSTOM_COLOR = function() {
       }
 
       if (topBlock && topBlock.type === "procedures_definition") {
-        var protoInput = block.getInput("custom_block");
+        var protoInput = topBlock.getInput("custom_block");
         if (protoInput) {
           var proto = protoInput.connection.targetBlock();
           if (proto) setColor(block, proto);
