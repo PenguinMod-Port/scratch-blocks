@@ -187,7 +187,14 @@ Blockly.RenderedConnection.prototype.tighten_ = function() {
  *     and 'radius' which is the distance.
  */
 Blockly.RenderedConnection.prototype.closest = function(maxLimit, dxy) {
-  return this.dbOpposite_.searchForClosest(this, maxLimit, dxy);
+  var best = this.dbOpposite_ ? this.dbOpposite_.searchForClosest(this, maxLimit, dxy) : {connection: null, radius: maxLimit};
+  if (this.dbDual_) {
+    var dual = this.dbDual_.searchForClosest(this, best.radius, dxy);
+    if (dual.connection) {
+      best = dual;
+    }
+  }
+  return best;
 };
 
 /**
@@ -223,7 +230,7 @@ Blockly.RenderedConnection.prototype.unhideAll = function() {
   // Also, since rendering a block renders all its parents, we only need to
   // render the leaf nodes.
   var renderList = [];
-  if (this.type != Blockly.INPUT_VALUE && this.type != Blockly.NEXT_STATEMENT) {
+  if (this.type != Blockly.INPUT_VALUE && this.type != Blockly.NEXT_STATEMENT && this.type != Blockly.DUAL_INPUT) {
     // Only spider down.
     return renderList;
   }
@@ -366,7 +373,11 @@ Blockly.RenderedConnection.prototype.respawnShadow_ = function() {
  * @private
  */
 Blockly.RenderedConnection.prototype.neighbours_ = function(maxLimit) {
-  return this.dbOpposite_.getNeighbours(this, maxLimit);
+  var result = this.dbOpposite_ ? this.dbOpposite_.getNeighbours(this, maxLimit) : [];
+  if (this.dbDual_) {
+    result = result.concat(this.dbDual_.getNeighbours(this, maxLimit));
+  }
+  return result;
 };
 
 /**
@@ -389,14 +400,10 @@ Blockly.RenderedConnection.prototype.connect_ = function(childConnection) {
     childBlock.updateDisabled();
   }
   if (parentBlock.rendered && childBlock.rendered) {
-    if (parentConnection.type == Blockly.NEXT_STATEMENT ||
-        parentConnection.type == Blockly.PREVIOUS_STATEMENT) {
-      // Child block may need to square off its corners if it is in a stack.
-      // Rendering a child will render its parent.
+    var statementLike = parentConnection.type == Blockly.NEXT_STATEMENT || parentConnection.type == Blockly.PREVIOUS_STATEMENT || (parentConnection.type == Blockly.DUAL_INPUT && childConnection.type == Blockly.PREVIOUS_STATEMENT);
+    if (statementLike) {
       childBlock.render();
     } else {
-      // Child block does not change shape.  Rendering the parent node will
-      // move its connected children into position.
       parentBlock.render();
     }
   }

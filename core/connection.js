@@ -49,8 +49,12 @@ Blockly.Connection = function(source, type) {
   // Shortcut for the databases for this connection's workspace.
   if (source.workspace.connectionDBList) {
     this.db_ = source.workspace.connectionDBList[type];
-    this.dbOpposite_ =
-        source.workspace.connectionDBList[Blockly.OPPOSITE_TYPE[type]];
+    if (type == Blockly.DUAL_INPUT) {
+      this.dbOpposite_ = null;
+    } else {
+      this.dbOpposite_ =
+          source.workspace.connectionDBList[Blockly.OPPOSITE_TYPE[type]];
+    } 
     this.hidden_ = !this.db_;
   }
   /**
@@ -180,7 +184,7 @@ Blockly.Connection.prototype.connect_ = function(childConnection) {
       shadowDom = Blockly.Xml.blockToDom(orphanBlock);
       orphanBlock.dispose();
       orphanBlock = null;
-    } else if (parentConnection.type == Blockly.NEXT_STATEMENT) {
+    } else if (parentConnection.type == Blockly.NEXT_STATEMENT || (parentConnection.type == DUAL_INPUT && childConnection.type == PREVIOUS_STATEMENT && orphanBlock.previousConnection))  {
       // Statement connections.
       // Statement blocks may be inserted into the middle of a stack.
       // Split the stack.
@@ -282,7 +286,8 @@ Blockly.Connection.prototype.getSourceBlock = function() {
  */
 Blockly.Connection.prototype.isSuperior = function() {
   return this.type == Blockly.INPUT_VALUE ||
-      this.type == Blockly.NEXT_STATEMENT;
+      this.type == Blockly.NEXT_STATEMENT ||
+      this.type == Blockly.DUAL_INPUT;
 };
 
 /**
@@ -318,11 +323,11 @@ Blockly.Connection.prototype.canConnectWithReason_ = function(target) {
   }
   if (blockA && blockA == blockB) {
     return Blockly.Connection.REASON_SELF_CONNECTION;
-  } else if (target.type != Blockly.OPPOSITE_TYPE[this.type]) {
+  } else if (Blockly.CONNECTION_COMPAT[this.type].indexOf(target.type) == -1) {
     return Blockly.Connection.REASON_WRONG_TYPE;
   } else if (blockA && blockB && blockA.workspace !== blockB.workspace) {
     return Blockly.Connection.REASON_DIFFERENT_WORKSPACES;
-  } else if (!this.checkType_(target)) {
+  } else if (!this.checkType_(target)) { // DOGEISCUT TODO: checks for dual inputs
     return Blockly.Connection.REASON_CHECKS_FAILED;
   } else if (blockA.isShadow() && !blockB.isShadow()) {
     return Blockly.Connection.REASON_SHADOW_PARENT;
@@ -515,6 +520,33 @@ Blockly.Connection.prototype.isConnectionAllowed = function(candidate) {
       }
       break;
     }
+    case Blockly.DUAL_INPUT: {
+      if (this.type == Blockly.OUTPUT_VALUE) {
+        if (candidate.targetConnection &&
+            !candidate.targetBlock().isMovable() &&
+            !candidate.targetBlock().isShadow()) {
+          return false;
+        }
+        break;
+      } else if (this.type == Blockly.PREVIOUS_STATEMENT) {
+        if (firstStatementConnection &&
+            this == this.sourceBlock_.previousConnection &&
+            candidate.isConnectedToNonInsertionMarker() &&
+            !firstStatementConnection.targetConnection) {
+          return false;
+        }
+
+        if (candidate.isConnectedToNonInsertionMarker() &&
+            !this.sourceBlock_.nextConnection &&
+            !candidate.targetBlock().isShadow() &&
+            candidate.targetBlock().nextConnection) {
+          return false;
+        }
+        break;
+      }
+
+      break;
+    }
     default:
       throw 'Unknown connection type in isConnectionAllowed';
   }
@@ -582,7 +614,7 @@ Blockly.Connection.singleConnection_ = function(block, orphanBlock) {
   var connection = false;
   for (var i = 0; i < block.inputList.length; i++) {
     var thisConnection = block.inputList[i].connection;
-    if (thisConnection && thisConnection.type == Blockly.INPUT_VALUE &&
+    if (thisConnection && (thisConnection.type == Blockly.INPUT_VALUE || thisConnection.type == Blockly.DUAL_INPUT) &&
         orphanBlock.outputConnection.checkType_(thisConnection)) {
       if (connection) {
         return null;  // More than one connection.

@@ -1564,7 +1564,7 @@ Blockly.BlockSvg.prototype.renderDrawRight_ = function(steps,
         var fieldX = Blockly.BlockSvg.getAlignedCursor_(cursorX, input, inputRows, y);
 
         cursorX = this.renderFields_(input.fieldRow, fieldX, fieldY);
-        if (input.type == Blockly.INPUT_VALUE) {
+        if (input.type == Blockly.INPUT_VALUE || input.type == Blockly.DUAL_INPUT) {
           // Create inline input connection.
           // In blocks with a notch, inputs should be bumped to a min X,
           // to avoid overlapping with the notch.

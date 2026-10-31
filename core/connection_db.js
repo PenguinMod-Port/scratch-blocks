@@ -296,5 +296,6 @@ Blockly.ConnectionDB.init = function(workspace) {
   dbList[Blockly.OUTPUT_VALUE] = new Blockly.ConnectionDB();
   dbList[Blockly.NEXT_STATEMENT] = new Blockly.ConnectionDB();
   dbList[Blockly.PREVIOUS_STATEMENT] = new Blockly.ConnectionDB();
+  dbList[Blockly.DUAL_INPUT] = new Blockly.ConnectionDB();
   workspace.connectionDBList = dbList;
 };

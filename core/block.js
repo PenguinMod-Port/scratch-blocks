@@ -1345,6 +1345,10 @@ Blockly.Block.prototype.appendDummyInput = function(opt_name) {
   return this.appendInput_(Blockly.DUMMY_INPUT, opt_name || '');
 };
 
+Blockly.Block.prototype.appendDualInput = function(name) {
+  return this.appendInput_(Blockly.DUAL_INPUT, name);
+};
+
 /**
  * Initialize this block using a cross-platform, internationalization-friendly
  * JSON description.
@@ -1615,6 +1619,9 @@ Blockly.Block.prototype.interpolateElements_ = function(elements, lastDummyAlign
             case 'input_dummy':
               input = this.appendDummyInput(element['name']);
               break;
+            case 'input_dual':
+              input = this.appendDualInput(element['name']);
+              break;
             default:
               field = Blockly.Field.fromJson(element);
 
@@ -1665,7 +1672,7 @@ Blockly.Block.prototype.interpolateElements_ = function(elements, lastDummyAlign
  */
 Blockly.Block.prototype.appendInput_ = function(type, name) {
   var connection = null;
-  if (type == Blockly.INPUT_VALUE || type == Blockly.NEXT_STATEMENT) {
+  if (type == Blockly.INPUT_VALUE || type == Blockly.NEXT_STATEMENT || type == Blockly.DUAL_INPUT) {
     connection = this.makeConnection_(type);
   }
   var input = new Blockly.Input(type, name, this, connection);

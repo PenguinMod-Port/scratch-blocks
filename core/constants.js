@@ -160,6 +160,12 @@ Blockly.PREVIOUS_STATEMENT = 4;
 Blockly.DUMMY_INPUT = 5;
 
 /**
+ * ENUM for a dual input.
+ * @const
+ */
+Blockly.DUAL_INPUT = 6;
+
+/**
  * ENUM for left alignment.
  * @const
  */
@@ -211,6 +217,17 @@ Blockly.OPPOSITE_TYPE[Blockly.INPUT_VALUE] = Blockly.OUTPUT_VALUE;
 Blockly.OPPOSITE_TYPE[Blockly.OUTPUT_VALUE] = Blockly.INPUT_VALUE;
 Blockly.OPPOSITE_TYPE[Blockly.NEXT_STATEMENT] = Blockly.PREVIOUS_STATEMENT;
 Blockly.OPPOSITE_TYPE[Blockly.PREVIOUS_STATEMENT] = Blockly.NEXT_STATEMENT;
+
+/**
+ * compat for dual inputs
+ * @const
+ */
+Blockly.CONNECTION_COMPAT = [];
+Blockly.CONNECTION_COMPAT[Blockly.INPUT_VALUE] = [Blockly.OUTPUT_VALUE];
+Blockly.CONNECTION_COMPAT[Blockly.OUTPUT_VALUE] = [Blockly.INPUT_VALUE];
+Blockly.CONNECTION_COMPAT[Blockly.NEXT_STATEMENT] = [Blockly.PREVIOUS_STATEMENT, Blockly.DUAL_INPUT];
+Blockly.CONNECTION_COMPAT[Blockly.PREVIOUS_STATEMENT] = [Blockly.NEXT_STATEMENT, Blockly.DUAL_INPUT];
+Blockly.CONNECTION_COMPAT[Blockly.DUAL_INPUT] = [Blockly.OUTPUT_VALUE, Blockly.PREVIOUS_STATEMENT];
 
 /**
  * ENUM for toolbox and flyout at top of screen.

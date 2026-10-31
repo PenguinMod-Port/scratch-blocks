@@ -1276,3 +1276,19 @@ Blockly.Blocks['control_runwithoutscreenrefresh'] = {
     })
   }
 }
+
+Blockly.Blocks['control_dualinput_test'] = {
+  init: function () {
+    this.jsonInit({
+      "message0": "print %1 to console",
+      "args0": [
+        {
+          "type": "input_dual",
+          "name": "DUAL"
+        }
+      ],
+      "category": Blockly.Categories.control,
+      "extensions": ["colours_control", "shape_statement"]
+    });
+  }
+};
