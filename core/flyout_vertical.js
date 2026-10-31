@@ -255,7 +255,7 @@ Blockly.VerticalFlyout.prototype.getMetrics_ = function() {
   // the last category.
   var contentHeight = optionBox.height * this.workspace_.scale;
   this.recordCategoryScrollPositions_();
-  var bottomPadding = this.MARGIN;
+  var bottomPadding = this.MARGIN + 200;
   if (this.categoryScrollPositions.length > 0) {
     var lastLabel = this.categoryScrollPositions[
         this.categoryScrollPositions.length - 1];
