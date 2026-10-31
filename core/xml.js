@@ -211,6 +211,10 @@ Blockly.Xml.blockToDom = function(block, opt_noId) {
         container = goog.dom.createDom('value');
       } else if (input.type == Blockly.NEXT_STATEMENT) {
         container = goog.dom.createDom('statement');
+      } else if (input.type == Blockly.DUAL_INPUT) {
+        var dualTarget = input.connection.targetConnection;
+        container = goog.dom.createDom(dualTarget &&
+            dualTarget.type == Blockly.PREVIOUS_STATEMENT ? 'statement' : 'value');
       }
       var shadow = input.connection.getShadowDom();
       if (shadow && (!childBlock || !childBlock.isShadow())) {
@@ -782,6 +786,10 @@ Blockly.Xml.domToBlockHeadless_ = function(xmlBlock, workspace) {
             }
 
             input.connection.connect(blockChild.previousConnection);
+          } else if (input.type == Blockly.DUAL_INPUT) {
+            input.connection.connect(
+                xmlChild.nodeName.toLowerCase() == 'statement' ?
+                    blockChild.previousConnection : blockChild.outputConnection);
           } else {
             goog.asserts.fail(
                 'Child block does not have output or previous statement.');

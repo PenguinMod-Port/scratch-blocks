@@ -54,7 +54,10 @@ Blockly.Connection = function(source, type) {
     } else {
       this.dbOpposite_ =
           source.workspace.connectionDBList[Blockly.OPPOSITE_TYPE[type]];
-    } 
+    }
+    this.dbDual_ = (type == Blockly.OUTPUT_VALUE ||
+        type == Blockly.PREVIOUS_STATEMENT) ?
+        source.workspace.connectionDBList[Blockly.DUAL_INPUT] : null;
     this.hidden_ = !this.db_;
   }
   /**
@@ -136,6 +139,14 @@ Blockly.Connection.prototype.db_ = null;
 Blockly.Connection.prototype.dbOpposite_ = null;
 
 /**
+ * connection database for dual inputs.
+ * for output and previous connections.
+ * @type {Blockly.ConnectionDB}
+ * @protected
+ */
+Blockly.Connection.prototype.dbDual_ = null;
+
+/**
  * Whether this connections is hidden (not tracked in a database) or not.
  * @type {boolean}
  * @protected
@@ -184,7 +195,7 @@ Blockly.Connection.prototype.connect_ = function(childConnection) {
       shadowDom = Blockly.Xml.blockToDom(orphanBlock);
       orphanBlock.dispose();
       orphanBlock = null;
-    } else if (parentConnection.type == Blockly.NEXT_STATEMENT || (parentConnection.type == DUAL_INPUT && childConnection.type == PREVIOUS_STATEMENT && orphanBlock.previousConnection))  {
+    } else if (parentConnection.type == Blockly.NEXT_STATEMENT || (parentConnection.type == Blockly.DUAL_INPUT && childConnection.type == Blockly.PREVIOUS_STATEMENT && orphanBlock.previousConnection))  {
       // Statement connections.
       // Statement blocks may be inserted into the middle of a stack.
       // Split the stack.
