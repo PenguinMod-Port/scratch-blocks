@@ -284,7 +284,7 @@ Blockly.Toolbox.prototype.position = function() {
       treeDiv.style.width = this.width + "px";
       treeDiv.style.height = this.getHeight() + "px";
     } else {
-      treeDiv.style.width = undefined;
+      treeDiv.style.width = null;
       treeDiv.style.height = '100%';
     }
   }

@@ -1403,6 +1403,7 @@ Blockly.Css.CONTENT = [
 
   '.blocklyToolboxDivColumns .scratchCategoryMenuItem {',
     'display: inline-flex;',
+    'align-items: center;',
     'width: 100%;',
     'padding: 4px;',
     'border-radius: 16px;',
@@ -1428,8 +1429,13 @@ Blockly.Css.CONTENT = [
     'margin-top: 5px;',
   '}',
   '.scratchCategoryCounter {',
-    'padding: 1px 5px;',
+    'padding: 0px 5px;',
     'border-radius: 4px;',
+    'font-size: 0.65rem',
+  '}',
+  '.blocklyToolboxDivColumns .scratchCategoryCounterDiv {',
+    'margin-top: 0;',
+    'margin-left: 5px;',
   '}',
 
   '.scratchCategoryItemIcon {',
@@ -1440,8 +1446,8 @@ Blockly.Css.CONTENT = [
   '}',
 
   '.blocklyToolboxDivColumns .scratchCategoryItemIcon {',
-    'width: 16px;',
-    'height: 16px;',
+    'width: 14px;',
+    'height: 14px;',
     'margin: 0;',
     'margin-right: 8px;',
   '}',
