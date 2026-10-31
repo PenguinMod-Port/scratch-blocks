@@ -323,14 +323,20 @@ Blockly.VerticalFlyout.prototype.position = function() {
 
   // This version of the flyout does not change width to fit its contents.
   // Instead it matches the width of its parent or uses a default value.
-  this.width_ = this.getWidth();
+  this.width_ = Blockly.Toolbox.TWO_COLUMNS && this.parentToolbox_ ? this.parentToolbox_.getWidth() : this.getWidth();
 
   if (this.parentToolbox_) {
-    var toolboxWidth = this.parentToolbox_.getWidth();
-    var categoryWidth = toolboxWidth - this.width_;
-    var x = this.toolboxPosition_ == Blockly.TOOLBOX_AT_RIGHT ?
-        targetWorkspaceMetrics.viewWidth : categoryWidth;
-    var y = 0;
+    if (Blockly.Toolbox.TWO_COLUMNS) {
+      var x = this.parentToolbox_.HtmlDiv.offsetLeft;
+      var y = this.parentToolbox_.HtmlDiv.offsetTop +
+          this.parentToolbox_.getHeight();
+    } else {
+      var toolboxWidth = this.parentToolbox_.getWidth();
+      var categoryWidth = toolboxWidth - this.width_;
+      var x = this.toolboxPosition_ == Blockly.TOOLBOX_AT_RIGHT ?
+          targetWorkspaceMetrics.viewWidth : categoryWidth;
+      var y = 0;
+    }
   } else {
     var x = this.toolboxPosition_ == Blockly.TOOLBOX_AT_RIGHT ?
         targetWorkspaceMetrics.viewWidth - this.width_ : 0;

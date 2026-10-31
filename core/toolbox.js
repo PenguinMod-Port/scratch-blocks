@@ -86,6 +86,8 @@ Blockly.Toolbox = function(workspace) {
 
 };
 
+Blockly.Toolbox.TWO_COLUMNS = false;
+
 /**
  * Width of the toolbox, which changes only in vertical layout.
  * This is the sum of the width of the flyout (250) and the category menu (60).
@@ -113,7 +115,7 @@ Blockly.Toolbox.prototype.init = function() {
    * @type {Element}
    */
   this.HtmlDiv =
-      goog.dom.createDom(goog.dom.TagName.DIV, 'blocklyToolboxDiv');
+      goog.dom.createDom(goog.dom.TagName.DIV, 'blocklyToolboxDiv' + (Blockly.Toolbox.TWO_COLUMNS ? ' blocklyToolboxDivColumns' : ''));
   this.HtmlDiv.setAttribute('dir', workspace.RTL ? 'RTL' : 'LTR');
   svg.parentNode.insertBefore(this.HtmlDiv, svg);
 
@@ -278,7 +280,12 @@ Blockly.Toolbox.prototype.position = function() {
     } else {  // Left
       treeDiv.style.left = '0';
     }
-    treeDiv.style.height = '100%';
+    if (Blockly.Toolbox.TWO_COLUMNS) {
+      treeDiv.style.width = this.width + "px";
+      treeDiv.style.height = this.getHeight() + "px";
+    } else {
+      treeDiv.style.height = '100%';
+    }
   }
   this.flyout_.position();
 };
@@ -792,7 +799,7 @@ Blockly.Toolbox.CategoryMenu.prototype.populate = function(domTree) {
           child));
     }
   }
-  this.height_ = this.table.offsetHeight;
+  this.height_ = Blockly.Toolbox.TWO_COLUMNS ? Math.min(this.table.offsetHeight, 250) : this.table.offsetHeight;
 };
 
 /**
