@@ -34,7 +34,7 @@ goog.require('Blockly.Blocks');
  */
 
 Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: none">' +
-  '<category name="%{BKY_CATEGORY_MOTION}" id="motion" colour="#4C97FF" secondaryColour="#3373CC">' +
+  '<category name="%{BKY_CATEGORY_MOTION}" id="motion" colour="#4C97FF">' +
     '<block type="motion_movesteps" id="motion_movesteps">' +
       '<value name="STEPS">' +
         '<shadow type="math_number">' +
@@ -238,7 +238,7 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
     '<block type="motion_yposition" id="motion_yposition"></block>' +
     '<block type="motion_direction" id="motion_direction"></block>' +
   '</category>' +
-  '<category name="%{BKY_CATEGORY_LOOKS}" id="looks" colour="#9966FF" secondaryColour="#774DCB">' +
+  '<category name="%{BKY_CATEGORY_LOOKS}" id="looks" colour="#9966FF">' +
     '<block type="looks_show" id="looks_show"></block>' +
     '<block type="looks_hide" id="looks_hide"></block>' +
     '<block type="looks_changeVisibilityOfSprite">' +
@@ -330,7 +330,7 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
     '<block type="looks_changeStretch">' +
       '<value name="X">' +
         '<shadow type="math_number">' +
-          '<field name="NUM">0</field>' +
+          '<field name="NUM">10</field>' +
         '</shadow>' +
       '</value>' +
       '<value name="Y">' +
@@ -380,8 +380,19 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
     '</block>' +
     '<block type="looks_layersGetLayer" />' +
     '<block type="looks_getEffectValue" />' +
+    '<block type="looks_set_blend_mode" />' +
+    '<block type="looks_getSpriteVisible" />' +
+    '<block type="looks_sayHeight" />' +
+    '<block type="looks_sayWidth" />' +
+    '<block type="looks_setSpriteVisible">' +
+      '<value name="VISIBILITY">' +
+        '<shadow type="checkbox" />' +
+      '</value>' +
+    '</block>' +
+    '<block type="looks_costume" />' +
+    '<block type="looks_backdrops" />' +
   '</category>' +
-  '<category name="%{BKY_CATEGORY_SOUND}" id="sound" colour="#D65CD6" secondaryColour="#BD42BD">' +
+  '<category name="%{BKY_CATEGORY_SOUND}" id="sound" colour="#D65CD6">' +
     '<block type="sound_play" id="sound_play">' +
       '<value name="SOUND_MENU">' +
         '<shadow type="sound_sounds_menu"></shadow>' +
@@ -504,8 +515,9 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
     '    </shadow>' +
     '  </value>' +
     '</block>' +
+    '<block type="sound_sounds_menu" />' +
   '</category>' +
-  '<category name="%{BKY_CATEGORY_EVENTS}" id="events" colour="#FFD500" secondaryColour="#CC9900">' +
+  '<category name="%{BKY_CATEGORY_EVENTS}" id="events" colour="#FFD500">' +
     '<block type="event_whenflagclicked" id="event_whenflagclicked"></block>' +
     '<block type="event_whenkeypressed" id="event_whenkeypressed"></block>' +
     '<block type="event_whenthisspriteclicked" id="event_whenthisspriteclicked"></block>' +
@@ -539,8 +551,9 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
     '<block type="event_whenstopclicked" />' +
     '<block type="event_whenmousescrolled" />' +
     '<block type="event_whenkeyhit" />' +
+    '<block type="event_broadcast_menu" />' +
   '</category>' +
-  '<category name="%{BKY_CATEGORY_CONTROL}" id="control" colour="#FFAB19" secondaryColour="#CF8B17">' +
+  '<category name="%{BKY_CATEGORY_CONTROL}" id="control" colour="#FFAB19">' +
     '<block type="control_wait" id="control_wait">' +
       '<value name="DURATION">' +
         '<shadow type="math_positive_number">' +
@@ -675,12 +688,19 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
       '</value>' +
     '</block>' +
     '<block type="control_run_as_sprite">' +
-    '  <value name="RUN_AS_OPTION">' +
-    '    <shadow type="control_run_as_sprite_menu"/>' +
-    '  </value>' +
+      '<value name="RUN_AS_OPTION">' +
+        '<shadow type="control_run_as_sprite_menu"/>' +
+      '</value>' +
     '</block>' +
+    '<block type="control_stop_sprite">' +
+      '<value name="STOP_OPTION">' +
+        '<shadow type="control_stop_sprite_menu"/>' +
+      '</value>' +
+    '</block>' +
+    '<block type="control_dualblock" />' +
+    '<block type="control_runwithoutscreenrefresh" />' +
   '</category>' +
-  '<category name="%{BKY_CATEGORY_SENSING}" id="sensing" colour="#4CBFE6" secondaryColour="#2E8EB8">' +
+  '<category name="%{BKY_CATEGORY_SENSING}" id="sensing" colour="#4CBFE6">' +
     '<block type="sensing_touchingobject" id="sensing_touchingobject">' +
       '<value name="TOUCHINGOBJECTMENU">' +
         '<shadow type="sensing_touchingobjectmenu"></shadow>' +
@@ -792,29 +812,61 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
     '    <shadow type="sensing_fingeroptions"/>' +
     '  </value>' +
     '</block>' +
-    '<block type="sensing_distanceTo">' +
-    '  <value name="x1"><shadow type="math_number"/></value>' +
-    '  <value name="y1"><shadow type="math_number"/></value>' +
-    '  <value name="x2"><shadow type="math_number"/></value>' +
-    '  <value name="y2"><shadow type="math_number"/></value>' +
-    '</block>' +
-    '<block type="sensing_directionTo">' +
-    '  <value name="x2"><shadow type="math_number"/></value>' +
-    '  <value name="y2"><shadow type="math_number"/></value>' +
-    '  <value name="x1"><shadow type="math_number"/></value>' +
-    '  <value name="y1"><shadow type="math_number"/></value>' +
-    '</block>' +
-    '<block type="sensing_operatingsystem"/>' +
-    '<block type="sensing_browser"/>' +
-    '<block type="sensing_url"/>' +
+    '<block type="sensing_getoperatingsystem"/>' +
+    '<block type="sensing_getbrowser"/>' +
+    '<block type="sensing_geturl"/>' +
     '<block type="sensing_setclipboard">' +
       '<value name="ITEM">' +
         '<shadow type="text" />' +
       '</value>' +
     '</block>' +
-    '<block type="sensing_getclipboard"/>' +
+    '<block type="sensing_getclipboard" />' +
+    '<block type="sensing_mouse_button_down" />' +
+    '<block type="sensing_mouse_button_clicked" />' +
+    '<block type="sensing_mouse_button_released" />' +
+    '<block type="sensing_mobile" />' +
+    '<block type="sensing_getspritewithattrib">' +
+      '<value name="var">' +
+       '<shadow type="text" />' +
+      '</value>' +
+      '<value name="val">' +
+       '<shadow type="text" />' +
+      '</value>' +
+    '</block>' +
+    '<block type="sensing_getdragmode" />' +
+    '<block type="sensing_set_of">' +
+      '<value name="OBJECT">' +
+        '<shadow type="sensing_of_object_menu"></shadow>' +
+      '</value>' +
+      '<value name="VALUE">' +
+        '<shadow type="text" />' +
+      '</value>' +
+    '</block>' +
+    '<block type="sensing_loggedin" />' +
+    '<block type="sensing_regextest">' +
+      '<value name="text">' +
+        '<shadow type="text" />' +
+      '</value>' +
+      '<value name="reg">' +
+        '<shadow type="text" />' +
+      '</value>' +
+      '<value name="regrule">' +
+        '<shadow type="text" />' +
+      '</value>' +
+    '</block>' +
+    '<block type="sensing_isUpperCase">' +
+      '<value name="text">' +
+        '<shadow type="text" />' +
+      '</value>' +
+    '</block>' +
+    '<block type="sensing_getxyoftouchingsprite">' +
+      '<value name="SPRITE">' +
+        '<shadow type="sensing_distancetomenu" />' +
+      '</value>' +
+    '</block>' +
+    '<block type="sensing_sprites" />' +
   '</category>' +
-  '<category name="%{BKY_CATEGORY_OPERATORS}" id="operators" colour="#40BF4A" secondaryColour="#389438">' +
+  '<category name="%{BKY_CATEGORY_OPERATORS}" id="operators" colour="#40BF4A">' +
     '<block type="operator_add" id="operator_add">' +
       '<value name="NUM1">' +
         '<shadow type="math_number">' +
@@ -918,6 +970,206 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
     '<block type="operator_nand"></block>' +
     '<block type="operator_nor"></block>' +
     '<block type="operator_not" id="operator_not"></block>' +
+    '<block type="operator_mod" id="operator_mod">' +
+      '<value name="NUM1">' +
+        '<shadow type="math_number">' +
+          '<field name="NUM"></field>' +
+        '</shadow>' +
+      '</value>' +
+      '<value name="NUM2">' +
+        '<shadow type="math_number">' +
+          '<field name="NUM"></field>' +
+        '</shadow>' +
+      '</value>' +
+    '</block>' +
+    '<block type="operator_round" id="operator_round">' +
+      '<value name="NUM">' +
+        '<shadow type="math_number">' +
+          '<field name="NUM"></field>' +
+        '</shadow>' +
+      '</value>' +
+    '</block>' +
+    '<block type="operator_mathop" id="operator_mathop">' +
+      '<value name="NUM">' +
+        '<shadow type="math_number">' +
+          '<field name="NUM"></field>' +
+        '</shadow>' +
+      '</value>' +
+    '</block>' +
+    '<block type="operator_distanceTo">' +
+    '  <value name="x1"><shadow type="math_number"/></value>' +
+    '  <value name="y1"><shadow type="math_number"/></value>' +
+    '  <value name="x2"><shadow type="math_number"/></value>' +
+    '  <value name="y2"><shadow type="math_number"/></value>' +
+    '</block>' +
+    '<block type="operator_directionTo">' +
+    '  <value name="x2"><shadow type="math_number"/></value>' +
+    '  <value name="y2"><shadow type="math_number"/></value>' +
+    '  <value name="x1"><shadow type="math_number"/></value>' +
+    '  <value name="y1"><shadow type="math_number"/></value>' +
+    '</block>' +
+    '<block type="operator_stringify" id="operator_stringify">' +
+      '<value name="ONE">' +
+        '<shadow type="text">' +
+          '<field name="TEXT"></field>' +
+        '</shadow>' +
+      '</value>' +
+    '</block>' +
+    '<block type="operator_boolify" id="operator_boolify">' +
+      '<value name="ONE">' +
+        '<shadow type="text">' +
+          '<field name="TEXT"></field>' +
+        '</shadow>' +
+      '</value>' +
+    '</block>' +
+    '<block type="operator_checkboxBoolean" id="operator_checkboxBoolean"></block>' +
+    '<block type="operator_trueBoolean"></block>' +
+    '<block type="operator_falseBoolean"></block>' +
+    '<block type="operator_randomBoolean"></block>' +
+    '<block type="operator_valid_type">' +
+      '<value name="TEXT">' +
+        '<shadow type="text" />' +
+      '</value>' +
+    '</block>' +
+    '<block type="operator_power">' +
+      '<value name="NUM1">' +
+        '<shadow type="math_number" />' +
+      '</value>' +
+      '<value name="NUM2">' +
+        '<shadow type="math_number" />' +
+      '</value>' +
+    '</block>' +
+    '<block type="operator_constrainnumber">' +
+      '<value name="inp">' +
+        '<shadow type="math_number" />' +
+      '</value>' +
+      '<value name="min">' +
+        '<shadow type="math_number" />' +
+      '</value>' +
+      '<value name="max">' +
+        '<shadow type="math_number" />' +
+      '</value>' +
+    '</block>' +
+    '<block type="operator_lerpFunc">' +
+      '<value name="ONE">' +
+        '<shadow type="math_number" />' +
+      '</value>' +
+      '<value name="TWO">' +
+        '<shadow type="math_number" />' +
+      '</value>' +
+      '<value name="AMOUNT">' +
+        '<shadow type="math_number" />' +
+      '</value>' +
+    '</block>' +
+    '<block type="operator_gtorequal">' +
+      '<value name="OPERAND1">' +
+        '<shadow type="text">' +
+          '<field name="TEXT"></field>' +
+        '</shadow>' +
+      '</value>' +
+      '<value name="OPERAND2">' +
+        '<shadow type="text">' +
+          '<field name="TEXT"></field>' +
+        '</shadow>' +
+      '</value>' +
+    '</block>' +
+    '<block type="operator_ltorequal">' +
+      '<value name="OPERAND1">' +
+        '<shadow type="text">' +
+          '<field name="TEXT"></field>' +
+        '</shadow>' +
+      '</value>' +
+      '<value name="OPERAND2">' +
+        '<shadow type="text">' +
+          '<field name="TEXT"></field>' +
+        '</shadow>' +
+      '</value>' +
+    '</block>' +
+    '<block type="operator_notequal">' +
+      '<value name="OPERAND1">' +
+        '<shadow type="text">' +
+          '<field name="TEXT"></field>' +
+        '</shadow>' +
+      '</value>' +
+      '<value name="OPERAND2">' +
+        '<shadow type="text">' +
+          '<field name="TEXT"></field>' +
+        '</shadow>' +
+      '</value>' +
+    '</block>' +
+    '<block type="operator_null" />' +
+    '<block type="operator_range_expandable" />' +
+    '<block type="operator_expandableMath">' +
+      '<field name="EXPANDABLE">2</field>' +
+      '<value name="NUM1">' +
+        '<shadow type="math_number">' +
+          '<field name="NUM">1</field>' +
+        '</shadow>' +
+      '</value>' +
+      '<value name="NUM2">' +
+        '<shadow type="math_number">' +
+          '<field name="NUM">2</field>' +
+        '</shadow>' +
+      '</value>' +
+    '</block>' +
+    '<block type="operator_expandableBool">' +
+      '<field name="EXPANDABLE">2</field>' +
+      '<value name="BOOL1">' +
+        '<shadow type="checkbox" />' +
+      '</value>' +
+      '<value name="BOOL2">' +
+        '<shadow type="checkbox" />' +
+      '</value>' +
+    '</block>' +
+    '<block type="operator_expandableCompare">' +
+      '<field name="EXPANDABLE">2</field>' +
+      '<value name="INPUT1">' +
+        '<shadow type="text" />' +
+      '</value>' +
+      '<value name="INPUT2">' +
+        '<shadow type="text" />' +
+      '</value>' +
+    '</block>' +
+    '<block type="operator_advMath">' +
+      '<value name="ONE">' +
+        '<shadow type="math_number" />' +
+      '</value>' +
+      '<value name="TWO">' +
+        '<shadow type="math_number" />' +
+      '</value>' +
+    '</block>' +
+    '<block type="operator_advMathExpanded">' +
+      '<value name="ONE">' +
+        '<shadow type="math_number" />' +
+      '</value>' +
+      '<value name="TWO">' +
+        '<shadow type="math_number" />' +
+      '</value>' +
+      '<value name="THREE">' +
+        '<shadow type="math_number" />' +
+      '</value>' +
+    '</block>' +
+    '<block type="operator_advlog">' +
+      '<value name="NUM1">' +
+        '<shadow type="math_number" />' +
+      '</value>' +
+      '<value name="NUM2">' +
+        '<shadow type="math_number" />' +
+      '</value>' +
+    '</block>' +
+    '<block type="operator_javascript_output">' +
+      '<value name="JS">' +
+        '<shadow type="text" />' +
+      '</value>' +
+    '</block>' +
+    '<block type="operator_javascript_boolean">' +
+      '<value name="JS">' +
+        '<shadow type="text" />' +
+      '</value>' +
+    '</block>' +
+    '<block type="operator_constant" />' +
+  '</category>' +
+  '<category name="%{BKY_PM_CATEGORY_STRINGS}" id="strings" colour="#47c18a">' +
     '<block type="operator_join" id="operator_join">' +
       '<value name="STRING1">' +
         '<shadow type="text">' +
@@ -961,84 +1213,6 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
         '</shadow>' +
       '</value>' +
     '</block>' +
-    '<block type="operator_mod" id="operator_mod">' +
-      '<value name="NUM1">' +
-        '<shadow type="math_number">' +
-          '<field name="NUM"></field>' +
-        '</shadow>' +
-      '</value>' +
-      '<value name="NUM2">' +
-        '<shadow type="math_number">' +
-          '<field name="NUM"></field>' +
-        '</shadow>' +
-      '</value>' +
-    '</block>' +
-    '<block type="operator_round" id="operator_round">' +
-      '<value name="NUM">' +
-        '<shadow type="math_number">' +
-          '<field name="NUM"></field>' +
-        '</shadow>' +
-      '</value>' +
-    '</block>' +
-    '<block type="operator_mathop" id="operator_mathop">' +
-      '<value name="NUM">' +
-        '<shadow type="math_number">' +
-          '<field name="NUM"></field>' +
-        '</shadow>' +
-      '</value>' +
-    '</block>' +
-    '<block type="operator_stringify" id="operator_stringify">' +
-      '<value name="ONE">' +
-        '<shadow type="text">' +
-          '<field name="TEXT"></field>' +
-        '</shadow>' +
-      '</value>' +
-    '</block>' +
-    '<block type="operator_boolify" id="operator_boolify">' +
-      '<value name="ONE">' +
-        '<shadow type="text">' +
-          '<field name="TEXT"></field>' +
-        '</shadow>' +
-      '</value>' +
-    '</block>' +
-    '<block type="operator_checkboxBoolean" id="operator_checkboxBoolean"></block>' +
-    '<block type="operator_trueBoolean"></block>' +
-    '<block type="operator_falseBoolean"></block>' +
-    '<block type="operator_valid_type">' +
-      '<value name="TEXT">' +
-        '<shadow type="text" />' +
-      '</value>' +
-    '</block>' +
-    '<block type="operator_power">' +
-      '<value name="NUM1">' +
-        '<shadow type="math_number" />' +
-      '</value>' +
-      '<value name="NUM2">' +
-        '<shadow type="math_number" />' +
-      '</value>' +
-    '</block>' +
-    '<block type="operator_constrainnumber">' +
-      '<value name="inp">' +
-        '<shadow type="math_number" />' +
-      '</value>' +
-      '<value name="min">' +
-        '<shadow type="math_number" />' +
-      '</value>' +
-      '<value name="max">' +
-        '<shadow type="math_number" />' +
-      '</value>' +
-    '</block>' +
-    '<block type="operator_lerpFunc">' +
-      '<value name="ONE">' +
-        '<shadow type="math_number" />' +
-      '</value>' +
-      '<value name="TWO">' +
-        '<shadow type="math_number" />' +
-      '</value>' +
-      '<value name="AMOUNT">' +
-        '<shadow type="math_number" />' +
-      '</value>' +
-    '</block>' +
     '<block type="operator_join3">' +
       '<value name="STRING1">' +
         '<shadow type="text">' +
@@ -1056,43 +1230,6 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
         '</shadow>' +
       '</value>' +
     '</block>' +
-    '<block type="operator_gtorequal">' +
-      '<value name="OPERAND1">' +
-        '<shadow type="text">' +
-          '<field name="TEXT"></field>' +
-        '</shadow>' +
-      '</value>' +
-      '<value name="OPERAND2">' +
-        '<shadow type="text">' +
-          '<field name="TEXT"></field>' +
-        '</shadow>' +
-      '</value>' +
-    '</block>' +
-    '<block type="operator_ltorequal">' +
-      '<value name="OPERAND1">' +
-        '<shadow type="text">' +
-          '<field name="TEXT"></field>' +
-        '</shadow>' +
-      '</value>' +
-      '<value name="OPERAND2">' +
-        '<shadow type="text">' +
-          '<field name="TEXT"></field>' +
-        '</shadow>' +
-      '</value>' +
-    '</block>' +
-    '<block type="operator_notequal">' +
-      '<value name="OPERAND1">' +
-        '<shadow type="text">' +
-          '<field name="TEXT"></field>' +
-        '</shadow>' +
-      '</value>' +
-      '<value name="OPERAND2">' +
-        '<shadow type="text">' +
-          '<field name="TEXT"></field>' +
-        '</shadow>' +
-      '</value>' +
-    '</block>' +
-    '<block type="operator_null" />' +
     '<block type="operator_newLine" />' +
     '<block type="operator_tabCharacter" />' +
     '<block type="operator_expandablejoininputs">' +
@@ -1108,21 +1245,179 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
         '</shadow>' +
       '</value>' +
     '</block>' +
-    '<block type="operator_range_expandable" />' +
-    '<block type="operator_expandableMath" />' +
     '<block type="operator_toUpperLowerCase">' +
       '<value name="TEXT">' +
         '<shadow type="text" />' +
       '</value>' +
     '</block>' +
+    '<block type="operator_replaceAll">' +
+      '<value name="text">' +
+        '<shadow type="text" />' +
+      '</value>' +
+      '<value name="term">' +
+        '<shadow type="text" />' +
+      '</value>' +
+      '<value name="res">' +
+        '<shadow type="text" />' +
+      '</value>' +
+    '</block>' +
+    '<block type="operator_replaceFirst">' +
+      '<value name="text">' +
+        '<shadow type="text" />' +
+      '</value>' +
+      '<value name="term">' +
+        '<shadow type="text" />' +
+      '</value>' +
+      '<value name="res">' +
+        '<shadow type="text" />' +
+      '</value>' +
+    '</block>' +
+    '<block type="operator_textStartsOrEndsWith">' +
+      '<value name="TEXT1">' +
+        '<shadow type="text" />' +
+      '</value>' +
+      '<value name="TEXT2">' +
+        '<shadow type="text" />' +
+      '</value>' +
+    '</block>' +
+    '<block type="operator_regexmatch">' +
+      '<value name="text">' +
+        '<shadow type="text" />' +
+      '</value>' +
+      '<value name="reg">' +
+        '<shadow type="text" />' +
+      '</value>' +
+      '<value name="regrule">' +
+        '<shadow type="text" />' +
+      '</value>' +
+    '</block>' +
+    '<block type="operator_getLettersFromIndexToIndexInText">' +
+      '<value name="INDEX1">' +
+        '<shadow type="math_whole_number" />' +
+      '</value>' +
+      '<value name="INDEX2">' +
+        '<shadow type="math_whole_number" />' +
+      '</value>' +
+      '<value name="TEXT">' +
+        '<shadow type="text" />' +
+      '</value>' +
+    '</block>' +
+    '<block type="operator_getLettersFromIndexToIndexInTextFixed">' +
+      '<value name="INDEX1">' +
+        '<shadow type="math_whole_number" />' +
+      '</value>' +
+      '<value name="INDEX2">' +
+        '<shadow type="math_whole_number" />' +
+      '</value>' +
+      '<value name="TEXT">' +
+        '<shadow type="text" />' +
+      '</value>' +
+    '</block>' +
+    '<block type="operator_readLineInMultilineText">' +
+      '<value name="LINE">' +
+        '<shadow type="math_whole_number">' +
+          '<field name="NUM">1</field>' +
+        '</shadow>' +
+      '</value>' +
+      '<value name="TEXT">' + 
+        '<shadow type="text">' +
+          '<field name="TEXT">apple\nbanana</field>' +
+        '</shadow>' + 
+      '</value>' +
+    '</block>' +
+    '<block type="operator_indexOfTextInText">' +
+      '<value name="TEXT1">' +
+        '<shadow type="text">' +
+          '<field name="TEXT">world</field>' +
+        '</shadow>' +
+      '</value>' +
+      '<value name="TEXT2">' +
+        '<shadow type="text">' +
+          '<field name="TEXT">Hello world!</field>' +
+        '</shadow>' +
+      '</value>' +
+    '</block>' +
+    '<block type="operator_lastIndexOfTextInText">' +
+      '<value name="TEXT1">' +
+        '<shadow type="text">' +
+          '<field name="TEXT">world</field>' +
+        '</shadow>' +
+      '</value>' +
+      '<value name="TEXT2">' +
+        '<shadow type="text">' +
+          '<field name="TEXT">Hello world!</field>' +
+        '</shadow>' +
+      '</value>' +
+    '</block>' +
+    '<block type="operator_character_to_code">' +
+      '<value name="ONE">' +
+          '<shadow type="text">' +
+            '<field name="TEXT">a</field>' +
+          '</shadow>' +
+      '</value>' +
+    '</block>' +
+    '<block type="operator_code_to_character">' +
+      '<value name="ONE">' +
+        '<shadow type="text">' +
+          '<field name="TEXT">97</field>' +
+        '</shadow>' +
+      '</value>' +
+    '</block>' +
+    '<block type="operator_countAppearTimes">' +
+      '<value name="TEXT1">' +
+        '<shadow type="text">' +
+          '<field name="TEXT">a</field>' +
+        '</shadow>' +
+      '</value>' +
+      '<value name="TEXT2">' +
+        '<shadow type="text">' +
+          '<field name="TEXT">abc abc abc</field>' +
+        '</shadow>' +
+      '</value>' +
+    '</block>' +
+    '<block type="operator_textIncludesLetterFrom">' +
+      '<value name="TEXT1">' +
+        '<shadow type="text">' +
+          '<field name="TEXT">abcdef</field>' +
+        '</shadow>' +
+      '</value>' +
+      '<value name="TEXT2">' +
+        '<shadow type="text">' +
+          '<field name="TEXT">fgh</field>' +
+        '</shadow>' +
+      '</value>' +
+    '</block>' +
+    '<block type="operator_encode">' +
+      '<value name="TEXT">' +
+        '<shadow type="text" />' +
+      '</value>' +
+    '</block>' +
+    '<block type="operator_decode">' +
+      '<value name="TEXT">' +
+        '<shadow type="text" />' +
+      '</value>' +
+    '</block>' +
+    '<block type="operator_repeat">' +
+      '<value name="TEXT">' +
+        '<shadow type="text" />' +
+      '</value>' +
+      '<value name="TIMES">' +
+        '<shadow type="math_whole_number" />' +
+      '</value>' +
+    '</block>' +
+    '<block type="operator_trim">' +
+      '<value name="TEXT">' +
+        '<shadow type="text" />' +
+      '</value>' +
+    '</block>' +
   '</category>' +
-  '<category name="%{BKY_CATEGORY_VARIABLES}" id="data" colour="#FF8C1A" secondaryColour="#DB6E00" custom="VARIABLE">' +
+  '<category name="%{BKY_CATEGORY_VARIABLES}" id="data" colour="#FF8C1A" custom="VARIABLE">' +
   '</category>' +
-  '<category name="%{BKY_PM_CATEGORY_LISTS}" id="list" colour="#FF661A" secondaryColour="#FF5500" custom="LIST">' +
+  '<category name="%{BKY_PM_CATEGORY_LISTS}" id="list" colour="#FF661A" custom="LIST">' +
   '</category>' +
-  '<category name="%{BKY_CATEGORY_MYBLOCKS}" id="more" colour="#FF6680" secondaryColour="#FF4D6A" custom="PROCEDURE">' +
+  '<category name="%{BKY_CATEGORY_MYBLOCKS}" id="more" colour="#FF6680" custom="PROCEDURE">' +
   '</category>' +
-  '<category name="Extensions" id="extensions" colour="#FF6680" secondaryColour="#FF4D6A" ' +
+  '<category name="Extensions" id="extensions" colour="#FF6680" ' +
     'iconURI="../media/extensions/wedo2-block-icon.svg" showStatusButton="true">' +
     '<block type="extension_pen_down" id="extension_pen_down"></block>' +
     '<block type="extension_music_drum" id="extension_music_drum">' +

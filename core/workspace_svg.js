@@ -123,8 +123,12 @@ Blockly.WorkspaceSvg = function(options, opt_blockDragSurface, opt_wsDragSurface
 };
 goog.inherits(Blockly.WorkspaceSvg, Blockly.Workspace);
 
-// settings
+// Settings
+/** If true, block output values can be copied. */
 Blockly.WorkspaceSvg.VALUE_REPORT_COPY = true;
+
+/** If true, block output values will be colored by their JS type, if applicable. */
+Blockly.WorkspaceSvg.VALUE_REPORT_COLORS = true;
 
 /**
  * A wrapper function called when a resize event occurs.
@@ -312,6 +316,11 @@ Blockly.WorkspaceSvg.prototype.inverseScreenCTM_ = null;
  * @private
  */
 Blockly.WorkspaceSvg.prototype.inverseScreenCTMDirty_ = true;
+
+/**
+ * @type {boolean} If true, this workspace can be dragged around.
+ */
+Blockly.WorkspaceSvg.prototype.allowDragging = true;
 
 /**
  * Getter for the inverted screen CTM.
@@ -750,11 +759,12 @@ Blockly.WorkspaceSvg.prototype.processProcedureReturnsChanged_ = function() {
     ) continue;
 
     var actualReturnType = finalTypes[procCode];
+    var getReturnOutput = block.getReturn();
     if (
-      block.getReturn() !== actualReturnType &&
+      !this.returnTypesEqual_(block.getReturn(), actualReturnType) &&
       // If user is allowed to override call block shape, only update the shape if the definition's
       // shape has actually changed.
-      (!Blockly.Procedures.USER_CAN_CHANGE_CALL_TYPE || initialTypes[procCode] !== actualReturnType)
+      (!Blockly.Procedures.USER_CAN_CHANGE_CALL_TYPE || this.returnTypesEqual_(initialTypes[procCode], actualReturnType))
     ) {
       Blockly.Procedures.changeReturnType(block, actualReturnType);
     }
@@ -768,7 +778,7 @@ Blockly.WorkspaceSvg.prototype.processProcedureReturnsChanged_ = function() {
     // If a new procedure was created, the toolbox is already updated elsewhere.
     if (
       Object.prototype.hasOwnProperty.call(initialTypes, procCode) &&
-      initialTypes[procCode] !== finalTypes[procCode]
+      !this.returnTypesEqual_(initialTypes[procCode], finalTypes[procCode])
     ) {
       toolboxOutdated = true;
       break;
@@ -777,6 +787,14 @@ Blockly.WorkspaceSvg.prototype.processProcedureReturnsChanged_ = function() {
   if (toolboxOutdated) {
     this.refreshToolboxSelection_();
   }
+};
+
+Blockly.WorkspaceSvg.prototype.returnTypesEqual_ = function(a, b) {
+  if (a[1] !== b[1]) return false;
+  if (a[0] === null && b[0] === null) return true;
+  if (a[0] === null || b[0] === null) return false;
+
+  return goog.array.equals(a[0], b[0]);
 };
 
 /**
@@ -1082,6 +1100,122 @@ Blockly.WorkspaceSvg.prototype.glowStack = function(id, isGlowingStack) {
 };
 
 /**
+ * Resolves circular dependencies in an object or array.
+ * @param {Object|Array} obj Object or array to resolve.
+ * @returns {Object|Array} Circular dependency resolved object.
+ */
+Blockly.WorkspaceSvg.prototype.resolveCircular = function(obj) {
+  var seen = new WeakSet();
+  var hasOwn = (obj, prop) => Object.prototype.hasOwnProperty.call(obj, prop);
+  var detect = (val, parent, key) => {
+    if (val && typeof val === "object") {
+      if (seen.has(val)) {
+        parent[key] = Array.isArray(val) ? "[...]" : "{...}";
+        return;
+      }
+
+      seen.add(val);
+      for (let k in val) {
+        if (hasOwn(val, k)) detect(val[k], val, k);
+      }
+    }
+  }
+
+  detect(obj);
+  return obj;
+}
+
+/**
+ * Sanitizes a value to the correct type and color to be ready to report.
+ * @param {*} value Value to visually report.
+ * @param {boolean} applyStringColor If true will apply string escaping and a custom string color.
+ * @returns {string} String representation of the html to display.
+ */
+Blockly.WorkspaceSvg.prototype.sanitizeUnknownValue = function(value, applyStringColor) {
+  var type = Blockly.WorkspaceSvg.VALUE_REPORT_COLORS ? typeof value : 'string';
+  var color = 'inherit';
+  var result = value;
+
+  if (type === 'object' && value !== null) {
+    // Could be a weird custom return type
+    var prototype = Object.getPrototypeOf(value);
+
+    if (
+      prototype !== null &&
+      Object.getPrototypeOf(prototype) !== null &&
+      !(prototype === Object.prototype || Array.isArray(value)) &&
+      value.toString !== Object.prototype.toString
+    ) {
+      return value.toString();
+    }
+  }
+
+  switch (type) {
+    case 'boolean':
+      color = "#ff8c1a";
+      break;
+    case 'bigint':
+    case 'number':
+      color = "#9966ff";
+      if (Object.is(value, -0)) {
+        result = '-0';
+      }
+    break;
+    case 'object':
+      if (value === null || value === undefined) {
+        color = 'inherit; font-style: italic;';
+        result = 'null';
+        break;
+      }
+
+      value = Blockly.WorkspaceSvg.prototype.resolveCircular(value);
+      if (Array.isArray(value)) {
+        const items = value.map((item) => 
+          Blockly.WorkspaceSvg.prototype.sanitizeUnknownValue(item, true)
+        );
+        result = '[' + items.join(', ') + ']';
+      } else {
+        var entries = Object.entries(value);
+        result = '{';
+        for (let i = 0; i < entries.length; i++) {
+          result += Blockly.WorkspaceSvg.prototype.sanitizeUnknownValue(
+            '' + entries[i][0],
+            true,
+          );
+          result += ': ';
+          result += Blockly.WorkspaceSvg.prototype.sanitizeUnknownValue(
+            entries[i][1],
+            true,
+          );
+          if (i < entries.length - 1) result += ', ';
+        }
+        result += '}';
+      }
+      break;
+    case 'symbol':
+    case 'function':
+    case 'string':
+      result = '' + result;
+      result = result
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+        
+      if (applyStringColor) {
+        color = "#36cb7a";
+        result = `"${result.replaceAll('"', '\\"')}"`;
+      }
+      break;
+    default:
+      break;
+  }
+
+  return `<span style="color: ${color}">${result}</span>`;
+}
+
+/**
  * Visually report a value associated with a block.
  * In Scratch, appears as a pop-up next to the block when a reporter block is clicked.
  * @param {?string} id ID of block to report associated value.
@@ -1093,6 +1227,7 @@ Blockly.WorkspaceSvg.prototype.reportValue = function(id, value, isError = false
   if (!block) {
     throw 'Tried to report value on block that does not exist.';
   }
+
   Blockly.DropDownDiv.hideWithoutAnimation();
   Blockly.DropDownDiv.clearContent();
   var contentDiv = Blockly.DropDownDiv.getContentDiv();
@@ -1104,13 +1239,7 @@ Blockly.WorkspaceSvg.prototype.reportValue = function(id, value, isError = false
   } else if (typeof value.toReporterContent == 'function') {
     valueReportBox.append(value.toReporterContent());
   } else {
-    var valueAsString;
-    if (Object.is(value, -0)) {
-      valueAsString = '-0';
-    } else {
-      valueAsString = '' + value;
-    }
-    valueReportBox.textContent = valueAsString;
+    valueReportBox.innerHTML = Blockly.WorkspaceSvg.prototype.sanitizeUnknownValue(value);
   }
 
   if (isError) valueReportBox.classList.add('errorReportBox')
@@ -1129,7 +1258,11 @@ Blockly.WorkspaceSvg.prototype.reportValue = function(id, value, isError = false
       } else if (Object.is(value, -0)) {
         text = '-0'
       } else {
-        text = '' + value;
+        if (typeof value === 'object') {
+          text = JSON.stringify(Blockly.WorkspaceSvg.prototype.resolveCircular(value));
+        } else {
+          text = '' + value;
+        }
       }
       navigator.clipboard.writeText(text);
     });
@@ -1170,6 +1303,7 @@ Blockly.WorkspaceSvg.prototype.paste = function(xmlBlock) {
 Blockly.WorkspaceSvg.prototype.pasteBlock_ = function(xmlBlock) {
   Blockly.Events.disable();
   try {
+    Blockly.scratchBlocksUtils.changeCopiedBlockIds(xmlBlock);
     var block = Blockly.Xml.domToBlock(xmlBlock, this);
     // Scratch-specific: Give shadow dom new IDs to prevent duplicating on paste
     Blockly.scratchBlocksUtils.changeObscuredShadowIds(block);
@@ -1453,7 +1587,7 @@ Blockly.WorkspaceSvg.prototype.isDragging = function() {
  * @return {boolean} True if this workspace may be dragged.
  */
 Blockly.WorkspaceSvg.prototype.isDraggable = function() {
-  return !!this.scrollbar;
+  return this.allowDragging && !!this.scrollbar;
 };
 
 /**

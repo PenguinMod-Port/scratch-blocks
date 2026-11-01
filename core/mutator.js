@@ -69,23 +69,23 @@ Blockly.Mutator.prototype.drawIcon_ = function(group) {
   Blockly.utils.createSvgElement('rect',
       {
         'class': 'blocklyIconShape',
-        'rx': '4',
-        'ry': '4',
-        'height': '16',
-        'width': '16'
+        'rx': '6',
+        'ry': '6',
+        'height': '20',
+        'width': '20',
+        'transform': 'translate(0, -2)'
       },
       group);
   // Gear teeth.
   Blockly.utils.createSvgElement('path',
       {
         'class': 'blocklyIconSymbol',
-        'd': 'm4.203,7.296 0,1.368 -0.92,0.677 -0.11,0.41 0.9,1.559 0.41,' +
-             '0.11 1.043,-0.457 1.187,0.683 0.127,1.134 0.3,0.3 1.8,0 0.3,' +
-             '-0.299 0.127,-1.138 1.185,-0.682 1.046,0.458 0.409,-0.11 0.9,' +
-             '-1.559 -0.11,-0.41 -0.92,-0.677 0,-1.366 0.92,-0.677 0.11,' +
-             '-0.41 -0.9,-1.559 -0.409,-0.109 -1.046,0.458 -1.185,-0.682 ' +
-             '-0.127,-1.138 -0.3,-0.299 -1.8,0 -0.3,0.3 -0.126,1.135 -1.187,' +
-             '0.682 -1.043,-0.457 -0.41,0.11 -0.899,1.559 0.108,0.409z'
+        'd': 'm5.4436 7.2552 0 1.6416-1.104.8124-.132.492 1.08 1.8708.492.132 ' +
+             '1.2516-.5484 1.4244.8196.1524 1.3608.36.36 2.16 0 .36-.3588.1524-1.3656 ' +
+             '1.422-.8184 1.2552.5496.4908-.132 1.08-1.8708-.132-.492-1.104-.8124 0' +
+             '-1.6392 1.104-.8124.132-.492-1.08-1.8708-.4908-.1308-1.2552.5496-1.422' +
+             '-.8184-.1524-1.3656-.36-.3588-2.16 0-.36.36-.1512 1.362-1.4244.8184' +
+             '-1.2516-.5484-.492.132-1.0788 1.8708.1296.4908z'
       },
       group);
   // Axle hole.
@@ -95,7 +95,8 @@ Blockly.Mutator.prototype.drawIcon_ = function(group) {
         'class': 'blocklyIconShape',
         'r': '2.7',
         'cx': '8',
-        'cy': '8'
+        'cy': '8',
+        'transform': 'translate(2, 0)'
       },
       group);
 };
@@ -124,9 +125,11 @@ Blockly.Mutator.prototype.createEditor_ = function() {
     [Workspace]
   </svg>
   */
-  this.svgDialog_ = Blockly.utils.createSvgElement('svg',
-      {'x': Blockly.Bubble.BORDER_WIDTH, 'y': Blockly.Bubble.BORDER_WIDTH},
-      null);
+  this.svgDialog_ = Blockly.utils.createSvgElement(
+    'svg',
+    { class: 'mutator-svg', 'x': Blockly.Bubble.BORDER_WIDTH, 'y': Blockly.Bubble.BORDER_WIDTH },
+    null
+  );
   // Convert the list of names into a list of XML objects for the flyout.
   if (this.quarkNames_.length) {
     var quarkXml = goog.dom.createDom('xml');
@@ -162,6 +165,15 @@ Blockly.Mutator.prototype.createEditor_ = function() {
   // dragging work properly.
   background.insertBefore(flyoutSvg, this.workspace_.svgBlockCanvas_);
   this.svgDialog_.appendChild(background);
+  this.unfocusCheck = (clickEvent) => {
+    /* close the editor if we lose focus */
+    const focused = clickEvent.target.closest('.blocklyMutatorBackground') 
+      || clickEvent.target.closest('.blocklyDraggable')
+      || clickEvent.target.closest('.mutator-svg');
+
+    if (!focused) this.setVisible(false);
+  };
+  document.addEventListener('click', this.unfocusCheck);
 
   return this.svgDialog_;
 };
@@ -262,6 +274,10 @@ Blockly.Mutator.prototype.setVisible = function(visible) {
     // The root block should not be dragable or deletable.
     this.rootBlock_.setMovable(false);
     this.rootBlock_.setDeletable(false);
+    this.rootBlock_.setOutputShape(Blockly.OUTPUT_SHAPE_SQUARE);
+    this.rootBlock_.setOutput(true, 'normal');
+    this.rootBlock_.setPreviousStatement(false);
+    this.rootBlock_.output_ = true;
     if (this.workspace_.flyout_) {
       var margin = this.workspace_.flyout_.CORNER_RADIUS * 2;
       var x = this.workspace_.flyout_.width_ + margin;
@@ -288,6 +304,7 @@ Blockly.Mutator.prototype.setVisible = function(visible) {
     this.updateColour();
   } else {
     // Dispose of the bubble.
+    document.removeEventListener('click', this.unfocusCheck);
     this.svgDialog_ = null;
     this.workspace_.dispose();
     this.workspace_ = null;

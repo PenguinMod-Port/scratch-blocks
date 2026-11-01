@@ -471,7 +471,11 @@ Blockly.Field.prototype.render_ = function() {
 
     // pm: text colour
     if (this.sourceBlock_.textColour) {
-      this.textElement_.style.setProperty('fill', this.sourceBlock_.textColour, "important");
+      if (this.argType_ && this.argType_.includes('textdropdown')) {
+        this.sourceBlock_.setShadowColour(Blockly.Colours.textField);
+      } else {
+        this.textElement_.style.setProperty('fill', this.sourceBlock_.textColour, 'important');
+      }
     }
   }
 
@@ -788,12 +792,16 @@ Blockly.Field.prototype.setTooltip = function(_newTip) {
  * @private
  */
 Blockly.Field.prototype.getClickTarget_ = function() {
+  if (!this.sourceBlock_.outputConnection || !this.sourceBlock_.isShadow()) {
+    return this.getSvgRoot();
+  }
+    
   var nFields = 0;
 
   for (var i = 0, input; input = this.sourceBlock_.inputList[i]; i++) {
     nFields += input.fieldRow.length;
   }
-  if (nFields <= 1 && this.sourceBlock_.outputConnection) {
+  if (nFields <= 1) {
     return this.sourceBlock_.getSvgRoot();
   } else {
     return this.getSvgRoot();

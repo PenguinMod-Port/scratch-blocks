@@ -49,11 +49,12 @@ goog.require('goog.userAgent');
  * @param {?number} bubbleY Y position of bubble
  * @param {?boolean} minimized Whether or not this comment bubble is minimized
  *     (only the top bar displays), defaults to false if not provided.
+ * @param {?object} data Comment visual data, such as font, color, etc.
  * @extends {Blockly.Bubble}
  * @constructor
  */
 Blockly.ScratchBubble = function(comment, workspace, content, anchorXY,
-    bubbleWidth, bubbleHeight, bubbleX, bubbleY, minimized) {
+    bubbleWidth, bubbleHeight, bubbleX, bubbleY, minimized, data) {
 
   // Needed for Events
   /**
@@ -68,6 +69,8 @@ Blockly.ScratchBubble = function(comment, workspace, content, anchorXY,
   this.x = bubbleX;
   this.y = bubbleY;
   this.isMinimized_ = minimized || false;
+  this.setData(data, true);
+
   var canvas = workspace.getBubbleCanvas();
   canvas.appendChild(this.createDom_(content, !!(bubbleWidth && bubbleHeight),
       this.isMinimized_));
@@ -92,12 +95,21 @@ Blockly.ScratchBubble = function(comment, workspace, content, anchorXY,
         this.minimizeArrow_, 'mouseout', this, this.minimizeArrowMouseOut_, true);
     Blockly.bindEventWithChecks_(
         this.minimizeArrow_, 'mouseup', this, this.minimizeArrowMouseUp_, true);
+
+    Blockly.bindEventWithChecks_(
+        this.editIcon_, 'mousedown', this, this.editMouseDown_, true);
+    Blockly.bindEventWithChecks_(
+        this.editIcon_, 'mouseout', this, this.editMouseOut_, true);
+    Blockly.bindEventWithChecks_(
+        this.editIcon_, 'mouseup', this, this.editMouseUp_, true);
+
     Blockly.bindEventWithChecks_(
         this.deleteIcon_, 'mousedown', this, this.deleteMouseDown_, true);
     Blockly.bindEventWithChecks_(
         this.deleteIcon_, 'mouseout', this, this.deleteMouseOut_, true);
     Blockly.bindEventWithChecks_(
         this.deleteIcon_, 'mouseup', this, this.deleteMouseUp_, true);
+
     Blockly.bindEventWithChecks_(
         this.commentTopBar_, 'mousedown', this, this.bubbleMouseDown_);
     Blockly.bindEventWithChecks_(
@@ -147,17 +159,28 @@ Blockly.ScratchBubble.MINIMIZE_ICON_SIZE = 32;
 Blockly.ScratchBubble.DELETE_ICON_SIZE = 32;
 
 /**
+ * The size of the edit icon in the comment top bar.
+ * @private
+ */
+Blockly.ScratchBubble.EDIT_ICON_SIZE = 32;
+
+/**
  * The inset for the top bar icons.
  * @private
  */
 Blockly.ScratchBubble.TOP_BAR_ICON_INSET = 0;
-
 
 /**
  * The inset for the top bar icons.
  * @private
  */
 Blockly.ScratchBubble.RESIZE_SIZE = 16;
+
+/**
+ * The minimum width of a comment.
+ * @private
+ */
+Blockly.ScratchBubble.MIN_COMMENT_WIDTH = 90;
 
 /**
  * The bottom corner padding of the resize handle touch target.
@@ -174,6 +197,32 @@ Blockly.ScratchBubble.RESIZE_CORNER_PAD = 4;
 Blockly.ScratchBubble.RESIZE_OUTER_PAD = 8;
 
 /**
+ * Default comment color.
+ * @public
+ */
+Blockly.ScratchBubble.DEFAULT_COMMENT_COLOR = '#fef49c';
+
+/**
+ * Default comment text color.
+ * @public
+ */
+Blockly.ScratchBubble.DEFAULT_COMMENT_TEXT_COLOR = '#000000';
+
+/**
+ * If true, block comments will use their parent block colors.
+ * @public
+ */
+Blockly.ScratchBubble.COMMENT_USE_PARENT = false;
+
+/**
+ * Callback to open the comment editor.
+ * @public
+ */
+Blockly.ScratchBubble.editCommentCallback = function(/** bubble */) {
+  alert("Editor must be override Blockly.ScratchBubble.editCommentCallback");
+}
+
+/**
  * Create the bubble's DOM.
  * @param {!Element} content SVG content for the bubble.
  * @param {boolean} hasResize Add diagonal resize gripper if true.
@@ -183,8 +232,11 @@ Blockly.ScratchBubble.RESIZE_OUTER_PAD = 8;
  */
 Blockly.ScratchBubble.prototype.createDom_ = function(content, hasResize, minimized) {
   this.bubbleGroup_ = Blockly.utils.createSvgElement('g', {}, null);
-  this.bubbleArrow_ = Blockly.utils.createSvgElement('line',
-      {'stroke-linecap': 'round'},
+  this.bubbleArrow_ = Blockly.utils.createSvgElement('path',
+      {
+        'stroke-linecap': 'round',
+        'fill': 'none'
+      },
       this.bubbleGroup_);
   this.bubbleBack_ = Blockly.utils.createSvgElement('rect',
       {
@@ -216,6 +268,7 @@ Blockly.ScratchBubble.prototype.createDom_ = function(content, hasResize, minimi
         'xlink:href', Blockly.mainWorkspace.options.pathToMedia + 'comment-arrow-up.svg');
     this.commentEditor_.setAttribute('display', 'none');
     this.resizeGroup_.setAttribute('display', 'none');
+    this.editIcon_.setAttribute('display', 'none');
   } else {
     this.minimizeArrow_.setAttributeNS('http://www.w3.org/1999/xlink',
         'xlink:href', Blockly.mainWorkspace.options.pathToMedia + 'comment-arrow-down.svg');
@@ -252,24 +305,39 @@ Blockly.ScratchBubble.prototype.createTopBarIcons_ = function() {
 
   // Minimize Toggle Icon in Comment Top Bar
   var xInset = Blockly.ScratchBubble.TOP_BAR_ICON_INSET;
-  this.minimizeArrow_ = Blockly.utils.createSvgElement('image',
-      {
-        'x': xInset,
-        'y': topBarMiddleY - Blockly.ScratchBubble.MINIMIZE_ICON_SIZE / 2,
-        'width': Blockly.ScratchBubble.MINIMIZE_ICON_SIZE,
-        'height': Blockly.ScratchBubble.MINIMIZE_ICON_SIZE
-      }, this.bubbleGroup_);
+  this.minimizeArrow_ = Blockly.utils.createSvgElement('image', {
+    'x': xInset,
+    'y': topBarMiddleY - Blockly.ScratchBubble.MINIMIZE_ICON_SIZE / 2,
+    'width': Blockly.ScratchBubble.MINIMIZE_ICON_SIZE,
+    'height': Blockly.ScratchBubble.MINIMIZE_ICON_SIZE
+  }, this.bubbleGroup_);
+
+  // Edit Icon in Comment Top Bar
+  this.editIcon_ = Blockly.utils.createSvgElement('image', {
+    'x': xInset,
+    'y': topBarMiddleY - Blockly.ScratchBubble.EDIT_ICON_SIZE / 2,
+    'width': Blockly.ScratchBubble.EDIT_ICON_SIZE,
+    'height': Blockly.ScratchBubble.EDIT_ICON_SIZE,
+    'transform': `translate(${Blockly.ScratchBubble.EDIT_ICON_SIZE}, 0)`,
+  }, this.bubbleGroup_);
+  this.editIcon_.setAttributeNS(
+    'http://www.w3.org/1999/xlink',
+    'xlink:href',
+    Blockly.mainWorkspace.options.pathToMedia + 'comment-color.svg'
+  );
 
   // Delete Icon in Comment Top Bar
-  this.deleteIcon_ = Blockly.utils.createSvgElement('image',
-      {
-        'x': xInset,
-        'y': topBarMiddleY - Blockly.ScratchBubble.DELETE_ICON_SIZE / 2,
-        'width': Blockly.ScratchBubble.DELETE_ICON_SIZE,
-        'height': Blockly.ScratchBubble.DELETE_ICON_SIZE
-      }, this.bubbleGroup_);
-  this.deleteIcon_.setAttributeNS('http://www.w3.org/1999/xlink',
-      'xlink:href', Blockly.mainWorkspace.options.pathToMedia + 'delete-x.svg');
+  this.deleteIcon_ = Blockly.utils.createSvgElement('image', {
+    'x': xInset,
+    'y': topBarMiddleY - Blockly.ScratchBubble.DELETE_ICON_SIZE / 2,
+    'width': Blockly.ScratchBubble.DELETE_ICON_SIZE,
+    'height': Blockly.ScratchBubble.DELETE_ICON_SIZE
+  }, this.bubbleGroup_);
+  this.deleteIcon_.setAttributeNS(
+    'http://www.w3.org/1999/xlink',
+    'xlink:href',
+    Blockly.mainWorkspace.options.pathToMedia + 'delete-x.svg'
+  );
 };
 
 /**
@@ -346,6 +414,67 @@ Blockly.ScratchBubble.prototype.showContextMenu_ = function(e) {
 };
 
 /**
+ * Updates a comment's visuals based of the stored visual data.
+ */
+Blockly.ScratchBubble.prototype.updateCommentVisuals = function() {
+  var body = this.commentEditor_.firstElementChild;
+  if (this.data.color) {
+    var rgb = goog.color.hexToRgb(this.data.color);
+    var topRgb = goog.color.darken(rgb, 0.02);
+    rgb.push(this.data.opacity / 100);
+    topRgb.push(rgb[3]);
+    body.style.background= `rgba(${rgb.join(',')})`;
+    this.bubbleBack_.setAttribute('style', `fill: rgba(${topRgb.join(',')})`);
+    this.bubbleBack_.setAttribute('stroke', `rgba(${rgb.join(',')})`);
+    this.bubbleArrow_.setAttribute('stroke', `rgba(${rgb.join(',')})`);
+  }
+
+  if (this.data.txtColor) {
+    body.style.color = this.data.txtColor;
+    this.topBarLabel_.setAttribute('fill', this.data.txtColor);
+  }
+
+  body.style.textAlign = this.data.textAlign;
+  body.style.fontFamily = this.data.font;
+  body.style.fontSize = this.data.fontSize + 'px';
+  body.style.fontWeight = this.data.bold ? 'bold' : 'normal';
+  body.style.fontStyle = this.data.italic ? 'italic' : 'normal';
+};
+
+/**
+ * Sets the data of this comment.
+ * @param {!Object} data Comment visual data (color, font, etc.)
+ * @param {!Boolean} [opt_noEvents] If true, will not run any events
+ */
+Blockly.ScratchBubble.prototype.setData = function(data, opt_noEvents) {
+  var color = Blockly.ScratchBubble.COMMENT_USE_PARENT
+    ? this.comment.block_.colour_
+    : Blockly.ScratchBubble.DEFAULT_COMMENT_COLOR;
+  var textColor = Blockly.ScratchBubble.COMMENT_USE_PARENT
+    ? this.comment.block_.textColour
+    : Blockly.ScratchBubble.DEFAULT_COMMENT_TEXT_COLOR
+  var oldData = this.data;
+  this.data = data !== null && typeof data === 'object' ? data : {
+    color: color,
+    txtColor: textColor,
+    opacity: 100,
+    font: 'Arial',
+    textAlign: 'left',
+    fontSize: 16,
+    bold: false,
+    italic: false
+  };
+
+  if (!opt_noEvents) {
+    Blockly.Events.fire(new Blockly.Events.CommentChange(
+      this.comment, { data: oldData }, { data: this.data }
+    ));
+
+    this.updateCommentVisuals();
+  }
+};
+
+/**
  * Handle a mouse-down on bubble's minimize icon.
  * @param {!Event} e Mouse up event.
  * @private
@@ -383,6 +512,43 @@ Blockly.ScratchBubble.prototype.minimizeArrowMouseUp_ = function(e) {
     if (this.minimizeToggleCallback_) {
       this.minimizeToggleCallback_.call(this);
     }
+  }
+  e.stopPropagation();
+};
+
+/**
+ * Handle a mouse-down on bubble's edit icon.
+ * @param {!Event} e Mouse up event.
+ * @private
+ */
+Blockly.ScratchBubble.prototype.editMouseDown_ = function(e) {
+  this.shouldOpenEditor_ = true;
+  e.stopPropagation();
+};
+
+/**
+ * Handle a mouse-out on bubble's edit icon.
+ * @param {!Event} _e Mouse out event.
+ * @private
+ */
+Blockly.ScratchBubble.prototype.editMouseOut_ = function(_e) {
+  // If the mouse has left the delete icon, the shouldOpenEditor_ property
+  // should get reset to false.
+  this.shouldOpenEditor_ = false;
+};
+
+/**
+ * Handle a mouse-up on bubble's edit icon.
+ * @param {!Event} e Mouse up event.
+ * @private
+ */
+Blockly.ScratchBubble.prototype.editMouseUp_ = function(e) {
+  // First check that this is actually the same icon that had a mouse down event
+  // on it and that the mouse never left the icon
+  if (this.shouldOpenEditor_) {
+    this.shouldOpenEditor_ = false;
+
+    Blockly.ScratchBubble.editCommentCallback(this);
   }
   e.stopPropagation();
 };
@@ -434,7 +600,7 @@ Blockly.ScratchBubble.prototype.deleteMouseUp_ = function(e) {
 Blockly.ScratchBubble.prototype.resizeMouseDown_ = function(e) {
   this.resizeStartSize_ = {width: this.width_, height: this.height_};
   this.workspace_.setResizesEnabled(false);
-  Blockly.ScratchBubble.superClass_.resizeMouseDown_.call(this, e);
+  Blockly.ScratchBubble.superClass_.resizeMouseDown_.call(this, e, Blockly.ScratchBubble.MIN_COMMENT_WIDTH);
 };
 
 /**
@@ -475,6 +641,10 @@ Blockly.ScratchBubble.prototype.setMinimized = function(minimize, labelText) {
         'xlink:href', Blockly.mainWorkspace.options.pathToMedia + 'comment-arrow-up.svg');
     // Hide text area
     this.commentEditor_.setAttribute('display', 'none');
+
+    // Hide edit button
+    this.editIcon_.setAttribute('display', 'none');
+  
     // Hide resize handle if it exists
     if (this.resizeGroup_) {
       this.resizeGroup_.setAttribute('display', 'none');
@@ -491,6 +661,10 @@ Blockly.ScratchBubble.prototype.setMinimized = function(minimize, labelText) {
         'xlink:href', Blockly.mainWorkspace.options.pathToMedia + 'comment-arrow-down.svg');
     // Hide label
     this.topBarLabel_.setAttribute('display', 'none');
+
+    // Show edit button
+    Blockly.utils.removeAttribute(this.editIcon_, 'display');
+  
     // Show text area
     Blockly.utils.removeAttribute(this.commentEditor_, 'display');
     // Display resize handle if it exists
@@ -552,6 +726,7 @@ Blockly.ScratchBubble.prototype.setAnchorLocation = function(xy) {
 Blockly.ScratchBubble.prototype.moveTo = function(x, y) {
   Blockly.ScratchBubble.superClass_.moveTo.call(this, x, y);
   this.updatePosition_(x, y);
+  this.updateCommentVisuals();
 };
 
 /**
@@ -571,6 +746,7 @@ Blockly.ScratchBubble.prototype.setBubbleSize = function(width, height) {
   this.bubbleBack_.setAttribute('height', height);
   this.commentTopBar_.setAttribute('width', width);
   this.commentTopBar_.setAttribute('height', Blockly.ScratchBubble.TOP_BAR_HEIGHT);
+
   if (this.workspace_.RTL) {
     this.minimizeArrow_.setAttribute('x', width -
         (Blockly.ScratchBubble.MINIMIZE_ICON_SIZE) -
@@ -580,6 +756,7 @@ Blockly.ScratchBubble.prototype.setBubbleSize = function(width, height) {
         Blockly.ScratchBubble.DELETE_ICON_SIZE -
         Blockly.ScratchBubble.TOP_BAR_ICON_INSET);
   }
+
   if (this.resizeGroup_) {
     var resizeSize = Blockly.ScratchBubble.RESIZE_SIZE;
     if (this.workspace_.RTL) {
@@ -627,13 +804,19 @@ Blockly.ScratchBubble.prototype.renderArrow_ = function() {
       run -= this.width_;
     }
 
-    var baseX1 = relBubbleX;
-    var baseY1 = relBubbleY;
+    var startX = relBubbleX;
+    var startY = relBubbleY;
+    var endX = startX + run;
+    var endY = startY + rise;
 
-    this.bubbleArrow_.setAttribute('x1', baseX1);
-    this.bubbleArrow_.setAttribute('y1', baseY1);
-    this.bubbleArrow_.setAttribute('x2', baseX1 + run);
-    this.bubbleArrow_.setAttribute('y2', baseY1 + rise);
+    var cp1x = startX + run * 0.5;
+    var cp1y = startY;
+    var cp2x = startX + run * 0.5;
+    var cp2y = endY;
+
+    var pathString = 'M ' + startX + ' ' + startY + 
+                     ' C ' + cp1x + ' ' + cp1y + ', ' + cp2x + ' ' + cp2y + ', ' + endX + ' ' + endY;
+    this.bubbleArrow_.setAttribute('d', pathString);
     this.bubbleArrow_.setAttribute('stroke-width', Blockly.ScratchBubble.LINE_THICKNESS);
   }
 };
@@ -695,5 +878,6 @@ Blockly.ScratchBubble.prototype.dispose = function() {
   this.topBarLabel_ = null;
   this.commentTopBar_ = null;
   this.minimizeArrow_ = null;
+  this.editIcon_ = null;
   this.deleteIcon_ = null;
 };

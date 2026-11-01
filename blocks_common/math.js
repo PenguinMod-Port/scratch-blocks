@@ -49,10 +49,7 @@ Blockly.Blocks['math_number'] = {
       ],
       "output": null,
       "outputShape": Blockly.OUTPUT_SHAPE_ROUND,
-      "colour": Blockly.Colours.textField,
-      "colourSecondary": Blockly.Colours.textField,
-      "colourTertiary": Blockly.Colours.textField,
-      "colourQuaternary": Blockly.Colours.textField
+      "extensions": ["colours_textfield"]
     });
   }
 };
@@ -74,10 +71,7 @@ Blockly.Blocks['math_integer'] = {
       ],
       "output": null,
       "outputShape": Blockly.OUTPUT_SHAPE_ROUND,
-      "colour": Blockly.Colours.textField,
-      "colourSecondary": Blockly.Colours.textField,
-      "colourTertiary": Blockly.Colours.textField,
-      "colourQuaternary": Blockly.Colours.textField
+      "extensions": ["colours_textfield"]
     });
   }
 };
@@ -100,10 +94,7 @@ Blockly.Blocks['math_whole_number'] = {
       ],
       "output": null,
       "outputShape": Blockly.OUTPUT_SHAPE_ROUND,
-      "colour": Blockly.Colours.textField,
-      "colourSecondary": Blockly.Colours.textField,
-      "colourTertiary": Blockly.Colours.textField,
-      "colourQuaternary": Blockly.Colours.textField
+      "extensions": ["colours_textfield"]
     });
   }
 };
@@ -125,10 +116,7 @@ Blockly.Blocks['math_positive_number'] = {
       ],
       "output": null,
       "outputShape": Blockly.OUTPUT_SHAPE_ROUND,
-      "colour": Blockly.Colours.textField,
-      "colourSecondary": Blockly.Colours.textField,
-      "colourTertiary": Blockly.Colours.textField,
-      "colourQuaternary": Blockly.Colours.textField
+      "extensions": ["colours_textfield"]
     });
   }
 };
@@ -150,10 +138,7 @@ Blockly.Blocks['math_angle'] = {
       ],
       "output": null,
       "outputShape": Blockly.OUTPUT_SHAPE_ROUND,
-      "colour": Blockly.Colours.textField,
-      "colourSecondary": Blockly.Colours.textField,
-      "colourTertiary": Blockly.Colours.textField,
-      "colourQuaternary": Blockly.Colours.textField
+      "extensions": ["colours_textfield"]
     });
   }
 };

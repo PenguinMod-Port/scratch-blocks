@@ -3,6 +3,7 @@
 goog.provide('Blockly.FieldExpandable');
 
 goog.require('Blockly.Field');
+goog.require('Blockly.BlockSvg');
 goog.require('Blockly.BlockSvg.render');
 
 /**
@@ -17,6 +18,7 @@ Blockly.FieldExpandable = function(value, opt_min = 1, opt_max = Infinity) {
     Blockly.BlockSvg.FIELD_WIDTH,
     Blockly.BlockSvg.FIELD_HEIGHT);
   this.setText('0');
+  this.showWhenCollapsed_ = false;
 
   this.arrowWidth_ = 0;
   this.addArgType('button');
@@ -68,7 +70,7 @@ Blockly.FieldExpandable.prototype.init = function() {
   this.size_.height = Blockly.BlockSvg.FIELD_HEIGHT * 0.75;
   const ratio = this.size_.height / 32;
 
-  if (!this.sourceBlock_.isInsertionMarker()) {
+  if (!this.sourceBlock_.isInsertionMarker() && !Blockly.BlockSvg.HIDE_EXPANDABLES) {
     var addGroup = Blockly.utils.createSvgElement('g', {}, null);
     Blockly.utils.createSvgElement('rect', {
       'x': this.size_.height + Blockly.BlockSvg.GRID_UNIT,
@@ -78,7 +80,7 @@ Blockly.FieldExpandable.prototype.init = function() {
       'width': this.size_.height,
       'height': this.size_.height,
       'fill': "#00000000",
-      'stroke': "#00000035",
+      'stroke': this.sourceBlock_.getColourTertiary(),
       'cursor': this.CURSOR
     }, addGroup);
     Blockly.utils.createSvgElement('image', {
@@ -101,7 +103,7 @@ Blockly.FieldExpandable.prototype.init = function() {
       'width': this.size_.height,
       'height': this.size_.height,
       'fill': "#00000000",
-      'stroke': "#00000035",
+      'stroke': this.sourceBlock_.getColourTertiary(),
       'cursor': this.CURSOR
     }, removeGroup);
     Blockly.utils.createSvgElement('image', {
@@ -142,6 +144,10 @@ Blockly.FieldExpandable.prototype.setValue = function(value, firstRun = false) {
 };
 
 Blockly.FieldExpandable.prototype.updateWidth = function() {
+  if (Blockly.BlockSvg.HIDE_EXPANDABLES) {
+    this.size_.width = 0;
+    return;
+  }
   this.size_.width = this.size_.height * 2 + Blockly.BlockSvg.GRID_UNIT;
 }
 

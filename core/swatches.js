@@ -1,0 +1,436 @@
+goog.provide('Blockly.Swatches');
+goog.require('Blockly.Xml')
+
+Blockly.Swatches.swatchList = [
+    // motion
+    [
+        {
+            opcode: "motion_turnleft"
+        },
+        {
+            opcode: "motion_turnright"
+        }
+    ],
+    [
+        {
+            opcode: "motion_gotoxy",
+            remapInputs: {X: ["DX"], Y: ["DY"]}
+        },
+        {
+            opcode: "motion_changebyxy",
+            remapInputs: {DX: ["X"], DY: ["Y"]}
+        }
+    ],
+    [
+        {
+            opcode: "motion_changexby",
+            remapInputs: {DX: ["X", "DY", "Y"]}
+        },
+        {
+            opcode: "motion_setx",
+            remapInputs: {X: ["DX", "DY", "Y"]}
+        },
+        {
+            opcode: "motion_changeyby",
+            remapInputs: {DY: ["DX", "X", "Y"]}
+        },
+        {
+            opcode: "motion_sety",
+            remapInputs: {Y: ["DX", "X", "DY"]}
+        }
+    ],
+
+    // looks
+    [
+        {
+            opcode: "looks_say"
+        },
+        {
+            opcode: "looks_sayforsecs",
+            fillIn: {SECS: '<shadow type="math_number"><field name="NUM">2</field></shadow>'}
+        },
+        {
+            opcode: "looks_think"
+        },
+        {
+            opcode: "looks_thinkforsecs",
+            fillIn: {SECS: '<shadow type="math_number"><field name="NUM">2</field></shadow>'}
+        }
+    ],
+    [
+        {
+            opcode: "looks_costumenumbername"
+        },
+        {
+            opcode: "looks_backdropnumbername"
+        }
+    ],
+    [
+        {
+            opcode: "looks_setsizeto",
+            remapInputs: {SIZE: ["CHANGE"]}
+        },
+        {
+            opcode: "looks_changesizeby",
+            remapInputs: {CHANGE: ["SIZE"]}
+        }
+    ],
+    [
+        {
+            opcode: "looks_setStretch"
+        },
+        {
+            opcode: "looks_changeStretch"
+        }
+    ],
+    [
+        {
+            opcode: "looks_stretchGetX"
+        },
+        {
+            opcode: "looks_stretchGetY"
+        }
+    ],
+    [
+        {
+            opcode: "looks_seteffectto",
+            remapInputs: {VALUE: ["CHANGE"]}
+        },
+        {
+            opcode: "looks_changeeffectby",
+            remapInputs: {CHANGE: ["VALUE"]}
+        }
+    ],
+    [
+        {
+            opcode: "looks_show"
+        },
+        {
+            opcode: "looks_hide"
+        }
+    ],
+    [
+        {
+            opcode: "looks_changeVisibilityOfSpriteShow"
+        },
+        {
+            opcode: "looks_changeVisibilityOfSpriteHide"
+        }
+    ],
+
+    // event
+    [
+        {
+            opcode: "event_whenflagclicked"
+        },
+        {
+            opcode: "event_whenstopclicked"
+        }
+    ],
+    [
+        {
+            opcode: "event_always"
+        },
+        {
+            opcode: "event_whenanything",
+            fillIn: {ANYTHING: '<shadow type="checkbox" />'}
+        }
+    ],
+    [
+        {
+            opcode: "event_whenkeypressed"
+        },
+        {
+            opcode: "event_whenkeyhit"
+        }
+    ],
+    [
+        {
+            opcode: "event_broadcast"
+        },
+        {
+            opcode: "event_broadcastandwait"
+        }
+    ],
+
+    // control
+    [
+        {
+            opcode: "control_wait",
+            fillIn: {DURATION: '<shadow type="math_number"><field name="NUM">1</field></shadow>'}
+        },
+        {
+            opcode: "control_waitsecondsoruntil",
+            fillIn: {
+                DURATION: '<shadow type="math_number"><field name="NUM">1</field></shadow>',
+                CONDITION:'<shadow type="checkbox" />'
+            }
+        },
+        {
+            opcode: "control_wait_until",
+            fillIn: {CONDITION: '<shadow type="checkbox" />'}
+        }
+    ],
+    [
+        {
+            opcode: "control_repeat",
+            fillIn: {TIMES: '<shadow type="math_whole_number"><field name="NUM">10</field></shadow>'},
+            remapInputs: {TIMES: ["TO"]}
+        },
+        {
+            opcode: "control_from_to",
+            fillIn: {
+                SHADOW: '<shadow type="control_from_to_index" />',
+                FROM: '<shadow type="math_integer"><field name="NUM">1</field></shadow>',
+                TO: '<shadow type="math_integer"><field name="NUM">10</field></shadow>'
+            },
+            remapInputs: {TO: ["TIMES"]}
+        },
+        {
+            opcode: "control_forever"
+        },
+        {
+            opcode: "control_while",
+            fillIn: {CONDITION: '<shadow type="checkbox" />'}
+        },
+        {
+            opcode: "control_do_while",
+            fillIn: {CONDITION: '<shadow type="checkbox" />'}
+        }
+    ],
+    [
+        {
+            opcode: "control_exitLoop"
+        },
+        {
+            opcode: "control_continueLoop"
+        }
+    ],
+    [
+        {
+            opcode: "control_switch"
+        },
+        {
+            opcode: "control_switch_default"
+        }
+    ],
+    [
+        {
+            opcode: "control_incr_counter"
+        },
+        {
+            opcode: "control_decr_counter"
+        },
+        {
+            opcode: "control_set_counter",
+            fillIn: {VALUE: '<shadow type="math_integer"><field name="NUM">0</field></shadow>'}
+        },
+        {
+            opcode: "control_clear_counter"
+        }
+    ],
+
+    // sensing
+    [
+        {
+            opcode: "sensing_objecttouchingobject"
+        },
+        {
+            opcode: "sensing_objecttouchingclonesprite"
+        }
+    ],
+    [
+        {
+            opcode: "sensing_keypressed"
+        },
+        {
+            opcode: "sensing_keyhit"
+        }
+    ],
+    [
+        {
+            opcode: "sensing_mouse_button_down"
+        },
+        {
+            opcode: "sensing_mouse_button_clicked"
+        },
+        {
+            opcode: "sensing_mouse_button_released"
+        }
+    ],
+    [
+        {
+            opcode: "sensing_mousex"
+        },
+        {
+            opcode: "sensing_mousey"
+        }
+    ],
+    [
+        {
+            opcode: "sensing_fingerdown"
+        },
+        {
+            opcode: "sensing_fingertapped"
+        }
+    ],
+    [
+        {
+            opcode: "sensing_fingerx"
+        },
+        {
+            opcode: "sensing_fingery"
+        }
+    ],
+
+    // operators
+    [
+        {
+            opcode: "operator_equals"
+        },
+        {
+            opcode: "operator_gt"
+        },
+        {
+            opcode: "operator_gtorequal"
+        },
+        {
+            opcode: "operator_lt"
+        },
+        {
+            opcode: "operator_ltorequal"
+        }
+    ],
+
+    // strings
+    [
+        {
+            opcode: "operator_letter_of",
+            remapInputs: {LETTER: ["INDEX1"], STRING: ["TEXT"]}
+        },
+        {
+            opcode: "operator_getLettersFromIndexToIndexInTextFixed",
+            fillIn: {INDEX2: '<shadow type="math_integer"><field name="NUM">3</field></shadow>'},
+            remapInputs: {INDEX1: ["LETTER"], TEXT: ["STRING"]}
+        }
+    ],
+    [
+        {
+            opcode: "operator_indexOfTextInText"
+        },
+        {
+            opcode: "operator_lastIndexOfTextInText"
+        }
+    ],
+    [
+        {
+            opcode: "operator_contains",
+            remapInputs: {STRING1: ["TEXT1"], STRING2: ["TEXT2"]}
+        },
+        {
+            opcode: "operator_textStartsOrEndsWith",
+            remapInputs: {TEXT1: ["STRING1"], TEXT2: ["STRING2"]}
+        }
+    ],
+    [
+        {
+            opcode: "operator_replaceFirst"
+        },
+        {
+            opcode: "operator_replaceAll"
+        }
+    ],
+    [
+        {
+            opcode: "operator_encode"
+        },
+        {
+            opcode: "operator_decode"
+        }
+    ]
+]
+
+Blockly.Swatches.swatchCache = {};
+
+Blockly.Swatches.getSwatches = function(blockId) {
+    return (Blockly.Swatches.swatchCache[blockId] = Blockly.Swatches.swatchCache[blockId] ?? Blockly.Swatches.swatchList.filter(v => v.find(v => v.opcode == blockId)).flat());
+}
+
+Blockly.Swatches.applySwatch = function(block, swatch) {
+    let workspace = block.workspace;
+
+    let pos = block.getRelativeToSurfaceXY();
+
+    let previousConnection = block.previousConnection && block.previousConnection.targetConnection;
+    if (previousConnection) previousConnection.disconnect();
+
+    let nextConnection = block.nextConnection && block.nextConnection.targetConnection;
+    if (nextConnection) nextConnection.disconnect();
+
+    let inputs = {};
+    for (let i = 0; i < block.inputList.length; i++) {
+        let input = block.inputList[i];
+        let connection = input.connection && input.connection.targetConnection;
+        if (connection) {
+            let name = input.name;
+
+            // remap inputs
+            if (swatch.remapInputs) {
+                for (let [remappedName, names] of Object.entries(swatch.remapInputs)) {
+                    if (names.includes(name)) {
+                        name = remappedName;
+                        break;
+                    }
+                }
+            }
+
+            inputs[name] = connection;
+            connection.disconnect();
+        }
+    }
+
+    block.dispose();
+
+    let newBlock = workspace.newBlock(swatch.opcode);
+
+    for (let [name, connection] of Object.entries(inputs)) {
+        let input = newBlock.getInput(name);
+        if (input) {
+            input.connection.connect(connection);
+            connection.sourceBlock_.render();
+        } else if (connection.sourceBlock_.isShadow()) {
+            connection.sourceBlock_.dispose();
+        }
+    }
+
+    // fillIn
+    for (let [inputName, v] of Object.entries(swatch.fillIn || {})) {
+        let input = newBlock.getInput(inputName);
+        if (input && !input.connection.targetConnection) {
+            let fillInBlock = Blockly.Xml.domToBlock(Blockly.Xml.textToDom(`<xml>${v}</xml>`).firstChild, workspace);
+            input.connection.connect(fillInBlock.outputConnection || fillInBlock.previousConnection);
+            fillInBlock.initSvg();
+            fillInBlock.render();
+        } else if (input && input.connection.targetBlock().type.startsWith("math_")) {
+            let value = input.connection.targetBlock().getFieldValue("NUM");
+            let fillInBlock = Blockly.Xml.domToBlock(Blockly.Xml.textToDom(`<xml>${v}</xml>`).firstChild, workspace);
+            input.connection.connect(fillInBlock.outputConnection || fillInBlock.previousConnection);
+            fillInBlock.setFieldValue(value, "NUM");
+            fillInBlock.initSvg();
+            fillInBlock.render();
+        }
+    }
+
+    newBlock.moveBy(pos.x, pos.y);
+
+    newBlock.initSvg();
+    newBlock.render(true);
+
+    if (previousConnection && newBlock.previousConnection) {
+        previousConnection.connect(newBlock.previousConnection);
+    }
+
+    if (nextConnection && newBlock.nextConnection) {
+        nextConnection.connect(newBlock.nextConnection);
+    }
+}

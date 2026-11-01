@@ -48,10 +48,7 @@ Blockly.Blocks['text'] = {
       ],
       "output": null,
       "outputShape": Blockly.OUTPUT_SHAPE_ROUND,
-      "colour": Blockly.Colours.textField,
-      "colourSecondary": Blockly.Colours.textField,
-      "colourTertiary": Blockly.Colours.textField,
-      "colourQuaternary": Blockly.Colours.textField
+      "extensions": ["colours_textfield"]
     });
   }
 };

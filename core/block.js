@@ -172,6 +172,9 @@ Blockly.Block = function(workspace, prototypeName, opt_id) {
   /** @type {boolean} */
   this.canDragDuplicate_ = false;
 
+  /** @type {function} */
+  this._onDrop = null;
+
   // Copy the type-specific functions and data from the prototype.
   if (prototypeName) {
     /** @type {string} */
@@ -349,25 +352,24 @@ Blockly.Block.prototype.unplug = function(opt_healStack) {
       // Disconnect from any superior block.
       this.outputConnection.disconnect();
     }
-  } else {
-    if (this.previousConnection) {
-      var previousTarget = null;
-      if (this.previousConnection.isConnected()) {
-        // Remember the connection that any next statements need to connect to.
-        previousTarget = this.previousConnection.targetConnection;
-        // Detach this block from the parent's tree.
-        this.previousConnection.disconnect();
-      }
+  }
+  if (this.previousConnection) {
+    var previousTarget = null;
+    if (this.previousConnection.isConnected()) {
+      // Remember the connection that any next statements need to connect to.
+      previousTarget = this.previousConnection.targetConnection;
+      // Detach this block from the parent's tree.
+      this.previousConnection.disconnect();
     }
-    var nextBlock = this.getNextBlock();
-    if (opt_healStack && nextBlock) {
-      // Disconnect the next statement.
-      var nextTarget = this.nextConnection.targetConnection;
-      nextTarget.disconnect();
-      if (previousTarget && previousTarget.checkType_(nextTarget)) {
-        // Attach the next statement to the previous statement.
-        previousTarget.connect(nextTarget);
-      }
+  }
+  var nextBlock = this.getNextBlock();
+  if (opt_healStack && nextBlock) {
+    // Disconnect the next statement.
+    var nextTarget = this.nextConnection.targetConnection;
+    nextTarget.disconnect();
+    if (previousTarget && previousTarget.checkType_(nextTarget)) {
+      // Attach the next statement to the previous statement.
+      previousTarget.connect(nextTarget);
     }
   }
 };
@@ -902,45 +904,62 @@ Blockly.Block.prototype.makeColour_ = function(colour) {
 /**
  * Change the colour of a block, and optional secondary/teriarty colours.
  * @param {number|string} colour HSV hue value, or #RRGGBB string.
- * @param {number|string} colourSecondary HSV hue value, or #RRGGBB string.
- * @param {number|string} colourTertiary HSV hue value, or #RRGGBB string.
- * @param {number|string} colourQuaternary HSV hue value, or #RRGGBB string.
  */
-Blockly.Block.prototype.setColour = function(colour, colourSecondary, colourTertiary,
-    colourQuaternary) {
-  this.colour_ = this.makeColour_(colour);
-  if (colourSecondary !== undefined) {
-    this.colourSecondary_ = this.makeColour_(colourSecondary);
-  } else {
-    this.colourSecondary_ = goog.color.rgbArrayToHex(
-        goog.color.darken(goog.color.hexToRgb(this.colour_), 0.1));
-  }
-  if (colourTertiary !== undefined) {
-    this.colourTertiary_ = this.makeColour_(colourTertiary);
-  } else {
-    this.colourTertiary_ = goog.color.rgbArrayToHex(
-        goog.color.darken(goog.color.hexToRgb(this.colour_), 0.2));
-  }
-  if (colourQuaternary !== undefined) {
-    this.colourQuaternary_ = this.makeColour_(colourQuaternary);
-  } else {
-    this.colourQuaternary_ = this.colourTertiary_;
-  }
+Blockly.Block.prototype.setColour = function(colour) {
+  const baseColour = this.makeColour_(colour);
+  const colours = Blockly.Block.colourModifier(baseColour);
+  this.colour_ = colours[0];
+  this.colourSecondary_ = colours[1];
+  this.colourTertiary_ = colours[2];
+  this.colourQuaternary_ = colours[3];
   if (this.rendered) {
     this.updateColour();
   }
 };
 
 /**
+ * to be overriden by gui
+ * @param {string} colour
+ * @returns {[string, string, string, string]}
+ */
+Blockly.Block.colourModifier = function(colour) {
+  const contrast = (c, amt) => {
+    const hsl = goog.color.hexToHsl(c);
+    hsl[2] /= amt;
+
+    // stupid thing that makes pink colors not bad
+    hsl[1] /= (1 - Math.max(30 - Math.abs(330 - hsl[0]), 0) / 30) * (amt - 1) * 2 + 1;
+
+    return goog.color.hslToHex(hsl[0], hsl[1], hsl[2]);
+  };
+
+  return [
+    colour,
+    contrast(colour, 1.1),
+    contrast(colour, 1.2),
+    contrast(colour, 1.2),
+  ];
+}
+
+/**
  * Change the colour of the text in a block
  * @param {number|string} colour HSV hue value, or #RRGGBB string.
  */
 Blockly.Block.prototype.setTextColour = function(colour) {
-  this.textColour = this.makeColour_(colour);
+  this.textColour = Blockly.Block.textColourModifier(this.makeColour_(colour));
   if (this.rendered) {
     this.updateColour();
   }
 };
+
+/**
+ * to be overriden by gui
+ * @param {string} colour
+ * @returns {string}
+ */
+Blockly.Block.textColourModifier = function(colour) {
+  return colour;
+}
 
 /**
  * Sets a callback function to use whenever the block's parent workspace
@@ -1091,8 +1110,6 @@ Blockly.Block.prototype.setPreviousStatement = function(newBoolean, opt_check) {
       opt_check = null;
     }
     if (!this.previousConnection) {
-      goog.asserts.assert(!this.outputConnection,
-          'Remove output connection prior to adding previous connection.');
       this.previousConnection =
           this.makeConnection_(Blockly.PREVIOUS_STATEMENT);
     }
@@ -1145,7 +1162,7 @@ Blockly.Block.prototype.setOutput = function(newBoolean, opt_check) {
       opt_check = null;
     }
     if (!this.outputConnection) {
-      goog.asserts.assert(!this.previousConnection,
+      goog.asserts.assert(true,//!this.previousConnection,
           'Remove previous connection prior to adding output connection.');
       this.outputConnection = this.makeConnection_(Blockly.OUTPUT_VALUE);
     }
@@ -1271,10 +1288,19 @@ Blockly.Block.prototype.toString = function(opt_maxLength, opt_emptyToken) {
       }
       if (input.connection) {
         var child = input.connection.targetBlock();
-        if (child) {
-          text.push(child.toString(undefined, opt_emptyToken));
+        let insideText = "";
+        while (child) {
+          insideText += child.toString(undefined, opt_emptyToken);
+          child = child.getNextBlock();
+          if (child) insideText += "; ";
+        }
+        
+        if (input.type == Blockly.NEXT_STATEMENT) {
+          text.push(`{${insideText}}`);
+        } else if (input.type == Blockly.INPUT_VALUE && input.connection.getOutputShape() == Blockly.OUTPUT_SHAPE_HEXAGONAL) {
+          text.push(`<${insideText}>`);
         } else {
-          text.push("...");
+          text.push(`(${insideText})`);
         }
       }
     }
@@ -1335,9 +1361,13 @@ Blockly.Block.prototype.jsonInit = function(json) {
   // Set basic properties of block.
   if (json['colour'] !== undefined) {
     this.setColourFromJson_(json);
+  } else {
+    this.setColour("#ff0000");
   }
   if (json['blockText'] !== undefined) {
     this.setTextColour(json['blockText']);
+  } else {
+    this.setTextColour(Blockly.Colours.text);
   }
 
   // Interpolate the message blocks.
@@ -1387,6 +1417,39 @@ Blockly.Block.prototype.jsonInit = function(json) {
   // Add the mutator to the block
   if (json['mutator'] !== undefined) {
     Blockly.Extensions.apply(json['mutator'], this, true);
+  }
+
+  if (json['mutations']) {
+    const handler = json['mutations'];
+    this.mutationToDom = function () {
+      // Save mutations
+      const serializer = Object.create(null);
+      handler.serialize(this, serializer);
+      const xmlElement = document.createElement("mutation");
+      for (const [name, value] of Object.entries(serializer)) {
+        // force names to be lowercase, otherwise it wont save
+        const lowercaseName = name.toLowerCase();
+        if (name !== lowercaseName) {
+          console.warn(`WARNING: mutation setting named '${name}' in '${this.type}' has uppercase characters! Converting to lowercase.`);
+        }
+        xmlElement.setAttribute(lowercaseName, value);
+      }
+
+      return xmlElement;
+    }
+    
+    this.domToMutation = function(xmlElement) {
+      // Load mutations
+      const deserialized = {};
+      for (const attr of xmlElement.attributes) {
+        deserialized[attr.name] = attr.value;
+      }
+
+      handler.deserialize(this, deserialized);
+    }
+
+    // Optional mutation handler.
+    if (handler.init) handler.init(this);
   }
 
   if (Array.isArray(json['extensions'])) {
@@ -1439,26 +1502,10 @@ Blockly.Block.prototype.mixin = function(mixinObj, opt_disableCheck) {
  * Set the colour of the block from strings or string table references.
  * @param {string|?} primary Primary colour, which may be a string that contains
  *     string table references.
- * @param {string|?} secondary Secondary colour, which may be a string that
- *     contains string table references.
- * @param {string|?} tertiary Tertiary colour, which may be a string that
- *     contains string table references.
- * @param {string|?} quaternary Quaternary colour, which may be a string that
- *     contains string table references.
  * @private
  */
-Blockly.Block.prototype.setColourFromRawValues_ = function(primary, secondary,
-    tertiary, quaternary) {
-  primary = goog.isString(primary) ?
-      Blockly.utils.replaceMessageReferences(primary) : primary;
-  secondary = goog.isString(secondary) ?
-      Blockly.utils.replaceMessageReferences(secondary) : secondary;
-  tertiary = goog.isString(tertiary) ?
-      Blockly.utils.replaceMessageReferences(tertiary) : tertiary;
-  quaternary = goog.isString(quaternary) ?
-      Blockly.utils.replaceMessageReferences(quaternary) : quaternary;
-
-  this.setColour(primary, secondary, tertiary, quaternary);
+Blockly.Block.prototype.setColourFromRawValues_ = function(primary) {
+  this.setColour(goog.isString(primary) ? Blockly.utils.replaceMessageReferences(primary) : primary);
 };
 
 /**
@@ -1468,8 +1515,7 @@ Blockly.Block.prototype.setColourFromRawValues_ = function(primary, secondary,
  * @private
  */
 Blockly.Block.prototype.setColourFromJson_ = function(json) {
-  this.setColourFromRawValues_(json['colour'], json['colourSecondary'],
-      json['colourTertiary'], json['colourQuaternary']);
+  this.setColourFromRawValues_(json['colour']);
 };
 
 /**
@@ -1512,6 +1558,12 @@ Blockly.Block.prototype.interpolate_ = function(message, args, lastDummyAlign) {
     throw new Error('Block "' + this.type + '": ' +
         'Message does not reference all ' + args.length + ' arg(s).');
   }
+  this.interpolateElements_(elements, lastDummyAlign);
+};
+
+Blockly.Block.prototype.interpolateElements_ = function(elements, lastDummyAlign, attachShadows) {
+  var inputs = [];
+
   // Add last dummy input if needed.
   if (elements.length && (typeof elements[elements.length - 1] == 'string' ||
       goog.string.startsWith(
@@ -1522,12 +1574,14 @@ Blockly.Block.prototype.interpolate_ = function(message, args, lastDummyAlign) {
     }
     elements.push(dummyInput);
   }
+
   // Lookup of alignment constants.
   var alignmentLookup = {
     'LEFT': Blockly.ALIGN_LEFT,
     'RIGHT': Blockly.ALIGN_RIGHT,
     'CENTRE': Blockly.ALIGN_CENTRE
   };
+
   // Populate block with inputs and fields.
   var fieldStack = [];
   for (var i = 0; i < elements.length; i++) {
@@ -1547,6 +1601,12 @@ Blockly.Block.prototype.interpolate_ = function(message, args, lastDummyAlign) {
               input = this.appendValueInput(element['name']);
               if (element['shape']) {
                 input.connection.setOutputShape(element['shape']);
+              }
+              if (element['shadow'] && attachShadows) {
+                let shadow = Blockly.Xml.domToBlockHeadless_(Blockly.Xml.textToDom('<xml>' + element['shadow'] + '</xml>').firstChild, this.workspace);
+                shadow.initSvg();
+                shadow.render();
+                shadow.outputConnection.connect(input.connection);
               }
               break;
             case 'input_statement':
@@ -1585,10 +1645,13 @@ Blockly.Block.prototype.interpolate_ = function(message, args, lastDummyAlign) {
         for (var j = 0; j < fieldStack.length; j++) {
           input.appendField(fieldStack[j][0], fieldStack[j][1]);
         }
+        inputs.push(input);
         fieldStack.length = 0;
       }
     }
   }
+
+  return inputs;
 };
 
 /**
@@ -1625,22 +1688,57 @@ Blockly.Block.prototype.moveInputBefore = function(name, refName) {
   var inputIndex = -1;
   var refIndex = refName ? -1 : this.inputList.length;
   for (var i = 0, input; input = this.inputList[i]; i++) {
-    if (input.name == name) {
+    if (input.name == name || input == name) {
       inputIndex = i;
       if (refIndex != -1) {
         break;
       }
-    } else if (refName && input.name == refName) {
+    } else if (refName && (input.name == refName || input == refName)) {
       refIndex = i;
       if (inputIndex != -1) {
         break;
       }
     }
   }
-  goog.asserts.assert(inputIndex != -1, 'Named input "%s" not found.', name);
+  goog.asserts.assert(inputIndex != -1, 'Named input not found.');
   goog.asserts.assert(
-      refIndex != -1, 'Reference input "%s" not found.', refName);
+      refIndex != -1, 'Reference input not found.');
   this.moveNumberedInputBefore(inputIndex, refIndex);
+};
+
+Blockly.Block.prototype.moveInputAfter = function(name, refName) {
+  if (name == refName) {
+    return;
+  }
+  // Find both inputs.
+  var inputIndex = -1;
+  var refIndex = refName ? -1 : this.inputList.length;
+  for (var i = 0, input; input = this.inputList[i]; i++) {
+    if (input.name == name || input == name) {
+      inputIndex = i;
+      if (refIndex != -1) {
+        break;
+      }
+    } else if (refName && (input.name == refName || input == refName)) {
+      refIndex = i;
+      if (inputIndex != -1) {
+        break;
+      }
+    }
+  }
+  goog.asserts.assert(inputIndex != -1, 'Named input not found.');
+  goog.asserts.assert(
+      refIndex != -1, 'Reference input not found.');
+
+  refIndex++;
+  if (inputIndex == refIndex) return;
+  
+  input = this.inputList[inputIndex];
+  this.inputList.splice(inputIndex, 1);
+  if (inputIndex < refIndex) {
+    refIndex--;
+  }
+  this.inputList.splice(refIndex, 0, input);
 };
 
 /**

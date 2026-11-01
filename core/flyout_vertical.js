@@ -255,7 +255,7 @@ Blockly.VerticalFlyout.prototype.getMetrics_ = function() {
   // the last category.
   var contentHeight = optionBox.height * this.workspace_.scale;
   this.recordCategoryScrollPositions_();
-  var bottomPadding = this.MARGIN;
+  var bottomPadding = this.MARGIN + 200;
   if (this.categoryScrollPositions.length > 0) {
     var lastLabel = this.categoryScrollPositions[
         this.categoryScrollPositions.length - 1];
@@ -323,14 +323,20 @@ Blockly.VerticalFlyout.prototype.position = function() {
 
   // This version of the flyout does not change width to fit its contents.
   // Instead it matches the width of its parent or uses a default value.
-  this.width_ = this.getWidth();
+  this.width_ = Blockly.Toolbox.TWO_COLUMNS && this.parentToolbox_ ? this.parentToolbox_.getWidth() : this.getWidth();
 
   if (this.parentToolbox_) {
-    var toolboxWidth = this.parentToolbox_.getWidth();
-    var categoryWidth = toolboxWidth - this.width_;
-    var x = this.toolboxPosition_ == Blockly.TOOLBOX_AT_RIGHT ?
-        targetWorkspaceMetrics.viewWidth : categoryWidth;
-    var y = 0;
+    if (Blockly.Toolbox.TWO_COLUMNS) {
+      var x = this.parentToolbox_.HtmlDiv.offsetLeft;
+      var y = this.parentToolbox_.HtmlDiv.offsetTop +
+          this.parentToolbox_.getHeight();
+    } else {
+      var toolboxWidth = this.parentToolbox_.getWidth();
+      var categoryWidth = toolboxWidth - this.width_;
+      var x = this.toolboxPosition_ == Blockly.TOOLBOX_AT_RIGHT ?
+          targetWorkspaceMetrics.viewWidth : categoryWidth;
+      var y = 0;
+    }
   } else {
     var x = this.toolboxPosition_ == Blockly.TOOLBOX_AT_RIGHT ?
         targetWorkspaceMetrics.viewWidth - this.width_ : 0;
@@ -499,6 +505,11 @@ Blockly.VerticalFlyout.prototype.layout_ = function(contents, gaps) {
   var cursorX = margin;
   var cursorY = margin;
 
+  // PM: If we are laying out blocks in the 'Pinned' category,
+  // remove flyout checkboxes.
+  var isPinCategory = false;
+  var hasSeenPins = false;
+
   for (var i = 0, item; item = contents[i]; i++) {
     if (item.type == 'block') {
       var block = item.block;
@@ -518,7 +529,7 @@ Blockly.VerticalFlyout.prototype.layout_ = function(contents, gaps) {
       var newX = flyoutWidth - this.MARGIN;
 
       var moveX = this.RTL ? newX - oldX : margin;
-      if (block.hasCheckboxInFlyout()) {
+      if (!isPinCategory && block.hasCheckboxInFlyout()) {
         this.createCheckbox_(block, cursorX, cursorY, blockHW);
         if (this.RTL) {
           moveX -= (this.CHECKBOX_SIZE + this.CHECKBOX_MARGIN);
@@ -553,6 +564,14 @@ Blockly.VerticalFlyout.prototype.layout_ = function(contents, gaps) {
 
       this.buttons_.push(button);
       cursorY += button.height + gaps[i];
+
+      isPinCategory = false;
+      if (!hasSeenPins) {
+        if (button.getText().toLowerCase() === 'pinned') {
+          hasSeenPins = false;
+          isPinCategory = true;
+        }
+      }
     }
   }
 };
@@ -742,11 +761,7 @@ Blockly.VerticalFlyout.prototype.getClientRect = function() {
   var width = flyoutRect.width;
   var height = flyoutRect.height;
 
-  if (this.toolboxPosition_ == Blockly.TOOLBOX_AT_LEFT) {
-    return new goog.math.Rect(x - BIG_NUM, y, BIG_NUM + width, height);
-  } else {  // Right
-    return new goog.math.Rect(x, y, BIG_NUM + width, height);
-  }
+  return new goog.math.Rect(x, y, width, height);
 };
 
 /**

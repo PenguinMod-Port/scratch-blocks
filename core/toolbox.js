@@ -26,6 +26,7 @@
 
 goog.provide('Blockly.Toolbox');
 
+goog.require('Blockly.constants');
 goog.require('Blockly.Events.Ui');
 goog.require('Blockly.HorizontalFlyout');
 goog.require('Blockly.Touch');
@@ -85,6 +86,8 @@ Blockly.Toolbox = function(workspace) {
 
 };
 
+Blockly.Toolbox.TWO_COLUMNS = false;
+
 /**
  * Width of the toolbox, which changes only in vertical layout.
  * This is the sum of the width of the flyout (250) and the category menu (60).
@@ -112,24 +115,43 @@ Blockly.Toolbox.prototype.init = function() {
    * @type {Element}
    */
   this.HtmlDiv =
-      goog.dom.createDom(goog.dom.TagName.DIV, 'blocklyToolboxDiv');
+      goog.dom.createDom(goog.dom.TagName.DIV, 'blocklyToolboxDiv' + (Blockly.Toolbox.TWO_COLUMNS ? ' blocklyToolboxDivColumns' : ''));
   this.HtmlDiv.setAttribute('dir', workspace.RTL ? 'RTL' : 'LTR');
   svg.parentNode.insertBefore(this.HtmlDiv, svg);
 
   // Clicking on toolbox closes popups.
-  Blockly.bindEventWithChecks_(this.HtmlDiv, 'mousedown', this,
-      function(e) {
-        // Cancel any gestures in progress.
-        this.workspace_.cancelCurrentGesture();
-        if (Blockly.utils.isRightButton(e) || e.target == this.HtmlDiv) {
-          // Close flyout.
-          Blockly.hideChaff(false);
-        } else {
-          // Just close popups.
-          Blockly.hideChaff(true);
+  Blockly.bindEventWithChecks_(this.HtmlDiv, 'pointerdown', this,
+    function(e) {
+      // Cancel any gestures in progress.
+      this.workspace_.cancelCurrentGesture();
+      if (Blockly.utils.isRightButton(e) || e.target == this.HtmlDiv) {
+        // Close flyout.
+        Blockly.hideChaff(false);
+      } else {
+        // Just close popups.
+        Blockly.hideChaff(true);
+
+        if (Blockly.Toolbox.CATEGORY_DRAG_ENABLED) {
+          // Category drag. Only change if the mouse is down long enough.
+          const longPressTimer = setTimeout(() => {
+            this.handleCategoryDrag(e);
+          }, Blockly.Toolbox.CATEGORY_DRAGGER_TIMER);
+          const cancel = () => {
+            clearTimeout(longPressTimer);
+            document.removeEventListener('pointerup', cancel);
+            document.removeEventListener('pointercancel', cancel);
+            document.removeEventListener('pointerleave', cancel);
+          };
+
+          // Cleanup.
+          document.addEventListener('pointerup', cancel, { once: true });
+          document.addEventListener('pointercancel', cancel, { once: true });
+          document.addEventListener('pointerleave', cancel, { once: true });
         }
-        Blockly.Touch.clearTouchIdentifier();  // Don't block future drags.
-      }, /*opt_noCaptureIdentifier*/ false, /*opt_noPreventDefault*/ true);
+      }
+
+      Blockly.Touch.clearTouchIdentifier(); // Don't block future drags.
+    }, /*opt_noCaptureIdentifier*/ false, /*opt_noPreventDefault*/ true);
 
   this.createFlyout_();
   this.categoryMenu_ = new Blockly.Toolbox.CategoryMenu(this, this.HtmlDiv);
@@ -258,7 +280,13 @@ Blockly.Toolbox.prototype.position = function() {
     } else {  // Left
       treeDiv.style.left = '0';
     }
-    treeDiv.style.height = '100%';
+    if (Blockly.Toolbox.TWO_COLUMNS) {
+      treeDiv.style.width = this.width + "px";
+      treeDiv.style.height = this.getHeight() + "px";
+    } else {
+      treeDiv.style.width = null;
+      treeDiv.style.height = '100%';
+    }
   }
   this.flyout_.position();
 };
@@ -313,19 +341,7 @@ Blockly.Toolbox.prototype.getClientRect = function() {
   var width = toolboxRect.width;
   var height = toolboxRect.height;
 
-  // Assumes that the toolbox is on the SVG edge.  If this changes
-  // (e.g. toolboxes in mutators) then this code will need to be more complex.
-  if (this.toolboxPosition == Blockly.TOOLBOX_AT_LEFT) {
-    return new goog.math.Rect(-BIG_NUM, -BIG_NUM, BIG_NUM + x + width,
-        2 * BIG_NUM);
-  } else if (this.toolboxPosition == Blockly.TOOLBOX_AT_RIGHT) {
-    return new goog.math.Rect(toolboxRect.right - width, -BIG_NUM, BIG_NUM + width, 2 * BIG_NUM);
-  } else if (this.toolboxPosition == Blockly.TOOLBOX_AT_TOP) {
-    return new goog.math.Rect(-BIG_NUM, -BIG_NUM, 2 * BIG_NUM,
-        BIG_NUM + y + height);
-  } else {  // Bottom
-    return new goog.math.Rect(0, y, 2 * BIG_NUM, BIG_NUM);
-  }
+  return new goog.math.Rect(x, y, width, height);
 };
 
 /**
@@ -568,6 +584,147 @@ Blockly.Toolbox.prototype.setSelectedItemFactory = function(item) {
   };
 };
 
+/**
+ * Handles a category drag & reorder.
+ * @param {MouseDownEvent} event Mouse down event.
+ */
+Blockly.Toolbox.prototype.handleCategoryDrag = function (event) {
+  var DROP_MARGIN = 100;
+
+  var targetCategory = event.target.closest(`div[class="scratchCategoryMenuRow"]`);
+  var targetBlocklyCategory = this.categoryMenu_.categories_.find((c) => c.parentHtml_ === targetCategory);
+  if (!targetCategory || !targetBlocklyCategory) return;
+
+  var categoryList = this.HtmlDiv.querySelectorAll(`div[class*="scratchCategoryMenuRow"]`);
+
+  var rect = targetCategory.getBoundingClientRect();
+  var generalHeight = rect.height;
+  var offsetX = event.clientX - rect.left;
+  var offsetY = event.clientY - rect.top;
+
+  var dragger = targetCategory.cloneNode(true);
+  dragger.classList.add('scratchCategoryDragItem');
+  dragger.style.left = rect.left + 'px';
+  dragger.style.top = rect.top + 'px';
+  dragger.dataset.dragger = true;
+  document.body.appendChild(dragger);
+
+  targetCategory.style.opacity = 0.5;
+
+  var dropTarget = null;
+
+  var onMouseMove = (moveEvent) => {
+    /* drag visual */
+    dragger.style.left = `${moveEvent.clientX - offsetX}px`;
+    dragger.style.top = `${moveEvent.clientY - offsetY}px`;
+ 
+    // Auto scroll if dragger is near the top/bottom of the list.
+    var scrollZoneSize = 40;
+    var bounds = this.HtmlDiv.getBoundingClientRect();
+
+    if (moveEvent.clientY < bounds.top + scrollZoneSize) {
+      this.HtmlDiv.scrollTop -= 4;
+    } else if (moveEvent.clientY > bounds.bottom - scrollZoneSize) {
+      this.HtmlDiv.scrollTop += 4;
+    }
+
+    // Check if we are near any category. If so, bump down
+    // every category below the dragger.
+    var target;
+    for (var category of categoryList) {
+      if (category === targetCategory) continue;
+
+      var catRect = category.getBoundingClientRect();
+      var midpointY = catRect.top + catRect.height / 2;
+      var midpointX = catRect.left + catRect.width / 2;
+
+      var xDist = Math.abs(moveEvent.clientX - midpointX);
+      var yCheck = moveEvent.clientY < midpointY;
+      if (yCheck && xDist < DROP_MARGIN) {
+        target = category;
+        break;
+      }
+    }
+
+    for (var category of categoryList) {
+      category.style.transform = '';
+    }
+
+    if (target) {
+      dropTarget = target;
+      var shifter = target;
+      while (shifter) {
+        if (shifter === targetCategory) return;
+
+        shifter.style.transform = `translateY(${generalHeight}px)`;
+        shifter = shifter.nextSibling;
+      }
+    } else {
+      dropTarget = null;
+    }
+  };
+
+  var onMouseUp = () => {
+    /* cleanup */
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('mouseup', onMouseUp);
+
+    for (var category of categoryList) {
+      category.style.transform = '';
+    }
+
+    targetCategory.style.opacity = '';
+    dragger.remove();
+
+    // If the category drag was valid, move the category.
+    if (dropTarget) {
+      targetCategory.parentNode.insertBefore(targetCategory, dropTarget);
+
+      var categories = this.categoryMenu_.categories_
+      var targetCategoryIndex = categories.indexOf(targetBlocklyCategory);
+
+      Blockly.Toolbox.CATEGORY_ORDERING = [];
+      for (const category of this.HtmlDiv.firstElementChild.childNodes) {
+        var blocklyCategory = this.categoryMenu_.categories_.find((c) => c.parentHtml_ === category);
+        if (blocklyCategory) {
+          Blockly.Toolbox.CATEGORY_ORDERING.push(blocklyCategory.id_);
+        }
+      }
+
+      setTimeout(() => {
+        Blockly.Toolbox.categoryReorderCallback();
+        this.setSelectedCategoryById(targetBlocklyCategory.id_);
+      }, 100);
+    }
+  };
+
+  document.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('mouseup', onMouseUp);
+};
+
+/**
+ * If true, categories can be dragged and reordered.
+ */
+Blockly.Toolbox.CATEGORY_DRAG_ENABLED = true;
+
+/**
+ * The minimum amount of press time for a category clicked to be considered a drag.
+ */
+Blockly.Toolbox.CATEGORY_DRAGGER_TIMER = 500; // in MS
+
+/**
+ * Overrides the default category ordering with the items in this array.
+ * Each item is a category ID.
+ */
+Blockly.Toolbox.CATEGORY_ORDERING = [];
+
+Blockly.Toolbox.categoryReorderCallback = function () {
+  alert('Editor must be override Blockly.Toolbox.categoryReorderCallback');
+};
+
+/* If true, string-operator blocks are merged into the operators category. */
+Blockly.Toolbox.OPERATOR_STRING_MERGE = false;
+
 // Category menu
 /**
  * Class for a table of category titles that will control which category is
@@ -613,6 +770,7 @@ Blockly.Toolbox.CategoryMenu.prototype.populate = function(domTree) {
   // Remove old categories
   this.dispose();
   this.createDom();
+
   var categories = [];
   // Find actual categories from the DOM tree.
   for (var i = 0, child; child = domTree.childNodes[i]; i++) {
@@ -620,6 +778,16 @@ Blockly.Toolbox.CategoryMenu.prototype.populate = function(domTree) {
       continue;
     }
     categories.push(child);
+  }
+
+  // Reorder categories if specified ordering is provided.
+  if (Blockly.Toolbox.CATEGORY_ORDERING.length) {
+    categories.sort((a, b) => {
+      const aIndex = Blockly.Toolbox.CATEGORY_ORDERING.indexOf(a.getAttribute('id'));
+      const bIndex = Blockly.Toolbox.CATEGORY_ORDERING.indexOf(b.getAttribute('id'));
+
+      return (aIndex === -1 ? 999 : aIndex) - (bIndex === -1 ? 999 : bIndex);
+    });
   }
 
   // Create a single column of categories
@@ -632,7 +800,7 @@ Blockly.Toolbox.CategoryMenu.prototype.populate = function(domTree) {
           child));
     }
   }
-  this.height_ = this.table.offsetHeight;
+  this.height_ = Blockly.Toolbox.TWO_COLUMNS ? Math.min(this.table.offsetHeight, 250) : this.table.offsetHeight;
 };
 
 /**
@@ -669,6 +837,7 @@ Blockly.Toolbox.Category = function(parent, parentHtml, domTree) {
   this.iconURI_ = domTree.getAttribute('iconURI');
   this.showStatusButton_ = domTree.getAttribute('showStatusButton');
   this.contents_ = [];
+  this.blockCount_ = 0;
   if (!this.custom_) {
     this.parseContents_(domTree);
   }
@@ -716,6 +885,10 @@ Blockly.Toolbox.Category.prototype.createDom = function() {
   this.label_ = goog.dom.createDom('div',
       {'class': 'scratchCategoryMenuItemLabel'},
       Blockly.utils.replaceMessageReferences(this.name_));
+  if (Blockly.Toolbox.Category.SHOW_BLOCK_COUNT) {
+    this.createCounter();
+  }
+
   if (this.iconURI_) {
     this.bubble_ = goog.dom.createDom('div',
         {'class': 'scratchCategoryItemIcon'});
@@ -728,6 +901,10 @@ Blockly.Toolbox.Category.prototype.createDom = function() {
   }
   this.item_.appendChild(this.bubble_);
   this.item_.appendChild(this.label_);
+  if (Blockly.Toolbox.Category.SHOW_BLOCK_COUNT && this.id_ !== "pins") {
+    this.item_.appendChild(this.counter_);
+  }
+
   this.parentHtml_.appendChild(this.item_);
   Blockly.bindEvent_(
       this.item_, 'mouseup', toolbox, toolbox.setSelectedItemFactory(this));
@@ -739,6 +916,55 @@ Blockly.Toolbox.Category.prototype.createDom = function() {
  */
 Blockly.Toolbox.Category.prototype.setSelected = function(selected) {
   this.item_.className = this.getMenuItemClassName_(selected);
+};
+
+/**
+ * Updates the block counter value of this category.
+ */
+Blockly.Toolbox.Category.prototype.updateCountLabel = function() {
+  if (this.blockCount_ < 0) {
+    // Shouldn't happen.
+    this.blockCount_ = 0;
+  }
+
+  if (Blockly.Toolbox.Category.SHOW_BLOCK_COUNT) {
+    // Of course we can disable this function entirely if the count feature is off,
+    // but we want to keep a reliable track of blocks in case the feature is ever
+    // turned on midway through a development session
+    this.counterText_.textContent = this.blockCount_;
+  }
+};
+
+/**
+ * Adds a block counter to this category.
+ * @param {Boolean} opt_append If true, will manually append the counter.
+ */
+Blockly.Toolbox.Category.prototype.createCounter = function(opt_append) {
+  if (this.id_ === "pins") return;
+
+  var fallbackColor = Blockly.Block.colourModifier(Blockly.Colours.pen);
+
+  this.counter_ = goog.dom.createDom('div', {'class': 'scratchCategoryCounterDiv'});
+  this.counterText_ = goog.dom.createDom('span', {'class': 'scratchCategoryCounter'});
+  this.counterText_.style.backgroundColor = this.colour_ === '#000000' ? fallbackColor[0] : this.colour_;
+  this.counterText_.style.border = `solid 1px ${this.secondaryColour_ === '#000000' ? fallbackColor[2] : this.secondaryColour_}`;
+  this.counterText_.style.color = this.textColour_;
+  this.counterText_.textContent = this.blockCount_;
+  this.counter_.appendChild(this.counterText_);
+
+  if (opt_append) {
+    this.item_.appendChild(this.counter_);
+  }
+};
+
+/**
+ * Removes the block counter of this category.
+ */
+Blockly.Toolbox.Category.prototype.removeCounter = function() {
+  if (this.counter_) {
+    // We dont want to reset blockCount in case its added again.
+    this.counter_.remove();
+  }
 };
 
 /**
@@ -782,22 +1008,128 @@ Blockly.Toolbox.Category.prototype.getContents = function() {
  *     Colours are a hex string or hue on a colour wheel (0-360).
  */
 Blockly.Toolbox.Category.prototype.setColour = function(node) {
+  this.textColour_ = Blockly.Block.textColourModifier(node.getAttribute('textColour') || '#fff');
   var colour = node.getAttribute('colour');
-  var secondaryColour = node.getAttribute('secondaryColour');
   if (goog.isString(colour)) {
-    if (colour.match(/^#[0-9a-fA-F]{6,8}$/)) {
-      this.colour_ = colour;
-    } else {
-      this.colour_ = Blockly.hueToRgb(colour);
+    if (!colour.match(/^#[0-9a-fA-F]{6,8}$/)) {
+      colour = Blockly.hueToRgb(colour);
     }
-    if (secondaryColour.match(/^#[0-9a-fA-F]{6,8}$/)) {
-      this.secondaryColour_ = secondaryColour;
-    } else {
-      this.secondaryColour_ = Blockly.hueToRgb(secondaryColour);
-    }
+    let colours = Blockly.Block.colourModifier(colour);
+    this.colour_ = colours[0];
+    this.secondaryColour_ = colours[2];
     this.hasColours_ = true;
   } else {
     this.colour_ = '#000000';
     this.secondaryColour_ = '#000000';
   }
+};
+
+/** If true, will display a block counter. */
+Blockly.Toolbox.Category.SHOW_BLOCK_COUNT = false;
+
+/**
+ * Map storing 'quirky' blocks whose category/opcode don't directly
+ * point to a toolbox category.
+ * @type {Map<Blockly.Block.id, string}
+*/
+Blockly.Toolbox.Category.QUIRKY_BLOCKS = new Map();
+
+/**
+ * Gets a block's category id. Resolves any weird quirkyness.
+ * @param {Blockly.Block} block Workspace block.
+ * @returns {String} Category Id.
+ */
+Blockly.Toolbox.Category.getBlockCategoryIdQuirky = function (block) {
+  // Resolve weird category quirks from special blocks.
+  var categoryOrigin = block.category_;
+  var opcodeOrigin = block.type.split('_')[0];
+
+  switch (opcodeOrigin) {
+    case 'event':
+      opcodeOrigin = 'events';
+      Blockly.Toolbox.Category.QUIRKY_BLOCKS.set(block.id, opcodeOrigin);
+      break;
+    case 'operator':
+      if (Blockly.Toolbox.OPERATOR_STRING_MERGE) {
+        opcodeOrigin = 'operators';
+      } else {
+        opcodeOrigin = categoryOrigin === Blockly.Categories.operatorsStrings ? 'strings' : 'operators';
+      }
+
+      Blockly.Toolbox.Category.QUIRKY_BLOCKS.set(block.id, opcodeOrigin);
+      break;
+    case 'data':
+      opcodeOrigin = categoryOrigin === Blockly.Categories.data ? 'variables' : 'lists';
+      Blockly.Toolbox.Category.QUIRKY_BLOCKS.set(block.id, opcodeOrigin);
+      break;
+    case 'procedures':
+    case 'argument':
+      opcodeOrigin = 'myBlocks';
+      Blockly.Toolbox.Category.QUIRKY_BLOCKS.set(block.id, opcodeOrigin);
+      break;
+  }
+
+  return opcodeOrigin;
+};
+
+/**
+ * Updates the corresponding category block counter after a Blockly event.
+ * 
+ * @param {Blockly.Events} event The event emitted by the workspace.
+ * @param {Blockly.Workspace} workspace The workspace this event was trigged in.
+ */
+Blockly.Toolbox.Category.blockCounterDispatcher = function(event, workspace) {
+  // Slight delay as the toolbox could be refreshed
+  setTimeout(() => {
+    if (event.type === Blockly.Events.CREATE) {
+      var categories = workspace.getToolbox().categoryMenu_.categories_;
+
+      for (let i = 0; i < event.ids.length; i++) {
+        var block = workspace.getBlockById(event.ids[i]);
+        if (block && !block.isShadow() && !block.canDragDuplicate()) {
+          var opcodeOrigin = Blockly.Toolbox.Category.getBlockCategoryIdQuirky(block);
+          var sourceCategory = categories.find((c) => c.id_ === opcodeOrigin);
+
+          if (sourceCategory) {
+            sourceCategory.blockCount_++;
+            sourceCategory.updateCountLabel();
+          }
+        }
+      }
+    } else if (event.type === Blockly.Events.DELETE) {
+      var categories = workspace.getToolbox().categoryMenu_.categories_;
+
+      // We cant reliably get the block info from the workspace as the block
+      // could already be removed from the DB. Sneakily check XML, which also
+      // removes the need to check for quirkiness.
+      var deletedBlocks = [event.oldXml, ...event.oldXml.querySelectorAll('block')];
+      for (let i = 0; i < deletedBlocks.length; i++) {
+        var xml = deletedBlocks[i];
+        var id = xml.getAttribute('id');
+
+        if (xml.nodeName === 'SHADOW') {
+          // This block was moved into an input of another, or
+          // some other weird edge case happened. Either way ignore.
+          continue;
+        }
+
+        var sourceCategoryId;
+        var sourceCategory;
+        var isQuirky = Blockly.Toolbox.Category.QUIRKY_BLOCKS.has(id);
+        if (isQuirky) {
+          // Block was already deleted from workspace, we must use a cache.
+          sourceCategoryId = Blockly.Toolbox.Category.QUIRKY_BLOCKS.get(id);
+          Blockly.Toolbox.Category.QUIRKY_BLOCKS.delete(id);
+        } else {
+          sourceCategoryId = xml.getAttribute('type').split('_')[0];
+        }
+
+        sourceCategory = categories.find((c) => c.id_ === sourceCategoryId);
+        if (sourceCategory && sourceCategoryId) {
+          sourceCategory.blockCount_--;
+          sourceCategory.updateCountLabel();
+        }
+      }
+    }
+  }, 100);
 };

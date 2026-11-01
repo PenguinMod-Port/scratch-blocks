@@ -8,6 +8,7 @@
   <script src="../blockly_compressed_vertical.js"></script>
   <script src="../msg/messages.js"></script>
   <script src="../msg/scratch_msgs.js"></script>
+  <script src="../msg/pm_msgs.js"></script>
   <script src="../blocks_compressed.js"></script>
   <script src="../blocks_compressed_vertical.js"></script>
 
@@ -53,7 +54,7 @@
         <button id="okButton" onclick="applyMutation()">ok</button>
         <button id="rndButton" onclick="removeRandomInput()">remove random input</button>
         <button id="addRndButton" onclick="addRandomInput()">add random input</button>
-        <select id="forceOutput" onchange="setForceOutput(this.value)">
+        <select id="forceOutput" onchange="setForceOutput()">
           <option value="0">default</option>
           <option value="1">hexagonal</option>
           <option value="2">round</option>
@@ -63,8 +64,12 @@
           <option value="6">octagonal</option>
           <option value="7">bumped</option>
           <option value="8">indented</option>
+          <option value="9">scrapped</option>
           <option value="10">arrow</option>
+          <option value="11">ticket</option>
+          <option value="12">slanted</option>
         </select>
+        <span>terminal: <input type="checkbox" id="terminal" onchange="setTerminal()" /></span>
       </td>
     </tr>
   </table>
@@ -162,6 +167,7 @@
     var editorActions = document.getElementById('editor-actions');
     editorActions.style.visibility = 'hidden';
     var forceOutput = document.getElementById('forceOutput');
+    var terminal = document.getElementById('terminal');
 
     var callback = null;
     var mutationRoot = null;
@@ -204,6 +210,7 @@
       mutationRoot.initSvg();
       mutationRoot.render(false);
       forceOutput.value = String(mutationRoot.getForceOutput());
+      terminal.checked = mutationRoot.isTerminal_;
     }
 
     function applyMutation() {
@@ -226,7 +233,7 @@
     }
 
     function addTextNumber() {
-      mutationRoot.addStringNumberExternal();
+      mutationRoot.addArgumentExternal();
     }
 
     function addCommand() {
@@ -247,6 +254,10 @@
 
     function setForceOutput() {
       mutationRoot.setForceOutput(forceOutput.value);
+    }
+
+    function setTerminal() {
+      mutationRoot.isTerminal_ = terminal.checked;
     }
 
     function cancel() {

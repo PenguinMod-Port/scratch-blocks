@@ -140,11 +140,7 @@ Blockly.Blocks['motion_pointtowards_menu'] = {
           ]
         }
       ],
-      "colour": Blockly.Colours.motion.secondary,
-      "colourSecondary": Blockly.Colours.motion.secondary,
-      "colourTertiary": Blockly.Colours.motion.tertiary,
-      "colourQuaternary": Blockly.Colours.motion.quaternary,
-      "extensions": ["output_string"]
+      "extensions": ["colours_motion", "output_string"]
     });
   }
 };
@@ -187,11 +183,7 @@ Blockly.Blocks['motion_goto_menu'] = {
           ]
         }
       ],
-      "colour": Blockly.Colours.motion.secondary,
-      "colourSecondary": Blockly.Colours.motion.secondary,
-      "colourTertiary": Blockly.Colours.motion.tertiary,
-      "colourQuaternary": Blockly.Colours.motion.quaternary,
-      "extensions": ["output_string"]
+      "extensions": ["colours_motion", "output_string"]
     });
   }
 };
@@ -286,11 +278,7 @@ Blockly.Blocks['motion_glideto_menu'] = {
           ]
         }
       ],
-      "colour": Blockly.Colours.motion.secondary,
-      "colourSecondary": Blockly.Colours.motion.secondary,
-      "colourTertiary": Blockly.Colours.motion.tertiary,
-      "colourQuaternary": Blockly.Colours.motion.quaternary,
-      "extensions": ["output_string"]
+      "extensions": ["colours_motion", "output_string"]
     });
   }
 };
@@ -432,11 +420,7 @@ Blockly.Blocks['motion_ifonspritebounce_menu'] = {
           ]
         }
       ],
-      "colour": Blockly.Colours.motion.secondary,
-      "colourSecondary": Blockly.Colours.motion.secondary,
-      "colourTertiary": Blockly.Colours.motion.tertiary,
-      "colourQuaternary": Blockly.Colours.motion.quaternary,
-      "extensions": ["output_string"]
+      "extensions": ["colours_motion", "output_string"]
     });
   }
 };
@@ -454,9 +438,11 @@ Blockly.Blocks['motion_setrotationstyle'] = {
           "type": "field_dropdown",
           "name": "STYLE",
           "options": [
+            [Blockly.Msg.MOTION_SETROTATIONSTYLE_ALLAROUND, 'all around'],
+            [Blockly.Msg.PM_MOTION_SETROTATIONSTYLE_LOOKAT, 'look at'],
             [Blockly.Msg.MOTION_SETROTATIONSTYLE_LEFTRIGHT, 'left-right'],
+            [Blockly.Msg.PM_MOTION_SETROTATIONSTYLE_UPDOWN, 'up-down'],
             [Blockly.Msg.MOTION_SETROTATIONSTYLE_DONTROTATE, 'don\'t rotate'],
-            [Blockly.Msg.MOTION_SETROTATIONSTYLE_ALLAROUND, 'all around']
           ]
         }
       ],
@@ -757,6 +743,7 @@ Blockly.Blocks['motion_turnrightaroundxy'] = {
         {
           "type": "field_image",
           "src": Blockly.mainWorkspace.options.pathToMedia + "rotate-right.svg",
+          "alt": "right",
           "width": 24,
           "height": 24
         },
@@ -791,6 +778,7 @@ Blockly.Blocks['motion_turnleftaroundxy'] = {
         {
           "type": "field_image",
           "src": Blockly.mainWorkspace.options.pathToMedia + "rotate-left.svg",
+          "alt": "left",
           "width": 24,
           "height": 24
         },

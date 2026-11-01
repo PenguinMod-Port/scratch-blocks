@@ -292,7 +292,9 @@ Blockly.Xml.scratchCommentToDom_ = function(block, element) {
           xy.x));
       commentElement.setAttribute('y', xy.y);
       commentElement.setAttribute('minimized', block.comment.isMinimized());
-
+      if (block.comment.data_) {
+        commentElement.setAttribute('data', JSON.stringify(block.comment.data_));
+      }
     }
     element.appendChild(commentElement);
   }
@@ -386,10 +388,21 @@ Blockly.Xml.domToPrettyText = function(dom) {
 Blockly.Xml.textToDom = function(text) {
   var oParser = new DOMParser();
   var dom = oParser.parseFromString(text, 'text/xml');
-  // The DOM should have one and only one top-level node, an XML tag.
+  // The DOM should have one and only one top-level node, an XML tag, and no
+  // parse error (some invalid characters cause document to be truncated and
+  // a <parsererror> is generated)
   if (!dom || !dom.firstChild ||
       dom.firstChild.nodeName.toLowerCase() != 'xml' ||
-      dom.firstChild !== dom.lastChild) {
+      dom.firstChild !== dom.lastChild ||
+      dom.getElementsByTagName('parsererror').length) {
+    // Matching Scratch, fall back to the lenient HTML parser when the text is
+    // not valid XML. Some "interesting" projects put control characters in
+    // inputs, which are illegal in XML 1.0 but tolerated by the HTML parser.
+    var htmlDom = oParser.parseFromString(text, 'text/html');
+    if (htmlDom && htmlDom.body.firstChild &&
+        htmlDom.body.firstChild.nodeName.toLowerCase() == 'xml') {
+      return htmlDom.body.firstChild;
+    }
     // Whatever we got back from the parser is not XML.
     goog.asserts.fail('Blockly.Xml.textToDom did not obtain a valid XML tree.');
   }
@@ -705,11 +718,13 @@ Blockly.Xml.domToBlockHeadless_ = function(xmlBlock, workspace) {
         var bubbleX = parseInt(xmlChild.getAttribute('x'), 10);
         var bubbleY = parseInt(xmlChild.getAttribute('y'), 10);
         var minimized = xmlChild.getAttribute('minimized') || false;
+        var data = JSON.parse(xmlChild.getAttribute('data') || '{}');
 
         // Note bubbleX and bubbleY can be NaN, but the ScratchBlockComment
         // constructor will handle that.
         block.setCommentText(xmlChild.textContent, commentId, bubbleX, bubbleY,
             minimized == 'true');
+        block.comment.data_ = data;
 
         var visible = xmlChild.getAttribute('pinned');
         if (visible && !block.isInFlyout) {
@@ -718,6 +733,7 @@ Blockly.Xml.domToBlockHeadless_ = function(xmlBlock, workspace) {
           setTimeout(function() {
             if (block.comment && block.comment.setVisible) {
               block.comment.setVisible(visible == 'true');
+              block.comment.bubble_.setData(data);
             }
           }, 1);
         }
@@ -755,9 +771,16 @@ Blockly.Xml.domToBlockHeadless_ = function(xmlBlock, workspace) {
         if (childBlockElement) {
           blockChild = Blockly.Xml.domToBlockHeadless_(childBlockElement,
               workspace);
-          if (blockChild.outputConnection) {
+          if (input.type == Blockly.INPUT_VALUE) {
             input.connection.connect(blockChild.outputConnection);
-          } else if (blockChild.previousConnection) {
+          } else if (input.type == Blockly.NEXT_STATEMENT) {
+            if (blockChild.type === 'argument_reporter_command') {
+              // Hard code procedure command blocks to use this check.
+              if (input.sourceBlock_.type === 'procedures_prototype') {
+                blockChild.previousConnection.setCheck('argumentReporterCommand');
+              }
+            }
+
             input.connection.connect(blockChild.previousConnection);
           } else {
             goog.asserts.fail(

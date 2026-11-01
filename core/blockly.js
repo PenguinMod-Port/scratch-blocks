@@ -43,6 +43,7 @@ goog.require('Blockly.FieldCustom');
 //goog.require('Blockly.FieldDate');
 goog.require('Blockly.FieldDropdown');
 goog.require('Blockly.FieldExpandable');
+goog.require('Blockly.FieldExpandableJSON');
 goog.require('Blockly.FieldIconMenu');
 goog.require('Blockly.FieldImage');
 goog.require('Blockly.FieldNote');
@@ -55,10 +56,12 @@ goog.require('Blockly.FieldNumberDropdown');
 goog.require('Blockly.FieldMatrix');
 goog.require('Blockly.FieldVariable');
 goog.require('Blockly.FieldVerticalSeparator');
+goog.require('Blockly.Fonts');
 goog.require('Blockly.Generator');
 goog.require('Blockly.Msg');
 goog.require('Blockly.Procedures');
 goog.require('Blockly.ScratchMsgs');
+goog.require('Blockly.Swatches');
 goog.require('Blockly.Toolbox');
 goog.require('Blockly.Touch');
 goog.require('Blockly.WidgetDiv');
@@ -407,6 +410,24 @@ Blockly.prompt = function(message, defaultValue, callback, _opt_title,
 };
 
 /**
+ * Custom Modal API, overwritten in Scratch-GUI.
+ * @param {{title:string, scrollable:boolean?}} config The config for the modal
+ * @param {{content:CSSStyleDeclaration?, overlay:CSSStyleDeclaration?}?} styles Sets styles on parts of the modal. If specified, at least one of the parts should have styles.
+ * @param {Array<{
+ *      name:string,
+ *      role:"ok"|"close"|null,
+ *      class:"ok"|"cancel"|null,
+ *      style:CSSStyleDeclaration?,
+ *      dontClose:boolean?,
+ *      callback:function():void
+ * }>?} buttons Buttons to place onto the modal. `role` makes the button callback run for other types of interactions.
+ * @returns {Promise<HTMLElement>}
+ */
+Blockly.customPrompt = function (config, styles, enterInfo, closeInfo) {
+  throw new Error("Custom Modal API not implemented!");
+};
+
+/**
  * A callback for status buttons. The window.alert is here for testing and
  * should be overridden.
  * @param {string} id An identifier.
@@ -621,3 +642,5 @@ if (!goog.global['Blockly']) {
 goog.global['Blockly']['getMainWorkspace'] = Blockly.getMainWorkspace;
 goog.global['Blockly']['goog'] = goog;
 Blockly.goog = goog;
+
+Blockly.Fonts.loadFont('Roboto', Blockly.Fonts.ROBOTO);

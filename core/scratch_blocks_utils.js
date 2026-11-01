@@ -73,6 +73,23 @@ Blockly.scratchBlocksUtils.changeObscuredShadowIds = function(block) {
 };
 
 /**
+ * Recursively assign fresh IDs to blocks, in-place.
+ * @param {Element} xmlBlock The root XML
+ */
+Blockly.scratchBlocksUtils.changeCopiedBlockIds = function(xmlBlock) {
+  var tagName = xmlBlock.tagName && xmlBlock.tagName.toLowerCase();
+  if (tagName === 'block' || tagName === 'shadow') {
+    xmlBlock.setAttribute('id', Blockly.utils.genUid());
+  }
+  for (var i = 0; i < xmlBlock.childNodes.length; i++) {
+    var child = xmlBlock.childNodes[i];
+    if (child.nodeType === 1) {
+      Blockly.scratchBlocksUtils.changeCopiedBlockIds(child);
+    }
+  }
+};
+
+/**
  * Whether a block is both a shadow block and an argument reporter.  These
  * blocks have special behaviour in scratch-blocks: they're duplicated when
  * dragged, and they are rendered slightly differently from normal shadow
@@ -226,4 +243,197 @@ Blockly.scratchBlocksUtils.duplicateAndDragCallback = function(oldBlock, event) 
       }
     }, 0);
   };
+};
+
+/**
+ * Creates a new shadow parameter with a specified type and value on a given block.
+ * @param {Blockly.Block} block The block that gets the new argument.
+ * @param {string} inputName Name of the input for the new argument.
+ * @param {string} shadowType Block type (shadow) of argument, if not provided, no shadow will be made.
+ * @param {Array<string,*>} [opt_fieldValue] Sets the preset value of the argument. It must be an array containing
+ *                                           the field name as the first item, and field value as the second.
+ * @param {function} [opt_inputCreateCallback] Optional callback that runs after the input was created
+ * @return {object} Object containing the newly created input and shadow.
+ */
+Blockly.scratchBlocksUtils.newBlockParam = function(block, inputName, shadowType, opt_fieldValue, opt_inputCreateCallback) {
+  var input = block.appendValueInput(inputName);
+  if (opt_inputCreateCallback) {
+    opt_inputCreateCallback(input);
+  }
+
+  if (shadowType !== null) {
+    var shadow = block.workspace.newBlock(shadowType);
+    shadow.setShadow(true);
+    if (opt_fieldValue) {
+      shadow.setFieldValue(opt_fieldValue[1], opt_fieldValue[0]);
+    }
+
+    shadow.outputConnection.connect(input.connection);
+    shadow.initSvg();
+    shadow.render();
+  }
+
+  return { input, shadow };
+};
+
+Blockly.scratchBlocksUtils.CommentMarkdownConstants = {
+  COLOR_REGEX: /^(#[0-9a-fA-F]{3,8}|[a-zA-Z]+|rgba?\([^)]+\)|hsla?\([^)]+\))$/,
+  XML_REGEX: new RegExp(/[<>&'"]/g),
+  xmlEscape: function(text) {
+    return text.replace(Blockly.scratchBlocksUtils.CommentMarkdownConstants.XML_REGEX, char => {
+      switch (char) {
+        case '<': return '&lt;';
+        case '>': return '&gt;';
+        case '&': return '&amp;';
+        case '\'': return '&apos;';
+        case '"': return '&quot;';
+      }
+    });
+  },
+  handlers: {
+    /* Bold */
+    '**': (content) => '<b>' + content + '</b>',
+    /* Italic */
+    '*': (content) => '<i>' + content + '</i>',
+    /* Strikethrough */
+    '~~': (content) => '<s>' + content + '</s>',
+    /* Headers */
+    '# ': (content) => '<h2>' + content + '</h2>',
+    '##': (content) => '<h4>' + content + '</h4>',
+    /* Text Color */
+    '@c': (content, color) => '<span style="color: ' + color + '">' + content + '</span>',
+    /* Highlight Color */
+    '@b': (content, color) => '<span style="background-color: ' + color + '">' + content + '</span>',
+    /* Image */
+    '@i': (src) => '<img src="' + src + '" />',
+  },
+  closers: {
+    '**': '**',
+    '*': '*',
+    '~~': '~~',
+    '# ': '\n',
+    '##': '\n',
+    '@c': '@c',
+    '@b': '@b',
+    '@i': '@i',
+  }
+};
+
+/**
+ * Parses comment text as markdown.
+ * @param {string} text The text to parse as markdown.
+ * @param {boolean} isCallback If true, will avoid double xmlEscape on the text.
+ * @return {string} Markdown as HTML text.
+ */
+Blockly.scratchBlocksUtils.parseCommentMarkdown = function(text, isCallback) {
+  if (!text || text.length === 0) {
+    return '<i style="color: #00000080;">' + Blockly.Msg.WORKSPACE_COMMENT_DEFAULT_TEXT + '</i>';
+  }
+
+  var utils = Blockly.scratchBlocksUtils.CommentMarkdownConstants;
+
+  if (!isCallback) {
+      text = utils.xmlEscape(text);
+  }
+
+  var md = '';
+  var i = 0;
+
+  while (i < text.length) {
+    var code = text.substring(i, i + 2);
+
+    // Italic is a single-character command.
+    if (code.startsWith('*') && code !== '**') {
+      code = '*';
+    }
+
+    // Not a markdown command.
+    if (utils.closers[code] === undefined) {
+      md += text[i];
+      i++;
+      continue;
+    }
+
+    var requiredCloseCode = utils.closers[code];
+
+    /*
+     * Find the closing command.
+     */
+    var closeIndex = text.indexOf(requiredCloseCode, i + code.length);
+
+    if (closeIndex === -1) {
+      // No closing command; treat the opening characters as normal text.
+      md += text.substring(i, i + code.length);
+      i += code.length;
+      continue;
+    }
+
+    var innerText = text.substring(i + code.length, closeIndex);
+
+    /*
+     * Text/highlight color:
+     * @c[#ff0000]text@c
+     * @b[#ff0000]text@b
+     */
+    if (code === '@c' || code === '@b') {
+      var colorMatch = innerText.match(/^\[([#a-zA-Z0-9(),.%\s-]+)\](.*)$/);
+
+      if (!colorMatch) {
+        // Invalid color syntax; leave the markdown untouched.
+        md += text.substring(
+          i,
+          closeIndex + requiredCloseCode.length
+        );
+
+        i = closeIndex + requiredCloseCode.length;
+        continue;
+      }
+
+      var color = colorMatch[1];
+      var content = colorMatch[2].trim();
+
+      /*
+       * Only allow common CSS color formats.
+       * This prevents arbitrary CSS from being inserted into style.
+       */
+      var validColor = utils.COLOR_REGEX.test(color);
+
+      if (!validColor) {
+        md += text.substring(
+          i,
+          closeIndex + requiredCloseCode.length
+        );
+
+        i = closeIndex + requiredCloseCode.length;
+        continue;
+      }
+
+      md += utils.handlers[code](content, color);
+
+      i = closeIndex + requiredCloseCode.length;
+      continue;
+    }
+
+    /*
+     * Image:
+     * @ihttps://example.com/image.png@i
+     */
+    if (code === '@i') {
+      var src = innerText;
+
+      md += utils.handlers[code](src);
+
+      i = closeIndex + requiredCloseCode.length;
+      continue;
+    }
+
+    /* Normal markdown command. */
+    md += utils.handlers[code](
+      Blockly.scratchBlocksUtils.parseCommentMarkdown(innerText, true)
+    );
+
+    i = closeIndex + requiredCloseCode.length;
+  }
+
+  return md;
 };

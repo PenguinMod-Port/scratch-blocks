@@ -58,7 +58,7 @@ Blockly.Blocks['control_forever'] = {
         }
       ],
       "category": Blockly.Categories.control,
-      "extensions": ["colours_control", "shape_end"]
+      "extensions": ["colours_control", "shape_statement"]
     });
   }
 };
@@ -219,6 +219,7 @@ Blockly.Blocks['control_stop'] = {
   init: function() {
     var ALL_SCRIPTS = 'all';
     var THIS_SCRIPT = 'this script';
+    var THIS_THREAD = 'this thread';
     var OTHER_SCRIPTS = 'other scripts in sprite';
     var stopDropdown = new Blockly.FieldDropdown(function() {
       if (this.sourceBlock_ &&
@@ -228,8 +229,10 @@ Blockly.Blocks['control_stop'] = {
           [Blockly.Msg.CONTROL_STOP_OTHER, OTHER_SCRIPTS]
         ];
       }
-      return [[Blockly.Msg.CONTROL_STOP_ALL, ALL_SCRIPTS],
+      return [
+        [Blockly.Msg.CONTROL_STOP_ALL, ALL_SCRIPTS],
         [Blockly.Msg.CONTROL_STOP_THIS, THIS_SCRIPT],
+        [Blockly.Msg.PM_CONTROL_STOP_THREAD, THIS_THREAD],
         [Blockly.Msg.CONTROL_STOP_OTHER, OTHER_SCRIPTS]
       ];
     }, function(option) {
@@ -249,11 +252,7 @@ Blockly.Blocks['control_stop'] = {
         .appendField(Blockly.Msg.CONTROL_STOP)
         .appendField(stopDropdown, 'STOP_OPTION');
     this.setCategory(Blockly.Categories.control);
-    this.setColour(Blockly.Colours.control.primary,
-        Blockly.Colours.control.secondary,
-        Blockly.Colours.control.tertiary,
-        Blockly.Colours.control.quaternary
-    );
+    this.setColour(Blockly.Colours.control);
     this.setPreviousStatement(true);
   },
   mutationToDom: function() {
@@ -508,6 +507,7 @@ Blockly.Blocks['control_get_counter'] = {
     this.jsonInit({
       "message0": Blockly.Msg.CONTROL_COUNTER,
       "category": Blockly.Categories.control,
+      "checkboxInFlyout": true,
       "extensions": ["colours_control", "output_number"]
     });
   }
@@ -1065,24 +1065,21 @@ Blockly.Blocks['control_expandableIf'] = {
 
           let substackExists = false
           if (this.getInput('SUBSTACK' + stackIndex)) {
-            //previous else stack
+            // previous else stack
             substackExists = true
             this.moveInputBefore(dummyName, 'SUBSTACK' + stackIndex);
           } else this.moveInputBefore(dummyName, 'EXPANDABLE');
 
-          let inputName = 'BOOL' + stackIndex;
-          let input = this.appendValueInput(inputName);
-          input.setCheck('Boolean');
-          input.appendField(Blockly.Msg.PM_CONTROL_IFEXPANDABLE_IF);
-          this.moveInputBefore(inputName, dummyName);
-
-          if (createShadows) {
-            let shadow = this.workspace.newBlock('checkbox');
-            shadow.setShadow(true);
-            shadow.initSvg();
-            shadow.render();
-            shadow.outputConnection.connect(input.connection);
-          }
+          var inputName = 'BOOL' + stackIndex;
+          var type = createShadows ? 'checkbox' : null;
+          Blockly.scratchBlocksUtils.newBlockParam(
+            this, inputName, type, undefined,
+            (input) => {
+              input.setCheck('Boolean');
+              input.appendField(Blockly.Msg.PM_CONTROL_IFEXPANDABLE_IF);
+              this.moveInputBefore(inputName, dummyName);
+            }
+          );
 
           if (!substackExists) {
             let substackName = 'SUBSTACK' + stackIndex;
@@ -1199,3 +1196,83 @@ Blockly.Blocks['control_run_as_sprite'] = {
     });
   }
 };
+
+Blockly.Blocks['control_stop_sprite_menu'] = {
+  /**
+   * pm: Stop-sprite drop-down menu.
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.jsonInit({
+      "message0": "%1",
+      "args0": [
+        {
+          "type": "field_dropdown",
+          "name": "STOP_OPTION",
+          "options": [
+            ["Stage", '_stage_']
+          ]
+        }
+      ],
+      "extensions": ["colours_control", "output_string"]
+    });
+  }
+};
+
+Blockly.Blocks['control_stop_sprite'] = {
+  /**
+   * pm: Block for "stop (...)"
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.jsonInit({
+      "id": "control_stop_sprite",
+      "message0": Blockly.Msg.PM_CONTROL_STOPSPRITE,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "STOP_OPTION"
+        }
+      ],
+      "category": Blockly.Categories.control,
+      "extensions": ["colours_control", "shape_statement"]
+    });
+  }
+};
+
+Blockly.Blocks['control_dualblock'] = {
+  /**
+   * @this Blockly.Block
+   */
+  init: function () {
+    this.jsonInit({
+      "message0": 'dual block',
+      "category": Blockly.Categories.control,
+      "extensions": ["colours_control", "shape_statement", "output_any"]
+    });
+  }
+};
+
+Blockly.Blocks['control_runwithoutscreenrefresh'] = {
+  init: function () {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_CONTROL_RUNWITHOUTSCREENREFRESH,
+      "message1": '%1',
+      "args0": [
+        {
+          "type": "field_checkbox",
+          "name": "CHECKBOX",
+          "checked": true
+        }
+      ],
+      "args1": [
+        {
+          "type": "input_statement",
+          "name": "SUBSTACK"
+        }
+      ],
+      "category": Blockly.Categories.control,
+      "extensions": ["colours_control", "shape_statement"]
+    })
+  }
+}

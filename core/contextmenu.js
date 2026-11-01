@@ -31,6 +31,7 @@
 goog.provide('Blockly.ContextMenu');
 
 goog.require('Blockly.Events.BlockCreate');
+goog.require('Blockly.Swatches');
 goog.require('Blockly.scratchBlocksUtils');
 goog.require('Blockly.utils');
 goog.require('Blockly.utils.uiMenu');
@@ -40,6 +41,7 @@ goog.require('goog.events');
 goog.require('goog.style');
 goog.require('goog.ui.Menu');
 goog.require('goog.ui.MenuItem');
+goog.require('goog.ui.MenuSeparator');
 goog.require('goog.userAgent');
 
 
@@ -105,6 +107,11 @@ Blockly.ContextMenu.populate_ = function(options, rtl) {
   });
 
   for (var i = 0, option; option = options[i]; i++) {
+    if (option === "---") { //separator
+      menu.addChild(new goog.ui.MenuSeparator(), true);
+      continue;
+    }
+
     var menuItem = new goog.ui.MenuItem(option.text);
     menuItem.setRightToLeft(rtl);
     menu.addChild(menuItem, true);
@@ -220,7 +227,48 @@ Blockly.ContextMenu.callbackFactory = function(block, xml) {
   };
 };
 
+Blockly.ContextMenu.separator = function() {
+  return "---";
+};
+
 // Helper functions for creating context menu options.
+
+Blockly.ContextMenu.blockSwatchesOptions = function(block) {
+  let swatches = Blockly.Swatches.getSwatches(block.type);
+  let options = [];
+  for (let i = 0; i < swatches.length; i++) {
+    if (swatches[i].opcode === block.type) continue;
+
+    //make block to get name
+    let temp = block.workspace.newBlock(swatches[i].opcode);
+    let name = temp.toString(30);
+    temp.dispose();
+
+    options.push({
+      text: name,
+      enabled: true,
+      callback: () => Blockly.Swatches.applySwatch(block, swatches[i])
+    });
+  }
+  return options;
+}
+
+Blockly.ContextMenu.blockExpandableOptions = function(block) {
+  let expandable = block.inputList.map(v => v.fieldRow).flat().find(v => v instanceof Blockly.FieldExpandable || v instanceof Blockly.FieldExpandableJSON);
+  let value = Number(expandable.getValue());
+  return [
+    {
+      text: Blockly.Msg.PM_EXPAND_EXPANDABLE,
+      enabled: (value + 1) <= expandable.max,
+      callback: () => expandable.setValue(value + 1)
+    },
+    {
+      text: Blockly.Msg.PM_RETRACT_EXPANDABLE,
+      enabled: (value - 1) >= expandable.min,
+      callback: () => expandable.setValue(value - 1)
+    }
+  ]
+}
 
 /**
  * Make a context menu option for deleting the current block.
@@ -367,6 +415,118 @@ Blockly.ContextMenu.blockCommentOption = function(block) {
     };
   }
   return commentOption;
+};
+
+/**
+ * Make a context menu option for pinning a flyout block.
+ * @param {!Blockly.BlockSvg} block The block where the right-click originated.
+ * @return {!Object} A menu option, containing text, enabled, and a callback.
+ * @package
+ */
+Blockly.ContextMenu.blockPinOption = function(block) {
+  var xml = Blockly.Xml.blockToDom(block).outerHTML;
+  var isPinned = Blockly.BlockSvg.PINS.find((pinXml) => {
+    var cleansed = pinXml.replace(/pin-(?:builtin|custom)="[^"]+"/g, '');
+    return cleansed === xml;
+  });
+
+  var pinOption = {
+    text: Blockly.Msg.PM_PIN,
+    enabled: !isPinned,
+    callback: function() {
+      Blockly.BlockSvg.toggleBlockPin(block, 'bottom');
+    }
+  };
+  return pinOption;
+};
+
+/**
+ * Make a context menu option for unpinning a flyout block.
+ * @param {!Blockly.BlockSvg} block The block where the right-click originated.
+ * @return {!Object} A menu option, containing text, enabled, and a callback.
+ * @package
+ */
+Blockly.ContextMenu.blockUnpinOption = function(block) {
+  var xml = Blockly.Xml.blockToDom(block).outerHTML;
+  var isPinned = Blockly.BlockSvg.PINS.find((pinXml) => {
+    var cleansed = pinXml.replace(/pin-(?:builtin|custom)="[^"]+"/g, '');
+    return cleansed === xml;
+  });
+
+  var pinOption = {
+    text: Blockly.Msg.PM_UNPIN,
+    enabled: isPinned,
+    callback: function() {
+      Blockly.BlockSvg.toggleBlockPin(block, 'unpin');
+    }
+  };
+  return pinOption;
+};
+/**
+ * Make a context menu option for unpinning all flyout blocks.
+ * @param {!Blockly.BlockSvg} block The block where the right-click originated.
+ * @return {!Object} A menu option, containing text, enabled, and a callback.
+ * @package
+ */
+Blockly.ContextMenu.blockUnpinAllOption = function(block) {
+  var pinOption = {
+    text: Blockly.Msg.PM_UNPIN_ALL,
+    enabled: Blockly.BlockSvg.PINS.length,
+    callback: function() {
+      Blockly.BlockSvg.unpinAllBlocks();
+    }
+  };
+  return pinOption;
+};
+
+/**
+ * Make a context menu option for moving a pinned block to the top.
+ * @param {!Blockly.BlockSvg} block The block where the right-click originated.
+ * @return {!Object} A menu option, containing text, enabled, and a callback.
+ * @package
+ */
+Blockly.ContextMenu.movePinTopOption = function(block) {
+  var pinOption = {
+    text: Blockly.Msg.PM_MOVE_TO_TOP,
+    enabled: true,
+    callback: function() {
+      Blockly.BlockSvg.toggleBlockPin(block, 'top');
+    }
+  };
+  return pinOption;
+};
+/**
+ * Make a context menu option for moving a pinned block to the bottom.
+ * @param {!Blockly.BlockSvg} block The block where the right-click originated.
+ * @return {!Object} A menu option, containing text, enabled, and a callback.
+ * @package
+ */
+Blockly.ContextMenu.movePinBottomOption = function(block) {
+  var pinOption = {
+    text: Blockly.Msg.PM_MOVE_TO_BOTTOM,
+    enabled: true,
+    callback: function() {
+      Blockly.BlockSvg.toggleBlockPin(block, 'bottom');
+    }
+  };
+  return pinOption;
+};
+
+/**
+ * Make a context menu option for organizing pins by their category.
+ * @param {!Blockly.BlockSvg} block The block where the right-click originated.
+ * @return {!Object} A menu option, containing text, enabled, and a callback.
+ * @package
+ */
+Blockly.ContextMenu.movePinCategoryOption = function(block) {
+  var pinOption = {
+    text: Blockly.Msg.PM_MOVE_BY_CATEGORY,
+    enabled: true,
+    callback: function() {
+      Blockly.BlockSvg.toggleBlockPin(block, 'category');
+    }
+  };
+  return pinOption;
 };
 
 /**

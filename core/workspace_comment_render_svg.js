@@ -65,6 +65,12 @@ Blockly.WorkspaceCommentSvg.TOP_BAR_HEIGHT = 32;
 Blockly.WorkspaceCommentSvg.MINIMIZE_ICON_SIZE = 32;
 
 /**
+ * The size of the edit icon in the comment top bar.
+ * @private
+ */
+Blockly.WorkspaceCommentSvg.EDIT_ICON_SIZE = 32;
+
+/**
  * The size of the delete icon in the comment top bar.
  * @private
  */
@@ -144,6 +150,7 @@ Blockly.WorkspaceCommentSvg.prototype.render = function() {
   this.textarea_.value = this.content_;
 
   this.rendered_ = true;
+  this.displayMarkdown();
 
   if (this.resizeGroup_) {
     Blockly.bindEventWithChecks_(
@@ -158,6 +165,14 @@ Blockly.WorkspaceCommentSvg.prototype.render = function() {
       this.minimizeArrow_, 'mouseout', this, this.minimizeArrowMouseOut_, true);
   Blockly.bindEventWithChecks_(
       this.minimizeArrow_, 'mouseup', this, this.minimizeArrowMouseUp_, true);
+
+  Blockly.bindEventWithChecks_(
+      this.editIcon_, 'mousedown', this, this.editMouseDown_, true);
+  Blockly.bindEventWithChecks_(
+      this.editIcon_, 'mouseout', this, this.editMouseOut_, true);
+  Blockly.bindEventWithChecks_(
+      this.editIcon_, 'mouseup', this, this.editMouseUp_, true);
+
   Blockly.bindEventWithChecks_(
       this.deleteIcon_, 'mousedown', this, this.deleteMouseDown_, true);
   Blockly.bindEventWithChecks_(
@@ -183,28 +198,44 @@ Blockly.WorkspaceCommentSvg.prototype.createEditor_ = function() {
   var body = document.createElementNS(Blockly.HTML_NS, 'body');
   body.setAttribute('xmlns', Blockly.HTML_NS);
   body.className = 'blocklyMinimalBody scratchCommentBody';
+
   var textarea = document.createElementNS(Blockly.HTML_NS, 'textarea');
   textarea.className = 'scratchCommentTextarea scratchCommentText';
   textarea.setAttribute('dir', this.RTL ? 'RTL' : 'LTR');
   textarea.setAttribute('placeholder', Blockly.Msg.WORKSPACE_COMMENT_DEFAULT_TEXT);
-  body.appendChild(textarea);
+
+  var markdown = document.createElementNS(Blockly.HTML_NS, 'pre');
+  markdown.className = 'scratchCommentTextarea scratchCommentText scratchCommentMarkdown';
+  markdown.setAttribute('dir', this.RTL ? 'RTL' : 'LTR');
+
+  body.append(textarea, markdown);
   this.textarea_ = textarea;
+  this.markdown_ = markdown;
   this.textarea_.style.margin = (Blockly.WorkspaceCommentSvg.TEXTAREA_OFFSET) + 'px';
+  this.markdown_.style.margin = this.textarea_.style.margin;
+
   this.foreignObject_.appendChild(body);
   Blockly.bindEventWithChecks_(textarea, 'mousedown', this, function(e) {
     e.stopPropagation(); // Propagation causes preventDefault from workspace handler
+    this.displayEditor();
   }, true, true);
+
   // Don't zoom with mousewheel.
   Blockly.bindEventWithChecks_(textarea, 'wheel', this, function(e) {
     if (!e.ctrlKey && textarea.clientHeight !== textarea.scrollHeight) {
       e.stopPropagation();
     }
+
+    // Scroll the markdown editor too since its not interactable
+    var scalar = markdown.scrollHeight / textarea.scrollHeight;
+    markdown.scrollTop = textarea.scrollTop * scalar;
   });
   Blockly.bindEventWithChecks_(textarea, 'change', this, function(_e) {
     if (this.text_ != textarea.value) {
       this.setText(textarea.value);
     }
   });
+  Blockly.bindEventWithChecks_(textarea, 'blur', this, this.displayMarkdown);
 
   this.labelText_ = this.getLabelText();
 
@@ -306,6 +337,20 @@ Blockly.WorkspaceCommentSvg.prototype.createTopBarIcons_ = function() {
         'height': Blockly.WorkspaceCommentSvg.MINIMIZE_ICON_SIZE
       }, this.svgGroup_);
 
+  // Edit Icon in Comment Top Bar
+  this.editIcon_ = Blockly.utils.createSvgElement('image', {
+    'x': xInset,
+    'y': topBarMiddleY - Blockly.WorkspaceCommentSvg.EDIT_ICON_SIZE / 2,
+    'width': Blockly.WorkspaceCommentSvg.EDIT_ICON_SIZE,
+    'height': Blockly.WorkspaceCommentSvg.EDIT_ICON_SIZE,
+    'transform': `translate(${Blockly.WorkspaceCommentSvg.EDIT_ICON_SIZE}, 0)`,
+  }, this.svgGroup_);
+  this.editIcon_.setAttributeNS(
+    'http://www.w3.org/1999/xlink',
+    'xlink:href',
+    Blockly.mainWorkspace.options.pathToMedia + 'comment-color.svg'
+  );
+
   // Delete Icon in Comment Top Bar
   this.deleteIcon_ = Blockly.utils.createSvgElement('image',
       {
@@ -353,6 +398,43 @@ Blockly.WorkspaceCommentSvg.prototype.minimizeArrowMouseUp_ = function(e) {
   if (this.shouldToggleMinimize_) {
     this.shouldToggleMinimize = false;
     this.toggleMinimize_();
+  }
+  e.stopPropagation();
+};
+
+/**
+ * Handle a mouse-down on bubble's edit icon.
+ * @param {!Event} e Mouse up event.
+ * @private
+ */
+Blockly.WorkspaceCommentSvg.prototype.editMouseDown_ = function(e) {
+  this.shouldOpenEditor_ = true;
+  e.stopPropagation();
+};
+
+/**
+ * Handle a mouse-out on bubble's edit icon.
+ * @param {!Event} _e Mouse out event.
+ * @private
+ */
+Blockly.WorkspaceCommentSvg.prototype.editMouseOut_ = function(_e) {
+  // If the mouse has left the delete icon, the shouldOpenEditor_ property
+  // should get reset to false.
+  this.shouldOpenEditor_ = false;
+};
+
+/**
+ * Handle a mouse-up on bubble's edit icon.
+ * @param {!Event} e Mouse up event.
+ * @private
+ */
+Blockly.WorkspaceCommentSvg.prototype.editMouseUp_ = function(e) {
+  // First check that this is actually the same icon that had a mouse down event
+  // on it and that the mouse never left the icon
+  if (this.shouldOpenEditor_) {
+    this.shouldOpenEditor_ = false;
+
+    Blockly.ScratchBubble.editCommentCallback(this);
   }
   e.stopPropagation();
 };
@@ -440,13 +522,14 @@ Blockly.WorkspaceCommentSvg.prototype.setRenderedMinimizeState_ = function(minim
         'xlink:href', Blockly.mainWorkspace.options.pathToMedia + 'comment-arrow-up.svg');
     // Hide text area
     this.commentEditor_.setAttribute('display', 'none');
+    // Hide edit button
+    this.editIcon_.setAttribute('display', 'none');
     // Hide resize handle if it exists
     if (this.resizeGroup_) {
       this.resizeGroup_.setAttribute('display', 'none');
     }
     if (labelText && this.labelText_ != labelText) {
       // Update label and display
-      // TODO is there a better way to do this?
       this.topBarLabel_.textContent = labelText;
     }
     Blockly.utils.removeAttribute(this.topBarLabel_, 'display');
@@ -458,6 +541,8 @@ Blockly.WorkspaceCommentSvg.prototype.setRenderedMinimizeState_ = function(minim
     this.topBarLabel_.setAttribute('display', 'none');
     // Show text area
     Blockly.utils.removeAttribute(this.commentEditor_, 'display');
+    // Show edit button
+    Blockly.utils.removeAttribute(this.editIcon_, 'display');
     // Display resize handle if it exists
     if (this.resizeGroup_) {
       Blockly.utils.removeAttribute(this.resizeGroup_, 'display');
@@ -520,7 +605,10 @@ Blockly.WorkspaceCommentSvg.prototype.resizeMouseMove_ = function(e) {
     Blockly.Events.disable();
     disabled = true;
   }
-  this.setSize(this.RTL ? -newXY.x : newXY.x, newXY.y);
+  this.setSize(
+    Math.max(Blockly.ScratchBubble.MIN_COMMENT_WIDTH, newXY.x) * (this.workspace.RTL ? -1 : 1),
+    newXY.y
+  );
   if (disabled) {
     Blockly.Events.enable();
   }
@@ -548,6 +636,8 @@ Blockly.WorkspaceCommentSvg.prototype.resizeComment_ = function() {
       (this.width_ - textOffset) + 'px';
   this.textarea_.style.height =
       (this.height_ - doubleBorderWidth - textOffset - topOffset) + 'px';
+  this.markdown_.style.width = this.textarea_.style.width;
+  this.markdown_.style.height = this.textarea_.style.height;
 };
 
 /**
@@ -656,6 +746,7 @@ Blockly.WorkspaceComment.prototype.setMinimized = function(minimize) {
       this.setRenderedMinimizeState_(false);
     }
     this.setText(this.content_);
+    this.displayMarkdown();
     this.setSize(this.width_, this.height_);
   }
 };
@@ -666,9 +757,40 @@ Blockly.WorkspaceComment.prototype.setMinimized = function(minimize) {
  */
 Blockly.WorkspaceCommentSvg.prototype.disposeInternal_ = function() {
   this.textarea_ = null;
+  this.markdown_ = null;
   this.foreignObject_ = null;
   this.svgRect_ = null;
   this.svgHandleTarget_ = null;
+};
+
+
+/**
+ * Displays the comment text in markdown view
+ * @package
+ */
+Blockly.WorkspaceCommentSvg.prototype.displayMarkdown = function() {
+  this.textarea_.style.opacity = '0';
+  this.textarea_.style.color = 'transparent';
+  this.textarea_.style.caretColor = 'black';
+  this.textarea_.style.background = 'transparent';
+
+  this.markdown_.style.opacity = '1';
+
+  this.markdown_.innerHTML =
+      Blockly.scratchBlocksUtils.parseCommentMarkdown(this.getText());
+};
+
+/**
+ * Displays the comment text area.
+ * @package
+ */
+Blockly.WorkspaceCommentSvg.prototype.displayEditor = function() {
+  this.textarea_.style.opacity = '1';
+  this.textarea_.style.color = 'inherit';
+  this.textarea_.style.caretColor = '';
+  this.textarea_.style.background = '';
+
+  this.markdown_.style.opacity = '0';
 };
 
 /**
@@ -681,6 +803,7 @@ Blockly.WorkspaceCommentSvg.prototype.setFocus = function() {
   comment.textarea_.focus();
   // Defer CSS changes.
   setTimeout(function() {
+    comment.displayEditor();
     comment.addFocus();
     Blockly.utils.addClass(
         comment.svgHandleTarget_, 'scratchCommentHandleTargetFocused');
@@ -699,6 +822,7 @@ Blockly.WorkspaceCommentSvg.prototype.blurFocus = function() {
   setTimeout(function() {
     if (comment.svgGroup_) { // Could have been deleted in the meantime
       comment.removeFocus();
+      comment.displayMarkdown();
       Blockly.utils.removeClass(
           comment.svgHandleTarget_, 'scratchCommentHandleTargetFocused');
     }

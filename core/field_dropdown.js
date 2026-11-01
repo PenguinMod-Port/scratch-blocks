@@ -37,7 +37,6 @@ goog.require('goog.ui.Menu');
 goog.require('goog.ui.MenuItem');
 goog.require('goog.userAgent');
 
-
 /**
  * Class for an editable dropdown field.
  * @param {(!Array.<!Array>|!Function)} menuGenerator An array of options
@@ -129,7 +128,8 @@ Blockly.FieldDropdown.prototype.init = function() {
   this.arrowY_ = 11;
   this.arrow_ = Blockly.utils.createSvgElement('image', {
     'height': this.arrowSize_ + 'px',
-    'width': this.arrowSize_ + 'px'
+    'width': this.arrowSize_ + 'px',
+    'filter': Blockly.Colours.tintFilter(this.sourceBlock_.textColour)
   });
   this.arrow_.setAttributeNS('http://www.w3.org/1999/xlink',
       'xlink:href', Blockly.mainWorkspace.options.pathToMedia + 'dropdown-arrow.svg');
@@ -148,7 +148,8 @@ Blockly.FieldDropdown.prototype.init = function() {
       'stroke': this.sourceBlock_.getColourTertiary(),
       'fill': this.sourceBlock_.getColour(),
       'class': 'blocklyBlockBackground',
-      'fill-opacity': 1
+      'fill-opacity': 1,
+      'opacity': this.sourceBlock_.inputList.length === 1 && !this.sourceBlock_.inputList[0].connection && this.sourceBlock_.inputList[0].fieldRow.length === 1 ? 0 : 1
     }, null);
     this.fieldGroup_.insertBefore(this.box_, this.textElement_);
   }
@@ -156,6 +157,14 @@ Blockly.FieldDropdown.prototype.init = function() {
   var text = this.text_;
   this.text_ = null;
   this.setText(text);
+};
+
+Blockly.FieldDropdown.prototype.render_ = function() {
+  Blockly.FieldDropdown.superClass_.render_.call(this);
+  // pm: text colour
+  if (this.sourceBlock_.textColour && this.arrow_) {
+    this.arrow_.style.filter = Blockly.Colours.tintFilter(this.sourceBlock_.textColour);
+  }
 };
 
 /**
@@ -197,14 +206,18 @@ Blockly.FieldDropdown.prototype.showEditor_ = function() {
       image.alt = content['alt'] || '';
       content = image;
     }
+
     var menuItem = new goog.ui.MenuItem(content);
     menuItem.setRightToLeft(this.sourceBlock_.RTL);
     menuItem.setValue(value);
     menuItem.setCheckable(true);
     menu.addChild(menuItem, true);
-    if (this.sourceBlock_.textColour) {
-      menuItem.element_.style.color = this.sourceBlock_.textColour;
+
+    var blockColorTarget = this.sourceBlock_.isShadow() ? this.sourceBlock_.getParent() : this.sourceBlock_;
+    if (blockColorTarget.textColour) {
+      menuItem.element_.style.color = blockColorTarget.textColour;
     }
+
     var checked = (value == this.value_);
     menuItem.setChecked(checked);
     if (checked) {
@@ -225,8 +238,10 @@ Blockly.FieldDropdown.prototype.showEditor_ = function() {
 
   var primaryColour = (this.sourceBlock_.isShadow()) ?
     this.sourceBlock_.parentBlock_.getColour() : this.sourceBlock_.getColour();
+  var tertiaryColour = (this.sourceBlock_.isShadow()) ?
+    this.sourceBlock_.parentBlock_.getColourTertiary() : this.sourceBlock_.getColourTertiary();
 
-  Blockly.DropDownDiv.setColour(primaryColour, this.sourceBlock_.getColourTertiary());
+  Blockly.DropDownDiv.setColour(primaryColour, tertiaryColour);
 
   var category = (this.sourceBlock_.isShadow()) ?
     this.sourceBlock_.parentBlock_.getCategory() : this.sourceBlock_.getCategory();
@@ -429,13 +444,26 @@ Blockly.FieldDropdown.prototype.positionArrow = function(x) {
     this.arrowX_ = x + Blockly.BlockSvg.DROPDOWN_ARROW_PADDING / 2;
     addedWidth = this.arrowSize_ + Blockly.BlockSvg.DROPDOWN_ARROW_PADDING;
   }
-  if (this.box_) {
+  if (this.box_ && !(this.sourceBlock_.inputList.length === 1 && !this.sourceBlock_.inputList[0].connection && this.sourceBlock_.inputList[0].fieldRow.length === 1)) {
     // Bump positioning to the right for a box-type drop-down.
     this.arrowX_ += Blockly.BlockSvg.BOX_FIELD_PADDING;
   }
   this.arrow_.setAttribute('transform',
       'translate(' + this.arrowX_ + ',' + this.arrowY_ + ')');
   return addedWidth;
+};
+
+Blockly.FieldDropdown.prototype.updateWidth = function() {
+  Blockly.FieldDropdown.superClass_.updateWidth.call(this);
+
+  var width = this.size_.width;
+
+  // remove padding
+  if (this.box_ && this.sourceBlock_.inputList.length === 1 && !this.sourceBlock_.inputList[0].connection && this.sourceBlock_.inputList[0].fieldRow.length === 1) {
+    width -= 2 * Blockly.BlockSvg.BOX_FIELD_PADDING;
+  }
+
+  this.size_.width = width;
 };
 
 /**

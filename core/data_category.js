@@ -81,19 +81,60 @@ Blockly.DataCategory.ListCategory = function(workspace) {
     var firstVariable = variableModelList[0];
 
     Blockly.DataCategory.addAddToList(xmlList, firstVariable);
+    Blockly.DataCategory.addInsertAtList(xmlList, firstVariable);
+    Blockly.DataCategory.addReplaceItemOfList(xmlList, firstVariable);
     Blockly.DataCategory.addSep(xmlList);
     Blockly.DataCategory.addDeleteOfList(xmlList, firstVariable);
     Blockly.DataCategory.addDeleteAllOfList(xmlList, firstVariable);
-    Blockly.DataCategory.addInsertAtList(xmlList, firstVariable);
-    Blockly.DataCategory.addReplaceItemOfList(xmlList, firstVariable);
+    Blockly.DataCategory.addBlockRaw(xmlList, `<block type="data_shiftlist">
+      ${Blockly.Variables.generateVariableFieldXml_(firstVariable, "LIST")}
+      <value name="INDEX">
+        <shadow type="math_whole_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+    </block>`);
+    Blockly.DataCategory.addSep(xmlList);
+    Blockly.DataCategory.addBlockRaw(xmlList, `<block type="data_reverselist">
+      ${Blockly.Variables.generateVariableFieldXml_(firstVariable, "LIST")}
+    </block>`);
+    Blockly.DataCategory.addBlockRaw(xmlList, `<block type="data_filterlist">
+      ${Blockly.Variables.generateVariableFieldXml_(firstVariable, "LIST")}
+      <value name="INDEX">
+        <shadow type="data_filterlistindex" />
+      </value>
+      <value name="ITEM">
+        <shadow type="data_filterlistitem" />
+      </value>
+      <value name="BOOL">
+        <shadow type="checkbox" />
+      </value>
+    </block>`);
+    Blockly.DataCategory.addBlockRaw(xmlList, `<block type="data_listforeach">
+      ${Blockly.Variables.generateVariableFieldXml_(firstVariable, "LIST")}
+      <value name="INDEX">
+        <shadow type="data_filterlistindex" />
+      </value>
+      <value name="ITEM">
+        <shadow type="data_filterlistitem" />
+      </value>
+    </block>`);
     Blockly.DataCategory.addSep(xmlList);
     Blockly.DataCategory.addItemOfList(xmlList, firstVariable);
     Blockly.DataCategory.addItemNumberOfList(xmlList, firstVariable);
     Blockly.DataCategory.addLengthOfList(xmlList, firstVariable);
     Blockly.DataCategory.addListContainsItem(xmlList, firstVariable);
+    Blockly.DataCategory.addBlockRaw(xmlList, `<block type="data_amountinlist">
+      ${Blockly.Variables.generateVariableFieldXml_(firstVariable, "LIST")}
+      <value name="VALUE">
+        <shadow type="text">
+          <field name="TEXT">${Blockly.Msg.DEFAULT_LIST_ITEM}</field>
+        </shadow>
+      </value>
+    </block>`);
     Blockly.DataCategory.addSep(xmlList);
-    Blockly.DataCategory.addShowList(xmlList, firstVariable);
-    Blockly.DataCategory.addHideList(xmlList, firstVariable);
+    Blockly.DataCategory.addBlock(xmlList, firstVariable, 'data_setlistvisible', 'LIST', ['VISIBILITY', 'checkbox', false]);
+    Blockly.DataCategory.addBlock(xmlList, firstVariable, 'data_listvisible', 'LIST');
   }
 
   return xmlList;
@@ -230,7 +271,7 @@ Blockly.DataCategory.addDeleteOfList = function(xmlList, variable) {
   //   </value>
   // </block>
   Blockly.DataCategory.addBlock(xmlList, variable, 'data_deleteoflist', 'LIST',
-      ['INDEX', 'math_integer', 1]);
+      ['INDEX', 'data_listindexrandom', 1]);
 };
 
 /**
@@ -266,7 +307,7 @@ Blockly.DataCategory.addInsertAtList = function(xmlList, variable) {
   //   </value>
   // </block>
   Blockly.DataCategory.addBlock(xmlList, variable, 'data_insertatlist', 'LIST',
-      ['INDEX', 'math_integer', 1], ['ITEM', 'text', Blockly.Msg.DEFAULT_LIST_ITEM]);
+      ['INDEX', 'data_listindexrandom', 1], ['ITEM', 'text', Blockly.Msg.DEFAULT_LIST_ITEM]);
 };
 
 /**
@@ -289,7 +330,7 @@ Blockly.DataCategory.addReplaceItemOfList = function(xmlList, variable) {
   //   </value>
   // </block>
   Blockly.DataCategory.addBlock(xmlList, variable, 'data_replaceitemoflist',
-      'LIST', ['INDEX', 'math_integer', 1], ['ITEM', 'text', Blockly.Msg.DEFAULT_LIST_ITEM]);
+      'LIST', ['INDEX', 'data_listindexrandom', 1], ['ITEM', 'text', Blockly.Msg.DEFAULT_LIST_ITEM]);
 };
 
 /**
@@ -307,7 +348,7 @@ Blockly.DataCategory.addItemOfList = function(xmlList, variable) {
   //   </value>
   // </block>
   Blockly.DataCategory.addBlock(xmlList, variable, 'data_itemoflist', 'LIST',
-      ['INDEX', 'math_integer', 1]);
+      ['INDEX', 'data_listindexrandom', 1]);
 };
 
 /** Construct and add a data_itemnumoflist block to xmlList.
@@ -449,6 +490,10 @@ Blockly.DataCategory.addBlock = function(xmlList, variable, blockType,
   }
 };
 
+Blockly.DataCategory.addBlockRaw = function(xmlList, xml) {
+  xmlList.push(Blockly.Xml.textToDom(`<xml>${xml}</xml>`).firstChild);
+}
+
 /**
  * Create the text representation of a value dom element with a shadow of the
  *     indicated type inside.
@@ -464,7 +509,10 @@ Blockly.DataCategory.createValue = function(valueName, type, value) {
       fieldName = 'TEXT';
       break;
     case 'INDEX':
-      fieldName = 'NUM';
+      fieldName = 'INDEX';
+      break;
+    case 'VISIBILITY':
+      fieldName = 'CHECKBOX';
       break;
     case 'VALUE':
       if (type === 'math_number') {

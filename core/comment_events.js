@@ -325,6 +325,7 @@ Blockly.Events.CommentDelete = function(comment) {
   var hw = comment.getHeightWidth();
   this.height = hw.height;
   this.width = hw.width;
+  this.data = comment.bubble_ ? comment.bubble_.data : comment.data;
 
   this.xml = comment.toXmlWithXY();
 };

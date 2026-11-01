@@ -87,10 +87,17 @@ Blockly.Warning.prototype.drawIcon_ = function(group) {
 /**
  * Create the text for the warning's bubble.
  * @param {string} text The text to display.
+ * @param {Blockly.Warning} [opt_warningContainer] A warning instance containing a block.
+ *                                                 Required to connect custom block text colors.
  * @return {!SVGTextElement} The top-level node of the text.
  * @private
  */
-Blockly.Warning.textToDom_ = function(text) {
+Blockly.Warning.textToDom_ = function(text, opt_warningContainer) {
+  var color = '#fff';
+  if (opt_warningContainer && opt_warningContainer.block_) {
+    color = opt_warningContainer.block_.textColour ?? '#fff';
+  }
+
   var paragraph = /** @type {!SVGTextElement} */
       (Blockly.utils.createSvgElement(
           'text',
@@ -102,8 +109,11 @@ Blockly.Warning.textToDom_ = function(text) {
       );
   var lines = text.split('\n');
   for (var i = 0; i < lines.length; i++) {
-    var tspanElement = Blockly.utils.createSvgElement('tspan',
-        {'dy': '1em', 'x': Blockly.Bubble.BORDER_WIDTH}, paragraph);
+    var tspanElement = Blockly.utils.createSvgElement('tspan', {
+      'dy': '1em',
+      'fill': color,
+      'x': Blockly.Bubble.BORDER_WIDTH
+    }, paragraph);
     var textNode = document.createTextNode(lines[i]);
     tspanElement.appendChild(textNode);
   }
@@ -123,7 +133,7 @@ Blockly.Warning.prototype.setVisible = function(visible) {
       new Blockly.Events.Ui(this.block_, 'warningOpen', !visible, visible));
   if (visible) {
     // Create the bubble to display all warnings.
-    var paragraph = Blockly.Warning.textToDom_(this.getText());
+    var paragraph = Blockly.Warning.textToDom_(this.getText(), this);
     this.bubble_ = new Blockly.Bubble(
         /** @type {!Blockly.WorkspaceSvg} */ (this.block_.workspace),
         paragraph, this.block_.svgPath_, this.iconXY_, null, null);

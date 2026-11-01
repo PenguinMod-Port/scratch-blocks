@@ -230,6 +230,10 @@ Blockly.Blocks['sensing_keyoptions'] = {
             [Blockly.Msg.EVENT_WHENKEYPRESSED_DOWN, 'down arrow'],
             [Blockly.Msg.EVENT_WHENKEYPRESSED_RIGHT, 'right arrow'],
             [Blockly.Msg.EVENT_WHENKEYPRESSED_LEFT, 'left arrow'],
+            [Blockly.Msg.PM_EVENT_WHENKEYPRESSED_ESCAPE, "escape"],
+            [Blockly.Msg.PM_EVENT_WHENKEYPRESSED_SHIFT, "shift"],
+            [Blockly.Msg.PM_EVENT_WHENKEYPRESSED_CONTROL, "control"],
+            [Blockly.Msg.PM_EVENT_WHENKEYPRESSED_BACKSPACE, "backspace"],
             [Blockly.Msg.EVENT_WHENKEYPRESSED_ANY, 'any'],
             ['a', 'a'],
             ['b', 'b'],
@@ -266,7 +270,39 @@ Blockly.Blocks['sensing_keyoptions'] = {
             ['6', '6'],
             ['7', '7'],
             ['8', '8'],
-            ['9', '9']
+            ['9', '9'],
+            ["!", "!"],
+            ["@", "@"],
+            ["#", "#"],
+            ["$", "$"],
+            ["%", "%"],
+            ["^", "^"],
+            ["&", "&"],
+            ["*", "*"],
+            ["(", "("],
+            [")", ")"],
+            ["_", "_"],
+            ["+", "+"],
+            ["{", "{"],
+            ["}", "}"],
+            ["|", "|"],
+            [":", ":"],
+            ['"', '"'],
+            ["?", "?"],
+            ["<", "<"],
+            [">", ">"],
+            ["~", "~"],
+            ["-", "-"],
+            [",", ","],
+            [".", "."],
+            [Blockly.Msg.PM_EVENT_WHENKEYPRESSED_DELETE, "delete"],
+            [Blockly.Msg.PM_EVENT_WHENKEYPRESSED_CAPSLOCK, "caps lock"],
+            [Blockly.Msg.PM_EVENT_WHENKEYPRESSED_SCROLLLOCK, "scroll lock"],
+            [Blockly.Msg.PM_EVENT_WHENKEYPRESSED_INSERT, "insert"],
+            [Blockly.Msg.PM_EVENT_WHENKEYPRESSED_HOME, "home"],
+            [Blockly.Msg.PM_EVENT_WHENKEYPRESSED_END, "end"],
+            [Blockly.Msg.PM_EVENT_WHENKEYPRESSED_PAGEUP, "page up"],
+            [Blockly.Msg.PM_EVENT_WHENKEYPRESSED_PAGEDOWN, "page down"]
           ]
         }
       ],
@@ -732,6 +768,7 @@ Blockly.Blocks['sensing_mouseclicked'] = {
   init: function () {
     this.jsonInit({
       message0: Blockly.Msg.PM_SENSING_MOUSE_CLICKED,
+      checkboxInFlyout: true,
       extensions: ['output_boolean', 'colours_sensing']
     });
   }
@@ -777,61 +814,28 @@ Blockly.Blocks['sensing_fingery'] = {
   }
 };
 
-Blockly.Blocks['sensing_distanceTo'] = {
-  init: function () {
-    this.jsonInit({
-      message0: Blockly.Msg.PM_SENSING_DISTANCE_TO_POINTS,
-      args0: [
-        { type: 'input_value', name: 'x1' },
-        { type: 'input_value', name: 'y1' },
-        { type: 'input_value', name: 'x2' },
-        { type: 'input_value', name: 'y2' }
-      ],
-      extensions: ['output_number', 'colours_sensing']
-    });
-  }
-};
-
-Blockly.Blocks['sensing_directionTo'] = {
-  init: function () {
-    this.jsonInit({
-      message0: Blockly.Msg.PM_SENSING_DIRECTION_TO_POINTS,
-      args0: [
-        { type: 'input_value', name: 'x2' },
-        { type: 'input_value', name: 'y2' },
-        { type: 'input_value', name: 'x1' },
-        { type: 'input_value', name: 'y1' }
-      ],
-      extensions: ['output_number', 'colours_sensing']
-    });
-  }
-};
-
-Blockly.Blocks['sensing_operatingsystem'] = {
+Blockly.Blocks['sensing_getoperatingsystem'] = {
   init: function () {
     this.jsonInit({
       message0: Blockly.Msg.PM_SENSING_OPERATING_SYSTEM,
-      checkboxInFlyout: true,
       extensions: ['output_string', 'colours_sensing']
     });
   }
 };
 
-Blockly.Blocks['sensing_browser'] = {
+Blockly.Blocks['sensing_getbrowser'] = {
   init: function () {
     this.jsonInit({
       message0: Blockly.Msg.PM_SENSING_BROWSER,
-      checkboxInFlyout: true,
       extensions: ['output_string', 'colours_sensing']
     });
   }
 };
 
-Blockly.Blocks['sensing_url'] = {
+Blockly.Blocks['sensing_geturl'] = {
   init: function () {
     this.jsonInit({
       message0: Blockly.Msg.PM_SENSING_URL,
-      checkboxInFlyout: true,
       extensions: ['output_string', 'colours_sensing']
     });
   }
@@ -867,6 +871,264 @@ Blockly.Blocks['sensing_getclipboard'] = {
       "message0": Blockly.Msg.PM_SENSING_CLIPBOARD_GET,
       "category": Blockly.Categories.sensing,
       "checkboxInFlyout": true,
+      "extensions": ["colours_sensing", "output_string"]
+    });
+  }
+};
+
+Blockly.Blocks['sensing_mouse_button_down'] = {
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_SENSING_MOUSE_BUTTON_DOWN,
+      "args0": [
+        {
+          "type": "field_dropdown",
+          "name": "BUTTON_OPTION",
+          "options": [
+            [Blockly.Msg.PM_SENSING_MOUSE_BUTTON_LEFT, 'left'],
+            [Blockly.Msg.PM_SENSING_MOUSE_BUTTON_MIDDLE, 'middle'],
+            [Blockly.Msg.PM_SENSING_MOUSE_BUTTON_RIGHT, 'right'],
+            [Blockly.Msg.PM_SENSING_MOUSE_BUTTON_ANY, 'any']
+          ]
+        }
+      ],
+      "category": Blockly.Categories.sensing,
+      "checkboxInFlyout": true,
+      "extensions": ["colours_sensing", "output_boolean"]
+    });
+  }
+};
+
+Blockly.Blocks['sensing_mouse_button_clicked'] = {
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_SENSING_MOUSE_BUTTON_CLICKED,
+      "args0": [
+        {
+          "type": "field_dropdown",
+          "name": "BUTTON_OPTION",
+          "options": [
+            [Blockly.Msg.PM_SENSING_MOUSE_BUTTON_LEFT, 'left'],
+            [Blockly.Msg.PM_SENSING_MOUSE_BUTTON_MIDDLE, 'middle'],
+            [Blockly.Msg.PM_SENSING_MOUSE_BUTTON_RIGHT, 'right'],
+            [Blockly.Msg.PM_SENSING_MOUSE_BUTTON_ANY, 'any']
+          ]
+        }
+      ],
+      "category": Blockly.Categories.sensing,
+      "checkboxInFlyout": true,
+      "extensions": ["colours_sensing", "output_boolean"]
+    });
+  }
+};
+
+Blockly.Blocks['sensing_mouse_button_released'] = {
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_SENSING_MOUSE_BUTTON_RELEASED,
+      "args0": [
+        {
+          "type": "field_dropdown",
+          "name": "BUTTON_OPTION",
+          "options": [
+            [Blockly.Msg.PM_SENSING_MOUSE_BUTTON_LEFT, 'left'],
+            [Blockly.Msg.PM_SENSING_MOUSE_BUTTON_MIDDLE, 'middle'],
+            [Blockly.Msg.PM_SENSING_MOUSE_BUTTON_RIGHT, 'right'],
+            [Blockly.Msg.PM_SENSING_MOUSE_BUTTON_ANY, 'any']
+          ]
+        }
+      ],
+      "category": Blockly.Categories.sensing,
+      "checkboxInFlyout": true,
+      "extensions": ["colours_sensing", "output_boolean"]
+    });
+  }
+};
+
+Blockly.Blocks["sensing_mobile"] = {
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_SENSING_MOBILE,
+      "category": Blockly.Categories.sensing,
+      "extensions": ["colours_sensing", "output_boolean"]
+    });
+  }
+};
+
+Blockly.Blocks["sensing_getspritewithattrib"] = {
+  init: function() {
+    this.jsonInit({
+      "inputsInline": true,
+      "message0": Blockly.Msg.PM_SENSING_GET_SPRITE_WITH_ATTRIB,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "var"
+        },
+        {
+          "type": "input_value",
+          "name": "val"
+        }
+      ],
+      "category": Blockly.Categories.sensing,
+      "extensions": ["colours_sensing", "output_string"]
+    });
+  }
+};
+
+Blockly.Blocks['sensing_getdragmode'] = {
+  /**
+   * pm: Block to report drag mode.
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_SENSING_DRAGGABLE,
+      "category": Blockly.Categories.sensing,
+      "checkboxInFlyout": true,
+      "extensions": ["colours_sensing", "output_boolean"]
+    });
+  }
+};Blockly.Blocks['sensing_set_of'] = {
+  /**
+   * Block to set properties of sprites.
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_SENSING_SET_OF,
+      "args0": [
+        {
+          "type": "field_dropdown",
+          "name": "PROPERTY",
+          "options": [
+            [Blockly.Msg.SENSING_OF_XPOSITION, 'x position'],
+            [Blockly.Msg.SENSING_OF_YPOSITION, 'y position'],
+            [Blockly.Msg.SENSING_OF_DIRECTION, 'direction'],
+            [Blockly.Msg.PM_SENSING_SET_OF_COSTUME, 'costume'],
+            [Blockly.Msg.SENSING_OF_SIZE, 'size'],
+            [Blockly.Msg.SENSING_OF_VOLUME, 'volume'],
+            [Blockly.Msg.PM_SENSING_SET_OF_BACKDROP, 'backdrop']
+          ]
+        },
+        {
+          "type": "input_value",
+          "name": "OBJECT"
+        },
+        {
+          "type": "input_value",
+          "name": "VALUE"
+        }
+      ],
+      "category": Blockly.Categories.sensing,
+      "extensions": ["colours_sensing", "shape_statement"]
+    });
+  }
+};
+
+Blockly.Blocks['sensing_loggedin'] = {
+  /**
+   * pm: Block to report if a user is logged in.
+   * @this Blockly.Block
+   */
+  init: function () {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_SENSING_LOGGED_IN,
+      "category": Blockly.Categories.sensing,
+      "checkboxInFlyout": true,
+      "extensions": ["colours_sensing", "output_boolean"]
+    });
+  }
+};
+
+Blockly.Blocks["sensing_regextest"] = {
+  init: function() {
+    this.jsonInit({
+      "inputsInline": true,
+      "message0": Blockly.Msg.PM_SENSING_REGEX_TEST,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "text"
+        },
+        {
+          "type": "input_value",
+          "name": "reg"
+        },
+        {
+          "type": "input_value",
+          "name": "regrule"
+        }
+      ],
+      "category": Blockly.Categories.sensing,
+      "extensions": ["colours_sensing", "output_boolean"]
+    });
+  }
+};
+
+Blockly.Blocks['sensing_isUpperCase'] = {
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_SENSING_IS_UPPERCASE,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "text"
+        }
+      ],
+      "category": Blockly.Categories.sensing,
+      "extensions": ["colours_sensing", "output_boolean"]
+    });
+  }
+};
+
+Blockly.Blocks['sensing_getxyoftouchingsprite'] = {
+  /**
+   * Block to set drag mode.
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_SENSING_XY_OF_TOUCHING,
+      "args0": [
+        {
+          "type": "field_dropdown",
+          "name": "XY",
+          "options": [
+            ['x', 'x'],
+            ['y', 'y']
+          ]
+        },
+        {
+          "type": "input_value",
+          "name": "SPRITE"
+        }
+      ],
+      "category": Blockly.Categories.sensing,
+      "extensions": ["colours_sensing", "output_number"]
+    });
+  }
+};
+
+Blockly.Blocks['sensing_sprites'] = {
+  /**
+   * Block to set drag mode.
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.jsonInit({
+      "message0": "%1",
+      "args0": [
+        {
+          "type": "field_dropdown",
+          "name": "SPRITE",
+          "options": [
+            ['Sprite1', 'Sprite1'],
+            ['Sprite2', 'Sprite2']
+          ]
+        }
+      ],
+      "category": Blockly.Categories.sensing,
       "extensions": ["colours_sensing", "output_string"]
     });
   }

@@ -22,7 +22,8 @@
     "translate": "node i18n/js_to_json.js && node i18n/json_to_js.js",
     "translate:sync:src": "tx-push-src scratch-editor blocks msg/json/en.json",
     "translate:sync:translations": "node i18n/sync_tx_translations.js",
-    "translate:update": "npm run translate:sync:src && npm run translate:sync:translations"
+    "translate:update": "npm run translate:sync:src && npm run translate:sync:translations",
+    "pm:translate": "node ./i18n/pm/create-en.js && node ./i18n/pm/sync.js && node ./i18n/pm/create-js.js"
   },
   "dependencies": {
     "exports-loader": "0.7.0",
@@ -37,8 +38,8 @@
     "exceljs": "^4.4.0",
     "gh-pages": "0.12.0",
     "glob": "7.2.3",
-    "google-closure-compiler": "20180402.0.0",
-    "google-closure-library": "20190301.0.0",
+    "google-closure-compiler": "^20210106.0.0",
+    "google-closure-library": "^20200101.0.0",
     "graceful-fs": "4.2.11",
     "json": "9.0.6",
     "rimraf": "2.7.1",

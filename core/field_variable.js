@@ -106,6 +106,12 @@ Blockly.FieldVariable.prototype.initModel = function() {
     return; // Initialization already happened.
   }
   this.workspace_ = this.sourceBlock_.workspace;
+
+  if (this.defaultVariableName === '') {
+    let a = this.workspace_.getVariablesOfType(this.defaultType_)[0];
+    if (a) this.defaultVariableName = a.name;
+  }
+
   // Initialize this field if it's in a broadcast block in the flyout
   var variable = this.initFlyoutBroadcast_(this.workspace_);
   if (!variable) {
@@ -310,8 +316,8 @@ Blockly.FieldVariable.dropdownCreate = function() {
     options[i] = [variableModelList[i].name, variableModelList[i].getId()];
   }
   if (this.defaultType_ == Blockly.BROADCAST_MESSAGE_VARIABLE_TYPE) {
-    options.unshift(
-        [Blockly.Msg.NEW_BROADCAST_MESSAGE, Blockly.NEW_BROADCAST_MESSAGE_ID]);
+    options.push([Blockly.Msg.NEW_BROADCAST_MESSAGE, Blockly.NEW_BROADCAST_MESSAGE_ID]);
+    options.push([Blockly.Msg.PM_RENAME_MESSAGE, Blockly.RENAME_VARIABLE_ID]);
   } else {
     // Scalar variables and lists have the same backing action, but the option
     // text is different.

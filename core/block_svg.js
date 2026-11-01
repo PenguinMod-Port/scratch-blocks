@@ -91,6 +91,71 @@ Blockly.BlockSvg = function(workspace, prototypeName, opt_id) {
 };
 goog.inherits(Blockly.BlockSvg, Blockly.Block);
 
+// settings
+Blockly.BlockSvg.HIDE_EXPANDABLES = false;
+Blockly.BlockSvg.SWATCHES = true;
+Blockly.BlockSvg.PINS_ENABLED = false;
+Blockly.BlockSvg.PINS = [];
+
+// Callbacks
+
+/**
+ * Toggles a flyout pin. The passed block will either be pinned, unpinned,
+ * or placed in a specified order.
+ * @param {Blockly.Block} block The block to toggle pin
+ * @param {unpin|top|bottom|category} eventType What pin action to do with the block
+ */
+Blockly.BlockSvg.toggleBlockPin = function(block, eventType) {
+  var xml = Blockly.Xml.blockToDom(block).outerHTML;
+  var index = Blockly.BlockSvg.PINS.indexOf(xml);
+
+  switch (eventType) {
+    case 'unpin':
+      if (index > -1) Blockly.BlockSvg.PINS.splice(index, 1);
+      break;
+    case 'top':
+      if (index > -1) Blockly.BlockSvg.PINS.splice(index, 1);
+      Blockly.BlockSvg.PINS = [xml, ...Blockly.BlockSvg.PINS];
+      break;
+    case 'bottom':
+      if (index > -1) Blockly.BlockSvg.PINS.splice(index, 1);
+      Blockly.BlockSvg.PINS.push(xml);
+      break;
+    case 'category': {
+      var flyoutBlocks = Object.values(block.workspace.blockDB_);
+      var blockTypeRegex = /type="([^"]+)"/;
+
+      var ordered = [];
+      for (let i = 0; i < Blockly.BlockSvg.PINS.length; i++) {
+        var xml = Blockly.BlockSvg.PINS[i];
+        var match = xml.match(blockTypeRegex);
+        if (!match) continue;
+
+        var type = match[1];
+        ordered[flyoutBlocks.findLastIndex((b) => b.type === type)] = xml;
+      }
+
+      Blockly.BlockSvg.PINS = ordered.flat();
+      break;
+    }
+  }
+
+  Blockly.BlockSvg.pinCallback();
+};
+
+/**
+ * Unpins all blocks from the flyout.
+ * @param {Blockly.Block} block The block used to access the workspace
+ */
+Blockly.BlockSvg.unpinAllBlocks = function(block) {
+  Blockly.BlockSvg.PINS = [];
+  Blockly.BlockSvg.pinCallback();
+};
+
+Blockly.BlockSvg.pinCallback = function() {
+  alert(`Editor needs to override 'Blockly.BlockSvg.pinCallback'`);
+}
+
 /**
  * Height of this block, not including any statement blocks above or below.
  * Height is in workspace units.
@@ -340,8 +405,7 @@ Blockly.BlockSvg.prototype.setParent = function(newParent) {
     this.moveConnections_(newXY.x - oldXY.x, newXY.y - oldXY.y);
     // If we are a shadow block, inherit tertiary colour.
     if (this.isShadow()) {
-      this.setColour(this.getColour(), this.getColourSecondary(),
-          newParent.getColourTertiary(), this.getColourQuaternary());
+      //this.setColour(this.getColour());
     }
   }
   // If we are losing a parent, we want to move our DOM element to the
@@ -705,19 +769,61 @@ Blockly.BlockSvg.prototype.showContextMenu_ = function(e) {
   // Save the current block in a variable for use in closures.
   var block = this;
   var menuOptions = [];
-  if (this.isDeletable() && this.isMovable() && !block.isInFlyout) {
-    menuOptions.push(
-        Blockly.ContextMenu.blockDuplicateOption(block, e));
-    if (this.isEditable() && this.workspace.options.comments) {
-      menuOptions.push(Blockly.ContextMenu.blockCommentOption(block));
+  if (this.isDeletable() && this.isMovable()) {
+    if (!block.isInFlyout) {
+      menuOptions.push(
+        Blockly.ContextMenu.blockDuplicateOption(block, e)
+      );
+
+      if (this.isEditable() && this.workspace.options.comments) {
+        menuOptions.push(Blockly.ContextMenu.blockCommentOption(block));
+      }
+      if (this.workspace.options.collapse && this.type !== Blockly.PROCEDURES_DEFINITION_BLOCK_TYPE) {
+        menuOptions.push(Blockly.ContextMenu.blockCollapseOption(block));
+      }
+      if (!this.isCollapsed() && this.workspace.options.externalInputs && this.type !== Blockly.PROCEDURES_DEFINITION_BLOCK_TYPE) {
+        menuOptions.push(Blockly.ContextMenu.blockInlineOption(block));
+      }
+      menuOptions.push(Blockly.ContextMenu.blockDeleteOption(block));
+
+      if (Blockly.BlockSvg.HIDE_EXPANDABLES && !this.isCollapsed() && this.inputList.map(v => v.fieldRow).flat().some(v => v instanceof Blockly.FieldExpandable || v instanceof Blockly.FieldExpandableJSON)) {
+        menuOptions.push(Blockly.ContextMenu.separator());
+        menuOptions = menuOptions.concat(Blockly.ContextMenu.blockExpandableOptions(block));
+      }
+
+      if (Blockly.BlockSvg.SWATCHES) {
+        let swatches = Blockly.ContextMenu.blockSwatchesOptions(block);
+        if (swatches.length > 0) {
+          menuOptions.push(Blockly.ContextMenu.separator());
+          menuOptions = menuOptions.concat(swatches);
+        }
+      }
     }
-    if (this.workspace.options.collapse && this.type !== Blockly.PROCEDURES_DEFINITION_BLOCK_TYPE) {
-      menuOptions.push(Blockly.ContextMenu.blockCollapseOption(block));
+
+    if (Blockly.BlockSvg.PINS_ENABLED && block.type !== 'procedures_definition') {
+      if (!block.isInFlyout) {
+        menuOptions.push(Blockly.ContextMenu.separator());
+      }
+
+      var xml = Blockly.Xml.blockToDom(block).outerHTML;
+      var isPinned = Blockly.BlockSvg.PINS.find((pinXml) => {
+        var cleansed = pinXml.replace(/pin-(?:builtin|custom)="[^"]+"/g, '');
+        return cleansed === xml;
+      });
+      if (isPinned) {
+        menuOptions.push(Blockly.ContextMenu.movePinTopOption(block));
+        menuOptions.push(Blockly.ContextMenu.movePinBottomOption(block));
+        menuOptions.push(Blockly.ContextMenu.movePinCategoryOption(block));
+        menuOptions.push(Blockly.ContextMenu.separator());
+        menuOptions.push(Blockly.ContextMenu.blockPinOption(block));
+        menuOptions.push(Blockly.ContextMenu.blockUnpinOption(block));
+      } else {
+        menuOptions.push(Blockly.ContextMenu.blockPinOption(block));
+        menuOptions.push(Blockly.ContextMenu.blockUnpinOption(block));
+      }
+
+      menuOptions.push(Blockly.ContextMenu.blockUnpinAllOption(block));
     }
-    if (!this.isCollapsed() && this.workspace.options.externalInputs && this.type !== Blockly.PROCEDURES_DEFINITION_BLOCK_TYPE) {
-      menuOptions.push(Blockly.ContextMenu.blockInlineOption(block));
-    }
-    menuOptions.push(Blockly.ContextMenu.blockDeleteOption(block));
   } else if (this.parentBlock_ && this.isShadow_) {
     this.parentBlock_.showContextMenu_(e);
     return;
@@ -1097,17 +1203,9 @@ Blockly.BlockSvg.prototype.setDeleteStyle = function(enable) {
 /**
  * Change the colour of a block.
  * @param {number|string} colour HSV hue value, or #RRGGBB string.
- * @param {number|string} colourSecondary Secondary HSV hue value, or #RRGGBB
- *    string.
- * @param {number|string} colourTertiary Tertiary HSV hue value, or #RRGGBB
- *    string.
- * @param {number|string} colourQuaternary Quaternary HSV hue value, or #RRGGBB
- *    string.
  */
-Blockly.BlockSvg.prototype.setColour = function(colour, colourSecondary,
-    colourTertiary, colourQuaternary) {
-  Blockly.BlockSvg.superClass_.setColour.call(this, colour, colourSecondary,
-      colourTertiary, colourQuaternary);
+Blockly.BlockSvg.prototype.setColour = function(colour) {
+  Blockly.BlockSvg.superClass_.setColour.call(this, colour);
 
   if (this.rendered) {
     this.updateColour();

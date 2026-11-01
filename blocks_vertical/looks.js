@@ -186,7 +186,9 @@ Blockly.Blocks['looks_changeeffectby'] = {
             [Blockly.Msg.PM_LOOKS_EFFECT_BLUE, 'BLUE'],
             [Blockly.Msg.PM_LOOKS_EFFECT_OPAQUE, 'OPAQUE'],
             [Blockly.Msg.PM_LOOKS_EFFECT_HORIZ_SHEAR, 'HORIZONTAL_SHEAR'],
-            [Blockly.Msg.PM_LOOKS_EFFECT_VERTI_SHEAR, 'VERTICAL_SHEAR']
+            [Blockly.Msg.PM_LOOKS_EFFECT_VERTI_SHEAR, 'VERTICAL_SHEAR'],
+            [Blockly.Msg.PM_LOOKS_EFFECT_REPEAT_X, 'REPEAT_X'],
+            [Blockly.Msg.PM_LOOKS_EFFECT_REPEAT_Y, 'REPEAT_Y']
           ]
         },
         {
@@ -226,7 +228,9 @@ Blockly.Blocks['looks_seteffectto'] = {
             [Blockly.Msg.PM_LOOKS_EFFECT_BLUE, 'BLUE'],
             [Blockly.Msg.PM_LOOKS_EFFECT_OPAQUE, 'OPAQUE'],
             [Blockly.Msg.PM_LOOKS_EFFECT_HORIZ_SHEAR, 'HORIZONTAL_SHEAR'],
-            [Blockly.Msg.PM_LOOKS_EFFECT_VERTI_SHEAR, 'VERTICAL_SHEAR']
+            [Blockly.Msg.PM_LOOKS_EFFECT_VERTI_SHEAR, 'VERTICAL_SHEAR'],
+            [Blockly.Msg.PM_LOOKS_EFFECT_REPEAT_X, 'REPEAT_X'],
+            [Blockly.Msg.PM_LOOKS_EFFECT_REPEAT_Y, 'REPEAT_Y']
           ]
         },
         {
@@ -378,11 +382,7 @@ Blockly.Blocks['looks_costume'] = {
           ]
         }
       ],
-      "colour": Blockly.Colours.looks.secondary,
-      "colourSecondary": Blockly.Colours.looks.secondary,
-      "colourTertiary": Blockly.Colours.looks.tertiary,
-      "colourQuaternary": Blockly.Colours.looks.quaternary,
-      "extensions": ["output_string"]
+      "extensions": ["colours_looks", "output_string"]
     });
   }
 };
@@ -459,11 +459,7 @@ Blockly.Blocks['looks_backdrops'] = {
           ]
         }
       ],
-      "colour": Blockly.Colours.looks.secondary,
-      "colourSecondary": Blockly.Colours.looks.secondary,
-      "colourTertiary": Blockly.Colours.looks.tertiary,
-      "colourQuaternary": Blockly.Colours.looks.quaternary,
-      "extensions": ["output_string"]
+      "extensions": ["colours_looks", "output_string"]
     });
   }
 };
@@ -782,7 +778,29 @@ Blockly.Blocks['looks_getinputofcostume'] = {
       ],
       "category": Blockly.Categories.looks,
       "inputsInline": true,
-      "extensions": ["colours_looks", "output_number"]
+      "extensions": ["colours_looks", "output_number", "output_string"]
+    });
+  }
+};
+
+// duplicate to fix width and height bug
+Blockly.Blocks['looks_getinputofcostumenew'] = {
+  init: function () {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_LOOKS_GETINPUTOFCOSTUME,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "INPUT"
+        },
+        {
+          "type": "input_value",
+          "name": "COSTUME"
+        }
+      ],
+      "category": Blockly.Categories.looks,
+      "inputsInline": true,
+      "extensions": ["colours_looks", "output_number", "output_string"]
     });
   }
 };
@@ -906,9 +924,9 @@ Blockly.Blocks["looks_setColor"] = {
           "type": "field_dropdown",
           "name": "prop",
           "options": [
-            ["border", "BUBBLE_STROKE"],
-            ["fill", "BUBBLE_FILL"],
-            ["text", "TEXT_FILL"]
+            [Blockly.Msg.PM_LOOKS_SETCOLOR_BORDER, "BUBBLE_STROKE"],
+            [Blockly.Msg.PM_LOOKS_SETCOLOR_FILL, "BUBBLE_FILL"],
+            [Blockly.Msg.PM_LOOKS_SETCOLOR_TEXT, "TEXT_FILL"]
           ]
         },
         {
@@ -936,14 +954,15 @@ Blockly.Blocks["looks_setShape"] = {
           "type": "field_dropdown",
           "name": "prop",
           "options": [
-            ["minimum width", "MIN_WIDTH"],
-            ["maximum width", "MAX_LINE_WIDTH"],
-            ["border line width", "STROKE_WIDTH"],
-            ["padding size", "PADDING"],
-            ["corner radius", "CORNER_RADIUS"],
-            ["tail height", "TAIL_HEIGHT"],
-            ["font pading percent", "FONT_HEIGHT_RATIO"],
-            ["text length limit", "texlim"]
+            [Blockly.Msg.PM_LOOKS_SETSHAPE_MINWIDTH, "MIN_WIDTH"],
+            [Blockly.Msg.PM_LOOKS_SETSHAPE_MAXWIDTH, "MAX_LINE_WIDTH"],
+            [Blockly.Msg.PM_LOOKS_SETSHAPE_BORDERWIDTH, "STROKE_WIDTH"],
+            [Blockly.Msg.PM_LOOKS_SETSHAPE_PADDING, "PADDING"],
+            [Blockly.Msg.PM_LOOKS_SETSHAPE_CORNERRADIUS, "CORNER_RADIUS"],
+            [Blockly.Msg.PM_LOOKS_SETSHAPE_TAILHEIGHT, "TAIL_HEIGHT"],
+            [Blockly.Msg.PM_LOOKS_SETSHAPE_FONTHEIGHTRATIO, "FONT_HEIGHT_RATIO"],
+            [Blockly.Msg.PM_LOOKS_SETSHAPE_LINEHEIGHT, "LINE_HEIGHT"],
+            [Blockly.Msg.PM_LOOKS_SETSHAPE_TEXTLIM, "texlim"]
           ]
         },
         {
@@ -1074,7 +1093,9 @@ Blockly.Blocks["looks_getEffectValue"] = {
             [Blockly.Msg.PM_LOOKS_EFFECT_BLUE, 'BLUE'],
             [Blockly.Msg.PM_LOOKS_EFFECT_OPAQUE, 'OPAQUE'],
             [Blockly.Msg.PM_LOOKS_EFFECT_HORIZ_SHEAR, 'HORIZONTAL_SHEAR'],
-            [Blockly.Msg.PM_LOOKS_EFFECT_VERTI_SHEAR, 'VERTICAL_SHEAR']
+            [Blockly.Msg.PM_LOOKS_EFFECT_VERTI_SHEAR, 'VERTICAL_SHEAR'],
+            [Blockly.Msg.PM_LOOKS_EFFECT_REPEAT_X, 'REPEAT_X'],
+            [Blockly.Msg.PM_LOOKS_EFFECT_REPEAT_Y, 'REPEAT_Y']
           ]
         }
       ],
@@ -1083,3 +1104,77 @@ Blockly.Blocks["looks_getEffectValue"] = {
     });
   }
 };
+
+Blockly.Blocks["looks_set_blend_mode"] = {
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_LOOKS_BLENDMODE,
+      "args0": [
+        {
+          "type": "field_dropdown",
+          "name": "BLENDMODE",
+          "options": [
+            [Blockly.Msg.PM_LOOKS_BLENDMODE_NORMAL, 'NORMAL'],
+            [Blockly.Msg.PM_LOOKS_BLENDMODE_ADDITIVE, 'ADDITIVE'],
+            [Blockly.Msg.PM_LOOKS_BLENDMODE_MULTIPLICATIVE, 'MULTIPLICATIVE'],
+            [Blockly.Msg.PM_LOOKS_BLENDMODE_SUBTRACTIVE, 'SUBTRACTIVE'],
+            [Blockly.Msg.PM_LOOKS_BLENDMODE_SCREEN, 'SCREEN'],
+            [Blockly.Msg.PM_LOOKS_BLENDMODE_DIFFERENCE, 'DIFFERENCE'],
+          ]
+        }
+      ],
+      "category": Blockly.Categories.looks,
+      "extensions": ["colours_looks", "shape_statement"]
+    });
+  }
+};
+
+Blockly.Blocks["looks_getSpriteVisible"] = {
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_LOOKS_VISIBLE,
+      "checkboxInFlyout": true,
+      "category": Blockly.Categories.looks,
+      "extensions": ["output_boolean", "colours_looks"]
+    });
+  }
+};
+
+Blockly.Blocks["looks_sayHeight"] = {
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_LOOKS_BUBBLEHEIGHT,
+      "checkboxInFlyout": true,
+      "category": Blockly.Categories.looks,
+      "extensions": ["output_number", "colours_looks"]
+    });
+  }
+};
+
+Blockly.Blocks["looks_sayWidth"] = {
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_LOOKS_BUBBLEWIDTH,
+      "checkboxInFlyout": true,
+      "category": Blockly.Categories.looks,
+      "extensions": ["output_number", "colours_looks"]
+    });
+  }
+};
+
+Blockly.Blocks["looks_setSpriteVisible"] = {
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_LOOKS_SETVISIBLE,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "VISIBILITY",
+          "check": "Boolean"
+        }
+      ],
+      "category": Blockly.Categories.looks,
+      "extensions": ["colours_looks", "shape_statement"]
+    })
+  }
+}

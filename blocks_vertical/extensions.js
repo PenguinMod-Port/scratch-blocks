@@ -139,7 +139,7 @@ Blockly.Blocks['extension_wedo_boolean'] = {
    */
   init: function() {
     this.jsonInit({
-      "message0": "%1 %2 O RLY?",
+      "message0": "%1 %2 O RLY? %3",
       "args0": [
         {
           "type": "field_image",
@@ -149,8 +149,19 @@ Blockly.Blocks['extension_wedo_boolean'] = {
         },
         {
           "type": "field_vertical_separator"
+        },
+        {
+          "type": "field_dropdown",
+          "name": "TILT",
+          "options": [
+            ['Any', 'Any'],
+            ['Whirl', 'Whirl'],
+            ['South', 'South'],
+            ['Back in time', 'Back in time']
+          ]
         }
       ],
+      "blockText": "#000000",
       "category": Blockly.Categories.more,
       "extensions": ["colours_more", "output_boolean", "scratch_extension"]
     });
@@ -179,6 +190,7 @@ Blockly.Blocks['extension_wedo_tilt_reporter'] = {
           "name": "TILT"
         }
       ],
+      "blockText": "#000000",
       "category": Blockly.Categories.more,
       "extensions": ["colours_more", "output_number", "scratch_extension"]
     });
@@ -204,6 +216,7 @@ Blockly.Blocks['extension_wedo_tilt_menu'] = {
           ]
         }
       ],
+      "blockText": "#000000",
       "extensions": ["colours_more", "output_string"]
     });
   }
@@ -334,6 +347,52 @@ Blockly.Blocks['extension_template'] = {
       "message0": "",
       "category": Blockly.Categories.pen,
       "extensions": ["colours_more"]
+    });
+  }
+};
+
+Blockly.Blocks['dual block custom notch custom block shape black text branched reporter when'] = {
+  /**
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_CONTROL_DO,
+      "message1": Blockly.Msg.CONTROL_WHILE,
+      "message2": "%1",
+      "lastDummyAlign2": "RIGHT",
+      "args0": [
+        {
+          "type": "input_dummy"
+        },
+        {
+          "type": "input_statement",
+          "check": "scrapped",
+          "name": "SUBSTACK"
+        }
+      ],
+      "args1": [
+        {
+          "type": "input_value",
+          "name": "CONDITION",
+          "check": "Boolean"
+        }
+      ],
+      "args2": [
+        {
+          "type": "field_image",
+          "src": Blockly.mainWorkspace.options.pathToMedia + "repeat.svg",
+          "width": 24,
+          "height": 24,
+          "alt": "*",
+          "flip_rtl": true
+        }
+      ],
+      "blockText": "#000000",
+      "category": Blockly.Categories.pen,
+      "output": null,
+      "outputShape": 7,
+      "extensions": ["colours_more", "shape_case"]
     });
   }
 };

@@ -44,9 +44,10 @@ goog.require('goog.math.Coordinate');
  * @param {string=} opt_id Optional ID.  Use this ID if provided, otherwise
  *     create a new ID.  If the ID conflicts with an in-use ID, a new one will
  *     be generated.
+ * @param {?object} data Comment visual data, such as font, color, etc.
  * @constructor
  */
-Blockly.WorkspaceComment = function(workspace, content, height, width, minimized, opt_id) {
+Blockly.WorkspaceComment = function(workspace, content, height, width, minimized, opt_id, data) {
   /** @type {string} */
   this.id = (opt_id && !workspace.getCommentById(opt_id)) ?
       opt_id : Blockly.utils.genUid();
@@ -110,6 +111,12 @@ Blockly.WorkspaceComment = function(workspace, content, height, width, minimized
    * @type {!string}
    */
   this.content_ = content;
+
+  /**
+   * @protected
+   * @type {!object}
+   */
+  this.setData(data, true);
 
   /**
    * @package
@@ -287,6 +294,31 @@ Blockly.WorkspaceComment.prototype.isMinimized = function() {
 };
 
 /**
+ * Sets the data of this comment.
+ * @param {!Object} data Comment visual data (color, font, etc.)
+ * @param {!Boolean} [opt_noEvents] If true, will not run any events
+ */
+Blockly.WorkspaceComment.prototype.setData = function(data, opt_noEvents) {
+  var oldData = this.data;
+  this.data = data && typeof data === 'object' ? data : {
+    color: Blockly.ScratchBubble.DEFAULT_COMMENT_COLOR,
+    txtColor: Blockly.ScratchBubble.DEFAULT_COMMENT_TEXT_COLOR,
+    opacity: 100,
+    font: 'Arial',
+    textAlign: 'left',
+    fontSize: 16,
+    bold: false,
+    italic: false
+  };
+
+  if (!opt_noEvents) {
+    Blockly.Events.fire(new Blockly.Events.CommentChange(
+      this.comment, { data: oldData }, { data: this.data }
+    ));
+  }
+};
+
+/**
  * Encode a comment subtree as XML with XY coordinates.
  * @param {boolean=} opt_noId True if the encoder should skip the comment id.
  * @return {!Element} Tree of XML elements.
@@ -333,6 +365,9 @@ Blockly.WorkspaceComment.prototype.toXml = function(opt_noId) {
   if (this.isMinimized_) {
     commentElement.setAttribute('minimized', true);
   }
+  if (this.data) {
+    commentElement.setAttribute('data', JSON.stringify(this.data));
+  }
   commentElement.textContent = this.getText();
   return commentElement;
 };
@@ -369,7 +404,14 @@ Blockly.WorkspaceComment.fromXml = function(xmlComment, workspace) {
   var info = Blockly.WorkspaceComment.parseAttributes(xmlComment);
 
   var comment = new Blockly.WorkspaceComment(
-      workspace, info.content, info.h, info.w, info.minimized, info.id);
+    workspace,
+    info.content,
+    info.h,
+    info.w,
+    info.minimized,
+    info.id,
+    info.data
+  );
 
   if (!isNaN(info.x) && !isNaN(info.y)) {
     comment.moveBy(info.x, info.y);
@@ -420,6 +462,19 @@ Blockly.WorkspaceComment.parseAttributes = function(xml) {
      * @type {boolean}
      */
     minimized: xml.getAttribute('minimized') == 'true' || false,
+    /**
+     * Visual data of this comment.
+     * @type {object|null}
+     */
+    data: (() => {
+      if (!xml.hasAttribute('data')) return null;
+
+      try {
+        return JSON.parse(xml.getAttribute('data') || "{}");
+      } catch {
+        return null;
+      }
+    })(),
     /* @type {string} */
     content: xml.textContent
   };

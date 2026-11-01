@@ -42,19 +42,8 @@ goog.require('Blockly.constants');
  *     category.
  */
 Blockly.ScratchBlocks.VerticalExtensions.colourHelper = function(category) {
-  var colours = Blockly.Colours[category];
-  if (!(colours && colours.primary && colours.secondary && colours.tertiary &&
-    colours.quaternary)) {
-    throw new Error('Could not find colours for category "' + category + '"');
-  }
-  /**
-   * Set the primary, secondary, tertiary, and quaternary colours on this block for
-   * the given category.
-   * @this {Blockly.Block}
-   */
   return function() {
-    this.setColourFromRawValues_(colours.primary, colours.secondary,
-        colours.tertiary, colours.quaternary);
+    this.setColourFromRawValues_(Blockly.Colours[category]);
   };
 };
 
@@ -62,9 +51,9 @@ Blockly.ScratchBlocks.VerticalExtensions.colourHelper = function(category) {
  * Extension to set the colours of a text field, which are all the same.
  */
 Blockly.ScratchBlocks.VerticalExtensions.COLOUR_TEXTFIELD = function() {
-  this.setColourFromRawValues_(Blockly.Colours.textField,
-      Blockly.Colours.textField, Blockly.Colours.textField,
-      Blockly.Colours.textField);
+  this.setColourFromRawValues_(Blockly.Colours.textField);
+  this.setShadowColour(Blockly.Colours.textField);
+  this.setTextColour(Blockly.Colours.textFieldText);
 };
 
 /**
@@ -263,6 +252,100 @@ Blockly.ScratchBlocks.VerticalExtensions.PROCEDURE_CALL_CONTEXTMENU = {
   }
 };
 
+Blockly.ScratchBlocks.VerticalExtensions.PROCEDURE_CUSTOM_COLOR = function() {
+  if (!Blockly.Procedures.COLOR_EXTENSION_ENABLED) return;
+  if (this.isInsertionMarker()) return;
+
+  var isProcedureBlock = (block) => {
+    var type = block.type;
+    return (
+      (type.startsWith("procedures_") && type !== "procedures_call") ||
+      type.startsWith("argument_reporter_")
+    );
+  };
+
+  var resetColor = (block) => {
+    Blockly.Extensions.apply("colours_more", block);
+
+    // Fix inner shadow blocks not reseting their color
+    for (var child of block.childBlocks_) {
+      if (child.isShadow()) {
+        Blockly.Extensions.apply("colours_textfield", child);
+      } else if (isProcedureBlock(child)) {
+        resetColor(child);
+      }
+    }
+  };
+
+  var setColor = (block, target, ignoreChildren) => {
+    if (Blockly.Extensions.ALL_[`colours_${target.procColour_}`]) {
+      Blockly.Extensions.apply(`colours_${target.procColour_}`, block);
+    } else if (target.procColour_ !== null) {
+      block.setColour(target.procColour_);
+    }
+
+    // Fix inner shadow blocks using the default color
+    for (var child of block.childBlocks_) {
+      if (
+        child.isShadow() &&
+        (child.type === "procedures_prototype" || !isProcedureBlock(child))
+      ) {
+        child.setColour(child.colour_);
+      } else if (!ignoreChildren) {
+        // Shallow change the color to children
+        updateInProcedureStack(child);
+      }
+    }
+  };
+
+  var updateInProcedureStack = (block) => {
+    var type = block.type;
+
+    if (type === "procedures_definition") {
+      var protoInput = block.getInput("custom_block");
+      if (protoInput) {
+        var proto = protoInput.connection.targetBlock();
+        if (proto) {
+          setColor(block, proto, !block._updateStackColorTick);
+        }
+      }
+
+      delete block._updateStackColorTick;
+    } else if (isProcedureBlock(block)) {
+      let topBlock = block;
+      while (topBlock !== null) {
+        var parent = topBlock.getParent();
+        if (parent === null) break;
+        if (type === "procedures_return" && topBlock.outputShape_ !== null) {
+          // This return block is part of some inline-reporter... abort!
+          resetColor(block);
+          return;
+        }
+
+        topBlock = parent;
+      }
+
+      if (topBlock && topBlock.type === "procedures_definition") {
+        var protoInput = topBlock.getInput("custom_block");
+        if (protoInput) {
+          var proto = protoInput.connection.targetBlock();
+          if (proto) setColor(block, proto);
+        }
+
+      } else {
+        resetColor(block);
+      }
+    }
+  };
+
+  var onDropChain = this._onDrop;
+  this._onDrop = () => {
+    if (onDropChain) onDropChain.call(this);
+    queueMicrotask(() => updateInProcedureStack(this));
+  }
+  queueMicrotask(() => updateInProcedureStack(this));
+};
+
 Blockly.ScratchBlocks.VerticalExtensions.FROM_EXTENSION = function() {
   this.isFromExtension = true;
 };
@@ -282,7 +365,7 @@ Blockly.ScratchBlocks.VerticalExtensions.SCRATCH_EXTENSION = function() {
 Blockly.ScratchBlocks.VerticalExtensions.registerAll = function() {
   var categoryNames =
       ['control', 'data', 'data_lists', 'sounds', 'motion', 'looks', 'event',
-        'sensing', 'pen', 'operators', 'more'];
+        'sensing', 'pen', 'operators', 'operators_strings', 'more'];
   // Register functions for all category colours.
   for (var i = 0; i < categoryNames.length; i++) {
     var name = categoryNames[i];
@@ -324,6 +407,10 @@ Blockly.ScratchBlocks.VerticalExtensions.registerAll = function() {
   Blockly.Extensions.registerMixin('procedure_call_contextmenu',
       Blockly.ScratchBlocks.VerticalExtensions.PROCEDURE_CALL_CONTEXTMENU);
 
+  // Given to procedure blocks to follow their custom colors.
+  Blockly.Extensions.register('procedure_custom_color',
+      Blockly.ScratchBlocks.VerticalExtensions.PROCEDURE_CUSTOM_COLOR);
+  
   // Given to all blocks from an extension.
   Blockly.Extensions.register('from_extension',
       Blockly.ScratchBlocks.VerticalExtensions.FROM_EXTENSION);

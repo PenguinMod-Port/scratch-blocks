@@ -78,7 +78,10 @@ Blockly.Msg.PM_CONTROL_REPEATFORSECONDS = 'repeat for %1 seconds';
 Blockly.Msg.PM_CONTROL_RESTARTPROJECT = 'restart project';
 Blockly.Msg.PM_CONTROL_RUNAS = 'as %1 do';
 Blockly.Msg.PM_CONTROL_RUNFLAG = 'run %1';
+Blockly.Msg.PM_CONTROL_RUNWITHOUTSCREENREFRESH = 'run without screen refresh %1';
 Blockly.Msg.PM_CONTROL_SETCOUNTER = 'set counter to %1';
+Blockly.Msg.PM_CONTROL_STOPSPRITE = 'stop %1';
+Blockly.Msg.PM_CONTROL_STOP_THREAD = 'this thread';
 Blockly.Msg.PM_CONTROL_TRYCATCH_1 = 'try to do';
 Blockly.Msg.PM_CONTROL_TRYCATCH_2 = 'if a block errors %1';
 Blockly.Msg.PM_CONTROL_TRYCATCH_ERROR = 'error';
@@ -111,6 +114,21 @@ Blockly.Msg.DATA_INDEX_ALL = 'all';
 Blockly.Msg.DATA_INDEX_LAST = 'last';
 Blockly.Msg.DATA_INDEX_RANDOM = 'random';
 
+// pm list blocks
+Blockly.Msg.PM_DATA_AMOUNTINLIST = 'amount of %1 in %2';
+Blockly.Msg.PM_DATA_FILTERLIST = 'filter %1 %2 %3 %4 %5';
+Blockly.Msg.PM_DATA_FOREACH = 'for %1 %2 of %3';
+Blockly.Msg.PM_DATA_FOREACH_INDEX = 'for each index: %2 in %1';
+Blockly.Msg.PM_DATA_FOREACH_VALUE = 'for each value: %2 in %1';
+Blockly.Msg.PM_DATA_ITEMEXISTSLIST = 'item %1 exists in %2?';
+Blockly.Msg.PM_DATA_LISTARRAY_GET = 'get list %1 as an array';
+Blockly.Msg.PM_DATA_LISTARRAY_SET = 'set %2 to array %1';
+Blockly.Msg.PM_DATA_LISTEMPTY = 'is %1 empty?';
+Blockly.Msg.PM_DATA_REVERSELIST = 'reverse %1';
+Blockly.Msg.PM_DATA_SHIFTLIST = 'shift %1 by %2';
+Blockly.Msg.PM_DATA_UPVAR_INDEX = 'index';
+Blockly.Msg.PM_DATA_UPVAR_ITEM = 'item';
+
 // Event blocks
 Blockly.Msg.EVENT_WHENFLAGCLICKED = 'when %1 clicked';
 Blockly.Msg.EVENT_WHENTHISSPRITECLICKED = 'when this sprite clicked';
@@ -134,6 +152,18 @@ Blockly.Msg.EVENT_WHENKEYPRESSED_ANY = 'any';
 Blockly.Msg.PM_EVENT_ALWAYS = 'always';
 Blockly.Msg.PM_EVENT_WHEN = 'when %1';
 Blockly.Msg.PM_EVENT_WHENKEYHIT = 'when %1 key hit';
+Blockly.Msg.PM_EVENT_WHENKEYPRESSED_BACKSPACE = 'backspace';
+Blockly.Msg.PM_EVENT_WHENKEYPRESSED_CAPSLOCK = 'caps lock';
+Blockly.Msg.PM_EVENT_WHENKEYPRESSED_CONTROL = 'control';
+Blockly.Msg.PM_EVENT_WHENKEYPRESSED_DELETE = 'delete';
+Blockly.Msg.PM_EVENT_WHENKEYPRESSED_END = 'end';
+Blockly.Msg.PM_EVENT_WHENKEYPRESSED_ESCAPE = 'escape';
+Blockly.Msg.PM_EVENT_WHENKEYPRESSED_HOME = 'home';
+Blockly.Msg.PM_EVENT_WHENKEYPRESSED_INSERT = 'insert';
+Blockly.Msg.PM_EVENT_WHENKEYPRESSED_PAGEDOWN = 'page down';
+Blockly.Msg.PM_EVENT_WHENKEYPRESSED_PAGEUP = 'page up';
+Blockly.Msg.PM_EVENT_WHENKEYPRESSED_SCROLLLOCK = 'scroll lock';
+Blockly.Msg.PM_EVENT_WHENKEYPRESSED_SHIFT = 'shift';
 Blockly.Msg.PM_EVENT_WHENMOUSESCROLLED = 'when mouse scrolled %1';
 Blockly.Msg.PM_EVENT_WHENMOUSESCROLLED_UP = 'up';
 Blockly.Msg.PM_EVENT_WHENMOUSESCROLLED_DOWN = 'down';
@@ -181,6 +211,15 @@ Blockly.Msg.LOOKS_NEXTBACKDROP = 'next backdrop';
 Blockly.Msg.LOOKS_PREVIOUSBACKDROP = 'previous backdrop';
 Blockly.Msg.LOOKS_RANDOMBACKDROP = 'random backdrop';
 
+Blockly.Msg.PM_LOOKS_BLENDMODE = 'set blend mode to %1';
+Blockly.Msg.PM_LOOKS_BLENDMODE_ADDITIVE = 'additive';
+Blockly.Msg.PM_LOOKS_BLENDMODE_DIFFERENCE = 'difference';
+Blockly.Msg.PM_LOOKS_BLENDMODE_MULTIPLICATIVE = 'multiplicative';
+Blockly.Msg.PM_LOOKS_BLENDMODE_NORMAL = 'normal';
+Blockly.Msg.PM_LOOKS_BLENDMODE_SCREEN = 'screen';
+Blockly.Msg.PM_LOOKS_BLENDMODE_SUBTRACTIVE = 'subtractive';
+Blockly.Msg.PM_LOOKS_BUBBLEHEIGHT = 'bubble height';
+Blockly.Msg.PM_LOOKS_BUBBLEWIDTH = 'bubble width';
 Blockly.Msg.PM_LOOKS_CHANGESTRETCH = 'change stretch by x: %1 y: %2';
 Blockly.Msg.PM_LOOKS_CHANGEVISIBILITYOFSPRITEHIDE = 'hide %1';
 Blockly.Msg.PM_LOOKS_CHANGEVISIBILITYOFSPRITESHOW = 'show %1';
@@ -191,6 +230,8 @@ Blockly.Msg.PM_LOOKS_EFFECT_BLUE = 'blue';
 Blockly.Msg.PM_LOOKS_EFFECT_OPAQUE = 'opaque';
 Blockly.Msg.PM_LOOKS_EFFECT_HORIZ_SHEAR = 'horizontal shear';
 Blockly.Msg.PM_LOOKS_EFFECT_VERTI_SHEAR = 'vertical shear';
+Blockly.Msg.PM_LOOKS_EFFECT_REPEAT_X = 'repeat x';
+Blockly.Msg.PM_LOOKS_EFFECT_REPEAT_Y = 'repeat y';
 Blockly.Msg.PM_LOOKS_GET_EFFECT = '%1 effect';
 Blockly.Msg.PM_LOOKS_GETINPUTOFCOSTUME = '%1 of %2';
 Blockly.Msg.PM_LOOKS_GETOTHERSPRITEVISIBLE = 'is %1 visible?';
@@ -201,15 +242,30 @@ Blockly.Msg.PM_LOOKS_LAYERSSETLAYER = 'go to layer %1';
 Blockly.Msg.PM_LOOKS_PREVIOUSBACKDROP = 'previous backdrop';
 Blockly.Msg.PM_LOOKS_PREVIOUSCOSTUME = 'previous costume';
 Blockly.Msg.PM_LOOKS_SETCOLOR = 'set %1 color to %2';
+Blockly.Msg.PM_LOOKS_SETCOLOR_BORDER = 'border';
+Blockly.Msg.PM_LOOKS_SETCOLOR_FILL = 'background';
+Blockly.Msg.PM_LOOKS_SETCOLOR_TEXT = 'text';
 Blockly.Msg.PM_LOOKS_SETFONT = 'set font to %1 with size %2';
 Blockly.Msg.PM_LOOKS_SETSHAPE = 'set text bubble %1 to %2';
+Blockly.Msg.PM_LOOKS_SETSHAPE_BORDERWIDTH = 'border width';
+Blockly.Msg.PM_LOOKS_SETSHAPE_CORNERRADIUS = 'corner radius';
+Blockly.Msg.PM_LOOKS_SETSHAPE_FONTHEIGHTRATIO = 'font height ratio';
+Blockly.Msg.PM_LOOKS_SETSHAPE_MAXWIDTH = 'maximum width';
+Blockly.Msg.PM_LOOKS_SETSHAPE_MINWIDTH = 'minimum width';
+Blockly.Msg.PM_LOOKS_SETSHAPE_PADDING = 'padding size';
+Blockly.Msg.PM_LOOKS_SETSHAPE_TAILHEIGHT = 'tail height';
+Blockly.Msg.PM_LOOKS_SETSHAPE_LINEHEIGHT = 'line height';
+Blockly.Msg.PM_LOOKS_SETSHAPE_TEXTLIM = 'character limit';
 Blockly.Msg.PM_LOOKS_SETSTRETCH = 'set stretch to x: %1 y: %2';
 Blockly.Msg.PM_LOOKS_SETTINTCOLOR = 'set tint color to %1';
+Blockly.Msg.PM_LOOKS_SETVISIBLE = 'set visibility to %1';
 Blockly.Msg.PM_LOOKS_STOPTALKING = 'stop speaking';
 Blockly.Msg.PM_LOOKS_STOPTALKING = 'stop speaking';
 Blockly.Msg.PM_LOOKS_STRETCHX = 'stretch x';
 Blockly.Msg.PM_LOOKS_STRETCHY = 'stretch y';
+Blockly.Msg.PM_LOOKS_THIS = 'this sprite';
 Blockly.Msg.PM_LOOKS_TINTCOLOR = 'tint color';
+Blockly.Msg.PM_LOOKS_VISIBLE = 'visible?';
 
 // Motion blocks
 Blockly.Msg.MOTION_MOVESTEPS = 'move %1 steps';
@@ -271,6 +327,8 @@ Blockly.Msg.PM_MOTION_MOVEUPDOWNSTEPS_UP = 'up';
 Blockly.Msg.PM_MOTION_MOVEUPDOWNSTEPS_DOWN = 'down';
 Blockly.Msg.PM_MOTION_POINTTOWARDS_XY = 'point towards x: %1 y: %2';
 Blockly.Msg.PM_MOTION_POINTINRANDOMDIRECTION = 'point in random direction';
+Blockly.Msg.PM_MOTION_SETROTATIONSTYLE_UPDOWN = 'up-down';
+Blockly.Msg.PM_MOTION_SETROTATIONSTYLE_LOOKAT = 'look at';
 Blockly.Msg.PM_MOTION_TURNRIGHTAROUNDXY = 'turn %1 %2 degrees around x: %3 y: %4';
 Blockly.Msg.PM_MOTION_TURNLEFTAROUNDXY = 'turn %1 %2 degrees around x: %3 y: %4';
 Blockly.Msg.PM_MOTION_TURNAROUND = 'turn around';
@@ -312,18 +370,47 @@ Blockly.Msg.OPERATORS_MATHOP_LOG = 'log';
 Blockly.Msg.OPERATORS_MATHOP_EEXP = 'e ^';
 Blockly.Msg.OPERATORS_MATHOP_10EXP = '10 ^';
 
+Blockly.Msg.PM_OPERATORS_ADVMATH = '%1 %2 %3';
+Blockly.Msg.PM_OPERATORS_ADVMATH_LOG = 'log';
+Blockly.Msg.PM_OPERATORS_ADVMATH_ROOT = 'root';
 Blockly.Msg.PM_OPERATORS_AVERAGE = 'average';
 Blockly.Msg.PM_OPERATORS_CASE_LOWER = 'lowercase';
 Blockly.Msg.PM_OPERATORS_CASE_TO = '%1 to %2';
 Blockly.Msg.PM_OPERATORS_CASE_UPPER = 'uppercase';
+Blockly.Msg.PM_OPERATORS_CHARACTER_TO_CODE = 'character %1 to id';
+Blockly.Msg.PM_OPERATORS_CODE_TO_CHARACTER = 'id %1 to character';
+Blockly.Msg.PM_OPERATORS_COUNT_APPEAR_TIMES = 'amount of times %1 appears in %2';
 Blockly.Msg.PM_OPERATORS_CONSTRAIN = 'constrain %1 min %2 max %3';
 Blockly.Msg.PM_OPERATORS_CHAR_NEWLINE = 'new line';
 Blockly.Msg.PM_OPERATORS_CHAR_TAB = 'tab character';
+Blockly.Msg.PM_OPERATORS_DECODE = 'decode %1 with %2';
+Blockly.Msg.PM_OPERATORS_DIRECTION_TO_POINTS = 'direction from %3 %4 to %1 %2';
+Blockly.Msg.PM_OPERATORS_DISTANCE_TO_POINTS = 'distance from %1 %2 to %3 %4';
+Blockly.Msg.PM_OPERATORS_ENCODE = 'encode %1 with %2';
+Blockly.Msg.PM_OPERATORS_ENCODING_B16 = 'base16';
+Blockly.Msg.PM_OPERATORS_ENCODING_B64 = 'base64';
+Blockly.Msg.PM_OPERATORS_ENCODING_URI = 'URI component';
+Blockly.Msg.PM_OPERATORS_EXPANDABLEBOOL_AND = 'and';
+Blockly.Msg.PM_OPERATORS_EXPANDABLEBOOL_OR = 'or';
+Blockly.Msg.PM_OPERATORS_EXPANDABLEBOOL_XOR = 'xor';
+Blockly.Msg.PM_OPERATORS_EXPANDABLEBOOL_NAND = 'nand';
+Blockly.Msg.PM_OPERATORS_EXPANDABLEBOOL_NOR = 'nor';
+Blockly.Msg.PM_OPERATORS_EXPANDABLEBOOL_XNOR = 'xnor';
+Blockly.Msg.PM_OPERATORS_FALSE = 'false';
 Blockly.Msg.PM_OPERATORS_GTE = '%1 ≥ %2';
+Blockly.Msg.PM_OPERATORS_INDEX_OF_TEXT_IN_TEXT = 'index of %1 in %2';
 Blockly.Msg.PM_OPERATORS_INTERPOLATE = 'interpolate %1 to %2 by %3';
 Blockly.Msg.PM_OPERATORS_JOIN3 = 'join %1 %2 %3';
 Blockly.Msg.PM_OPERATORS_JOINE = 'join %1';
 Blockly.Msg.PM_OPERATORS_JOIN_PEAR = 'pear';
+Blockly.Msg.PM_OPERATORS_JOIN_ORANGE = 'orange';
+Blockly.Msg.PM_OPERATORS_JOIN_MANGO = 'mango';
+Blockly.Msg.PM_OPERATORS_JOIN_STRAWBERRY = 'strawberry';
+Blockly.Msg.PM_OPERATORS_JOIN_PINEAPPLE = 'pineapple';
+Blockly.Msg.PM_OPERATORS_JOIN_GRAPE = 'grape';
+Blockly.Msg.PM_OPERATORS_JOIN_KIWI = 'kiwi';
+Blockly.Msg.PM_OPERATORS_LAST_INDEX_OF_TEXT_IN_TEXT = 'last index of %1 in %2';
+Blockly.Msg.PM_OPERATORS_LETTERSFROMTOIN = 'letters from %1 to %2 in %3';
 Blockly.Msg.PM_OPERATORS_LTE = '%1 ≤ %2';
 Blockly.Msg.PM_OPERATORS_MATHOP_LOG2 = 'log2';
 Blockly.Msg.PM_OPERATORS_MATHOP_SIGN = 'sign';
@@ -334,8 +421,20 @@ Blockly.Msg.PM_OPERATORS_NOR = '%1 nor %2';
 Blockly.Msg.PM_OPERATORS_NOTEQUAL = '%1 ≠ %2';
 Blockly.Msg.PM_OPERATORS_NULL = 'null';
 Blockly.Msg.PM_OPERATORS_POWER = '%1 ^ %2';
+Blockly.Msg.PM_OPERATORS_RANDOMBOOLEAN = 'random';
 Blockly.Msg.PM_OPERATORS_RANGE = 'range';
 Blockly.Msg.PM_OPERATORS_RANGE_EXPANDABLE = '%1 of %2';
+Blockly.Msg.PM_OPERATORS_READLINE = 'line %1 in %2';
+Blockly.Msg.PM_OPERATORS_REGEX = 'match %1 with regex %2 %3';
+Blockly.Msg.PM_OPERATORS_REPEAT = 'repeat %1 %2 times';
+Blockly.Msg.PM_OPERATORS_REPLACE = 'replace all %2 with %3 in %1';
+Blockly.Msg.PM_OPERATORS_REPLACE_FIRST = 'replace first %2 with %3 in %1';
+Blockly.Msg.PM_OPERATORS_STARTSWITH = '%1 %2 with %3?';
+Blockly.Msg.PM_OPERATORS_STARTSWITH_STARTS = 'starts';
+Blockly.Msg.PM_OPERATORS_STARTSWITH_ENDS = 'ends';
+Blockly.Msg.PM_OPERATORS_TEXT_INCLUDES_LETTER_FROM = '%1 includes a letter from %2?';
+Blockly.Msg.PM_OPERATORS_TRUE = 'true';
+Blockly.Msg.PM_OPERATORS_TRIM = 'trim %1';
 Blockly.Msg.PM_OPERATORS_TYPE_BOOLEAN = 'boolean';
 Blockly.Msg.PM_OPERATORS_TYPE_NUMBER = 'number';
 Blockly.Msg.PM_OPERATORS_TYPE_STRING = 'string';
@@ -352,6 +451,7 @@ Blockly.Msg.PROCEDURES_TO_REPORTER = 'Change To Reporter';
 Blockly.Msg.PROCEDURES_TO_STATEMENT = 'Change To Stacked Block';
 Blockly.Msg.PROCEDURES_DOCS = 'How to use return';
 
+Blockly.Msg.PM_PROCEDURES_REEVALUATE = 'reevaluate %1';
 Blockly.Msg.PM_PROCEDURES_SET = 'set %1 to %2';
 
 // Sensing blocks
@@ -400,11 +500,9 @@ Blockly.Msg.SENSING_USERNAME = 'username';
 Blockly.Msg.SENSING_USERID = 'user id';
 
 Blockly.Msg.PM_SENSING_BROWSER = 'browser';
-Blockly.Msg.PM_SENSING_CLIPBOARD_SET = 'add %1 to clipboard';
+Blockly.Msg.PM_SENSING_CLIPBOARD_SET = 'set clipboard to %1';
 Blockly.Msg.PM_SENSING_CLIPBOARD_GET = 'clipboard';
 Blockly.Msg.PM_SENSING_CURRENT_TIMESTAMP = 'timestamp';
-Blockly.Msg.PM_SENSING_DIRECTION_TO_POINTS = 'direction from %3 %4 to %1 %2';
-Blockly.Msg.PM_SENSING_DISTANCE_TO_POINTS = 'distance from %1 %2 to %3 %4';
 Blockly.Msg.PM_SENSING_DRAGGABLE = 'draggable?';
 Blockly.Msg.PM_SENSING_FINGER_DOWN = 'finger %1 down?';
 Blockly.Msg.PM_SENSING_FINGER_TAPPED = 'finger %1 tapped?';
@@ -419,12 +517,22 @@ Blockly.Msg.PM_SENSING_IS_UPPERCASE = 'is character %1 uppercase?';
 Blockly.Msg.PM_SENSING_KEY_HIT = 'key %1 hit?';
 Blockly.Msg.PM_SENSING_LOGGED_IN = 'logged in?';
 Blockly.Msg.PM_SENSING_MOBILE = 'mobile?';
+Blockly.Msg.PM_SENSING_MOUSE_BUTTON_ANY = 'any';
+Blockly.Msg.PM_SENSING_MOUSE_BUTTON_CLICKED = '%1 mouse clicked?';
+Blockly.Msg.PM_SENSING_MOUSE_BUTTON_DOWN = '%1 mouse down?';
+Blockly.Msg.PM_SENSING_MOUSE_BUTTON_LEFT = 'left';
+Blockly.Msg.PM_SENSING_MOUSE_BUTTON_MIDDLE = 'middle';
+Blockly.Msg.PM_SENSING_MOUSE_BUTTON_RELEASED = '%1 mouse released?';
+Blockly.Msg.PM_SENSING_MOUSE_BUTTON_RIGHT = 'right';
 Blockly.Msg.PM_SENSING_MOUSE_CLICKED = 'mouse clicked?';
 Blockly.Msg.PM_SENSING_MOUSE_SCROLLING = 'is mouse scrolling %1?';
 Blockly.Msg.PM_SENSING_OBJECT_TOUCHING_CLONE = '%1 touching clone of %2?';
 Blockly.Msg.PM_SENSING_OBJECT_TOUCHING_OBJECT = '%1 touching %2?';
 Blockly.Msg.PM_SENSING_OPERATING_SYSTEM = 'operating system';
 Blockly.Msg.PM_SENSING_REGEX_TEST = 'test regex %2 %3 with text %1';
+Blockly.Msg.PM_SENSING_SET_OF = 'set %1 of %2 to %3';
+Blockly.Msg.PM_SENSING_SET_OF_BACKDROP = 'backdrop';
+Blockly.Msg.PM_SENSING_SET_OF_COSTUME = 'costume';
 Blockly.Msg.PM_SENSING_URL = 'url';
 Blockly.Msg.PM_SENSING_XY_OF_TOUCHING = '%1 of touching %2 point';
 
@@ -442,18 +550,18 @@ Blockly.Msg.SOUND_SETVOLUMETO = 'set volume to %1%';
 Blockly.Msg.SOUND_VOLUME = 'volume';
 Blockly.Msg.SOUND_RECORD = 'record...';
 
-Blockly.Msg.PM_SOUND_STOP = 'stop sound %1';
+Blockly.Msg.PM_SOUND_GETEFFECTVALUE = '%1 effect';
+Blockly.Msg.PM_SOUND_GETLENGTH = 'length of %1';
+Blockly.Msg.PM_SOUND_GETSOUNDVOLUME = 'current volume of %1';
+Blockly.Msg.PM_SOUND_GETTIMEPOSITION = 'current time position of %1';
+Blockly.Msg.PM_SOUND_ISSOUNDPLAYING = 'is %1 playing?';
 Blockly.Msg.PM_SOUND_PAUSE = 'pause sound %1';
-Blockly.Msg.PM_SOUND_SET_STOP_FADEOUT_TO = 'set fade out to %1 seconds on %2';
-Blockly.Msg.PM_SOUND_PLAY_AT_SECONDS = 'start sound %1 at %2 seconds';
-Blockly.Msg.PM_SOUND_PLAY_AT_SECONDS_UNTIL_DONE = 'play sound %1 starting at %2 seconds until done';
 Blockly.Msg.PM_SOUND_PAUSEALLSOUNDS = 'pause all sounds';
 Blockly.Msg.PM_SOUND_PLAYALLSOUNDS = 'play all sounds';
-Blockly.Msg.PM_SOUND_GETEFFECTVALUE = '%1 effect';
-Blockly.Msg.PM_SOUND_ISSOUNDPLAYING = 'is %1 playing?';
-Blockly.Msg.PM_SOUND_GETLENGTH = 'length of %1';
-Blockly.Msg.PM_SOUND_GETTIMEPOSITION = 'current time position of %1';
-Blockly.Msg.PM_SOUND_GETSOUNDVOLUME = 'current volume of %1';
+Blockly.Msg.PM_SOUND_PLAY_AT_SECONDS = 'start sound %1 at %2 seconds';
+Blockly.Msg.PM_SOUND_PLAY_AT_SECONDS_UNTIL_DONE = 'play sound %1 starting at %2 seconds until done';
+Blockly.Msg.PM_SOUND_SET_STOP_FADEOUT_TO = 'set fade out to %1 seconds on %2';
+Blockly.Msg.PM_SOUND_STOP = 'stop sound %1';
 
 
 // Category labels
@@ -468,6 +576,7 @@ Blockly.Msg.CATEGORY_VARIABLES = 'Variables';
 Blockly.Msg.CATEGORY_MYBLOCKS = 'My Blocks';
 
 Blockly.Msg.PM_CATEGORY_LISTS = 'Lists';
+Blockly.Msg.PM_CATEGORY_STRINGS = 'Strings';
 
 // Context menus
 Blockly.Msg.DUPLICATE = 'Duplicate';
@@ -484,6 +593,16 @@ Blockly.Msg.REDO = 'Redo';
 Blockly.Msg.EDIT_PROCEDURE = 'Edit';
 Blockly.Msg.SHOW_PROCEDURE_DEFINITION = 'Go to definition';
 Blockly.Msg.WORKSPACE_COMMENT_DEFAULT_TEXT = 'Say something...';
+
+// Pins
+Blockly.Msg.PM_MOVE_TO_TOP = 'Move to Top';
+Blockly.Msg.PM_MOVE_TO_BOTTOM = 'Move to Bottom';
+Blockly.Msg.PM_MOVE_BY_CATEGORY = 'Organize by Category';
+Blockly.Msg.PM_PIN = 'Pin';
+Blockly.Msg.PM_UNPIN = 'Unpin';
+Blockly.Msg.PM_UNPIN_ALL = 'Unpin All';
+Blockly.Msg.NO_PINS = 'No Pinned Blocks!';
+Blockly.Msg.MISSING_PIN = 'Some Pins could not load!';
 
 // Color
 Blockly.Msg.COLOUR_HUE_LABEL = 'Color';
@@ -512,6 +631,10 @@ Blockly.Msg.PROCEDURE_ALREADY_EXISTS = 'A procedure named "%1" already exists.';
 Blockly.Msg.PROCEDURE_DEFAULT_NAME = 'block name';
 Blockly.Msg.PROCEDURE_USED = 'To delete a block definition, first remove all uses of the block';
 
+Blockly.Msg.PM_PROCCODE_USED = 'Custom block name is already in use!';
+Blockly.Msg.PM_PROCEDURE_GLOBAL_LABEL = 'Global Blocks';
+Blockly.Msg.PM_PROCEDURE_PRIVATE_LABEL = 'Local Blocks';
+
 // Lists
 // @todo Remove these once fully managed by Scratch VM / Scratch GUI
 Blockly.Msg.NEW_LIST = 'Make a List';
@@ -530,6 +653,9 @@ Blockly.Msg.NEW_BROADCAST_MESSAGE = 'New message';
 Blockly.Msg.NEW_BROADCAST_MESSAGE_TITLE = 'New message name:';
 Blockly.Msg.BROADCAST_MODAL_TITLE = 'New Message';
 Blockly.Msg.DEFAULT_BROADCAST_MESSAGE_NAME = 'message1';
+Blockly.Msg.PM_RENAME_MESSAGE = 'Rename message';
+Blockly.Msg.PM_RENAME_MESSAGE_MODAL_TITLE = 'Rename Message';
+Blockly.Msg.PM_RENAME_MESSAGE_TITLE = 'Rename all "%1" messages to:';
 
 // extra pm stuff
 Blockly.Msg.PM_COLLAPSE_ALL = 'Collapse All';
@@ -540,3 +666,6 @@ Blockly.Msg.PM_EXPAND_BLOCK = 'Expand Block';
 Blockly.Msg.PM_EXPAND_X_BLOCKS = 'Expand %1 Blocks';
 Blockly.Msg.PM_INLINE_BLOCK = 'Inline Inputs';
 Blockly.Msg.PM_EXTERNAL_BLOCK = 'External Inputs';
+
+Blockly.Msg.PM_EXPAND_EXPANDABLE = 'Expand';
+Blockly.Msg.PM_RETRACT_EXPANDABLE = 'Retract';

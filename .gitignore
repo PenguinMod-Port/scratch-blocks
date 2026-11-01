@@ -25,10 +25,12 @@ python_compressed.js
 
 /accessible/*
 /dist
-/msg/js/*
+/msg/js/*.js
 !/msg/js/en.js
-/msg/json/*
+/msg/json/*.json
 !/msg/json/en.json
+/msg/json/pm/*.json
+!/msg/json/pm/en.json
 /blockly_compressed_vertical.js
 /blockly_uncompressed_vertical.js
 /blocks_compressed_vertical.js
