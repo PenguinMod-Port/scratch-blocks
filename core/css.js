@@ -896,7 +896,7 @@ Blockly.Css.CONTENT = [
   '.blocklyToolboxDiv {',
     'background-color: $colour_toolbox;',
     'color: $colour_toolboxText;',
-    'overflow-x: visible;',
+    'overflow-x: hidden;',
     'overflow-y: auto;',
     'position: absolute;',
     'font-family: "Roboto", sans-serif;',
@@ -1361,6 +1361,13 @@ Blockly.Css.CONTENT = [
     'margin: 3px;',
   '}',
 
+  '.blocklyToolboxDivColumns > .scratchCategoryMenu {',
+    'width: 100%;',
+    'columns: 2;',
+    'padding: 4px;',
+    'box-sizing: border-box;',
+  '}',
+
   '.scratchCategoryMenuRow {',
   '}',
 
@@ -1394,6 +1401,15 @@ Blockly.Css.CONTENT = [
     'background: $colour_toolboxSelected;',
   '}',
 
+  '.blocklyToolboxDivColumns .scratchCategoryMenuItem {',
+    'display: inline-flex;',
+    'align-items: center;',
+    'width: 100%;',
+    'padding: 4px;',
+    'border-radius: 16px;',
+    'box-sizing: border-box;',
+  '}',
+
   '.scratchCategoryItemBubble {',
     'width: 1.25rem;',
     'height: 1.25rem;',
@@ -1402,12 +1418,24 @@ Blockly.Css.CONTENT = [
     'margin: 0 auto 0.125rem;',
   '}',
 
+  '.blocklyToolboxDivColumns .scratchCategoryItemBubble {',
+    'width: 14px;',
+    'height: 14px;',
+    'margin: 0;',
+    'margin-right: 8px;',
+  '}',
+
   '.scratchCategoryCounterDiv {',
     'margin-top: 5px;',
   '}',
   '.scratchCategoryCounter {',
-    'padding: 1px 5px;',
+    'padding: 0px 5px;',
     'border-radius: 4px;',
+    'font-size: 0.65rem',
+  '}',
+  '.blocklyToolboxDivColumns .scratchCategoryCounterDiv {',
+    'margin-top: 0;',
+    'margin-left: 5px;',
   '}',
 
   '.scratchCategoryItemIcon {',
@@ -1415,6 +1443,13 @@ Blockly.Css.CONTENT = [
     'height: 1.25rem;',
     'margin: 0 auto 0.125rem;',
     'background-size: 100%;',
+  '}',
+
+  '.blocklyToolboxDivColumns .scratchCategoryItemIcon {',
+    'width: 14px;',
+    'height: 14px;',
+    'margin: 0;',
+    'margin-right: 8px;',
   '}',
 
   '.scratchCategoryMenuItem:hover {',
