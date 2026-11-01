@@ -1684,3 +1684,39 @@ Blockly.Blocks["operator_constant"] = {
     });
   }
 };
+
+Blockly.Blocks["operator_repeat"] = {
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_OPERATORS_REPEAT,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "TEXT"
+        },
+        {
+          "type": "input_value",
+          "name": "TIMES"
+        },
+      ],
+      "category": Blockly.Categories.operatorsStrings,
+      "extensions": ["colours_operators_strings", "output_string"]
+    });
+  }
+};
+
+Blockly.Blocks["operator_trim"] = {
+  init: function() {
+    this.jsonInit({
+      "message0": Blockly.Msg.PM_OPERATORS_TRIM,
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "TEXT"
+        },
+      ],
+      "category": Blockly.Categories.operatorsStrings,
+      "extensions": ["colours_operators_strings", "output_string"]
+    });
+  }
+};

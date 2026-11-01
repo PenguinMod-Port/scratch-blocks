@@ -1397,6 +1397,19 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
         '<shadow type="text" />' +
       '</value>' +
     '</block>' +
+    '<block type="operator_repeat">' +
+      '<value name="TEXT">' +
+        '<shadow type="text" />' +
+      '</value>' +
+      '<value name="TIMES">' +
+        '<shadow type="math_whole_number" />' +
+      '</value>' +
+    '</block>' +
+    '<block type="operator_trim">' +
+      '<value name="TEXT">' +
+        '<shadow type="text" />' +
+      '</value>' +
+    '</block>' +
   '</category>' +
   '<category name="%{BKY_CATEGORY_VARIABLES}" id="data" colour="#FF8C1A" custom="VARIABLE">' +
   '</category>' +
