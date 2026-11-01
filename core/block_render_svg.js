@@ -204,7 +204,7 @@ Blockly.BlockSvg.NOTCH_START_PADDING = 3 * Blockly.BlockSvg.GRID_UNIT;
  * @const
  */
 Blockly.BlockSvg.TOP_LEFT_CORNER_START =
-    'm 0,' + Blockly.BlockSvg.CORNER_RADIUS;
+    'M 0,' + Blockly.BlockSvg.CORNER_RADIUS;
 
 /**
  * SVG path for drawing the rounded top-left corner.
@@ -454,6 +454,12 @@ Blockly.BlockSvg.FIELD_TEXTINPUT_ANIMATE_POSITIONING = false;
  * @const
  */
 Blockly.BlockSvg.MIN_BLOCK_X_DUAL = Blockly.BlockSvg.MIN_BLOCK_X_OUTPUT + Blockly.BlockSvg.NOTCH_START_PADDING + Blockly.BlockSvg.NOTCH_WIDTH;
+
+/**
+ * Subtracts an inputs shape from the block path
+ * @const
+ */
+Blockly.BlockSvg.SUBTRACT_INPUT = true;
 
 /**
  * Map of output/input shapes and the amount they should cause a block to be padded.
@@ -1488,18 +1494,18 @@ Blockly.BlockSvg.prototype.renderClassify_ = function() {
  */
 Blockly.BlockSvg.prototype.renderDrawTop_ = function(steps, rightEdge) {
   if (this.type == Blockly.PROCEDURES_DEFINITION_BLOCK_TYPE) {
-    steps.push('m 0, 0');
+    steps.push('M 0, 0');
     steps.push(Blockly.BlockSvg.TOP_LEFT_CORNER_DEFINE_HAT);
   } else {
     // Position the cursor at the top-left starting point.
     if (this.squareTopLeftCorner_) {
-      steps.push('m 0,0');
+      steps.push('M 0,0');
       if (this.startHat_) {
         steps.push(Blockly.BlockSvg.START_HAT_PATH);
       }
       // Skip space for the output shape
       if (this.edgeShapeWidth_) {
-        steps.push('m ' + this.edgeShapeWidth_ + ',0');
+        steps.push('M ' + this.edgeShapeWidth_ + ',0');
       }
     } else {
       steps.push(Blockly.BlockSvg.TOP_LEFT_CORNER_START);
@@ -1576,7 +1582,11 @@ Blockly.BlockSvg.prototype.renderDrawRight_ = function(steps,
           var connectionYOffset = row.height / 2;
           connectionY = cursorY + connectionYOffset;
           input.connection.setOffsetInBlock(connectionX, connectionY);
-          this.renderInputShape_(input, cursorX, cursorY + connectionYOffset);
+          if (Blockly.BlockSvg.SUBTRACT_INPUT) {
+            this.subtractInputShape_(steps, input, cursorX, cursorY + connectionYOffset);
+          } else {
+            this.renderInputShape_(input, cursorX, cursorY + connectionYOffset);
+          }
           cursorX += input.renderWidth + Blockly.BlockSvg.SEP_SPACE_X;
         }
       }
@@ -1683,6 +1693,33 @@ Blockly.BlockSvg.prototype.renderInputShape_ = function(input, x, y) {
     inputShape.setAttribute('style', 'visibility: visible');
   }
 };
+
+Blockly.BlockSvg.prototype.subtractInputShape_ = function(steps, input, x, y) {
+  if (!input.outlinePath || this.isCollapsed()) {
+    return;
+  }
+
+  if (input.connection.targetConnection) {
+    const block = input.connection.targetBlock();
+    const path = "M" + block.svgPath_.getAttribute('d').split("M").pop();
+    const dx = input.connection.offsetInBlock_.x - input.connection.targetConnection.offsetInBlock_.x;
+    const dy = input.connection.offsetInBlock_.y - input.connection.targetConnection.offsetInBlock_.y;
+    steps.unshift(Blockly.pathUtils.translate(Blockly.pathUtils.scale(path, -1, 1), dx + block.width, dy));
+    return;
+  }
+
+  var inputShapeX = 0, inputShapeY = 0;
+  var inputShapeInfo =
+      Blockly.BlockSvg.getInputShapeInfo_(input.connection.getOutputShape());
+  if (this.RTL) {
+    inputShapeX = -x - inputShapeInfo.width;
+  } else {
+    inputShapeX = x;
+  }
+  inputShapeY = y - (Blockly.BlockSvg.INPUT_SHAPE_HEIGHT / 2);
+
+  steps.unshift(Blockly.pathUtils.translate(Blockly.pathUtils.scale(inputShapeInfo.path, -1, 1), inputShapeX + inputShapeInfo.width, inputShapeY));
+}
 
 /**
  * Render the bottom edge of the block.
