@@ -1284,7 +1284,7 @@ Blockly.Blocks['control_dualinput_test'] = {
       "args0": [
         {
           "type": "input_dual",
-          "name": "DUAL"
+          "name": "DUAL",
         }
       ],
       "category": Blockly.Categories.control,

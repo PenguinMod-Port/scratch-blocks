@@ -61,3 +61,25 @@ Blockly.pathUtils.scale = function (path, x, y) {
 
     return Blockly.pathUtils.detokenize(tokens);
 }
+
+// mostly just used this for dual input stuff because evil
+/**
+ * @param {string} path
+ * @returns {{dx: number, dy: number, minY: number, maxY: number}}
+ */
+Blockly.pathUtils.measure = function (path) {
+    let x = 0, y = 0, minY = 0, maxY = 0;
+    for (const token of Blockly.pathUtils.tokenize(path)) {
+        switch (token[0]) {
+            case "h": x += token[1]; break;
+            case "v": y += token[1]; break;
+            case "m": case "l": case "t": x += token[1]; y += token[2]; break;
+            case "q": case "s": x += token[3]; y += token[4]; break;
+            case "c": x += token[5]; y += token[6]; break;
+            case "a": x += token[6]; y += token[7]; break;
+        }
+        minY = Math.min(minY, y);
+        maxY = Math.max(maxY, y);
+    }
+    return { dx: x, dy: y, minY: minY, maxY: maxY };
+};

@@ -785,9 +785,37 @@ Blockly.Connection.prototype.setOutputShape = function(outputShape) {
  */
 Blockly.Connection.prototype.getOutputShape = function() {
   if (this.outputShape_) return this.outputShape_;
-  if (!this.check_) return Blockly.OUTPUT_SHAPE_ROUND;
-  if (this.check_.includes("Boolean")) return Blockly.OUTPUT_SHAPE_HEXAGONAL;
+  const check = this.getValueCheck_();
+  if (!check) return Blockly.OUTPUT_SHAPE_ROUND;
+  if (check.includes("Boolean")) return Blockly.OUTPUT_SHAPE_HEXAGONAL;
   return Blockly.OUTPUT_SHAPE_ROUND;
+};
+
+// DOGEISCUT TODO: these 3 are for when i let dual inputs have two seperate checks.... which i havent done yet still 
+
+/**
+ * @return {Array.<string>}
+ * @protected
+ */
+Blockly.Connection.prototype.getValueCheck_ = function() {
+  return this.check_;
+};
+
+/**
+ * @return {Array.<string>}
+ * @protected
+ */
+Blockly.Connection.prototype.getStatementCheck_ = function() {
+  return this.check_;
+};
+
+/**
+ * @return {?string}
+ */
+Blockly.Connection.prototype.getNotchShape = function() {
+  const check = this.type == Blockly.DUAL_INPUT ?
+      this.getStatementCheck_() : this.check_;
+  return (check || []).length === 1 ? check[0] : null;
 };
 
 /**

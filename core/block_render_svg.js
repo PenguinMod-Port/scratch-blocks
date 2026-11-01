@@ -1033,16 +1033,27 @@ Blockly.BlockSvg.prototype.renderCompute_ = function(iconWidth) {
       var linkedBlock = input.connection.targetBlock();
       var paddedHeight = 0;
       var paddedWidth = 0;
+      var dualInfo = input.connection.type === Blockly.DUAL_INPUT ?
+          Blockly.BlockSvg.getDualInputShapeInfo_(input.connection) : null;
       if (linkedBlock) {
         // A block is connected to the input - use its size.
         var bBox = linkedBlock.getHeightWidth();
         paddedHeight = bBox.height;
         paddedWidth = bBox.width;
+        if (dualInfo && input.connection.targetConnection.type === Blockly.PREVIOUS_STATEMENT) {
+          paddedWidth += dualInfo.edgeShapeWidth;
+          if (linkedBlock.lastConnectionInStack()) {
+            paddedHeight += Blockly.BlockSvg.NOTCH_HEIGHT;
+          }
+        }
       } else {
         // No block connected - use the size of the rendered empty input shape.
         paddedHeight = Blockly.BlockSvg.INPUT_SHAPE_HEIGHT;
+        if (dualInfo) {
+          paddedHeight += dualInfo.padTop + dualInfo.padBottom;
+        }
       }
-      if (input.connection.type === Blockly.INPUT_VALUE) {
+      if (input.connection.type === Blockly.INPUT_VALUE || dualInfo) {
         paddedHeight += 2 * Blockly.BlockSvg.INLINE_PADDING_Y;
       }
       if (input.connection.type === Blockly.NEXT_STATEMENT) {
@@ -1127,6 +1138,9 @@ Blockly.BlockSvg.prototype.renderCompute_ = function(iconWidth) {
  * @private
  */
 Blockly.BlockSvg.prototype.computeInputWidth_ = function(input) {
+  if (input.type == Blockly.DUAL_INPUT && !input.connection.isConnected()) {
+    return Blockly.BlockSvg.getDualInputShapeInfo_(input.connection).width;
+  }
   // Empty input shape widths.
   if (input.type == Blockly.INPUT_VALUE && (!input.connection || !input.connection.isConnected())) {
     const customShape = Blockly.BlockSvg.CUSTOM_SHAPES.get(input.connection.getOutputShape());
@@ -1575,6 +1589,16 @@ Blockly.BlockSvg.prototype.renderDrawRight_ = function(steps,
           // Attempt to center the connection vertically.
           var connectionYOffset = row.height / 2;
           connectionY = cursorY + connectionYOffset;
+          var dualTarget = input.type == Blockly.DUAL_INPUT ?
+              input.connection.targetConnection : null;
+          if (dualTarget && dualTarget.type == Blockly.PREVIOUS_STATEMENT) {
+            var stackChild = dualTarget.getSourceBlock();
+            var edgeIndent = Blockly.BlockSvg.getDualInputShapeInfo_(input.connection).edgeShapeWidth;
+            var childHeight = stackChild.getHeightWidth().height +
+                (stackChild.lastConnectionInStack() ? Blockly.BlockSvg.NOTCH_HEIGHT : 0);
+            connectionX += dualTarget.offsetInBlock_.x + (edgeIndent / 2) * (this.RTL ? -1 : 1);
+            connectionY = cursorY + (row.height - childHeight);
+          }
           input.connection.setOffsetInBlock(connectionX, connectionY);
           this.renderInputShape_(input, cursorX, cursorY + connectionYOffset);
           cursorX += input.renderWidth + Blockly.BlockSvg.SEP_SPACE_X;
@@ -1668,7 +1692,9 @@ Blockly.BlockSvg.prototype.renderInputShape_ = function(input, x, y) {
     inputShape.setAttribute('style', 'visibility: hidden');
   } else {
     var inputShapeX = 0, inputShapeY = 0;
-    var inputShapeInfo =
+    var dualInfo = input.type == Blockly.DUAL_INPUT ?
+        Blockly.BlockSvg.getDualInputShapeInfo_(input.connection) : null;
+    var inputShapeInfo = dualInfo ||
         Blockly.BlockSvg.getInputShapeInfo_(input.connection.getOutputShape());
     if (this.RTL) {
       inputShapeX = -x - inputShapeInfo.width;
@@ -1676,6 +1702,9 @@ Blockly.BlockSvg.prototype.renderInputShape_ = function(input, x, y) {
       inputShapeX = x;
     }
     inputShapeY = y - (Blockly.BlockSvg.INPUT_SHAPE_HEIGHT / 2);
+    if (dualInfo) {
+      inputShapeY += (dualInfo.padTop - dualInfo.padBottom) / 2;
+    }
     inputShape.setAttribute('d', inputShapeInfo.path);
     inputShape.setAttribute('transform',
         'translate(' + inputShapeX + ',' + inputShapeY + ')');
@@ -1934,6 +1963,96 @@ Blockly.BlockSvg.prototype.renderDefineBlock_ = function(steps, inputRows,
   // row.height will be used to update the cursor in the calling function.
   row.height += Blockly.BlockSvg.GRID_UNIT;
 
+};
+
+/**
+ * @const
+ */
+Blockly.BlockSvg.DUAL_INPUT_MIN_TAIL = 2 * Blockly.BlockSvg.GRID_UNIT;
+
+// once again a thing i added just for dual inputs
+// blorp
+/**
+ * @param {?string} notchName
+ * @return {!Object}
+ * @private
+ */
+Blockly.BlockSvg.getNotchInfo_ = function(notchName) {
+  let left = Blockly.BlockSvg.NOTCH_PATH_LEFT;
+  let right = Blockly.BlockSvg.NOTCH_PATH_RIGHT;
+  const custom = Blockly.BlockSvg.CUSTOM_NOTCHES.get(notchName);
+  if (custom) {
+    left = custom.left;
+    right = custom.right;
+  }
+  const yScale = Blockly.BlockSvg.NOTCH_HEIGHT / (2 * Blockly.BlockSvg.GRID_UNIT);
+  left = Blockly.pathUtils.scale(left, 1, yScale);
+  right = Blockly.pathUtils.scale(right, 1, yScale);
+  const size = Blockly.pathUtils.measure(left);
+  return {
+    left: left,
+    right: right,
+    width: size.dx,
+    dy: size.dy,
+    overhangTop: Math.max(0, -size.minY),
+    overhangBottom: Math.max(0, size.maxY)
+  };
+};
+
+/**
+ * @param {!Blockly.Connection} connection
+ * @return {!Object}
+ * @private
+ */
+Blockly.BlockSvg.getDualInputShapeInfo_ = function(connection) {
+  const customShape = Blockly.BlockSvg.CUSTOM_SHAPES.get(connection.getOutputShape()) ||
+      Blockly.BlockSvg.CUSTOM_SHAPES.get(Blockly.OUTPUT_SHAPE_ROUND);
+  const notch = Blockly.BlockSvg.getNotchInfo_(connection.getNotchShape());
+
+  const block = {
+    height: Blockly.BlockSvg.INPUT_SHAPE_HEIGHT,
+    edgeShapeWidth_: Blockly.BlockSvg.INPUT_SHAPE_HEIGHT / 2
+  };
+  if (customShape.edgeShapeWidth) {
+    block.edgeShapeWidth_ = getSubprop(customShape.edgeShapeWidth(block.edgeShapeWidth_), "left");
+  }
+
+  let cap = block.edgeShapeWidth_;
+  let indent = cap;
+  let rightPath, leftPath;
+  if (customShape.leftPath && customShape.rightPath) {
+    rightPath = customShape.rightPath(block);
+    leftPath = customShape.leftPath(block);
+  } else {
+    const r = Blockly.BlockSvg.CORNER_RADIUS;
+    const straight = block.height - 2 * r;
+    cap = r;
+    indent = 0;
+    rightPath = [`a ${r} ${r} 0 0 1 ${r} ${r}`, `v ${straight}`, `a ${r} ${r} 0 0 1 ${-r} ${r}`];
+    leftPath = [`a ${r} ${r} 0 0 1 ${-r} ${-r}`, `v ${-straight}`, `a ${r} ${r} 0 0 1 ${r} ${-r}`];
+  }
+
+  const lead = indent + Blockly.BlockSvg.NOTCH_START_PADDING - cap;
+  const width = Math.max(
+      customShape.emptyInputWidth || 0,
+      2 * cap + lead + notch.width + Blockly.BlockSvg.DUAL_INPUT_MIN_TAIL);
+  const tail = width - 2 * cap - lead - notch.width;
+  
+  const levelOut = notch.dy ? [`v ${-notch.dy}`] : [];
+
+  const path = [`M ${cap} 0`, `h ${lead}`, notch.left].concat(levelOut, [`h ${tail}`]);
+  path.push(...rightPath);
+  path.push(`h ${-tail}`, notch.right, ...levelOut, `h ${-lead}`);
+  path.push(...leftPath);
+  path.push("z");
+
+  return {
+    path: path.join(" "),
+    width: width,
+    edgeShapeWidth: indent,
+    padTop: notch.overhangTop,
+    padBottom: notch.overhangBottom
+  };
 };
 
 /**

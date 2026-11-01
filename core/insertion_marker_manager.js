@@ -424,6 +424,10 @@ Blockly.InsertionMarkerManager.prototype.shouldReplace_ = function() {
   var closest = this.closestConnection_;
   var local = this.localConnection_;
 
+  if (closest.type == Blockly.DUAL_INPUT && local.type == Blockly.PREVIOUS_STATEMENT) {
+    return true;
+  }
+
   // Dragging a block over an existing block in an input should replace the
   // existing block and bump it out.
   if (local.type == Blockly.OUTPUT_VALUE) {
@@ -595,7 +599,8 @@ Blockly.InsertionMarkerManager.prototype.unhighlightBlock_ = function() {
   var closest = this.closestConnection_;
   // If there's no block in place, but we're still connecting to a value input,
   // then we must have been highlighting an input shape.
-  if (closest.type == Blockly.INPUT_VALUE && !closest.isConnected()) {
+  if ((closest.type == Blockly.INPUT_VALUE ||
+      closest.type == Blockly.DUAL_INPUT) && !closest.isConnected()) {
     this.highlightedBlock_.highlightShapeForInput(closest, false);
   } else {
     this.highlightedBlock_.highlightForReplacement(false);
