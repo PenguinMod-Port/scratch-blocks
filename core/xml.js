@@ -788,8 +788,7 @@ Blockly.Xml.domToBlockHeadless_ = function(xmlBlock, workspace) {
             input.connection.connect(blockChild.previousConnection);
           } else if (input.type == Blockly.DUAL_INPUT) {
             input.connection.connect(
-                xmlChild.nodeName.toLowerCase() == 'statement' ?
-                    blockChild.previousConnection : blockChild.outputConnection);
+                blockChild.previousConnection || blockChild.outputConnection);
           } else {
             goog.asserts.fail(
                 'Child block does not have output or previous statement.');

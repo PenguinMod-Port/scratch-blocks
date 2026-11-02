@@ -195,7 +195,10 @@ Blockly.Connection.prototype.connect_ = function(childConnection) {
       shadowDom = Blockly.Xml.blockToDom(orphanBlock);
       orphanBlock.dispose();
       orphanBlock = null;
-    } else if (parentConnection.type == Blockly.NEXT_STATEMENT || (parentConnection.type == Blockly.DUAL_INPUT && childConnection.type == Blockly.PREVIOUS_STATEMENT && orphanBlock.previousConnection))  {
+    } else if (parentConnection.type == Blockly.NEXT_STATEMENT ||
+        (parentConnection.type == Blockly.DUAL_INPUT &&
+         childConnection.type == Blockly.PREVIOUS_STATEMENT &&
+         parentConnection.targetConnection.type == Blockly.PREVIOUS_STATEMENT)) {
       // Statement connections.
       // Statement blocks may be inserted into the middle of a stack.
       // Split the stack.
@@ -533,6 +536,9 @@ Blockly.Connection.prototype.isConnectionAllowed = function(candidate) {
     }
     case Blockly.DUAL_INPUT: {
       if (this.type == Blockly.OUTPUT_VALUE) {
+        if (this.sourceBlock_.previousConnection) {
+          return false;
+        }
         if (candidate.targetConnection &&
             !candidate.targetBlock().isMovable() &&
             !candidate.targetBlock().isShadow()) {

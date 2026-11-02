@@ -424,7 +424,10 @@ Blockly.InsertionMarkerManager.prototype.shouldReplace_ = function() {
   var closest = this.closestConnection_;
   var local = this.localConnection_;
 
-  if (closest.type == Blockly.DUAL_INPUT && local.type == Blockly.PREVIOUS_STATEMENT) {
+  if (closest.type == Blockly.DUAL_INPUT &&
+      local.type == Blockly.PREVIOUS_STATEMENT &&
+      !(closest.targetConnection &&
+        closest.targetConnection.type == Blockly.PREVIOUS_STATEMENT)) {
     return true;
   }
 
@@ -583,7 +586,8 @@ Blockly.InsertionMarkerManager.prototype.highlightBlock_ = function() {
   if (closest.targetBlock()) {
     this.highlightedBlock_ = closest.targetBlock();
     closest.targetBlock().highlightForReplacement(true);
-  } else if(local.type == Blockly.OUTPUT_VALUE) {
+  } else if (local.type == Blockly.OUTPUT_VALUE ||
+      closest.type == Blockly.DUAL_INPUT) {
     this.highlightedBlock_ = closest.sourceBlock_;
     closest.sourceBlock_.highlightShapeForInput(closest, true);
   }
@@ -597,13 +601,15 @@ Blockly.InsertionMarkerManager.prototype.highlightBlock_ = function() {
  */
 Blockly.InsertionMarkerManager.prototype.unhighlightBlock_ = function() {
   var closest = this.closestConnection_;
-  // If there's no block in place, but we're still connecting to a value input,
-  // then we must have been highlighting an input shape.
-  if ((closest.type == Blockly.INPUT_VALUE ||
-      closest.type == Blockly.DUAL_INPUT) && !closest.isConnected()) {
-    this.highlightedBlock_.highlightShapeForInput(closest, false);
-  } else {
-    this.highlightedBlock_.highlightForReplacement(false);
+  if (this.highlightedBlock_) {
+    // If there's no block in place, but we're still connecting to a value
+    // input, then we must have been highlighting an input shape.
+    if ((closest.type == Blockly.INPUT_VALUE ||
+        closest.type == Blockly.DUAL_INPUT) && !closest.isConnected()) {
+      this.highlightedBlock_.highlightShapeForInput(closest, false);
+    } else {
+      this.highlightedBlock_.highlightForReplacement(false);
+    }
   }
   this.highlightedBlock_ = null;
   this.highlightingBlock_ = false;
