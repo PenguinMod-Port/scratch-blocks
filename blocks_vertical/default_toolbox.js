@@ -698,7 +698,6 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
       '</value>' +
     '</block>' +
     '<block type="control_dualblock" />' +
-    '<block type="control_dualinput_test" />' +
     '<block type="control_runwithoutscreenrefresh" />' +
   '</category>' +
   '<category name="%{BKY_CATEGORY_SENSING}" id="sensing" colour="#4CBFE6">' +
