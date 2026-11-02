@@ -425,10 +425,15 @@ Blockly.InsertionMarkerManager.prototype.shouldReplace_ = function() {
   var local = this.localConnection_;
 
   if (closest.type == Blockly.DUAL_INPUT &&
-      local.type == Blockly.PREVIOUS_STATEMENT &&
-      !(closest.targetConnection &&
-        closest.targetConnection.type == Blockly.PREVIOUS_STATEMENT)) {
-    return true;
+      local.type == Blockly.PREVIOUS_STATEMENT) {
+    var occupant = closest.targetConnection;
+    if (!occupant || occupant.type != Blockly.PREVIOUS_STATEMENT) {
+      return true;
+    }
+    var lastInDragged = this.topBlock_.lastConnectionInStack();
+    if (!lastInDragged || !occupant.checkType_(lastInDragged)) {
+      return true;
+    }
   }
 
   // Dragging a block over an existing block in an input should replace the
