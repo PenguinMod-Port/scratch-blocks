@@ -456,6 +456,11 @@ Blockly.BlockSvg.FIELD_TEXTINPUT_ANIMATE_POSITIONING = false;
 Blockly.BlockSvg.MIN_BLOCK_X_DUAL = Blockly.BlockSvg.MIN_BLOCK_X_OUTPUT + Blockly.BlockSvg.NOTCH_START_PADDING + Blockly.BlockSvg.NOTCH_WIDTH;
 
 /**
+ * Percentage of the maximum height a reporter can grow before its sides stretch or expand.
+ */
+Blockly.BlockSvg.REPORTER_HEIGHT_THRESHOLD = 1.0;
+
+/**
  * Map of output/input shapes and the amount they should cause a block to be padded.
  * Outer key is the outer shape, inner key is the inner shape.
  * When a block with the outer shape contains an input block with the inner shape
@@ -2083,7 +2088,7 @@ Blockly.BlockSvg.CUSTOM_SHAPES = new Map([
       ];
     },
     edgeShapeWidth: (original) => {
-      return Math.min(original, Blockly.BlockSvg.GRID_UNIT * 15)
+      return Math.min(original, Blockly.BlockSvg.GRID_UNIT * 15 * Blockly.BlockSvg.REPORTER_HEIGHT_THRESHOLD)
     }
   }],
   [Blockly.OUTPUT_SHAPE_ROUND, {
@@ -2108,7 +2113,7 @@ Blockly.BlockSvg.CUSTOM_SHAPES = new Map([
       ];
     },
     edgeShapeWidth: (original) => {
-      return Math.min(original, Blockly.BlockSvg.GRID_UNIT * 15)
+      return Math.min(original, Blockly.BlockSvg.GRID_UNIT * 15 * Blockly.BlockSvg.REPORTER_HEIGHT_THRESHOLD)
     }
   }],
   [Blockly.OUTPUT_SHAPE_SQUARE, {
@@ -2141,7 +2146,7 @@ Blockly.BlockSvg.CUSTOM_SHAPES = new Map([
       ];
     },
     edgeShapeWidth: (original) => {
-      return Math.min(original, Blockly.BlockSvg.GRID_UNIT * 15)
+      return Math.min(original, Blockly.BlockSvg.GRID_UNIT * 15 * Blockly.BlockSvg.REPORTER_HEIGHT_THRESHOLD)
     }
   }],
   [Blockly.OUTPUT_SHAPE_PLUS, {
@@ -2234,7 +2239,7 @@ Blockly.BlockSvg.CUSTOM_SHAPES = new Map([
       ]
     },
     edgeShapeWidth: (original) => {
-      return Math.min(original / 2, Blockly.BlockSvg.GRID_UNIT * 5);
+      return Math.min(original / 2, Blockly.BlockSvg.GRID_UNIT * 5  * Blockly.BlockSvg.REPORTER_HEIGHT_THRESHOLD);
     }
   }],
   [Blockly.OUTPUT_SHAPE_INDENTED, {
@@ -2272,7 +2277,7 @@ Blockly.BlockSvg.CUSTOM_SHAPES = new Map([
       ];
     },
     edgeShapeWidth: (original) => {
-      return Math.min(original, Blockly.BlockSvg.GRID_UNIT * 15) - Blockly.BlockSvg.HEXAGONAL_SHAPE_ROUNDNESS;
+      return Math.min(original, Blockly.BlockSvg.GRID_UNIT * 15  * Blockly.BlockSvg.REPORTER_HEIGHT_THRESHOLD) - Blockly.BlockSvg.HEXAGONAL_SHAPE_ROUNDNESS;
     }
   }],
   [Blockly.OUTPUT_SHAPE_SCRAPPED, {
@@ -2312,7 +2317,7 @@ Blockly.BlockSvg.CUSTOM_SHAPES = new Map([
       ];
     },
     edgeShapeWidth: (original) => {
-      return Math.min(original / 2, Blockly.BlockSvg.GRID_UNIT * 5)
+      return Math.min(original / 2, Blockly.BlockSvg.GRID_UNIT * 5  * Blockly.BlockSvg.REPORTER_HEIGHT_THRESHOLD)
     }
   }],
   [Blockly.OUTPUT_SHAPE_ARROW, {
@@ -2351,7 +2356,7 @@ Blockly.BlockSvg.CUSTOM_SHAPES = new Map([
       ];
     },
     edgeShapeWidth: (original) => {
-      return Math.min(original, Blockly.BlockSvg.MIN_BLOCK_Y_REPORTER / 2)
+      return Math.min(original, (Blockly.BlockSvg.MIN_BLOCK_Y_REPORTER / 2) * Blockly.BlockSvg.REPORTER_HEIGHT_THRESHOLD)
     }
   }],
   [Blockly.OUTPUT_SHAPE_TICKET, {
@@ -2430,7 +2435,7 @@ Blockly.BlockSvg.CUSTOM_SHAPES = new Map([
       ];
     },
     edgeShapeWidth: (original) => {
-      return Math.min(original, Blockly.BlockSvg.GRID_UNIT * 15);
+      return Math.min(original, Blockly.BlockSvg.GRID_UNIT * 15 * Blockly.BlockSvg.REPORTER_HEIGHT_THRESHOLD);
     }
   }]
 ]);
