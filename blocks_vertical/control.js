@@ -1280,11 +1280,17 @@ Blockly.Blocks['control_runwithoutscreenrefresh'] = {
 Blockly.Blocks['control_dualinput_test'] = {
   init: function () {
     this.jsonInit({
-      "message0": "print %1 to console",
+      "message0": "dual %1 input %2 yaaaay",
       "args0": [
         {
           "type": "input_dual",
           "name": "DUAL",
+          "check": "Boolean",
+          "statementCheck": "switchCase"
+        },
+        {
+          "type": "input_dual",
+          "name": "DUAL2",
         }
       ],
       "category": Blockly.Categories.control,

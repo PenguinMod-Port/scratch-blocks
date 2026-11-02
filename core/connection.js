@@ -96,6 +96,13 @@ Blockly.Connection.prototype.targetConnection = null;
 Blockly.Connection.prototype.check_ = null;
 
 /**
+ * added for dual inputs
+ * @type {Array.<string>}
+ * @private
+ */
+Blockly.Connection.prototype.statementCheck_ = null;
+
+/**
  * DOM representation of a shadow block, or null if none.
  * @type {Element}
  * @private
@@ -341,7 +348,7 @@ Blockly.Connection.prototype.canConnectWithReason_ = function(target) {
     return Blockly.Connection.REASON_WRONG_TYPE;
   } else if (blockA && blockB && blockA.workspace !== blockB.workspace) {
     return Blockly.Connection.REASON_DIFFERENT_WORKSPACES;
-  } else if (!this.checkType_(target)) { // DOGEISCUT TODO: checks for dual inputs
+  } else if (!this.checkType_(target)) {
     return Blockly.Connection.REASON_CHECKS_FAILED;
   } else if (blockA.isShadow() && !blockB.isShadow()) {
     return Blockly.Connection.REASON_SHADOW_PARENT;
@@ -393,7 +400,7 @@ Blockly.Connection.prototype.checkConnection_ = function(target) {
       throw 'Target connection is null.';
     case Blockly.Connection.REASON_CHECKS_FAILED:
       var msg = 'Connection checks failed. ';
-      msg += this + ' expected '  + this.check_ + ', found ' + target.check_;
+      msg += this + ' expected '  + this.getCheckFor_(target) + ', found ' + target.getCheckFor_(this);
       //throw msg;
       console.warn(msg);
       break;
@@ -733,18 +740,34 @@ Blockly.Connection.prototype.targetBlock = function() {
  * @protected
  */
 Blockly.Connection.prototype.checkType_ = function(otherConnection) {
-  if (!this.check_ || !otherConnection.check_) {
+  var thisCheck = this.getCheckFor_(otherConnection);
+  var otherCheck = otherConnection.getCheckFor_(this);
+  if (!thisCheck || !otherCheck) {
     // One or both sides are promiscuous enough that anything will fit.
     return true;
   }
   // Find any intersection in the check lists.
-  for (var i = 0; i < this.check_.length; i++) {
-    if (otherConnection.check_.indexOf(this.check_[i]) != -1) {
+  for (var i = 0; i < thisCheck.length; i++) {
+    if (otherCheck.indexOf(thisCheck[i]) != -1) {
       return true;
     }
   }
   // No intersection.
   return false;
+};
+
+/**
+ * added for dual inputs
+ * @param {!Blockly.Connection} otherConnection
+ * @return {Array.<string>}
+ * @protected
+ */
+Blockly.Connection.prototype.getCheckFor_ = function(otherConnection) {
+  if (this.type == Blockly.DUAL_INPUT) {
+    return otherConnection.type == Blockly.OUTPUT_VALUE ?
+        this.getValueCheck_() : this.getStatementCheck_();
+  }
+  return this.check_;
 };
 
 /**
@@ -780,6 +803,27 @@ Blockly.Connection.prototype.setCheck = function(check) {
   return this;
 };
 
+/**
+ * added for dual inputs
+ * @param {*} check 
+ * @return {!Blockly.Connection} 
+ */
+Blockly.Connection.prototype.setStatementCheck = function(check) {
+  if (this.type != Blockly.DUAL_INPUT) {
+    throw 'Only dual inputs have a separate statement check.';
+  }
+  if (check) {
+    if (!goog.isArray(check)) {
+      check = [check];
+    }
+    this.statementCheck_ = check;
+    this.onCheckChanged_();
+  } else {
+    this.statementCheck_ = null;
+  }
+  return this;
+};
+
 Blockly.Connection.prototype.setOutputShape = function(outputShape) {
   this.outputShape_ = outputShape;
 };
@@ -797,9 +841,8 @@ Blockly.Connection.prototype.getOutputShape = function() {
   return Blockly.OUTPUT_SHAPE_ROUND;
 };
 
-// DOGEISCUT TODO: these 3 are for when i let dual inputs have two seperate checks.... which i havent done yet still 
-
 /**
+ * added for dual inputs
  * @return {Array.<string>}
  * @protected
  */
@@ -808,14 +851,16 @@ Blockly.Connection.prototype.getValueCheck_ = function() {
 };
 
 /**
+ * added for dual inputs
  * @return {Array.<string>}
  * @protected
  */
 Blockly.Connection.prototype.getStatementCheck_ = function() {
-  return this.check_;
+  return this.type == Blockly.DUAL_INPUT ? this.statementCheck_ : this.check_;
 };
 
 /**
+ * added for dual inputs
  * @return {?string}
  */
 Blockly.Connection.prototype.getNotchShape = function() {

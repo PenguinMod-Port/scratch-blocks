@@ -1646,6 +1646,9 @@ Blockly.Block.prototype.interpolateElements_ = function(elements, lastDummyAlign
         if (element['check'] !== undefined) {
           input.setCheck(element['check']);
         }
+        if (element['statementCheck'] !== undefined) {
+          input.setStatementCheck(element['statementCheck']);
+        }
         if (element['align']) {
           input.setAlign(alignmentLookup[element['align']]);
         }

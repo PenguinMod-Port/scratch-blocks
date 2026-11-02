@@ -219,6 +219,19 @@ Blockly.Input.prototype.setCheck = function(check) {
 };
 
 /**
+ * added for dual inputs
+ * @param {string|Array.<string>|null} check
+ * @return {!Blockly.Input} 
+ */
+Blockly.Input.prototype.setStatementCheck = function(check) {
+  if (this.type != Blockly.DUAL_INPUT) {
+    throw 'Only dual inputs have a separate statement check.';
+  }
+  this.connection.setStatementCheck(check);
+  return this;
+};
+
+/**
  * Change the alignment of the connection's field(s).
  * @param {number} align One of Blockly.ALIGN_LEFT, ALIGN_CENTRE, ALIGN_RIGHT.
  *   In RTL mode directions are reversed, and ALIGN_RIGHT aligns to the left.
