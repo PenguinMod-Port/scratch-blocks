@@ -91,7 +91,7 @@ Blockly.FieldExpandable.prototype.init = function() {
       'xlink:href': Blockly.FieldExpandable.ADD_IMAGE,
       'href': Blockly.FieldExpandable.ADD_IMAGE,
     }, addGroup);
-    Blockly.bindEvent_(addGroup, 'mousedown', this, () => !this.sourceBlock_.isInFlyout && this.setValue(Number(this.getValue()) + 1));
+    Blockly.bindEventWithChecks_(addGroup, 'mouseup', this, () => !this.sourceBlock_.isInFlyout && !this.sourceBlock_.workspace.isDragging() && this.setValue(Number(this.getValue()) + 1));
     this.fieldGroup_.insertBefore(addGroup, this.textElement_);
 
     var removeGroup = Blockly.utils.createSvgElement('g', {}, null);
@@ -114,7 +114,7 @@ Blockly.FieldExpandable.prototype.init = function() {
       'xlink:href': Blockly.FieldExpandable.REMOVE_IMAGE,
       'href': Blockly.FieldExpandable.REMOVE_IMAGE,
     }, removeGroup);
-    Blockly.bindEvent_(removeGroup, 'mousedown', this, () => !this.sourceBlock_.isInFlyout && this.setValue(Number(this.getValue()) - 1));
+    Blockly.bindEventWithChecks_(removeGroup, 'mouseup', this, () => !this.sourceBlock_.isInFlyout && !this.sourceBlock_.workspace.isDragging() && this.setValue(Number(this.getValue()) - 1));
     this.fieldGroup_.insertBefore(removeGroup, this.textElement_);
   }
 
