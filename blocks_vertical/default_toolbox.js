@@ -1168,6 +1168,105 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
       '</value>' +
     '</block>' +
     '<block type="operator_constant" />' +
+    '<block type="operator_add_expandable">' +
+      '<field name="EXPANDABLE">2</field>' +
+      '<value name="EXPANDABLE.1.NUM">' +
+        '<shadow type="math_number" />' +
+      '</value>' +
+      '<value name="EXPANDABLE.2.NUM">' +
+        '<shadow type="math_number" />' +
+      '</value>' +
+    '</block>' +
+    '<block type="operator_subtract_expandable">' +
+      '<field name="EXPANDABLE">2</field>' +
+      '<value name="EXPANDABLE.1.NUM">' +
+        '<shadow type="math_number" />' +
+      '</value>' +
+      '<value name="EXPANDABLE.2.NUM">' +
+        '<shadow type="math_number" />' +
+      '</value>' +
+    '</block>' +
+    '<block type="operator_multiply_expandable">' +
+      '<field name="EXPANDABLE">2</field>' +
+      '<value name="EXPANDABLE.1.NUM">' +
+        '<shadow type="math_number" />' +
+      '</value>' +
+      '<value name="EXPANDABLE.2.NUM">' +
+        '<shadow type="math_number" />' +
+      '</value>' +
+    '</block>' +
+    '<block type="operator_divide_expandable">' +
+      '<field name="EXPANDABLE">2</field>' +
+      '<value name="EXPANDABLE.1.NUM">' +
+        '<shadow type="math_number" />' +
+      '</value>' +
+      '<value name="EXPANDABLE.2.NUM">' +
+        '<shadow type="math_number" />' +
+      '</value>' +
+    '</block>' +
+    '<block type="operator_power_expandable">' +
+      '<field name="EXPANDABLE">2</field>' +
+      '<value name="EXPANDABLE.1.NUM">' +
+        '<shadow type="math_number" />' +
+      '</value>' +
+      '<value name="EXPANDABLE.2.NUM">' +
+        '<shadow type="math_number" />' +
+      '</value>' +
+    '</block>' +
+    '<block type="operator_and_expandable">' +
+      '<field name="EXPANDABLE">2</field>' +
+      '<value name="EXPANDABLE.1.OPERAND">' +
+        '<shadow type="checkbox" />' +
+      '</value>' +
+      '<value name="EXPANDABLE.2.OPERAND">' +
+        '<shadow type="checkbox" />' +
+      '</value>' +
+    '</block>' +
+    '<block type="operator_or_expandable">' +
+      '<field name="EXPANDABLE">2</field>' +
+      '<value name="EXPANDABLE.1.OPERAND">' +
+        '<shadow type="checkbox" />' +
+      '</value>' +
+      '<value name="EXPANDABLE.2.OPERAND">' +
+        '<shadow type="checkbox" />' +
+      '</value>' +
+    '</block>' +
+    '<block type="operator_xor_expandable">' +
+      '<field name="EXPANDABLE">2</field>' +
+      '<value name="EXPANDABLE.1.OPERAND">' +
+        '<shadow type="checkbox" />' +
+      '</value>' +
+      '<value name="EXPANDABLE.2.OPERAND">' +
+        '<shadow type="checkbox" />' +
+      '</value>' +
+    '</block>' +
+    '<block type="operator_nand_expandable">' +
+      '<field name="EXPANDABLE">2</field>' +
+      '<value name="EXPANDABLE.1.OPERAND">' +
+        '<shadow type="checkbox" />' +
+      '</value>' +
+      '<value name="EXPANDABLE.2.OPERAND">' +
+        '<shadow type="checkbox" />' +
+      '</value>' +
+    '</block>' +
+    '<block type="operator_nor_expandable">' +
+      '<field name="EXPANDABLE">2</field>' +
+      '<value name="EXPANDABLE.1.OPERAND">' +
+        '<shadow type="checkbox" />' +
+      '</value>' +
+      '<value name="EXPANDABLE.2.OPERAND">' +
+        '<shadow type="checkbox" />' +
+      '</value>' +
+    '</block>' +
+    '<block type="operator_xnor_expandable">' +
+      '<field name="EXPANDABLE">2</field>' +
+      '<value name="EXPANDABLE.1.OPERAND">' +
+        '<shadow type="checkbox" />' +
+      '</value>' +
+      '<value name="EXPANDABLE.2.OPERAND">' +
+        '<shadow type="checkbox" />' +
+      '</value>' +
+    '</block>' +
   '</category>' +
   '<category name="%{BKY_PM_CATEGORY_STRINGS}" id="strings" colour="#47c18a">' +
     '<block type="operator_join" id="operator_join">' +

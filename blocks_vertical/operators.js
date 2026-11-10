@@ -1720,3 +1720,295 @@ Blockly.Blocks["operator_trim"] = {
     });
   }
 };
+
+Blockly.Blocks['operator_add_expandable'] = {
+  init: function () {
+    this.jsonInit({
+      "message0": "%1",
+      "args0": [
+        {
+          "type": "field_expandable_json",
+          "name": "EXPANDABLE",
+          "value": 2,
+          "min": 2,
+          "args": [
+            {
+              "type": "input_value",
+              "name": "NUM",
+              "shadow": '<shadow type="math_number" />'
+            }
+          ],
+          "sep": "+"
+        },
+      ],
+      "category": Blockly.Categories.operators,
+      "extensions": ["colours_operators", "output_number"]
+    });
+  }
+};
+
+Blockly.Blocks['operator_subtract_expandable'] = {
+  init: function () {
+    this.jsonInit({
+      "message0": "%1",
+      "args0": [
+        {
+          "type": "field_expandable_json",
+          "name": "EXPANDABLE",
+          "value": 2,
+          "min": 2,
+          "args": [
+            {
+              "type": "input_value",
+              "name": "NUM",
+              "shadow": '<shadow type="math_number" />'
+            }
+          ],
+          "sep": "-"
+        },
+      ],
+      "category": Blockly.Categories.operators,
+      "extensions": ["colours_operators", "output_number"]
+    });
+  }
+};
+
+Blockly.Blocks['operator_multiply_expandable'] = {
+  init: function () {
+    this.jsonInit({
+      "message0": "%1",
+      "args0": [
+        {
+          "type": "field_expandable_json",
+          "name": "EXPANDABLE",
+          "value": 2,
+          "min": 2,
+          "args": [
+            {
+              "type": "input_value",
+              "name": "NUM",
+              "shadow": '<shadow type="math_number" />'
+            }
+          ],
+          "sep": "*"
+        },
+      ],
+      "category": Blockly.Categories.operators,
+      "extensions": ["colours_operators", "output_number"]
+    });
+  }
+};
+
+Blockly.Blocks['operator_divide_expandable'] = {
+  init: function () {
+    this.jsonInit({
+      "message0": "%1",
+      "args0": [
+        {
+          "type": "field_expandable_json",
+          "name": "EXPANDABLE",
+          "value": 2,
+          "min": 2,
+          "args": [
+            {
+              "type": "input_value",
+              "name": "NUM",
+              "shadow": '<shadow type="math_number" />'
+            }
+          ],
+          "sep": "/"
+        },
+      ],
+      "category": Blockly.Categories.operators,
+      "extensions": ["colours_operators", "output_number"]
+    });
+  }
+};
+
+Blockly.Blocks['operator_power_expandable'] = {
+  init: function () {
+    this.jsonInit({
+      "message0": "%1",
+      "args0": [
+        {
+          "type": "field_expandable_json",
+          "name": "EXPANDABLE",
+          "value": 2,
+          "min": 2,
+          "args": [
+            {
+              "type": "input_value",
+              "name": "NUM",
+              "shadow": '<shadow type="math_number" />'
+            }
+          ],
+          "sep": "^"
+        },
+      ],
+      "category": Blockly.Categories.operators,
+      "extensions": ["colours_operators", "output_number"]
+    });
+  }
+};
+
+Blockly.Blocks['operator_and_expandable'] = {
+  init: function () {
+    this.jsonInit({
+      "message0": "%1",
+      "args0": [
+        {
+          "type": "field_expandable_json",
+          "name": "EXPANDABLE",
+          "value": 2,
+          "min": 2,
+          "args": [
+            {
+              "type": "input_value",
+              "name": "OPERAND",
+              "check": "Boolean",
+              "shadow": '<shadow type="checkbox" />'
+            }
+          ],
+          "sep": Blockly.Msg.PM_OPERATORS_EXPANDABLEBOOL_AND
+        },
+      ],
+      "category": Blockly.Categories.operators,
+      "extensions": ["colours_operators", "output_boolean"]
+    });
+  }
+};
+
+Blockly.Blocks['operator_or_expandable'] = {
+  init: function () {
+    this.jsonInit({
+      "message0": "%1",
+      "args0": [
+        {
+          "type": "field_expandable_json",
+          "name": "EXPANDABLE",
+          "value": 2,
+          "min": 2,
+          "args": [
+            {
+              "type": "input_value",
+              "name": "OPERAND",
+              "check": "Boolean",
+              "shadow": '<shadow type="checkbox" />'
+            }
+          ],
+          "sep": Blockly.Msg.PM_OPERATORS_EXPANDABLEBOOL_OR
+        },
+      ],
+      "category": Blockly.Categories.operators,
+      "extensions": ["colours_operators", "output_boolean"]
+    });
+  }
+};
+
+Blockly.Blocks['operator_xor_expandable'] = {
+  init: function () {
+    this.jsonInit({
+      "message0": "%1",
+      "args0": [
+        {
+          "type": "field_expandable_json",
+          "name": "EXPANDABLE",
+          "value": 2,
+          "min": 2,
+          "args": [
+            {
+              "type": "input_value",
+              "name": "OPERAND",
+              "check": "Boolean",
+              "shadow": '<shadow type="checkbox" />'
+            }
+          ],
+          "sep": Blockly.Msg.PM_OPERATORS_EXPANDABLEBOOL_XOR
+        },
+      ],
+      "category": Blockly.Categories.operators,
+      "extensions": ["colours_operators", "output_boolean"]
+    });
+  }
+};
+
+Blockly.Blocks['operator_nand_expandable'] = {
+  init: function () {
+    this.jsonInit({
+      "message0": "%1",
+      "args0": [
+        {
+          "type": "field_expandable_json",
+          "name": "EXPANDABLE",
+          "value": 2,
+          "min": 2,
+          "args": [
+            {
+              "type": "input_value",
+              "name": "OPERAND",
+              "check": "Boolean",
+              "shadow": '<shadow type="checkbox" />'
+            }
+          ],
+          "sep": Blockly.Msg.PM_OPERATORS_EXPANDABLEBOOL_NAND
+        },
+      ],
+      "category": Blockly.Categories.operators,
+      "extensions": ["colours_operators", "output_boolean"]
+    });
+  }
+};
+
+Blockly.Blocks['operator_nor_expandable'] = {
+  init: function () {
+    this.jsonInit({
+      "message0": "%1",
+      "args0": [
+        {
+          "type": "field_expandable_json",
+          "name": "EXPANDABLE",
+          "value": 2,
+          "min": 2,
+          "args": [
+            {
+              "type": "input_value",
+              "name": "OPERAND",
+              "check": "Boolean",
+              "shadow": '<shadow type="checkbox" />'
+            }
+          ],
+          "sep": Blockly.Msg.PM_OPERATORS_EXPANDABLEBOOL_NOR
+        },
+      ],
+      "category": Blockly.Categories.operators,
+      "extensions": ["colours_operators", "output_boolean"]
+    });
+  }
+};
+
+Blockly.Blocks['operator_xnor_expandable'] = {
+  init: function () {
+    this.jsonInit({
+      "message0": "%1",
+      "args0": [
+        {
+          "type": "field_expandable_json",
+          "name": "EXPANDABLE",
+          "value": 2,
+          "min": 2,
+          "args": [
+            {
+              "type": "input_value",
+              "name": "OPERAND",
+              "check": "Boolean",
+              "shadow": '<shadow type="checkbox" />'
+            }
+          ],
+          "sep": Blockly.Msg.PM_OPERATORS_EXPANDABLEBOOL_XNOR
+        },
+      ],
+      "category": Blockly.Categories.operators,
+      "extensions": ["colours_operators", "output_boolean"]
+    });
+  }
+};
