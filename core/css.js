@@ -678,6 +678,7 @@ Blockly.Css.CONTENT = [
     'pointer-events: none;',
     'overflow-wrap: break-word;',
     'word-wrap: break-word;',
+    'text-wrap: wrap;',
   '}',
 
   '.blocklyCommentDeleteIcon {',
