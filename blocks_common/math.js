@@ -43,8 +43,7 @@ Blockly.Blocks['math_number'] = {
       "args0": [
         {
           "type": "field_number",
-          "name": "NUM",
-          "value": "0"
+          "name": "NUM"
         }
       ],
       "output": null,

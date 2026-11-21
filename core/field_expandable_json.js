@@ -85,7 +85,10 @@ Blockly.FieldExpandableJSON.prototype.setValue = function(value, firstRun = fals
 
           if (input.connection) {
             var block = input.connection.targetBlock();
-            if (block) block.updateColour();
+            if (block) {
+              block.updateColour();
+              block.render();
+            }
           }
 
           previousInput = input;
