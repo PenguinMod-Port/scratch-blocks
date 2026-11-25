@@ -387,7 +387,7 @@ Blockly.BlockPicker.prototype.update = function(nodes, fromToolbox) {
                     // swap to the shadow if we are not it
                     if (child && !child.isShadow())
                         child = input.connection.getShadowDom() ? Blockly.Xml.domToBlock(input.connection.getShadowDom(), this.workspace_) : null;
-                    const primaryField = child.inputList[0]?.fieldRow?.[0]
+                    const primaryField = child?.inputList?.[0]?.fieldRow?.[0]
                     // configurable inputs will be treated as fields if sensible to do so
                     words.push({
                         type: 'input',

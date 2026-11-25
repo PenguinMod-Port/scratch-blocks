@@ -380,8 +380,8 @@ Blockly.init_ = function(mainWorkspace) {
 
   if (options.languageTree) {
     if (mainWorkspace.toolbox_) {
-      mainWorkspace.toolbox_.init(mainWorkspace);
       mainWorkspace.blockPicker_.init();
+      mainWorkspace.toolbox_.init(mainWorkspace);
     } else if (mainWorkspace.flyout_) {
       // Build a fixed flyout with the root blocks.
       mainWorkspace.flyout_.init(mainWorkspace);
