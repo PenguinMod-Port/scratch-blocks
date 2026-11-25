@@ -387,6 +387,7 @@ Blockly.BlockPicker.prototype.update = function(nodes, fromToolbox) {
                     // swap to the shadow if we are not it
                     if (child && !child.isShadow())
                         child = input.connection.getShadowDom() ? Blockly.Xml.domToBlock(input.connection.getShadowDom(), this.workspace_) : null;
+                    const primaryField = child.inputList[0]?.fieldRow?.[0]
                     // configurable inputs will be treated as fields if sensible to do so
                     words.push({
                         type: 'input',
@@ -394,11 +395,11 @@ Blockly.BlockPicker.prototype.update = function(nodes, fromToolbox) {
                         configurable: !!child,
                         stack: input.type == Blockly.NEXT_STATEMENT,
                         // variable type to restrict to
-                        varTypes: child && child.isShadow() && child.inputList[0] && child.inputList[0].fieldRow[0] && child.inputList[0].fieldRow[0].referencesVariables() && (child.inputList[0].fieldRow[0].getVariableTypes_ ? child.inputList[0].fieldRow[0].getVariableTypes_() : [child.inputList[0].fieldRow[0].variableType_]),
+                        varTypes: child?.isShadow?.() && primaryField?.referencesVariables?.() && (primaryField.getVariableTypes_?.() ?? [primaryField.variableType_]),
                         // restrictor is either regexp or a dropdown list
-                        restrictor: child && child.isShadow() && child.inputList[0] && child.inputList[0].fieldRow[0] && (child.inputList[0].fieldRow[0].restrictor_ || (child.inputList[0].fieldRow[0].getOptions && child.inputList[0].fieldRow[0].getOptions())),
-                        default: child && child.isShadow() && child.type,
-                        defaultName: child && child.isShadow() && child.inputList[0] && child.inputList[0].fieldRow[0] && child.inputList[0].fieldRow[0].name
+                        restrictor: child?.isShadow?.() && primaryField && (primaryField.restrictor_ ?? (primaryField.getOptions?.())),
+                        default: child?.isShadow?.() && child.type,
+                        defaultName: child?.isShadow?.() && primaryField?.name
                     });
                 }
             }
