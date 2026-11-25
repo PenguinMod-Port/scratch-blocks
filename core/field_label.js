@@ -80,7 +80,7 @@ Blockly.FieldLabel.prototype.SERIALIZABLE = false;
  * @type {boolean}
  * @public
  */
-Blockly.FieldVerticalSeparator.prototype.TEXT_INPUT = false;
+Blockly.FieldLabel.prototype.TEXT_INPUT = false;
 
 /**
  * Install this text on a block.

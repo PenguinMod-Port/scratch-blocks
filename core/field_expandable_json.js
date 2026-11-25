@@ -36,7 +36,7 @@ goog.inherits(Blockly.FieldExpandableJSON, Blockly.FieldExpandable);
  * @type {boolean}
  * @public
  */
-Blockly.FieldVerticalSeparator.prototype.TEXT_INPUT = false;
+Blockly.FieldExpandableJSON.prototype.TEXT_INPUT = false;
 
 /**
  * Construct a FieldExpandable from a JSON arg object.

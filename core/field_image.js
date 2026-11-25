@@ -85,7 +85,7 @@ Blockly.FieldImage.prototype.EDITABLE = false;
  * @type {boolean}
  * @public
  */
-Blockly.FieldVerticalSeparator.prototype.TEXT_INPUT = false;
+Blockly.FieldImage.prototype.TEXT_INPUT = false;
 
 /**
  * Install this image on a block.

@@ -85,7 +85,7 @@ Blockly.FieldCheckbox.prototype.CURSOR = 'pointer';
  * @type {boolean}
  * @public
  */
-Blockly.FieldVerticalSeparator.prototype.TEXT_INPUT = false;
+Blockly.FieldCheckbox.prototype.TEXT_INPUT = false;
 
 /**
  * Install this checkbox on a block.

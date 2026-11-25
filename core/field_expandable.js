@@ -60,7 +60,7 @@ Blockly.FieldExpandable.REMOVE_IMAGE = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz
  * @type {boolean}
  * @public
  */
-Blockly.FieldVerticalSeparator.prototype.TEXT_INPUT = false;
+Blockly.FieldExpandable.prototype.TEXT_INPUT = false;
 
 /**
  * Install this button on a block.
