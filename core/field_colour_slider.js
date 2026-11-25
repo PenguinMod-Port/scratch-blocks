@@ -80,13 +80,6 @@ Blockly.FieldColourSlider.activateEyedropper_ = null;
 Blockly.FieldColourSlider.EYEDROPPER_PATH = 'eyedropper.svg';
 
 /**
- * Text input fields are any fields designed to be set to and display that text.
- * @type {boolean}
- * @public
- */
-Blockly.FieldVerticalSeparator.prototype.TEXT_INPUT = true;
-
-/**
  * Install this field on a block.
  * @param {!Blockly.Block} block The block containing this field.
  */

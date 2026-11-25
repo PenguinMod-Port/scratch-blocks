@@ -64,13 +64,6 @@ Blockly.FieldColour.fromJson = function(options) {
 };
 
 /**
- * Text input fields are any fields designed to be set to and display that text.
- * @type {boolean}
- * @public
- */
-Blockly.FieldVerticalSeparator.prototype.TEXT_INPUT = true;
-
-/**
  * By default use the global constants for colours.
  * @type {Array.<string>}
  * @private

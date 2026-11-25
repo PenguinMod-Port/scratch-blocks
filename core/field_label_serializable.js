@@ -76,13 +76,6 @@ Blockly.FieldLabelSerializable.prototype.EDITABLE = false;
 Blockly.FieldLabelSerializable.prototype.SERIALIZABLE = true;
 
 /**
- * Text input fields are any fields designed to be set to and display that text.
- * @type {boolean}
- * @public
- */
-Blockly.FieldVerticalSeparator.prototype.TEXT_INPUT = true;
-
-/**
  * Updates the width of the field. This calls getCachedWidth which won't cache
  * the approximated width on IE/Edge when `getComputedTextLength` fails. Once
  * it eventually does succeed, the result will be cached.

@@ -83,13 +83,6 @@ Blockly.FieldDropdown.CHECKMARK_OVERHANG = 25;
 Blockly.FieldDropdown.prototype.CURSOR = 'default';
 
 /**
- * Text input fields are any fields designed to be set to and display that text.
- * @type {boolean}
- * @public
- */
-Blockly.FieldVerticalSeparator.prototype.TEXT_INPUT = true;
-
-/**
  * Closure menu item currently selected.
  * @type {?goog.ui.MenuItem}
  */

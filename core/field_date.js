@@ -77,13 +77,6 @@ Blockly.FieldDate.fromJson = function(options) {
 Blockly.FieldDate.prototype.CURSOR = 'text';
 
 /**
- * Text input fields are any fields designed to be set to and display that text.
- * @type {boolean}
- * @public
- */
-Blockly.FieldVerticalSeparator.prototype.TEXT_INPUT = true;
-
-/**
  * Close the colour picker if this input is being deleted.
  */
 Blockly.FieldDate.prototype.dispose = function() {

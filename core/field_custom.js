@@ -46,13 +46,6 @@ goog.inherits(Blockly.FieldCustom, Blockly.Field);
 Blockly.FieldCustom.INPUTS = new Map();
 
 /**
- * Text input fields are any fields designed to be set to and display that text.
- * @type {boolean}
- * @public
- */
-Blockly.FieldVerticalSeparator.prototype.TEXT_INPUT = true;
-
-/**
  * Construct a FieldCustom from a JSON arg object.
  * @param {!Object} options A JSON object with options.
  * @returns {!Blockly.FieldCustom} The new field instance.

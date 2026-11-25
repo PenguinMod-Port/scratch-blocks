@@ -65,13 +65,6 @@ Blockly.FieldVariable = function(varname, opt_validator, opt_variableTypes) {
 goog.inherits(Blockly.FieldVariable, Blockly.FieldDropdown);
 
 /**
- * Text input fields are any fields designed to be set to and display that text.
- * @type {boolean}
- * @public
- */
-Blockly.FieldVerticalSeparator.prototype.TEXT_INPUT = true;
-
-/**
  * Construct a FieldVariable from a JSON arg object,
  * dereferencing any string table references.
  * @param {!Object} options A JSON object with options (variable,
