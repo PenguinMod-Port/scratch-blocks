@@ -81,6 +81,13 @@ Blockly.FieldCheckbox.SYMBOL_TRUE = 'M -4.5 1.5 A 1 1 90 0 1 -2.5 -0.5 L -1.5 0.
 Blockly.FieldCheckbox.prototype.CURSOR = 'pointer';
 
 /**
+ * Text input fields are any fields designed to be set to and display that text.
+ * @type {boolean}
+ * @public
+ */
+Blockly.FieldVerticalSeparator.prototype.TEXT_INPUT = false;
+
+/**
  * Install this checkbox on a block.
  */
 Blockly.FieldCheckbox.prototype.init = function() {

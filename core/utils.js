@@ -199,11 +199,13 @@ Blockly.utils.getRelativeXY = function(element) {
  * @param {!Element} element SVG element to find the coordinates of. If this is
  *     not a child of the div blockly was injected into, the behaviour is
  *     undefined.
+ * @param {!Element} injectionDiv The root injection div, to get an aproximation if element is document bound
  * @return {!goog.math.Coordinate} Object with .x and .y properties.
  */
-Blockly.utils.getInjectionDivXY_ = function(element) {
+Blockly.utils.getInjectionDivXY_ = function(element, injectionDiv) {
   var x = 0;
   var y = 0;
+  var root = element;
   while (element) {
     var xy = Blockly.utils.getRelativeXY(element);
     var scale = Blockly.utils.getScale_(element);
@@ -214,6 +216,15 @@ Blockly.utils.getInjectionDivXY_ = function(element) {
       break;
     }
     element = element.parentNode;
+    // oh no!! this element isnt really parented to the injection div
+    if (element instanceof Document) {
+      var bbox = injectionDiv.getBoundingClientRect();
+      var child = root.getBoundingClientRect();
+      return new goog.math.Coordinate(
+          child.x - bbox.x,
+          child.y - bbox.y
+      );
+    }
   }
   return new goog.math.Coordinate(x, y);
 };

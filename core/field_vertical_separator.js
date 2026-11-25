@@ -63,6 +63,13 @@ Blockly.FieldVerticalSeparator.fromJson = function(
 Blockly.FieldVerticalSeparator.prototype.EDITABLE = false;
 
 /**
+ * Text input fields are any fields designed to be set to and display that text.
+ * @type {boolean}
+ * @public
+ */
+Blockly.FieldVerticalSeparator.prototype.TEXT_INPUT = false;
+
+/**
  * Install this field on a block.
  */
 Blockly.FieldVerticalSeparator.prototype.init = function() {

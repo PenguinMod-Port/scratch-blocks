@@ -345,6 +345,8 @@ Blockly.VerticalFlyout.prototype.position = function() {
 
   // Record the height for Blockly.Flyout.getMetrics_
   this.height_ = Math.max(0, targetWorkspaceMetrics.viewHeight - y);
+  // make sure that the height gets updated to whatever its being held at
+  this.height_ = this.getHeight();
 
   this.setBackgroundPath_(this.width_, this.height_);
 
@@ -447,7 +449,7 @@ Blockly.VerticalFlyout.prototype.wheel_ = function(e) {
     this.scrollbar_.set(pos);
     // When the flyout moves from a wheel event, hide WidgetDiv and DropDownDiv.
     Blockly.WidgetDiv.hide(true);
-    Blockly.DropDownDiv.hideWithoutAnimation();
+    if (!this.workspace_.isBlockPicker) Blockly.DropDownDiv.hideWithoutAnimation();
   }
 
   // Don't scroll the page.

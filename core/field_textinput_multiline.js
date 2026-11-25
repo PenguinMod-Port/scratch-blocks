@@ -10,6 +10,13 @@ Blockly.FieldTextInputMultiline = function(text, opt_validator, opt_restrictor) 
 };
 goog.inherits(Blockly.FieldTextInputMultiline, Blockly.FieldTextInput);
 
+/**
+ * Text input fields are any fields designed to be set to and display that text.
+ * @type {boolean}
+ * @public
+ */
+Blockly.FieldVerticalSeparator.prototype.TEXT_INPUT = true;
+
 Blockly.FieldTextInputMultiline.prototype.init = function() {
     Blockly.FieldTextInputMultiline.superClass_.init.call(this);
     this.textElement_.setAttribute('text-anchor', 'left')

@@ -66,6 +66,7 @@ goog.require('Blockly.Toolbox');
 goog.require('Blockly.Touch');
 goog.require('Blockly.WidgetDiv');
 goog.require('Blockly.WorkspaceSvg');
+goog.require('Blockly.BlockPicker');
 goog.require('Blockly.constants');
 goog.require('Blockly.inject');
 goog.require('Blockly.utils');
@@ -346,7 +347,9 @@ Blockly.hideChaffOnResize = function(opt_allowToolbox) {
  */
 Blockly.hideChaffInternal_ = function(opt_allowToolbox) {
   Blockly.Tooltip.hide();
-  Blockly.DropDownDiv.hideWithoutAnimation();
+  if (!Blockly.DropDownDiv.closeLazily) {
+    Blockly.DropDownDiv.hideWithoutAnimation();
+  }
   if (!opt_allowToolbox) {
     var workspace = Blockly.getMainWorkspace();
     if (workspace.toolbox_ &&

@@ -398,7 +398,7 @@ Blockly.WorkspaceSvg.prototype.getSvgXY = function(element) {
  * @package
  */
 Blockly.WorkspaceSvg.prototype.getOriginOffsetInPixels = function() {
-  return Blockly.utils.getInjectionDivXY_(this.svgBlockCanvas_);
+  return Blockly.utils.getInjectionDivXY_(this.svgBlockCanvas_, this.getInjectionDiv());
 };
 
 /**
@@ -1619,7 +1619,7 @@ Blockly.WorkspaceSvg.prototype.onMouseWheel_ = function(e) {
     // First hide the WidgetDiv without animation
     // (mouse scroll makes field out of place with div)
     Blockly.WidgetDiv.hide(true);
-    Blockly.DropDownDiv.hideWithoutAnimation();
+    if (!this.isBlockPicker) Blockly.DropDownDiv.hideWithoutAnimation();
 
     var x = this.scrollX - e.deltaX * multiplier;
     var y = this.scrollY - e.deltaY * multiplier;
@@ -1946,7 +1946,7 @@ Blockly.WorkspaceSvg.prototype.zoom = function(x, y, amount) {
   this.setScale(newScale);
   // Hide the WidgetDiv without animation (zoom makes field out of place with div)
   Blockly.WidgetDiv.hide(true);
-  Blockly.DropDownDiv.hideWithoutAnimation();
+  if (!this.isBlockPicker) Blockly.DropDownDiv.hideWithoutAnimation();
 };
 
 /**
@@ -1998,7 +1998,7 @@ Blockly.WorkspaceSvg.prototype.scrollCenter = function() {
   }
   // Hide the WidgetDiv without animation (zoom makes field out of place with div)
   Blockly.WidgetDiv.hide(true);
-  Blockly.DropDownDiv.hideWithoutAnimation();
+  if (!this.isBlockPicker) Blockly.DropDownDiv.hideWithoutAnimation();
   Blockly.hideChaff(false);
   var metrics = this.getMetrics();
   var x = (metrics.contentWidth - metrics.viewWidth) / 2;
@@ -2110,7 +2110,7 @@ Blockly.WorkspaceSvg.prototype.scroll = function(x, y) {
   // When the workspace starts scrolling, hide the WidgetDiv without animation.
   // This is to prevent a dispoal animation from happening in the wrong location.
   Blockly.WidgetDiv.hide(true);
-  Blockly.DropDownDiv.hideWithoutAnimation();
+  if (!this.isBlockPicker) Blockly.DropDownDiv.hideWithoutAnimation();
   // Move the scrollbars and the page will scroll automatically.
   this.scrollbar.set(-x - metrics.contentLeft, -y - metrics.contentTop);
 };

@@ -155,6 +155,13 @@ Blockly.FieldAngle.ARROW_SVG_PATH_DATA =
     ' Z';
 
 /**
+ * Text input fields are any fields designed to be set to and display that text.
+ * @type {boolean}
+ * @public
+ */
+Blockly.FieldVerticalSeparator.prototype.TEXT_INPUT = true;
+
+/**
  * Clean up this FieldAngle, as well as the inherited FieldTextInput.
  * @return {!Function} Closure to call on destruction of the WidgetDiv.
  * @private

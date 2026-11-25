@@ -144,6 +144,13 @@ Blockly.FieldMatrix.fromJson = function(options) {
 Blockly.FieldMatrix.THUMBNAIL_SIZE = 26;
 
 /**
+ * Text input fields are any fields designed to be set to and display that text.
+ * @type {boolean}
+ * @public
+ */
+Blockly.FieldVerticalSeparator.prototype.TEXT_INPUT = true;
+
+/**
  * Width of the matrix thumbnail in the input field, in px.
  * @returns {number}
  */

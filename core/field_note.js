@@ -284,6 +284,13 @@ Blockly.FieldNote.KEY_RADIUS = 6;
 Blockly.FieldNote.KEY_LABEL_PADDING = 8;
 
 /**
+ * Text input fields are any fields designed to be set to and display that text.
+ * @type {boolean}
+ * @public
+ */
+Blockly.FieldVerticalSeparator.prototype.TEXT_INPUT = true;
+
+/**
  * An array of objects with data describing the keys on the piano.
  * @type {Array.<{name: String, pitch: Number, isBlack: boolean}>}
  * @const

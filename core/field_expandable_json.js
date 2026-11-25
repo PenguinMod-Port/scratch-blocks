@@ -32,6 +32,13 @@ Blockly.FieldExpandableJSON = function(value, sep, json = [], opt_min = 1, opt_m
 goog.inherits(Blockly.FieldExpandableJSON, Blockly.FieldExpandable);
 
 /**
+ * Text input fields are any fields designed to be set to and display that text.
+ * @type {boolean}
+ * @public
+ */
+Blockly.FieldVerticalSeparator.prototype.TEXT_INPUT = false;
+
+/**
  * Construct a FieldExpandable from a JSON arg object.
  * @param {!Object} options A JSON object with options.
  * @returns {!Blockly.FieldExpandableJSON} The new field instance.

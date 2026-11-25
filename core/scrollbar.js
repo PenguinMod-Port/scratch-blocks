@@ -711,7 +711,7 @@ Blockly.Scrollbar.prototype.onMouseDownBar_ = function(e) {
       this.workspace_.getInverseScreenCTM());
   var mouseLocation = this.horizontal_ ? mouseXY.x : mouseXY.y;
 
-  var handleXY = Blockly.utils.getInjectionDivXY_(this.svgHandle_);
+  var handleXY = Blockly.utils.getInjectionDivXY_(this.svgHandle_, this.workspace_.getInjectionDiv());
   var handleStart = this.horizontal_ ? handleXY.x : handleXY.y;
   var handlePosition = this.handlePosition_;
 
@@ -726,7 +726,7 @@ Blockly.Scrollbar.prototype.onMouseDownBar_ = function(e) {
   // When the scrollbars are clicked, hide the WidgetDiv/DropDownDiv without
   // animation in anticipation of a workspace move.
   Blockly.WidgetDiv.hide(true);
-  Blockly.DropDownDiv.hideWithoutAnimation();
+  if (!this.workspace_.isBlockPicker) Blockly.DropDownDiv.hideWithoutAnimation();
 
   this.setHandlePosition(this.constrainHandle_(handlePosition));
   this.onScroll_();
@@ -766,7 +766,7 @@ Blockly.Scrollbar.prototype.onMouseDownHandle_ = function(e) {
   // When the scrollbars are clicked, hide the WidgetDiv/DropDownDiv without
   // animation in anticipation of a workspace move.
   Blockly.WidgetDiv.hide(true);
-  Blockly.DropDownDiv.hideWithoutAnimation();
+  if (!this.workspace_.isBlockPicker) Blockly.DropDownDiv.hideWithoutAnimation();
 
   e.stopPropagation();
   e.preventDefault();

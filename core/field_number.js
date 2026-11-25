@@ -110,6 +110,13 @@ Blockly.FieldNumber.NUMPAD_DELETE_ICON = 'data:image/svg+xml;utf8,' +
   Blockly.Colours.numPadText + '"/></svg>';
 
 /**
+ * Text input fields are any fields designed to be set to and display that text.
+ * @type {boolean}
+ * @public
+ */
+Blockly.FieldVerticalSeparator.prototype.TEXT_INPUT = true;
+
+/**
  * Currently active field during an edit.
  * Used to give a reference to the num-pad button callbacks.
  * @type {?FieldNumber}

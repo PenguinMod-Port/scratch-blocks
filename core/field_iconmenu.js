@@ -68,6 +68,13 @@ Blockly.FieldIconMenu.fromJson = function(element) {
 Blockly.FieldIconMenu.DROPDOWN_WIDTH = 168;
 
 /**
+ * Text input fields are any fields designed to be set to and display that text.
+ * @type {boolean}
+ * @public
+ */
+Blockly.FieldVerticalSeparator.prototype.TEXT_INPUT = true;
+
+/**
  * Save the primary colour of the source block while the menu is open, for reset.
  * @type {number|string}
  * @private

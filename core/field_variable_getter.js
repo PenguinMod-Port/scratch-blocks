@@ -88,6 +88,13 @@ Blockly.FieldVariableGetter.prototype.EDITABLE = false;
 Blockly.FieldVariableGetter.prototype.SERIALIZABLE = true;
 
 /**
+ * Text input fields are any fields designed to be set to and display that text.
+ * @type {boolean}
+ * @public
+ */
+Blockly.FieldVerticalSeparator.prototype.TEXT_INPUT = true;
+
+/**
  * Install this field on a block.
  */
 Blockly.FieldVariableGetter.prototype.init = function() {

@@ -56,6 +56,13 @@ Blockly.FieldExpandable.ADD_IMAGE = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0ia
 Blockly.FieldExpandable.REMOVE_IMAGE = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMiIgaGVpZ2h0PSI0Ljg4IiB2aWV3Qm94PSIwIDAgMTIgNC44OCI+PGcgc3Ryb2tlLXdpZHRoPSIwIiBzdHJva2UtbWl0ZXJsaW1pdD0iMTAiPjxwYXRoIGQ9Ik0xLjkwMyA0Ljg4Qy44NTEgNC44OCAwIDMuOTc2IDAgMi44NTl2LS44MzdDMCAuOTA1Ljg1MiAwIDEuOTAzIDBoOC4xOTNjMS4wNTIgMCAxLjkwMy45MDQgMS45MDMgMi4wMjF2LjgzN2MwIDEuMTE2LS44NTIgMi4wMjEtMS45MDMgMi4wMjF6IiBmaWxsLW9wYWNpdHk9Ii4xMDIiIGZpbGw9IiMyNDIwMjEiLz48cGF0aCBkPSJNMi4yMjggNC4wMzhBMS40MjcgMS40MjcgMCAwIDEgLjgwMSAyLjYxMVYyLjI3QTEuNDI3IDEuNDI3IDAgMCAxIDIuMjI4Ljg0M2g3LjU0NGExLjQyNyAxLjQyNyAwIDAgMSAxLjQyNyAxLjQyN3YuMzQxYTEuNDI3IDEuNDI3IDAgMCAxLTEuNDI3IDEuNDI3eiIgZmlsbD0iI2ZmZiIvPjwvZz48L3N2Zz4=';
 
 /**
+ * Text input fields are any fields designed to be set to and display that text.
+ * @type {boolean}
+ * @public
+ */
+Blockly.FieldVerticalSeparator.prototype.TEXT_INPUT = false;
+
+/**
  * Install this button on a block.
  */
 Blockly.FieldExpandable.prototype.init = function() {

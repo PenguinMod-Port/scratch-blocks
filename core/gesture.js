@@ -37,6 +37,7 @@ goog.require('Blockly.scratchBlocksUtils');
 goog.require('Blockly.Tooltip');
 goog.require('Blockly.Touch');
 goog.require('Blockly.WorkspaceDragger');
+goog.require('Blockly.BlockPicker');
 
 goog.require('goog.asserts');
 goog.require('goog.math.Coordinate');
@@ -504,7 +505,14 @@ Blockly.Gesture.prototype.doStart = function(e) {
   if (this.targetBlock_) {
     this.targetBlock_.select();
   }
+  if (!this.targetBlock_) {
+    Blockly.DropDownDiv.hideWithoutAnimation();
+  }
 
+  if (e.button === 1) {
+    this.handleMiddleClick(e);
+    return;
+  }
   if (Blockly.utils.isRightButton(e)) {
     this.handleRightClick(e);
     return;
@@ -645,6 +653,21 @@ Blockly.Gesture.prototype.handleRightClick = function(e) {
   }
 
   // TODO: Handle right-click on a bubble.
+  e.preventDefault();
+  e.stopPropagation();
+
+  this.dispose();
+};
+
+/**
+ * Handle a real or faked middle-click event by showing a context menu.
+ * @param {!Event} e A mouse move or touch move event.
+ * @package
+ */
+Blockly.Gesture.prototype.handleMiddleClick = function(e) {
+  if (this.flyout_) return;
+  this.creatorWorkspace_.blockPicker_.show(this.creatorWorkspace_, e.clientX, e.clientY);
+
   e.preventDefault();
   e.stopPropagation();
 

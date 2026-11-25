@@ -76,6 +76,13 @@ Blockly.FieldLabel.prototype.EDITABLE = false;
 Blockly.FieldLabel.prototype.SERIALIZABLE = false;
 
 /**
+ * Text input fields are any fields designed to be set to and display that text.
+ * @type {boolean}
+ * @public
+ */
+Blockly.FieldVerticalSeparator.prototype.TEXT_INPUT = false;
+
+/**
  * Install this text on a block.
  */
 Blockly.FieldLabel.prototype.init = function() {

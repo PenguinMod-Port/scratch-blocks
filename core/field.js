@@ -201,6 +201,13 @@ Blockly.Field.NBSP = '\u00A0';
 Blockly.Field.IE_TEXT_OFFSET = '0.3em';
 
 /**
+ * Text input fields are any fields designed to be set to and display that text.
+ * @type {boolean}
+ * @public
+ */
+Blockly.FieldVerticalSeparator.prototype.TEXT_INPUT = true;
+
+/**
  * Editable fields usually show some sort of UI for the user to change them.
  * @type {boolean}
  * @public

@@ -56,6 +56,13 @@ Blockly.FieldTextDropdown = function(text, menuGenerator, opt_validator, opt_res
 goog.inherits(Blockly.FieldTextDropdown, Blockly.FieldTextInput);
 
 /**
+ * Text input fields are any fields designed to be set to and display that text.
+ * @type {boolean}
+ * @public
+ */
+Blockly.FieldVerticalSeparator.prototype.TEXT_INPUT = true;
+
+/**
  * Construct a FieldTextDropdown from a JSON arg object,
  * dereferencing any string table references.
  * @param {!Object} element A JSON object with options.
